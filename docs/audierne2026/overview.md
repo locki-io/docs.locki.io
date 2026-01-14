@@ -1,83 +1,69 @@
-# Établir un projet IA pour désamorcer le conflit autour de l'aménagement de l'école Pierre-Le Lec
+# Building an AI Project to Defuse Conflict Around the Pierre-Le Lec School Renovation
 
-Le projet de rénovation de l'école Pierre-Le Lec à Audierne est un dossier sensible, cristallisant des tensions entre la majorité municipale (qui le défend pour son intégration urbaine et son financement via Petites Villes de Demain) et l'opposition (qui pointe un "gaspillage financier" et un manque de réalisme sur les subventions). Pour désamorcer cela, un **projet IA centré sur la transparence et l'accès neutre aux données** peut transformer le débat en dialogue constructif : en fournissant des infos factuelles, en synthétisant arguments pour/contre, et en facilitant des consultations ouvertes. Inspiré d'exemples comme le chatbot **IssyGPT** à Issy-les-Moulineaux (qui répond 24/7 aux questions citoyens sur des projets locaux) ou les dashboards participatifs de Toulouse (avec IA pour visualiser avancées budgétaires), voici un plan concret et réalisable, adapté à une petite commune comme Audierne (low-cost, open source).
+The Pierre-Le Lec school renovation project in Audierne is a sensitive issue, crystallizing tensions between the municipal majority (defending it for its urban integration and funding via "Petites Villes de Demain") and the opposition (pointing to "financial waste" and unrealistic subsidy expectations). To defuse this, an **AI project focused on transparency and neutral data access** can transform debate into constructive dialogue: providing factual information, synthesizing pro/con arguments, and facilitating open consultations. Inspired by examples like the **IssyGPT** chatbot in Issy-les-Moulineaux (answering citizen questions 24/7 on local projects) or participatory dashboards in Toulouse (with AI to visualize budget progress), here is a concrete, achievable plan adapted for a small municipality like Audierne (low-cost, open source).
 
-#### 1. **Objectifs du projet IA**
+## 1. AI Project Objectives
 
-- **Désamorcer les conflits** : Fournir des données objectives pour contrer les rumeurs (ex. : "surévaluation des coûts") et encourager un débat basé sur des faits, pas des accusations.
-- **Fournir les données clés** : État d'avancement, calendrier, coûts, financements, et consultations – tout en temps réel.
-- **Impliquer les citoyens** : Permettre questions/réponses IA et soumissions d'idées, pour une co-construction perçue.
-- **Impact mesurable** : Réduire les échanges musclés en conseil municipal (comme celui du 10 décembre 2025) en canalisant les infos via un canal neutre.
+- **Defuse conflicts**: Provide objective data to counter rumors (e.g., "cost overestimation") and encourage fact-based debate, not accusations.
+- **Deliver key data**: Progress status, timeline, costs, funding, and consultations – all in real-time.
+- **Engage citizens**: Enable AI Q&A and idea submissions for perceived co-construction.
+- **Measurable impact**: Reduce heated exchanges in municipal council (like December 10, 2025) by channeling information through a neutral platform.
 
-#### 2. **Données sur le projet et état d'avancement (synthèse factuelle, au 15 décembre 2025)**
+## 2. Project Data and Progress Status (factual summary, as of December 15, 2025)
 
-Basé sur le site officiel de la mairie (audierne.bzh) et presse locale (Ouest-France, Le Télégramme), voici un résumé transparent. Ces données pourraient être intégrées comme base de connaissances pour l'IA (fichier JSON ou Markdown uploadé).
+Based on the official municipal website (audierne.bzh) and local press (Ouest-France, Le Télégramme), here is a transparent summary. This data could be integrated as a knowledge base for the AI (JSON or Markdown file).
 
-- **Description** : Regroupement des deux écoles publiques (Pierre-Le Lec à Audierne et Esquibien) sur le site historique de Pierre-Le Lec (quai Anatole-France, vue port). Inclut réhabilitation complète (maternelle, élémentaire, restauration, salle de sport), amélioration énergétique, accessibilité PMR, et adaptations aux risques (submersion, glissement de terrain). Architecte : Brûlé Architectes Associés (Quimper). Inscrit dans Petites Villes de Demain (PVD) pour dynamiser le centre-ville.
-- **Calendrier** :
+- **Description**: Consolidation of two public schools (Pierre-Le Lec in Audierne and Esquibien) on the historic Pierre-Le Lec site (quai Anatole-France, harbor view). Includes complete rehabilitation (kindergarten, elementary, cafeteria, gymnasium), energy improvements, disability accessibility, and risk adaptations (flooding, landslides). Architect: Brûlé Architectes Associés (Quimper). Part of "Petites Villes de Demain" (PVD) program to revitalize the town center.
 
-  - Diagnostic technique et concertation usagers : Achévés (2023-2024).
-  - Maîtrise d'œuvre : Consultée fin 2024, études lancées début 2025, en cours jusqu'à automne 2025.
-  - Relogement temporaire : Élèves transférés à l'Espace Émile-Combes (ex-collège Saint-Joseph, rue Émile-Combes) pour la rentrée septembre 2025 (aménagements en cours par services techniques).
-  - Chantier principal : Début début 2026 (désamiantage/démolition déjà attribués, ex. Kerleroux).
-  - Livraison : Rentrée septembre 2027.
+- **Timeline**:
+  - Technical diagnosis and user consultation: Completed (2023-2024)
+  - Project management: Consulted late 2024, studies launched early 2025, ongoing through fall 2025
+  - Temporary relocation: Students transferred to Espace Émile-Combes (former Saint-Joseph college) for September 2025 school year
+  - Main construction: Starting early 2026 (asbestos removal/demolition already contracted)
+  - Delivery: September 2027 school year
 
-- **Coûts et financements** :
+- **Costs and Funding**:
+  - Estimate: €5.4-7M including tax (major renovation + extension; €1,000-1,500/m², consistent with PVD benchmarks for rural schools)
+  - Expected subsidies: 60% via PVD, State (DSIL), Department/Region (Green Fund, EduRénov). Temporary relocation: ~€190k
+  - Cost controversies: Opposition (Didier Guillon) criticizes "overestimation" and unrealistic subsidies (municipal burden risk >40%). Two alternative scenarios rejected for higher costs
 
-  - Estimation : 5,4 à 7 M€ TTC (rénovation lourde + extension ; coûts au m² ~1 000-1 500 €, cohérent avec benchmarks PVD pour écoles rurales).
-  - Subventions espérées : 60 % via PVD, État (DSIL), Département/Région (Fonds vert, EduRénov). Relogement temporaire : ~190 k€ (rafraîchissements sécurité).
-  - Controverses sur coûts : Opposition (Didier Guillon) critique une "surestimation" et subventions irréalistes (risque de charge communale >40 %). Deux scénarios alternatifs écartés pour leur coût élevé (conservation sites séparés ou école neuve).
+- **Recent Consultations and Controversies**:
+  - Consultation: Verifica firm for needs assessment; playful workshops with students/teachers (courtyard greening). Pierre-Le Lec option chosen for urban integration and child well-being
+  - Tensions: Heated exchanges at December 10, 2025 council meeting on financing plan. Some Esquibien parents regret traffic/parking issues. No legal action reported, but risk during 2026 campaign
 
-- **Consultations et controverses récentes** :
-  - Concertation : Cabinet Verifica pour besoins ; ateliers ludiques avec élèves/enseignants (végétalisation cour). Option Pierre-Le Lec retenue pour intégration urbaine et bien-être enfants.
-  - Tensions : Échanges vifs au conseil du 10 décembre 2025 sur plan de financement. Parents Esquibien regrettent parfois circulation/stationnement. Pas de recours judiciaire signalé, mais risque en campagne 2026.
+This data is public (municipal deliberations); AI could update via API or light scraping.
 
-Ces données sont publiques (délibérations mairie) ; l'IA pourrait les updater via API ou scraping léger (ex. RSS site mairie).
+## 3. Step-by-Step Plan to Build the AI Project
 
-#### 3. **Plan étape par étape pour établir le projet IA**
+Adopt an agile, low-cost approach (~€500-2,000 with freelance, or free with open source tools). Integrate with your GitHub platform (audierne2026/participons) for maximum transparency.
 
-Adoptez une approche agile, low-cost (~500-2 000 € si freelance, ou gratuit avec outils open source). Intégrez-le à votre plateforme GitHub (audierne2026/participons) pour transparence maximale.
+- **Step 1: Data Collection and Structuring (1-2 weeks, free)**
+  - Create a JSON/Markdown file on GitHub with sections (timeline, costs, FAQ). Include sources (deliberation links, Gwaien PDFs)
+  - Add pro/con arguments: e.g., "Pro: Town center revitalization (PVD); Con: Budget risk (construction inflation +20%)"
+  - Tools: Google Sheets or free Airtable, exported to JSON
 
-- **Étape 1 : Collecte et structuration des données (1-2 semaines, gratuit)**
+- **Step 2: AI Design (2-4 weeks, €0-1,000)**
+  - **Recommended AI type**: Conversational chatbot for Q&A ("What is the exact cost?"), or interactive dashboard (timeline/cost visualization with Streamlit)
+  - Open source tech stack:
+    - **Chatbot**: Use Hugging Face (free model like Mistral-7B). Host on GitHub Pages + Streamlit for demo
+    - **Dashboard**: Python with Streamlit/Pandas for graphs (Gantt timeline, subsidy pie chart)
+    - Integrate AI moderation for debates (detect conflicts, suggest neutral facts)
 
-  - Créez un fichier JSON/Markdown sur GitHub : "ecole-pierre-le-lec.json" avec sections (calendrier, coûts, FAQ). Incluez sources (liens délibérations, PDFs Gwaien).
-  - Ajoutez arguments pour/contre : Ex. "Pour : Dynamisation centre-ville (PVD) ; Contre : Risque budgétaire (inflation BTP +20 %)."
-  - Outil : Google Sheets ou Airtable gratuit, exporté en JSON.
+- **Step 3: Development and Testing (1-2 weeks, €500-1,000 with dev help)**
+  - Prototype: Deploy on free Heroku/Render. Test with focus group (parents, opposition officials) for bias
+  - Key features:
+    - Automated Q&A: "Subsidy status?" → Factual response + sources
+    - Conflict synthesis: "Pro/con arguments" in balanced table
+    - Idea submissions: AI categorizes and publishes anonymously on GitHub Discussions
+  - Security: GDPR-compliant (anonymous data, French hosting)
 
-- **Étape 2 : Conception de l'IA (2-4 semaines, 0-1 000 €)**
+- **Step 4: Deployment and Communication (immediate launch, free)**
+  - Integrate into GitHub site (chatbot iframe). Share via municipal Facebook, Gwaien bulletin, public meetings
+  - Promotion: "Discover our AI to learn everything about the school – questions open 24/7!"
+  - Success metrics: Track interactions (visits, questions asked); goal: 200-500 views/month
 
-  - **Type d'IA recommandé** : Chatbot conversationnel (comme IssyGPT) pour Q&R ("Quel est le coût exact ?"), ou dashboard interactif (visualisation timeline/coûts avec Streamlit).
-  - Tech stack open source :
-    - **Chatbot** : Utilisez Hugging Face (modèle gratuit comme Mistral-7B) ou Grok API (si xAI). Hébergez sur GitHub Pages + Streamlit pour démo.
-    - **Dashboard** : Python avec Streamlit/Pandas pour graphs (timeline Gantt, camembert subventions). Exemple code :
-      ```python
-      import streamlit as st
-      import pandas as pd
-      df = pd.read_json('ecole-data.json')
-      st.title("Projet École Pierre-Le Lec : Transparence en Temps Réel")
-      st.timeline(df['calendrier'])  # Visualisation avancement
-      st.chat_input("Posez une question sur le projet")
-      ```
-    - Intégrez modération IA pour débats (détecter clashs, suggérer faits neutres).
-  - Inspiration : À Toulouse, un bot IA synthétise consultations sur rénovations urbaines, réduisant plaintes de 30 % (rapport 2024).
+- **Step 5: Evolution and Sustainability (post-launch)**
+  - If elected: Migrate to Decidim + AI (existing spam moderation module) for participatory school budget
+  - Total budget: <€2,000 (freelance via Malt.fr). Partners: ANCT (PVD supports participatory digital), or xAI for free API
 
-- **Étape 3 : Développement et test (1-2 semaines, 500-1 000 € si aide dev)**
-
-  - Prototype : Déployez sur Heroku/Render gratuit. Testez avec focus group (parents, élus opposition) pour biais (ex. : "L'IA est-elle neutre ?").
-  - Fonctionnalités clés :
-    - Q&R automatisées : "État des subventions ?" → Réponse factuelle + sources.
-    - Synthèse conflits : "Arguments pour/contre" en tableau équilibré.
-    - Soumissions idées : IA catégorise et publie anonymement sur GitHub Discussions.
-  - Sécurité : RGPD-compliant (données anonymes, hébergement France).
-
-- **Étape 4 : Déploiement et communication (lancement immédiat, gratuit)**
-
-  - Intégrez au site GitHub (iframe chatbot). Partagez via Facebook mairie, bulletin Gwaien, réunions publiques.
-  - Promotion : "Découvrez notre IA pour tout savoir sur l'école – questions ouvertes 24/7 !" (contraste avec opacité perçue).
-  - Mesure succès : Suivez interactions (visites, questions posées) ; objectif : 200-500 vues/mois, réduction plaintes en conseil.
-
-- **Étape 5 : Évolution et pérennisation (post-lancement)**
-  - Si élu : Migrez vers Decidim + IA (module modération spam existant) pour budget participatif école.
-  - Budget total :`<2 000 €` (freelance via Malt.fr). Partenaires : ANCT (PVD soutient numérique participatif) ou xAI pour API gratuite.
-
-Ce projet positionne votre initiative comme innovante et apaisante, en rendant les données accessibles sans filtre politique. Il pourrait même inspirer une fusion de listes en montrant du concret ! Si besoin, je peux esquisser du code ou un JSON de données.
+This project positions your initiative as innovative and calming, making data accessible without political filter. It could even inspire list mergers by showing concrete results!
