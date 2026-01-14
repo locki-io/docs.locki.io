@@ -10,8 +10,8 @@ import { themes as prismThemes } from "prism-react-renderer";
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "OCapistaine Docs",
-  tagline: "AI-powered civic transparency for Audierne",
+  title: "Ò Capistaine Docs",
+  tagline: "AI-powered civic transparency for Audierne2026 and beyond",
   favicon: "img/favicon.ico",
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -72,12 +72,24 @@ const config = {
         respectPrefersColorScheme: true,
       },
       navbar: {
-        title: "OCapistaine",
+        title: "Ò Capistaine",
         logo: {
           alt: "OCapistaine Logo",
           src: "img/logo.svg",
         },
         items: [
+          {
+            type: "docSidebar",
+            sidebarId: "audierne2026Sidebar",
+            position: "left",
+            label: "Audierne2026",
+          },
+          {
+            type: "docSidebar",
+            sidebarId: "usageSidebar",
+            position: "left",
+            label: "Usage",
+          },
           {
             type: "docSidebar",
             sidebarId: "methodsSidebar",
@@ -109,22 +121,18 @@ const config = {
             title: "Documentation",
             items: [
               {
-                label: "Methods",
-                to: "/docs/methods/triz",
-              },
-              {
-                label: "Workflows",
-                to: "/docs/workflows/consolidation",
+                label: "Audierne2026",
+                to: "/docs/audierne2026",
               },
             ],
           },
           {
             title: "Community",
             items: [
-              {
-                label: "Discord",
-                href: "https://discord.gg/hrm4cTkN",
-              },
+              // {
+              //   label: "Discord",
+              //   href: "https://discord.gg/hrm4cTkN",
+              // },
               {
                 label: "audierne2026.fr",
                 href: "https://audierne2026.fr",
