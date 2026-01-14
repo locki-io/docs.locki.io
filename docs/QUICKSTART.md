@@ -115,5 +115,5 @@ cat ext_data/mairie_arretes/errors.log
 ## 📚 Full Documentation
 
 - Complete Guide: [FIRECRAWL_GUIDE.md](FIRECRAWL_GUIDE.md)
-- Examples: [examples/README.md](/examples/README.md)
-- Configuration: [src/config.py](/src/config.py)
+- Examples: [examples/](https://github.com/locki-io/ocapistaine/tree/main/examples)
+- Configuration: [src/config.py](https://github.com/locki-io/ocapistaine/blob/main/src/config.py)

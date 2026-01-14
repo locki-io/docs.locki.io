@@ -50,7 +50,7 @@ https://audierne2026.fr/contribution-process/
 
 #### methodologies :
 
-- [TRIZ](./docs/methods/TRIZ_METHODOLOGY.md)
+- [TRIZ](../methods/triz)
 - [CHARTE](https://github.com/audierne2026/participons/blob/main/docs/CHARTE_DE_CONTRIBUTION.md)
 - Separation of concerns (for workflows and code in general)
 - Theorie of Constrains (to solve budget constraints / localisation contraints etc)
@@ -58,7 +58,7 @@ https://audierne2026.fr/contribution-process/
 Workflows :
 
 - [RESPECT_CHARTE](https://audierne2026.fr/contribuer/#charte-de-contribution)
-- [CONSOLIDATION](docs/workflows/consolidation.md)
+- [CONSOLIDATION](../workflows/consolidation)
 
 # Goal :
 

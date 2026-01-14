@@ -35,6 +35,21 @@ const config = {
   i18n: {
     defaultLocale: "en",
     locales: ["en", "fr"],
+    localeConfigs: {
+      en: {
+        label: "English",
+        direction: "ltr",
+        htmlLang: "en-US",
+        calendar: "gregory",
+      },
+      fr: {
+        label: "Français",
+        direction: "ltr",
+        htmlLang: "fr-FR",
+        calendar: "gregory",
+        path: "fr",
+      },
+    },
   },
 
   presets: [
@@ -122,7 +137,7 @@ const config = {
             items: [
               {
                 label: "Audierne2026",
-                to: "/docs/audierne2026",
+                to: "/docs/audierne2026/overview",
               },
             ],
           },

@@ -19,8 +19,6 @@ Use the power of React to create interactive blog posts.
 
 :::
 
-{/_ truncate _/}
-
 For example, use JSX to create an interactive button:
 
 ```js
