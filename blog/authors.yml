@@ -1,14 +1,13 @@
-yangshun:
-  name: Yangshun Tay
-  title: Ex-Meta Staff Engineer, Co-founder GreatFrontEnd
-  url: https://linkedin.com/in/yangshun
-  image_url: https://github.com/yangshun.png
+jnxmas:
+  name: Jean-Noël Schilling
+  title: Locki one / french maintainer
+  url: https://linkedin.com/in/jnschilling
+  image_url: https://locki.io/public/assets/johny.png
   page: true
   socials:
-    x: yangshunz
-    linkedin: yangshun
-    github: yangshun
-    newsletter: https://www.greatfrontend.com
+    linkedin: jnschilling
+    github: jnschilling
+    newsletter: https://www.stratej.fr
 
 slorber:
   name: Sébastien Lorber
@@ -17,7 +16,7 @@ slorber:
   image_url: https://github.com/slorber.png
   page:
     # customize the url of the author page at /blog/authors/<permalink>
-    permalink: '/all-sebastien-lorber-articles'
+    permalink: "/all-sebastien-lorber-articles"
   socials:
     x: sebastienlorber
     linkedin: sebastienlorber

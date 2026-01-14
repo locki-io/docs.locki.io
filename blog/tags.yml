@@ -8,12 +8,12 @@ hello:
   permalink: /hello
   description: Hello tag description
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
+meeting:
+  label: Meeting
+  permalink: /meeting
+  description: Meeting tag description
 
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
+encode:
+  label: Encode hackathon
+  permalink: /encode
+  description: Information from the Encode hackathon

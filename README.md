@@ -1,6 +1,6 @@
 # docs.locki.io
 
-OCapistaine documentation site built with [Docusaurus](https://docusaurus.io/).
+Ò Capistaine documentation site built with [Docusaurus](https://docusaurus.io/).
 
 ## Quick Start
 
@@ -46,8 +46,8 @@ Build output is in `build/` directory, can be served by any static host.
 
 ## Localization
 
-- Default locale: French (`fr`)
-- Secondary: English (`en`)
+- Default locale: English (`en`)
+- Secondary: French (`fr`)
 
 Translations are in `i18n/` directory.
 
