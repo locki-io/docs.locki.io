@@ -4,15 +4,15 @@
 // There are various equivalent ways to declare your Docusaurus config.
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
-import {themes as prismThemes} from 'prism-react-renderer';
+import { themes as prismThemes } from "prism-react-renderer";
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'OCapistaine Docs',
-  tagline: 'AI-powered civic transparency for Audierne',
-  favicon: 'img/favicon.ico',
+  title: "OCapistaine Docs",
+  tagline: "AI-powered civic transparency for Audierne",
+  favicon: "img/favicon.ico",
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -20,45 +20,45 @@ const config = {
   },
 
   // Set the production url of your site here
-  url: 'https://docs.locki.io',
+  url: "https://docs.locki.io",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: "/",
 
   // GitHub pages deployment config.
-  organizationName: 'locki-io',
-  projectName: 'docs.locki.io',
+  organizationName: "locki-io",
+  projectName: "docs.locki.io",
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: "throw",
 
-  // Internationalization - French primary, English secondary
+  // Internationalization - English primary, French secondary
   i18n: {
-    defaultLocale: 'fr',
-    locales: ['fr', 'en'],
+    defaultLocale: "en",
+    locales: ["en", "fr"],
   },
 
   presets: [
     [
-      'classic',
+      "classic",
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          sidebarPath: './sidebars.js',
-          editUrl: 'https://github.com/locki-io/docs.locki.io/tree/main/',
+          sidebarPath: "./sidebars.js",
+          editUrl: "https://github.com/locki-io/docs.locki.io/tree/main/",
         },
         blog: {
           showReadingTime: true,
           feedOptions: {
-            type: ['rss', 'atom'],
+            type: ["rss", "atom"],
             xslt: true,
           },
-          editUrl: 'https://github.com/locki-io/docs.locki.io/tree/main/',
-          onInlineTags: 'warn',
-          onInlineAuthors: 'warn',
-          onUntruncatedBlogPosts: 'warn',
+          editUrl: "https://github.com/locki-io/docs.locki.io/tree/main/",
+          onInlineTags: "warn",
+          onInlineAuthors: "warn",
+          onUntruncatedBlogPosts: "warn",
         },
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: "./src/css/custom.css",
         },
       }),
     ],
@@ -67,84 +67,84 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      image: 'img/ocapistaine-social-card.jpg',
+      image: "img/ocapistaine-social-card.jpg",
       colorMode: {
         respectPrefersColorScheme: true,
       },
       navbar: {
-        title: 'OCapistaine',
+        title: "OCapistaine",
         logo: {
-          alt: 'OCapistaine Logo',
-          src: 'img/logo.svg',
+          alt: "OCapistaine Logo",
+          src: "img/logo.svg",
         },
         items: [
           {
-            type: 'docSidebar',
-            sidebarId: 'methodsSidebar',
-            position: 'left',
-            label: 'Methods',
+            type: "docSidebar",
+            sidebarId: "methodsSidebar",
+            position: "left",
+            label: "Methods",
           },
           {
-            type: 'docSidebar',
-            sidebarId: 'workflowsSidebar',
-            position: 'left',
-            label: 'Workflows',
+            type: "docSidebar",
+            sidebarId: "workflowsSidebar",
+            position: "left",
+            label: "Workflows",
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
+          { to: "/blog", label: "Blog", position: "left" },
           {
-            type: 'localeDropdown',
-            position: 'right',
+            type: "localeDropdown",
+            position: "right",
           },
           {
-            href: 'https://github.com/locki-io/ocapistaine',
-            label: 'GitHub',
-            position: 'right',
+            href: "https://github.com/locki-io/ocapistaine",
+            label: "GitHub",
+            position: "right",
           },
         ],
       },
       footer: {
-        style: 'dark',
+        style: "dark",
         links: [
           {
-            title: 'Documentation',
+            title: "Documentation",
             items: [
               {
-                label: 'Methods',
-                to: '/docs/methods/triz',
+                label: "Methods",
+                to: "/docs/methods/triz",
               },
               {
-                label: 'Workflows',
-                to: '/docs/workflows/consolidation',
+                label: "Workflows",
+                to: "/docs/workflows/consolidation",
               },
             ],
           },
           {
-            title: 'Community',
+            title: "Community",
             items: [
               {
-                label: 'Discord',
-                href: 'https://discord.gg/hrm4cTkN',
+                label: "Discord",
+                href: "https://discord.gg/hrm4cTkN",
               },
               {
-                label: 'audierne2026.fr',
-                href: 'https://audierne2026.fr',
+                label: "audierne2026.fr",
+                href: "https://audierne2026.fr",
               },
             ],
           },
           {
-            title: 'Project',
+            title: "Project",
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
+                label: "Blog",
+                to: "/blog",
               },
               {
-                label: 'GitHub',
-                href: 'https://github.com/locki-io/ocapistaine',
+                label: "GitHub",
+                href: "https://github.com/locki-io/ocapistaine",
               },
               {
-                label: 'Project Board',
-                href: 'https://github.com/orgs/locki-io/projects/2',
+                label: "Project Board",
+                href: "https://github.com/orgs/locki-io/projects/2",
               },
             ],
           },
@@ -154,7 +154,7 @@ const config = {
       prism: {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
-        additionalLanguages: ['python', 'bash', 'json'],
+        additionalLanguages: ["python", "bash", "json"],
       },
     }),
 };
