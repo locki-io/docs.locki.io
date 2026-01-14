@@ -16,6 +16,7 @@ Based on the official municipal website (audierne.bzh) and local press (Ouest-Fr
 - **Description**: Consolidation of two public schools (Pierre-Le Lec in Audierne and Esquibien) on the historic Pierre-Le Lec site (quai Anatole-France, harbor view). Includes complete rehabilitation (kindergarten, elementary, cafeteria, gymnasium), energy improvements, disability accessibility, and risk adaptations (flooding, landslides). Architect: Brûlé Architectes Associés (Quimper). Part of "Petites Villes de Demain" (PVD) program to revitalize the town center.
 
 - **Timeline**:
+
   - Technical diagnosis and user consultation: Completed (2023-2024)
   - Project management: Consulted late 2024, studies launched early 2025, ongoing through fall 2025
   - Temporary relocation: Students transferred to Espace Émile-Combes (former Saint-Joseph college) for September 2025 school year
@@ -23,6 +24,7 @@ Based on the official municipal website (audierne.bzh) and local press (Ouest-Fr
   - Delivery: September 2027 school year
 
 - **Costs and Funding**:
+
   - Estimate: €5.4-7M including tax (major renovation + extension; €1,000-1,500/m², consistent with PVD benchmarks for rural schools)
   - Expected subsidies: 60% via PVD, State (DSIL), Department/Region (Green Fund, EduRénov). Temporary relocation: ~€190k
   - Cost controversies: Opposition (Didier Guillon) criticizes "overestimation" and unrealistic subsidies (municipal burden risk >40%). Two alternative scenarios rejected for higher costs
@@ -38,11 +40,13 @@ This data is public (municipal deliberations); AI could update via API or light 
 Adopt an agile, low-cost approach (~€500-2,000 with freelance, or free with open source tools). Integrate with your GitHub platform (audierne2026/participons) for maximum transparency.
 
 - **Step 1: Data Collection and Structuring (1-2 weeks, free)**
+
   - Create a JSON/Markdown file on GitHub with sections (timeline, costs, FAQ). Include sources (deliberation links, Gwaien PDFs)
   - Add pro/con arguments: e.g., "Pro: Town center revitalization (PVD); Con: Budget risk (construction inflation +20%)"
   - Tools: Google Sheets or free Airtable, exported to JSON
 
 - **Step 2: AI Design (2-4 weeks, €0-1,000)**
+
   - **Recommended AI type**: Conversational chatbot for Q&A ("What is the exact cost?"), or interactive dashboard (timeline/cost visualization with Streamlit)
   - Open source tech stack:
     - **Chatbot**: Use Hugging Face (free model like Mistral-7B). Host on GitHub Pages + Streamlit for demo
@@ -50,6 +54,7 @@ Adopt an agile, low-cost approach (~€500-2,000 with freelance, or free with op
     - Integrate AI moderation for debates (detect conflicts, suggest neutral facts)
 
 - **Step 3: Development and Testing (1-2 weeks, €500-1,000 with dev help)**
+
   - Prototype: Deploy on free Heroku/Render. Test with focus group (parents, opposition officials) for bias
   - Key features:
     - Automated Q&A: "Subsidy status?" → Factual response + sources
@@ -58,12 +63,13 @@ Adopt an agile, low-cost approach (~€500-2,000 with freelance, or free with op
   - Security: GDPR-compliant (anonymous data, French hosting)
 
 - **Step 4: Deployment and Communication (immediate launch, free)**
+
   - Integrate into GitHub site (chatbot iframe). Share via municipal Facebook, Gwaien bulletin, public meetings
   - Promotion: "Discover our AI to learn everything about the school – questions open 24/7!"
   - Success metrics: Track interactions (visits, questions asked); goal: 200-500 views/month
 
 - **Step 5: Evolution and Sustainability (post-launch)**
   - If elected: Migrate to Decidim + AI (existing spam moderation module) for participatory school budget
-  - Total budget: <€2,000 (freelance via Malt.fr). Partners: ANCT (PVD supports participatory digital), or xAI for free API
+  - Total budget: `<€2,000` (freelance via Malt.fr). Partners: ANCT (PVD supports participatory digital), or xAI for free API
 
 This project positions your initiative as innovative and calming, making data accessible without political filter. It could even inspire list mergers by showing concrete results!
