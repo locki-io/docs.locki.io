@@ -9,16 +9,17 @@ jnxmas:
     github: jnschilling
     newsletter: https://www.stratej.fr
 
-slorber:
-  name: Sébastien Lorber
-  title: Docusaurus maintainer
-  url: https://sebastienlorber.com
-  image_url: https://github.com/slorber.png
+example_author:
+  name: first last
+  title: ocapistaine hackathon participants
+  url: https://website.com
+  image_url: https://github.com/name_image.png
   page:
     # customize the url of the author page at /blog/authors/<permalink>
-    permalink: "/all-sebastien-lorber-articles"
+    permalink: "/all-xxx-articles"
   socials:
-    x: sebastienlorber
-    linkedin: sebastienlorber
-    github: slorber
-    newsletter: https://thisweekinreact.com
+    linkedin: xxx
+    github: xxx
+    twitter: xxx
+    newsletter: https://xxx.com
+    mastodon: "@"
