@@ -50,7 +50,7 @@
 <p><em>If AI can help us keep our New Year's resolutions, maybe the most impactful one is: becoming a better citizen.</em></p>]]></content>
         <author>
             <name>Jean-Noël Schilling</name>
-            <uri>https://linkedin.com/in/jnschilling</uri>
+            <uri>https://github.com/jnschilling</uri>
         </author>
         <category label="Encode hackathon" term="Encode hackathon"/>
         <category label="civitech" term="civitech"/>
@@ -216,7 +216,7 @@ AI has identified the following issues that were not concluded in the meeting or
 </blockquote>]]></content>
         <author>
             <name>Jean-Noël Schilling</name>
-            <uri>https://linkedin.com/in/jnschilling</uri>
+            <uri>https://github.com/jnschilling</uri>
         </author>
         <category label="Meeting" term="Meeting"/>
     </entry>
@@ -514,7 +514,7 @@ Participants are tasked with creating an MVP (Minimum Viable Product) of a web o
 </ul>]]></content>
         <author>
             <name>Jean-Noël Schilling</name>
-            <uri>https://linkedin.com/in/jnschilling</uri>
+            <uri>https://github.com/jnschilling</uri>
         </author>
         <category label="Meeting" term="Meeting"/>
     </entry>
@@ -603,12 +603,12 @@ Participants are tasked with creating an MVP (Minimum Viable Product) of a web o
 <p><em>Stay tuned for updates as we progress through the Valkyria implementation phases.</em></p>]]></content>
         <author>
             <name>Jean-Noël Schilling</name>
-            <uri>https://linkedin.com/in/jnschilling</uri>
+            <uri>https://github.com/jnschilling</uri>
         </author>
         <category label="Locki Labs" term="Locki Labs"/>
-        <category label="valkyria" term="valkyria"/>
-        <category label="temporal-predictions" term="temporal-predictions"/>
-        <category label="machine-learning" term="machine-learning"/>
+        <category label="AI and Machine Learning" term="AI and Machine Learning"/>
+        <category label="Temporal Predictions" term="Temporal Predictions"/>
+        <category label="Machine Learning" term="Machine Learning"/>
     </entry>
     <entry>
         <title type="html"><![CDATA[Locki Labs: From Hackathon to Production - Navigating Blockchain Evolution and Data Challenges]]></title>
@@ -708,7 +708,7 @@ Participants are tasked with creating an MVP (Minimum Viable Product) of a web o
 </ul>]]></content>
         <author>
             <name>Jean-Noël Schilling</name>
-            <uri>https://linkedin.com/in/jnschilling</uri>
+            <uri>https://github.com/jnschilling</uri>
         </author>
         <category label="Locki Labs" term="Locki Labs"/>
         <category label="Blockchain" term="Blockchain"/>
@@ -738,7 +738,7 @@ Participants are tasked with creating an MVP (Minimum Viable Product) of a web o
 <p><strong>And if you don't want a blog</strong>: just delete this directory, and use <code>blog: false</code> in your Docusaurus config.</p>]]></content>
         <author>
             <name>Jean-Noël Schilling</name>
-            <uri>https://linkedin.com/in/jnschilling</uri>
+            <uri>https://github.com/jnschilling</uri>
         </author>
         <category label="Facebook" term="Facebook"/>
         <category label="Hello" term="Hello"/>
