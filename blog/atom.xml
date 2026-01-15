@@ -1,0 +1,746 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="atom.xsl"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://docs.locki.io/blog</id>
+    <title>Ò Capistaine Docs Blog</title>
+    <updated>2026-01-15T00:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://docs.locki.io/blog"/>
+    <subtitle>Ò Capistaine Docs Blog</subtitle>
+    <icon>https://docs.locki.io/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[Ò Capistaine Kick-off]]></title>
+        <id>https://docs.locki.io/blog/ocapistaine-hackathon-kickoff</id>
+        <link href="https://docs.locki.io/blog/ocapistaine-hackathon-kickoff"/>
+        <updated>2026-01-15T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[AI-Powered Civic Transparency for Local Democracy]]></summary>
+        <content type="html"><![CDATA[<p><strong>AI-Powered Civic Transparency for Local Democracy</strong></p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="my-2026-resolution">My 2026 Resolution<a href="https://docs.locki.io/blog/ocapistaine-hackathon-kickoff#my-2026-resolution" class="hash-link" aria-label="Direct link to My 2026 Resolution" title="Direct link to My 2026 Resolution" translate="no">​</a></h2>
+<div class="theme-admonition theme-admonition-tip admonition_xJq3 alert alert--success"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 12 16"><path fill-rule="evenodd" d="M6.5 0C3.48 0 1 2.19 1 5c0 .92.55 2.25 1 3 1.34 2.25 1.78 2.78 2 4v1h5v-1c.22-1.22.66-1.75 2-4 .45-.75 1-2.08 1-3 0-2.81-2.48-5-5.5-5zm3.64 7.48c-.25.44-.47.8-.67 1.11-.86 1.41-1.25 2.06-1.45 3.23-.02.05-.02.11-.02.17H5c0-.06 0-.13-.02-.17-.2-1.17-.59-1.83-1.45-3.23-.2-.31-.42-.67-.67-1.11C2.44 6.78 2 5.65 2 5c0-2.2 2.02-4 4.5-4 1.22 0 2.36.42 3.22 1.19C10.55 2.94 11 3.94 11 5c0 .66-.44 1.78-.86 2.48zM4 14h5c-.23 1.14-1.3 2-2.5 2s-2.27-.86-2.5-2z"></path></svg></span>The Promise</div><div class="admonitionContent_BuS1"><p>This year, I will finally understand my local elections and get involved as a citizen.</p></div></div>
+<p>Sound familiar? Every election cycle, millions of citizens want to participate but face the same wall: scattered documents, administrative jargon, and no time to dig through years of municipal decisions.</p>
+<p><strong>This January, I stopped just wishing — and started building.</strong></p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-were-building">What We're Building<a href="https://docs.locki.io/blog/ocapistaine-hackathon-kickoff#what-were-building" class="hash-link" aria-label="Direct link to What We're Building" title="Direct link to What We're Building" translate="no">​</a></h2>
+<p>Ò Capistaine is my answer to the civic engagement resolution we've all made (and broken). It's an AI-powered transparency tool that:</p>
+<table><thead><tr><th>Feature</th><th>Description</th></tr></thead><tbody><tr><td><strong>Document Crawling</strong></td><td>Index 4,000+ municipal documents with Firecrawl + OCR</td></tr><tr><td><strong>Citizen Q&amp;A</strong></td><td>Answer questions in plain language via RAG</td></tr><tr><td><strong>Quality Tracking</strong></td><td>Monitor LLM accuracy with Opik (hallucination detection)</td></tr><tr><td><strong>Multi-Channel</strong></td><td>N8N workflows for Facebook, email, and chatbot engagement</td></tr></tbody></table>
+<div class="theme-admonition theme-admonition-info admonition_xJq3 alert alert--info"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></span>Live Platform</div><div class="admonitionContent_BuS1"><p>Supporting <a href="https://audierne2026.fr/" target="_blank" rel="noopener noreferrer" class="">audierne2026.fr</a> — a participatory democracy platform where citizens co-create the 2026 municipal program.</p></div></div>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="progress-update-checkpoint-1">Progress Update (Checkpoint 1)<a href="https://docs.locki.io/blog/ocapistaine-hackathon-kickoff#progress-update-checkpoint-1" class="hash-link" aria-label="Direct link to Progress Update (Checkpoint 1)" title="Direct link to Progress Update (Checkpoint 1)" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="status-overview">Status Overview<a href="https://docs.locki.io/blog/ocapistaine-hackathon-kickoff#status-overview" class="hash-link" aria-label="Direct link to Status Overview" title="Direct link to Status Overview" translate="no">​</a></h3>
+<table><thead><tr><th>Component</th><th style="text-align:center">Status</th><th>Details</th></tr></thead><tbody><tr><td><strong>audierne2026.fr</strong></td><td style="text-align:center">✅</td><td>Jekyll platform live, citizens contributing</td></tr><tr><td><strong>Document Corpus</strong></td><td style="text-align:center">🟡</td><td>42 Gwaien bulletins collected, 4,000+ arrêtés identified</td></tr><tr><td><strong>Firecrawl Pipeline</strong></td><td style="text-align:center">🔴</td><td>Infrastructure designed, crawling not yet operational</td></tr><tr><td><strong>Opik Integration</strong></td><td style="text-align:center">🟡</td><td>Tracing architecture planned, awaiting RAG implementation</td></tr><tr><td><strong>N8N Workflows</strong></td><td style="text-align:center">🟡</td><td>Vaettir repo created, FB/email integration designed</td></tr><tr><td><strong>RAG System</strong></td><td style="text-align:center">🔴</td><td>Vector store + retrieval pipeline pending</td></tr><tr><td><strong>Documentation</strong></td><td style="text-align:center">✅</td><td><a href="https://docs.locki.io/" target="_blank" rel="noopener noreferrer" class="">docs.locki.io</a> live with methodologies</td></tr></tbody></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="whats-working">What's Working<a href="https://docs.locki.io/blog/ocapistaine-hackathon-kickoff#whats-working" class="hash-link" aria-label="Direct link to What's Working" title="Direct link to What's Working" translate="no">​</a></h3>
+<ul>
+<li class="">Live participation platform with real citizen contributions</li>
+<li class="">Dual-license structure (Apache 2.0 + ELv2) for open collaboration</li>
+<li class="">Bilingual documentation (EN/FR)</li>
+<li class="">Project planning and task tracking on GitHub</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="next-steps">Next Steps<a href="https://docs.locki.io/blog/ocapistaine-hackathon-kickoff#next-steps" class="hash-link" aria-label="Direct link to Next Steps" title="Direct link to Next Steps" translate="no">​</a></h3>
+<ol>
+<li class=""><strong>Fix Firecrawl pipeline</strong> — Get municipal document crawling operational</li>
+<li class=""><strong>Deploy Opik tracing</strong> — LLM observability from day one</li>
+<li class=""><strong>Build RAG retrieval</strong> — With hallucination guardrails</li>
+<li class=""><strong>Launch citizen Q&amp;A</strong> — First chatbot interactions</li>
+</ol>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="hackathon-tracks">Hackathon Tracks<a href="https://docs.locki.io/blog/ocapistaine-hackathon-kickoff#hackathon-tracks" class="hash-link" aria-label="Direct link to Hackathon Tracks" title="Direct link to Hackathon Tracks" translate="no">​</a></h2>
+<table><thead><tr><th>Track</th><th>Why We Qualify</th></tr></thead><tbody><tr><td><strong>Social &amp; Community Impact</strong></td><td>Civic transparency tool enabling local democracy participation</td></tr><tr><td><strong>Best Use of Opik</strong></td><td>LLM-as-judge evaluations + tracing for RAG quality assurance</td></tr></tbody></table>
+<div class="theme-admonition theme-admonition-note admonition_xJq3 alert alert--secondary"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 14 16"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 0 1-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 0 1-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg></span>Democracy Can't Afford Hallucinations</div><div class="admonitionContent_BuS1"><p>When citizens ask "What happened with the school budget?", the answer must be accurate and sourced. Opik helps us guarantee that.</p></div></div>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="team">Team<a href="https://docs.locki.io/blog/ocapistaine-hackathon-kickoff#team" class="hash-link" aria-label="Direct link to Team" title="Direct link to Team" translate="no">​</a></h2>
+<table><thead><tr><th>Name</th><th>Role</th><th>GitHub</th></tr></thead><tbody><tr><td>Jean-Noël Schilling</td><td>Project Lead / Backend</td><td><a href="https://github.com/jnschilling" target="_blank" rel="noopener noreferrer" class="">@jnschilling</a></td></tr><tr><td>Victor A</td><td>Backend Python</td><td><a href="https://github.com/zcbtvag" target="_blank" rel="noopener noreferrer" class="">@zcbtvag</a></td></tr><tr><td>GurmeherSingh</td><td>ML Engineer</td><td><a href="https://github.com/GurmeherSingh" target="_blank" rel="noopener noreferrer" class="">@GurmeherSingh</a></td></tr><tr><td><em>(open for contributors)</em></td><td>Frontend / UX / Communication</td><td>—</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="links">Links<a href="https://docs.locki.io/blog/ocapistaine-hackathon-kickoff#links" class="hash-link" aria-label="Direct link to Links" title="Direct link to Links" translate="no">​</a></h2>
+<table><thead><tr><th>Resource</th><th>URL</th><th>Public/private</th></tr></thead><tbody><tr><td>Live Platform</td><td><a href="https://audierne2026.fr/" target="_blank" rel="noopener noreferrer" class="">audierne2026.fr</a></td><td>public</td></tr><tr><td>Documentation</td><td><a href="https://docs.locki.io/" target="_blank" rel="noopener noreferrer" class="">docs.locki.io</a></td><td>public</td></tr><tr><td>GitHub</td><td><a href="https://github.com/locki-io/ocapistaine" target="_blank" rel="noopener noreferrer" class="">locki-io/ocapistaine</a></td><td>private ATM</td></tr><tr><td>Project Board</td><td><a href="https://github.com/orgs/locki-io/projects/2" target="_blank" rel="noopener noreferrer" class="">GitHub Projects</a></td><td>public</td></tr></tbody></table>
+<hr>
+<p><em>If AI can help us keep our New Year's resolutions, maybe the most impactful one is: becoming a better citizen.</em></p>]]></content>
+        <author>
+            <name>Jean-Noël Schilling</name>
+            <uri>https://linkedin.com/in/jnschilling</uri>
+        </author>
+        <category label="Encode hackathon" term="Encode hackathon"/>
+        <category label="civitech" term="civitech"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Project scope - Victor + JNS]]></title>
+        <id>https://docs.locki.io/blog/victor-intro-project description</id>
+        <link href="https://docs.locki.io/blog/victor-intro-project description"/>
+        <updated>2026-01-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Location: Discord voice chat]]></summary>
+        <content type="html"><![CDATA[<blockquote>
+<p>Location: Discord voice chat
+Attendees: jnxmas, Victor</p>
+</blockquote>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="overview">Overview<a href="https://docs.locki.io/blog/victor-intro-project%20description#overview" class="hash-link" aria-label="Direct link to Overview" title="Direct link to Overview" translate="no">​</a></h2>
+<p>This document summarizes a series of project meetings focused on building a community-focused AI application for a local election. The discussions cover team composition and recruitment, defining the project's scope for a hackathon, and outlining the technical architecture. Key activities include automating the processing of community contributions, developing a neutral chatbot to compare political programs, and initiating web crawling operations to gather data. The plan involves using technologies like Firecrawl, N8N, Pydantic, and a Retrieval-Augmented Generation (RAG) system, with a strong emphasis on collaborative development practices via GitHub.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="key-topics">Key Topics<a href="https://docs.locki.io/blog/victor-intro-project%20description#key-topics" class="hash-link" aria-label="Direct link to Key Topics" title="Direct link to Key Topics" translate="no">​</a></h2>
+<ul>
+<li class="">Two new potential members from Audierne, France, were identified. They are developers focused on websites but are new to AI and Python, so they are considered to be starting from scratch.</li>
+<li class="">Their primary value is their familiarity with the local context of the project (audierne2026), making them a potential bridge to the local population. They are seen as good candidates for an "observer" role within the hackathon.</li>
+<li class="">They are connected to one of four local political lists, which is interested in participative community movements.</li>
+<li class="">An Indian developer named Satish, with whom a speaker previously worked on an AWS and Next.js project in a 2023 hackathon, is a potential collaborator. However, he is currently cautious about joining due to being busy with his job.</li>
+<li class="">A French individual named Max, who specializes in SEO and social media strategy, was mentioned but is not a coder.</li>
+<li class="">An Indian machine learning specialist, referred to as "Meher," is considering joining. He is seen as a key "third guy" ML for the application architecture.</li>
+<li class="">There was a concern that the project's connection to a local election might disqualify it from the hackathon.</li>
+<li class="">A team member named Rebecca clarified in a general chat that the project is eligible to be submitted under the "social community impact" category.</li>
+<li class="">The team was advised that all questions should be posted in the general chat, as Rebecca will not be replying to DMs.</li>
+<li class="">Progress has been made on the project's GitHub Kanban board, with P0 tasks and some unprioritized tickets added.</li>
+<li class="">The data crawling phase ("filecrawl") is ready to start with an initial dataset of 150 links and 4,000 PDFs that require OCR. The speaker has paused this work to incorporate more contributions.</li>
+<li class="">The N8N orchestration workflow is nearly complete and ready for deployment.<!-- -->
+<ul>
+<li class="">It will be hosted on a server with a 6-core CPU and 16 gigabytes of RAM.</li>
+<li class="">The team will consider moving to Vercel if the server cannot handle the load.</li>
+</ul>
+</li>
+<li class="">N8N is a low-code/no-code platform for building workflows, and an example was shown for automating posts based on GitHub repository issues.</li>
+<li class="">The setup is encapsulated in Docker, making it easier to run.</li>
+<li class="">The project's code and tasks will be managed in the Ocapistan repository on GitHub.</li>
+<li class="">A key initial task is to push the ideation file (<code>ideation 13.1.2026</code>) to the main branch to serve as a foundation for future work.</li>
+<li class="">The team will use a feature branch workflow:<!-- -->
+<ul>
+<li class="">For each task, a developer will create a new feature branch from the main branch.</li>
+<li class="">Once the task is complete, the branch will be pushed to the repository for review by others.</li>
+<li class="">After review and debugging, the branch will be merged and closed.</li>
+</ul>
+</li>
+<li class="">The team agreed to prioritize the Firecrawl operation as the starting point, despite its potential difficulty.</li>
+<li class="">Two team members will conduct parallel trials on different fire crawling tasks to gain experience and share learnings.</li>
+<li class="">Each member should get their own free Firecrawl API key, as they may need to use multiple free accounts by registering with different emails to maximize free API calls.</li>
+<li class="">The initial scraping task will target a list of PDFs from a specific URL (<code>script marie arete mary</code>).</li>
+<li class="">PDF processing will require testing various libraries like <code>pdf2ocr</code>, Tabula, and <code>pypdf</code> to find the most effective one.</li>
+<li class="">The team needs to develop a method to identify and set aside documents that only contain signatures, as this information has no value for the LLM.</li>
+<li class="">The project will use Python with type hinting and Pydantic for data handling to improve code quality.</li>
+<li class="">A modular "separation of concerns" approach will be used for the ETL (Extract, Transform, Load) process.<!-- -->
+<ul>
+<li class="">Extraction, transformation, and loading will be handled by separate workflows, likely implemented as three distinct classes.</li>
+<li class="">This modularity will allow for different extraction methods (e.g., for plain text, HTML with Beautiful Soup, or OCR for PDFs) to be developed and called as needed.</li>
+</ul>
+</li>
+<li class="">The project will use Ocapistan for code management, N8N for workflows, and a flexible AI provider handled by OPIC.</li>
+<li class="">Team members do not need to work at the same time but must communicate effectively. Progress will be tracked through changes in the project repository.</li>
+<li class="">Developers should assign tasks to themselves and break them down into smaller sub-tasks.</li>
+<li class="">Direct discussions will be necessary when merging work on the same files to resolve conflicts.</li>
+<li class=""><strong>Current Process (Manual):</strong>
+<ul>
+<li class="">Contributions are received via email.</li>
+<li class="">They are manually reviewed against a "chart of contribution" to ensure they meet the criteria.</li>
+<li class="">If approved, they are manually copy-pasted into a GitHub issue.</li>
+<li class="">A daily summary of contributions is automatically posted to Facebook via M8N, but this post is anonymous and lacks detail.</li>
+</ul>
+</li>
+<li class=""><strong>Proposed Automated Process:</strong>
+<ul>
+<li class="">The goal is to automate the entire workflow from email receipt to GitHub issue creation.</li>
+<li class="">An AI agent will be developed to judge whether an incoming contribution respects the "chart of contribution."</li>
+<li class="">This agent will be part of the "OKAPI stand," which will house all agents and the RAG system for the project.</li>
+</ul>
+</li>
+<li class=""><strong>Purpose:</strong> After a contribution is validated and becomes a GitHub issue, a "creative agent" (also called the Okapi Sten proper) will process it.</li>
+<li class=""><strong>Functionality:</strong>
+<ul>
+<li class="">The agent generates an AI-made reply that contextualizes the new contribution.</li>
+<li class="">It cross-references the submission with previous contributions in the same category to find echoes and avoid repetition.</li>
+<li class="">The reply includes links to the sources used to construct the contextualization.</li>
+</ul>
+</li>
+<li class=""><strong>Handling New vs. Existing Topics:</strong>
+<ul>
+<li class="">The workflow must handle two cases: when a contribution is for a brand-new category, and when it relates to a previously discussed topic.</li>
+<li class="">In the latter case, the system will search existing issues and the RAG system to build a comprehensive answer.</li>
+</ul>
+</li>
+<li class=""><strong>LLM Testing:</strong>
+<ul>
+<li class="">Grok has been used for initial testing. It was effective at searching for context online (including the audierne2026 project) and generating relevant, though coincidental, replies.</li>
+<li class="">The team discussed that Grok's ability to search and synthesize information acts similarly to a basic RAG system.</li>
+</ul>
+</li>
+<li class=""><strong>RAG System Development:</strong>
+<ul>
+<li class="">A dedicated RAG (Retrieval-Augmented Generation) system will be built to avoid repetitive outputs and manage context efficiently.</li>
+<li class="">The team needs to decide how to store source links and other data for the RAG system, considering a NoSQL database like MongoDB for flexibility. A vector store will be used for training on gathered data.</li>
+</ul>
+</li>
+<li class=""><strong>Key Dates:</strong>
+<ul>
+<li class="">The election preparation period is currently underway.</li>
+<li class="">Contribution collection will continue until at least January 31.</li>
+<li class="">The election day is around March 15-22.</li>
+</ul>
+</li>
+<li class=""><strong>February Focus:</strong>
+<ul>
+<li class="">Work in February will focus purely on developing the chatbot.</li>
+<li class="">The chatbot will be used to compare the programs of the four enlisted municipal lists.</li>
+<li class="">It will be designed to provide neutral, impartial comparisons on topics like lodging, culture, and budget realism.</li>
+</ul>
+</li>
+<li class=""><strong>Using OPIK:</strong>
+<ul>
+<li class="">The OPIK framework will be used to evaluate every AI interaction to ensure quality and impartiality.</li>
+<li class="">The team is considering creating a feedback loop where OPIK's evaluations could automatically improve the prompts in N8N.</li>
+</ul>
+</li>
+<li class=""><strong>Maintaining Neutrality:</strong>
+<ul>
+<li class="">A major challenge is ensuring the chatbot remains neutral and does not generate sycophantic or biased responses based on leading questions from users.</li>
+<li class="">The system may need multiple prompts to check for constraints like budget, realism, and political neutrality before generating a reply.</li>
+</ul>
+</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="open-issues--risks">Open Issues &amp; Risks<a href="https://docs.locki.io/blog/victor-intro-project%20description#open-issues--risks" class="hash-link" aria-label="Direct link to Open Issues &amp; Risks" title="Direct link to Open Issues &amp; Risks" translate="no">​</a></h2>
+<ul>
+<li class="">It is unclear how the new team members from Audierne, who have limited technical experience in AI, will be integrated into the project.</li>
+<li class="">The availability of a key potential collaborator, Satish, is uncertain due to his current work commitments.</li>
+<li class="">The machine learning specialist, Meher has not yet confirmed if he will join the team.</li>
+<li class="">It is undecided how to best store source links and data for the RAG system, though a NoSQL database is being considered.</li>
+<li class="">It is unclear which LLMs (e.g., Gemini) will be chosen for the final implementation.</li>
+<li class="">A key challenge will be designing the chatbot to remain neutral and avoid generating biased responses to leading questions.</li>
+<li class="">The project's success depends on receiving a sufficient number of community contributions, which requires incentivizing and motivating people to participate.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="action-items">Action Items<a href="https://docs.locki.io/blog/victor-intro-project%20description#action-items" class="hash-link" aria-label="Direct link to Action Items" title="Direct link to Action Items" translate="no">​</a></h2>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Prioritize project tasks.</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Set up a server for the Vaettir repo so the team can access it with a password.</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Start by building workflows, with more coding to begin next week.</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Set up an ollama platform to experiment with local LLMs.</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Push the <code>ideation 13.1.2026</code> file to the main Ocapistaine repository.</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Each team member to get a free Firecrawl API key.</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Begin experimenting with Firecrawl by creating a new branch on the Ocapistaine repository.</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Start working on scraping the documents from the "script marie arreté maririe" task.</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Test different PDF reading libraries (<code>pdf2ocr</code>, Tabula, <code>pypdf</code>) to determine the best option for the project.</li>
+</ul>
+<blockquote>
+<p><strong>AI Suggestion</strong>
+AI has identified the following issues that were not concluded in the meeting or lack clear action items; please pay attention:</p>
+<ol>
+<li class=""><strong>Critical Staffing and Team Formation Risk:</strong> The project faces a significant risk of stalling due to unresolved team composition. Two key experts, developer Satish and machine learning specialist "Mayer," have not committed to the project, leaving critical skill gaps. A clear action plan is needed to secure their participation or find qualified alternatives immediately to ensure the project can proceed.</li>
+<li class=""><strong>Unresolved Core Chatbot Neutrality:</strong> A fundamental and unresolved challenge is how to technically implement and guarantee the election chatbot's neutrality and impartiality. There is no defined strategy for preventing the AI from giving biased responses, especially when faced with leading or manipulative user questions, which poses a major reputational and functional risk to the project's core objective.</li>
+<li class=""><strong>Lack of a Defined Community Contribution Workflow:</strong> The entire process for receiving, validating, and integrating community-submitted content is undefined. This includes the creation of an AI agent to automate judging submissions and a clear workflow for handling both new and existing topics. Without this, the project cannot scale or effectively leverage community input, which is stated as a dependency for success.</li>
+<li class=""><strong>Undefined Technical Foundation for Data Processing and Storage:</strong> Key decisions about the project's technical architecture are still pending. The team has not selected a database for the RAG system (e.g., NoSQL/MongoDB) or the specific Large Language Models (LLMs) for the final implementation. Furthermore, the method for processing varied document types like PDFs remains uncertain. These foundational decisions must be made to avoid delays in development.</li>
+</ol>
+</blockquote>]]></content>
+        <author>
+            <name>Jean-Noël Schilling</name>
+            <uri>https://linkedin.com/in/jnschilling</uri>
+        </author>
+        <category label="Meeting" term="Meeting"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hackathon kickoff meeting]]></title>
+        <id>https://docs.locki.io/blog/encode-kickoff</id>
+        <link href="https://docs.locki.io/blog/encode-kickoff"/>
+        <updated>2026-01-13T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Date & Time04:06]]></summary>
+        <content type="html"><![CDATA[<blockquote>
+<p>Date &amp; Time: 2026-01-13 19:04:06
+Location: online presentation
+<code>AI Agent Hackathon</code> <code>New Year's Resolutions</code> <code>AI Evaluation</code></p>
+</blockquote>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="theme">Theme<a href="https://docs.locki.io/blog/encode-kickoff#theme" class="hash-link" aria-label="Direct link to Theme" title="Direct link to Theme" translate="no">​</a></h2>
+<p>This lecture introduces the "Commit to Change AI Agent Hackathon," a four-week online event challenging participants to build AI agents that help users stick to their New Year's resolutions. The event offers $30,000 in prizes across five tracks: Productivity, Personal Growth, Social Impact, Health/Wellness, and Financial Health. It emphasizes the importance of AI evaluations, defining them as structured measurements of system behavior. The lecture details the hackathon's timeline, submission requirements using the ENCODE platform, and the mandatory use of the OPIC tool for evaluation, guiding participants from ideation to final project submission.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="takeaways">Takeaways<a href="https://docs.locki.io/blog/encode-kickoff#takeaways" class="hash-link" aria-label="Direct link to Takeaways" title="Direct link to Takeaways" translate="no">​</a></h2>
+<ol>
+<li class="">Introduction to the Commit to Change AI Agent Hackathon.</li>
+<li class="">The hackathon's goal is to build AI that turns New Year's resolutions into real results.</li>
+<li class="">Hackathon registration is required on the Encode Cloud platform for all participants, including those from Luma.</li>
+<li class="">The hackathon is sponsored by Comet, with supporting partners Basel and Google DeepMind.</li>
+<li class="">This is a four-week online hackathon with up to $30,000 in prizes.</li>
+<li class="">Statistics on New Year's resolutions: 23% give up within 13 days, and 43% give up by the end of January.</li>
+<li class="">Hackathon advice: Start with a problem you have faced and build a unique solution.</li>
+<li class="">The hackathon features five thematic tracks: Productivity and Work Habits, Personal Growth and Learning, Social and Community Impact, Health, Fitness and Wellness, and Financial Health.</li>
+<li class="">It's recommended to focus on one category to create a high-quality, specialized app.</li>
+<li class="">There is an overall challenge for the 'Best use of OPIC' for projects showcasing excellent evaluation and observability.</li>
+</ol>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="highlights">Highlights<a href="https://docs.locki.io/blog/encode-kickoff#highlights" class="hash-link" aria-label="Direct link to Highlights" title="Direct link to Highlights" translate="no">​</a></h2>
+<ul>
+<li class=""><code>"AI evals are what turn that sort of really cool, fun prototype into a system that you can actually iterate on with confidence and start to think about exposing to the real world and to real people."-- Abby</code></li>
+<li class=""><code>"What's even cooler than a really cool prototype is, in my opinion, a cool tool that you can actually use in the real world on real data. And for that, you need some sort of system of evaluations."-- Abby</code></li>
+<li class=""><code>"Evaluation turns guesswork into science."-- Abby</code></li>
+<li class=""><code>"AI evaluations are how we turn random iteration into progress, and they give us a repeatable way to measure behavior, compare changes, and improve systematically instead of guessing."-- Abby</code></li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="chapters--topics">Chapters &amp; Topics<a href="https://docs.locki.io/blog/encode-kickoff#chapters--topics" class="hash-link" aria-label="Direct link to Chapters &amp; Topics" title="Direct link to Chapters &amp; Topics" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="hackathon-overview-and-goal">Hackathon Overview and Goal<a href="https://docs.locki.io/blog/encode-kickoff#hackathon-overview-and-goal" class="hash-link" aria-label="Direct link to Hackathon Overview and Goal" title="Direct link to Hackathon Overview and Goal" translate="no">​</a></h3>
+<blockquote>
+<p>The Commit to Change AI Agent Hackathon is a four-week online event starting in January 2026, aimed at building AI agents and LLM-powered apps that help people stick to their New Year's resolutions and goals. It offers up to $30,000 in prizes.</p>
+</blockquote>
+<ul>
+<li class=""><strong>Keypoints</strong>
+<ul>
+<li class="">The hackathon runs for four weeks online.</li>
+<li class="">The goal is to build AI/LLM apps to help users stick to their goals.</li>
+<li class="">There's a prize pool of up to $30,000.</li>
+<li class="">It is sponsored by Comet, with support from Basel and Google DeepMind.</li>
+<li class="">Participants must register on the Encode Cloud platform to get all updates and access resources.</li>
+</ul>
+</li>
+<li class=""><strong>Explanation</strong>
+The hackathon is structured to guide participants from ideation to final submission. It includes workshops, deadlines to ensure progress, and resources provided by sponsors like Comet and partners like Google DeepMind. The central theme is leveraging AI to address the common problem of people giving up on their resolutions. Statistics show 23% of people give up 13 days into January, and 43% give up by the end of the month, highlighting the target audience for the projects.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="hackathon-tracks-and-challenges">Hackathon Tracks and Challenges<a href="https://docs.locki.io/blog/encode-kickoff#hackathon-tracks-and-challenges" class="hash-link" aria-label="Direct link to Hackathon Tracks and Challenges" title="Direct link to Hackathon Tracks and Challenges" translate="no">​</a></h3>
+<blockquote>
+<p>The hackathon is structured around five thematic tracks for projects, plus an overall challenge. The tracks are: Productivity and Work Habits, Personal Growth and Learning, Social and Community Impact, Health, Fitness and Wellness, and Financial Health. The overall challenge is for the 'Best Use of OPIC', rewarding projects with excellent evaluation and observability.</p>
+</blockquote>
+<ul>
+<li class=""><strong>Keypoints</strong>
+<ul>
+<li class="">Productivity and Work Habits: Build tools for smarter work and better routines.</li>
+<li class="">Personal Growth and Learning: Build apps for learning new skills or developing self-awareness.</li>
+<li class="">Social and Community Impact: Build tools for organizing communities or supporting environmental/social action.</li>
+<li class="">Health, Fitness and Wellness: Build solutions for fitness, mental health, or general well-being.</li>
+<li class="">Financial Health: Build AI/LLM apps for budgeting, saving, or understanding money.</li>
+<li class="">Best Use of OPIC: A special category for projects with excellent evaluation and observability.</li>
+</ul>
+</li>
+<li class=""><strong>Explanation</strong>
+Participants should choose one of the five themes to focus their project on. The themes are broad to accommodate a wide range of ideas. The 'Health, Fitness and Wellness' category is noted as a particularly common area for New Year's resolutions. In addition to the thematic challenges, all projects are eligible for the 'Best Use of OPIC' challenge, sponsored by Comet. This special prize can be won in conjunction with a thematic prize.</li>
+<li class=""><strong>Considerations</strong></li>
+<li class="">Focus on one category rather than trying to build an app that spans multiple, as an app that does one thing well is better than one that does four things less well.</li>
+<li class="">Start with a problem that you yourself have faced to understand it well.</li>
+<li class="">Come up with a solution that sets you apart from everyone else; build something interesting and unique.</li>
+<li class="">Don't just do the bare minimum base idea; build on top of it.</li>
+<li class="">The best use of OPIC category can be won alongside a theme prize, which is the only two-in-one win possible.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="hackathon-timeline-and-submission-requirements">Hackathon Timeline and Submission Requirements<a href="https://docs.locki.io/blog/encode-kickoff#hackathon-timeline-and-submission-requirements" class="hash-link" aria-label="Direct link to Hackathon Timeline and Submission Requirements" title="Direct link to Hackathon Timeline and Submission Requirements" translate="no">​</a></h3>
+<blockquote>
+<p>The hackathon has a structured timeline with key deadlines and specific submission requirements for the final project. The timeline spans four weeks, starting with ideation, moving to building, and culminating in a final submission.</p>
+</blockquote>
+<ul>
+<li class="">
+<p><strong>Keypoints</strong></p>
+<ul>
+<li class="">Week 1: Ideation and Project Creation Deadline.</li>
+<li class="">Week 2: Building and a workshop on Gemini 3.</li>
+<li class="">Week 2/3: Mid-hackathon Deadline (submit GitHub repo and description).</li>
+<li class="">Final Submission Deadline: February 8th, 23:59 UTC-12.</li>
+<li class="">Required final submission items: Video pitch with demo and public code base.</li>
+<li class="">Recommended submission items: Hosted site and a presentation.</li>
+<li class="">The mid-hackathon deadline forces early and regular code commits.</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Explanation</strong>
+The timeline is designed to keep participants on track.</p>
+</li>
+<li class="">
+<p>Week 1: Launch, ideation, and a 'Project Creation Deadline' to commit to an idea and team.</p>
+</li>
+<li class="">
+<p>Week 2: Start building, with a workshop from Google DeepMind on Gemini 3.</p>
+</li>
+<li class="">
+<p>End of Week 2/Start of Week 3: 'Mid-hackathon Deadline' requiring submission of a GitHub repo and project description. This is not judged but ensures progress.</p>
+</li>
+<li class="">
+<p>Final Submission Deadline: February 8th at one minute to midnight, UTC-12. This means you can submit if it's still before midnight anywhere in the world.
+Final submissions must include a video pitch with a demo, a public codebase, and optionally a hosted site and presentation slides. These requirements are designed to give judges a comprehensive view of the project.</p>
+</li>
+<li class="">
+<p><strong>Considerations</strong></p>
+</li>
+<li class="">
+<p>Do not leave commits until the last minute; make regular commits from the start.</p>
+</li>
+<li class="">
+<p>The video pitch is the first impression for judges and needs to capture their attention immediately.</p>
+</li>
+<li class="">
+<p>While AI can be used for presentations, it is not recommended to use AI to generate the entire video pitch as it can be 'soul destroying' for judges.</p>
+</li>
+<li class="">
+<p>A hosted site and presentation are optional but highly recommended to strengthen your submission.</p>
+</li>
+<li class="">
+<p>Do not submit at the last minute to avoid technical issues or mistakes.</p>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="using-the-encode-platform">Using the ENCODE Platform<a href="https://docs.locki.io/blog/encode-kickoff#using-the-encode-platform" class="hash-link" aria-label="Direct link to Using the ENCODE Platform" title="Direct link to Using the ENCODE Platform" translate="no">​</a></h3>
+<blockquote>
+<p>The ENCODE platform is the central hub for the hackathon. It contains all necessary information, resources, and submission portals for participants.</p>
+</blockquote>
+<ul>
+<li class=""><strong>Keypoints</strong>
+<ul>
+<li class="">The ENCODE platform is the home for the hackathon.</li>
+<li class="">Participants must register on the platform to get all emails and updates.</li>
+<li class="">To create a project and team, use the 'create project' and 'join team code' features.</li>
+<li class="">The platform has a 'Lecture' section with helpful videos.</li>
+<li class="">The 'Events' page lists all workshop links.</li>
+<li class="">Challenge descriptions and partner resources (Comet docs, Gemini credits, etc.) are available on the platform.</li>
+<li class="">All submissions are made through the participant's personal hackathon page on the platform.</li>
+</ul>
+</li>
+<li class=""><strong>Explanation</strong>
+Participants will use the ENCODE platform for all hackathon-related activities. After the introductory session, participants who joined from Luma must register for the hackathon on the platform to receive emails and updates. The platform is where you create your project, add team members using a 'join code', find lecture videos, access event links for workshops, read detailed challenge descriptions, and find partner resources like the Comet developer documentation and OPIC quick start guide. All submissions, from the mid-hackathon check-in to the final project, will be done through this platform.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="definition-of-an-ai-evaluation">Definition of an AI Evaluation<a href="https://docs.locki.io/blog/encode-kickoff#definition-of-an-ai-evaluation" class="hash-link" aria-label="Direct link to Definition of an AI Evaluation" title="Direct link to Definition of an AI Evaluation" translate="no">​</a></h3>
+<blockquote>
+<p>An evaluation is a structured measurement of a system's behavior against criteria we care about. This involves defining the vision of success and failure for the application. The process is a structured way to measure an AI system's behavior against defined criteria on representative tasks to support decisions and improve product development.</p>
+</blockquote>
+<ul>
+<li class=""><strong>Keypoints</strong>
+<ul>
+<li class="">It's a structured measurement of a system's behavior.</li>
+<li class="">It's measured against predefined criteria that define success.</li>
+<li class="">The hardest part is often figuring out the criteria you care about.</li>
+<li class="">It's important to think about success, failure, and potential failure modes from the beginning.</li>
+<li class="">Failure modes can vary, from harmful content and incorrect outputs to having the wrong tone for a brand.</li>
+<li class="">An evaluation system is often a set of many individual metrics.</li>
+<li class="">These individual metrics are aggregated into an overall success score.</li>
+</ul>
+</li>
+<li class=""><strong>Explanation</strong>
+To unpack the definition: 'Structure' means repeatable and explicit, allowing for comparisons over time. 'Behavior' refers to what the system does, such as responses, tool calls, latency, or cost. 'Criteria' is how success is predefined, including accuracy, helpfulness, safety, or product-specific outcomes. An evaluation system is typically a set of many metrics aggregated into an overall success score.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-four-ingredients-of-a-good-evaluation">The Four Ingredients of a Good Evaluation<a href="https://docs.locki.io/blog/encode-kickoff#the-four-ingredients-of-a-good-evaluation" class="hash-link" aria-label="Direct link to The Four Ingredients of a Good Evaluation" title="Direct link to The Four Ingredients of a Good Evaluation" translate="no">​</a></h3>
+<blockquote>
+<p>A good evaluation generally consists of four main ingredients: a target, a test set/task, a scoring method, and a decision rule. These components work together to form a repeatable and useful evaluation process.</p>
+</blockquote>
+<ul>
+<li class=""><strong>Keypoints</strong>
+<ul>
+<li class="">A target: The specific capability or outcome being tested (e.g., factual QA, customer support resolution).</li>
+<li class="">A test set or task: Examples representing the real world, including edge cases and outliers.</li>
+<li class="">A scoring method: A metric, rubric, or judge (human or LLM) to score performance, including how individual scores are aggregated (e.g., math equation, voting system).</li>
+<li class="">A decision rule: Determines what to do with the results, such as shipping a feature, rolling it back, or retraining. It often includes a threshold (e.g., 'if the success rate improves by at least 20%, then ship it').</li>
+</ul>
+</li>
+<li class=""><strong>Explanation</strong>
+First, the 'target' specifies the capability or outcome being tested (e.g., factual QA, tool use). Second, the 'test set' includes real-world examples and edge cases. Third, the 'scoring method' defines how performance is measured (e.g., a metric, rubric, LLM judge) and how scores are aggregated. Finally, the 'decision rule' dictates the action to be taken based on the evaluation score, such as shipping a feature or rolling it back, often based on a threshold or comparison to a baseline.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="difference-between-benchmarks-and-application-evals">Difference Between Benchmarks and Application Evals<a href="https://docs.locki.io/blog/encode-kickoff#difference-between-benchmarks-and-application-evals" class="hash-link" aria-label="Direct link to Difference Between Benchmarks and Application Evals" title="Direct link to Difference Between Benchmarks and Application Evals" translate="no">​</a></h3>
+<blockquote>
+<p>Benchmarks are standardized test sets, often from academia, used for broad comparisons across different models. Application evaluations are specific to a product, matching its real distribution of prompts, workflows, and constraints, and are used to determine if a system is good enough to ship.</p>
+</blockquote>
+<ul>
+<li class=""><strong>Keypoints</strong>
+<ul>
+<li class="">Benchmarks are standardized tests for comparing models.</li>
+<li class="">Application evals are product-specific tests for system performance.</li>
+<li class="">Benchmarks assess general ability; application evals assess behavior in a specific context.</li>
+<li class="">Benchmarks score the model in isolation; application evals test the entire system (prompts, RAG, tools).</li>
+<li class="">The biggest gap is distribution: benchmarks rarely match real traffic, edge cases, or domain language.</li>
+<li class="">A model can score high on a benchmark but fail in your specific application context.</li>
+<li class="">Benchmarks help narrow model choices; product evals tell you if the system is ready to ship.</li>
+</ul>
+</li>
+<li class=""><strong>Explanation</strong>
+Benchmarks are useful for getting a quick read on a model's general capabilities and comparing model families (e.g., comparing one foundation model to another). However, a model can perform well on a benchmark and still fail in production because production success depends on behavior in a specific context. Application evals test the entire system—including prompts, RAG, and tool use—against your specific definition of success. The main gap is that benchmarks rarely match the distribution of real-world traffic, including edge cases and domain-specific language.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="challenges-in-evaluating-llms">Challenges in Evaluating LLMs<a href="https://docs.locki.io/blog/encode-kickoff#challenges-in-evaluating-llms" class="hash-link" aria-label="Direct link to Challenges in Evaluating LLMs" title="Direct link to Challenges in Evaluating LLMs" translate="no">​</a></h3>
+<blockquote>
+<p>Evaluating LLMs and agentic systems is inherently difficult due to several unique challenges that distinguish them from traditional software. These challenges include non-determinism, the subjectivity of tasks, high sensitivity to inputs, and the possibility of silent failures.</p>
+</blockquote>
+<ul>
+<li class=""><strong>Keypoints</strong>
+<ul>
+<li class="">LLMs are non-deterministic: The same input does not guarantee the same output, making traditional monitoring difficult.</li>
+<li class="">Many AI tasks lack a single correct answer: Tasks like summarization or content generation can have multiple valid outputs, making simple match comparisons insufficient.</li>
+<li class="">Heuristic methods are largely ineffective: Simple heuristics like regex or pattern matching don't consider semantic meaning.</li>
+<li class="">Evaluation metrics are subjective: Concepts like relevance, coherence, and conciseness are open to interpretation.</li>
+<li class="">Human feedback is imperfect: It is expensive, can be inconsistent, and is difficult to scale.</li>
+<li class="">LLMs are extremely sensitive to prompts and context: Small changes can drastically alter the output.</li>
+<li class="">LLMs have silent failures: A system can produce a correct output but use flawed or unsafe reasoning to get there, which is a failure that isn't immediately obvious.</li>
+<li class="">There's no standard set of evaluation metrics applicable to all products.</li>
+</ul>
+</li>
+<li class=""><strong>Explanation</strong>
+LLMs are non-deterministic, meaning the same input can produce different outputs, making hard-coded logic and simple error handling ineffective. Many tasks like summarization have no single correct answer, so simple matching (like regex) fails; semantic meaning must be considered. Metrics like 'relevance' are subjective, and even human annotators may disagree. LLMs are also very sensitive to small changes in prompts or context. Finally, they can have 'silent failures,' where the final output appears correct, but the underlying reasoning was flawed or discriminatory, which can only be caught by observing the entire process.</li>
+<li class=""><strong>Examples</strong>
+<blockquote>
+<p>Traditional software monitoring uses tools like try-and-accept clauses to handle anticipated errors. However, with LLMs, we cannot anticipate every single possible output they might produce due to their non-deterministic nature. Therefore, a simple accept clause is not a scalable or effective solution for handling LLM failures.</p>
+</blockquote>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="challenges-in-monitoring-ai-agents">Challenges in Monitoring AI Agents<a href="https://docs.locki.io/blog/encode-kickoff#challenges-in-monitoring-ai-agents" class="hash-link" aria-label="Direct link to Challenges in Monitoring AI Agents" title="Direct link to Challenges in Monitoring AI Agents" translate="no">​</a></h3>
+<blockquote>
+<p>Monitoring AI agents is significantly more complex than monitoring standalone Large Language Models (LLMs) because agents are composed of multiple LLMs and external tools, leading to compounded variability and numerous failure modes.</p>
+</blockquote>
+<ul>
+<li class=""><strong>Keypoints</strong>
+<ul>
+<li class="">Agents are built on top of LLMs, inheriting their non-deterministic nature.</li>
+<li class="">Chaining multiple LLM calls compounds variability and potential for error.</li>
+<li class="">Agents are multi-step workflows with more moving parts and thus more failure modes.</li>
+<li class="">The use of external tools introduces external dependencies, potential silent failures, and added unpredictability.</li>
+<li class="">Dynamic memory and context in agents can lead to intent drift and performance degradation over time.</li>
+<li class="">Evaluation of agents must include not just the final output, but also the reasoning, tool choice, and every step along the way.</li>
+</ul>
+</li>
+<li class=""><strong>Explanation</strong>
+Agents are built on top of LLMs, which are non-deterministic systems. When you chain multiple LLM calls together, as is common in agents, the variability and potential for error at the beginning of the chain can be amplified through subsequent steps. Agents are also multi-step workflows with more moving parts, external tool dependencies (which can have silent failures), and dynamic memory/context. This complexity increases the number of failure modes and necessitates a more thorough evaluation process that goes beyond just the final output to include reasoning, tool choice, and each intermediate step. As agents are deployed in real-world scenarios with more complex workflows and higher usage frequency, tracking all these aspects becomes extremely difficult.</li>
+<li class=""><strong>Examples</strong>
+<blockquote>
+<p>A user engaged with a dealership's chatbot and managed to get it to agree to sell them a Chevy Tahoe for one US dollar. The chatbot even stated 'no takesies backsies'. This agreement was legally upheld in court, forcing the dealership to sell the car for one dollar.</p>
+</blockquote>
+<ul>
+<li class="">This example illustrates a real-world consequence of an AI agent (chatbot) going wrong.</li>
+<li class="">The non-deterministic and unconstrained nature of the LLM powering the chatbot led to an unintended and costly outcome for the dealership.</li>
+<li class="">It highlights the critical need for robust monitoring and evaluation of agent behavior to prevent such incidents.</li>
+<li class="">The phrase 'no takesies backsies' being considered legally binding underscores how interactions with AI can have unforeseen legal ramifications.</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="hackathon-logistics-and-rules">Hackathon Logistics and Rules<a href="https://docs.locki.io/blog/encode-kickoff#hackathon-logistics-and-rules" class="hash-link" aria-label="Direct link to Hackathon Logistics and Rules" title="Direct link to Hackathon Logistics and Rules" translate="no">​</a></h3>
+<blockquote>
+<p>The 'Resolve to Evolve' Hackathon is an event where participants build AI or LLM-powered applications to help people maintain their New Year's resolutions. The event has specific rules regarding submissions, team formation, judging, and tooling.</p>
+</blockquote>
+<ul>
+<li class=""><strong>Keypoints</strong>
+<ul>
+<li class="">Objective: Build an AI/LLM-powered app to help with New Year's resolutions.</li>
+<li class="">Team Formation: Solo or teams of any size are permitted (recommendation: 5 or less).</li>
+<li class="">Submissions: You can submit to multiple tracks but win at most one.</li>
+<li class="">Prizing: $5,000 for each of the five themes, plus a $5,000 special prize for the best use of OPIC.</li>
+<li class="">Required Tooling: OPIC must be used for evaluation.</li>
+<li class="">Allowed Tooling: Any LLM (e.g., Gemini, etc.) can be used.</li>
+<li class="">Submission deliverable: A video demo is a mandatory and critical part of the submission, presenting the project and its functionality.</li>
+<li class="">Project Scope: Build an MVP. Full production-ready apps are not expected.</li>
+<li class="">Timeline: The hackathon has started, and coding can begin now. It lasts approximately 28 days.</li>
+<li class="">Prior Work: You can build on a pre-existing project, but only functionality added during the hackathon will be judged.</li>
+</ul>
+</li>
+<li class=""><strong>Explanation</strong>
+Participants are tasked with creating an MVP (Minimum Viable Product) of a web or mobile app. They can work solo or in teams of any size, though teams of 5 or fewer are recommended. Submissions can target multiple prize categories, but a project can only win one. Judging criteria are available on the hackathon platform. A key component of the submission is a video demo that serves as both a product pitch and a functional walkthrough. While participants can use any LLM, they are required to use OPIC for evaluation. The hackathon provides access to partner services with generous free tiers instead of specific credits. Participants can start coding immediately and can even build upon existing projects, but only work done during the hackathon period will be judged.</li>
+<li class=""><strong>Special Circumstances</strong></li>
+<li class="">If building a mobile app that cannot be easily shared or hosted for judging, a very thorough demo video showing all functionality is sufficient.</li>
+<li class="">If you want to work on a project you have already started, you can, but you will only be judged on the new functionality and features built during the hackathon period.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="assignments--suggestions">Assignments &amp; Suggestions<a href="https://docs.locki.io/blog/encode-kickoff#assignments--suggestions" class="hash-link" aria-label="Direct link to Assignments &amp; Suggestions" title="Direct link to Assignments &amp; Suggestions" translate="no">​</a></h2>
+<ul>
+<li class="">If you are joining from Luma, go into your programs page and register for the hackathon after the session.</li>
+<li class="">If you have questions that aren't answered live, put them in the Q&amp;A to be answered in the Discord.</li>
+<li class="">Decide on the project you want to build, the theme to focus on, the solution to come up with, and what makes it special during the ideation stage in week one.</li>
+<li class="">By the project creation deadline at the end of week one, create and commit to the project idea, the challenge theme, and add team members.</li>
+<li class="">Start the building process in week two.</li>
+<li class="">For the mid-hackathon deadline, submit your publicly available GitHub repo and a fuller description of what you're building.</li>
+<li class="">For the final submission deadline on February 8th, submit a video pitch including a product demo, your public code base, a hosted site (optional but recommended), and a presentation (optional but recommended).</li>
+<li class="">Watch the helpful, short lecture videos on the platform to prepare for workshops and the wider hackathon.</li>
+<li class="">Run the code from the QR code provided to see how evaluations are created and look in OPIC. The QR code leads to a simple recipe generator agent in a GitHub gist. You need to copy the script, follow the directions for creating online evaluations, create a Comet account if you don't have one (it's free), and add your API key.</li>
+</ul>]]></content>
+        <author>
+            <name>Jean-Noël Schilling</name>
+            <uri>https://linkedin.com/in/jnschilling</uri>
+        </author>
+        <category label="Meeting" term="Meeting"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Locki Labs in 2025 - Introducing Valkyria]]></title>
+        <id>https://docs.locki.io/blog/locki-in-2025</id>
+        <link href="https://docs.locki.io/blog/locki-in-2025"/>
+        <updated>2025-01-15T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[After months of development on our horse racing analysis platform, we're taking a bold step forward. In 2025, Locki Labs shifts focus from real-time data aggregation to something far more ambitious: Valkyria — a temporal prediction system designed for scientific rigor and reproducible results.]]></summary>
+        <content type="html"><![CDATA[<p>After months of development on our horse racing analysis platform, we're taking a bold step forward. In 2025, Locki Labs shifts focus from real-time data aggregation to something far more ambitious: <strong>Valkyria</strong> — a temporal prediction system designed for scientific rigor and reproducible results.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-problem-we-set-out-to-solve">The Problem We Set Out to Solve<a href="https://docs.locki.io/blog/locki-in-2025#the-problem-we-set-out-to-solve" class="hash-link" aria-label="Direct link to The Problem We Set Out to Solve" title="Direct link to The Problem We Set Out to Solve" translate="no">​</a></h2>
+<p>Our existing platform excels at real-time race analysis. But we discovered a fundamental limitation when it came to developing prediction models: <strong>temporal blindness</strong>.</p>
+<p>When analyzing a historical race from, say, November 16th, our system would use horse data from <em>today</em> — including races that happened <em>after</em> the race we're analyzing. This is called <strong>data leakage</strong>, and it makes prediction models unreliable.</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Scenario: Analyzing a race from November 16, 2025</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">❌ Current approach:</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">   Uses horse career data as of TODAY</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">   → Includes future races (data leakage)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">   → Predictions are scientifically invalid</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">✅ Valkyria approach:</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">   Uses horse career data as of November 16</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">   → Only past information available</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">   → Predictions are reproducible and valid</span><br></span></code></pre></div></div>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-is-valkyria">What is Valkyria?<a href="https://docs.locki.io/blog/locki-in-2025#what-is-valkyria" class="hash-link" aria-label="Direct link to What is Valkyria?" title="Direct link to What is Valkyria?" translate="no">​</a></h2>
+<p>Valkyria is a <strong>temporal prediction laboratory</strong> — a system that can reproduce predictions with historical accuracy. The core principle is simple but powerful:</p>
+<blockquote>
+<p><strong>Analyze any race using only the data that would have been available at that exact moment in time.</strong></p>
+</blockquote>
+<p>This enables:</p>
+<ul>
+<li class=""><strong>Time-Travel Analysis</strong>: Query any race from the past 18 months with temporally-accurate data</li>
+<li class=""><strong>Model Training</strong>: Train prediction algorithms on clean, causally-valid datasets</li>
+<li class=""><strong>Backtesting</strong>: Validate strategies on historical races without information leakage</li>
+<li class=""><strong>Reproducibility</strong>: Same race, same analysis, same results — every time</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-three-tier-architecture">The Three-Tier Architecture<a href="https://docs.locki.io/blog/locki-in-2025#the-three-tier-architecture" class="hash-link" aria-label="Direct link to The Three-Tier Architecture" title="Direct link to The Three-Tier Architecture" translate="no">​</a></h2>
+<p>Valkyria operates on a three-tier temporal system:</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="tier-1-real-time-48-hours">Tier 1: Real-Time (48 hours)<a href="https://docs.locki.io/blog/locki-in-2025#tier-1-real-time-48-hours" class="hash-link" aria-label="Direct link to Tier 1: Real-Time (48 hours)" title="Direct link to Tier 1: Real-Time (48 hours)" translate="no">​</a></h3>
+<p>Live operations for current and upcoming races. Odds tracking, race analysis, chat features — all powered by Redis cache with 15-minute refresh cycles.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="tier-2-recent-history-7-days">Tier 2: Recent History (7 days)<a href="https://docs.locki.io/blog/locki-in-2025#tier-2-recent-history-7-days" class="hash-link" aria-label="Direct link to Tier 2: Recent History (7 days)" title="Direct link to Tier 2: Recent History (7 days)" translate="no">​</a></h3>
+<p>Fast access to recently finished races. Runner snapshots stored in Redis with file backup for durability.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="tier-3-historical-archive-18-months">Tier 3: Historical Archive (18 months)<a href="https://docs.locki.io/blog/locki-in-2025#tier-3-historical-archive-18-months" class="hash-link" aria-label="Direct link to Tier 3: Historical Archive (18 months)" title="Direct link to Tier 3: Historical Archive (18 months)" translate="no">​</a></h3>
+<p><strong>This is the innovation.</strong> A SQLite-based temporal database containing runner snapshots — immutable records of each horse's state at race time. No future information, ever.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="campaign-based-population">Campaign-Based Population<a href="https://docs.locki.io/blog/locki-in-2025#campaign-based-population" class="hash-link" aria-label="Direct link to Campaign-Based Population" title="Direct link to Campaign-Based Population" translate="no">​</a></h2>
+<p>Rather than fetching all historical data upfront, Valkyria uses a <strong>campaign-based approach</strong>:</p>
+<table><thead><tr><th>Campaign</th><th>Period</th><th>Estimated Races</th><th>Status</th></tr></thead><tbody><tr><td>Q4-2025</td><td>Oct-Dec 2025</td><td>~4,500</td><td>Priority</td></tr><tr><td>Q3-2025</td><td>Jul-Sep 2025</td><td>~4,500</td><td>Next</td></tr><tr><td>Q2-2025</td><td>Apr-Jun 2025</td><td>~4,500</td><td>Planned</td></tr></tbody></table>
+<p>Each campaign represents a 3-month slice of racing data, populated incrementally during off-peak hours. The database grows organically while maintaining full temporal accuracy.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="model-unification-one-model-multiple-lifecycles">Model Unification: One Model, Multiple Lifecycles<a href="https://docs.locki.io/blog/locki-in-2025#model-unification-one-model-multiple-lifecycles" class="hash-link" aria-label="Direct link to Model Unification: One Model, Multiple Lifecycles" title="Direct link to Model Unification: One Model, Multiple Lifecycles" translate="no">​</a></h2>
+<p>A key architectural decision: <strong>CanonicalRunner</strong> becomes the single source of truth across all lifecycle stages:</p>
+<ol>
+<li class=""><strong>Pre-Race</strong>: Upcoming participant with updating odds</li>
+<li class=""><strong>Post-Race</strong>: Finished runner with final results</li>
+<li class=""><strong>Career History</strong>: Stored snapshot for temporal queries</li>
+</ol>
+<p>This eliminates 88% of field duplication from our previous dual-model system and ensures consistency across the entire platform.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-this-means-for-predictions">What This Means for Predictions<a href="https://docs.locki.io/blog/locki-in-2025#what-this-means-for-predictions" class="hash-link" aria-label="Direct link to What This Means for Predictions" title="Direct link to What This Means for Predictions" translate="no">​</a></h2>
+<p>With Valkyria, we can finally build prediction models with scientific integrity:</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Historical snapshots (18 months)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    ↓</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Feature engineering (career metrics, confrontations)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    ↓</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Model training (XGBoost, Neural Networks)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    ↓</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Backtesting (temporal validation)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">    ↓</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">Production deployment (high confidence)</span><br></span></code></pre></div></div>
+<p>We'll be able to:</p>
+<ul>
+<li class="">Compare multiple models on the same historical data</li>
+<li class="">Calculate accuracy by race type (HARNESS, FLAT, Quinté)</li>
+<li class="">Calibrate confidence scores based on actual performance</li>
+<li class="">Generate algorithmic selections with transparent methodology</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-road-ahead">The Road Ahead<a href="https://docs.locki.io/blog/locki-in-2025#the-road-ahead" class="hash-link" aria-label="Direct link to The Road Ahead" title="Direct link to The Road Ahead" translate="no">​</a></h2>
+<p>Valkyria development follows a phased approach:</p>
+<p><strong>Foundation</strong> — Database schema, storage functions, basic snapshot capabilities</p>
+<p><strong>Daily Population</strong> — Automated jobs to capture yesterday's races every night</p>
+<p><strong>Workflow Integration</strong> — Career workflows query the temporal database for historical analysis</p>
+<p><strong>Campaign Population</strong> — Bulk population of 3-month historical periods</p>
+<p><strong>Model Unification</strong> — Full migration to CanonicalRunner across all analyzers</p>
+<p>Each phase delivers value independently. If we complete only the foundation and daily population, we still have a working temporal snapshot system. The full vision builds incrementally.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="storage--retention">Storage &amp; Retention<a href="https://docs.locki.io/blog/locki-in-2025#storage--retention" class="hash-link" aria-label="Direct link to Storage &amp; Retention" title="Direct link to Storage &amp; Retention" translate="no">​</a></h2>
+<p>The numbers are reassuring:</p>
+<ul>
+<li class=""><strong>18 months of racing</strong>: ~27,000 races, ~324,000 runner snapshots</li>
+<li class=""><strong>Storage requirement</strong>: ~486 MB</li>
+<li class=""><strong>Cleanup policy</strong>: Monthly removal of data older than 18 months</li>
+</ul>
+<p>SQLite handles this efficiently, and the system remains lightweight.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-this-matters">Why This Matters<a href="https://docs.locki.io/blog/locki-in-2025#why-this-matters" class="hash-link" aria-label="Direct link to Why This Matters" title="Direct link to Why This Matters" translate="no">​</a></h2>
+<p>Without temporal accuracy, predictions are anecdotal. With Valkyria:</p>
+<ul>
+<li class="">✅ <strong>Causal validity</strong>: Only past data influences predictions</li>
+<li class="">✅ <strong>Reproducibility</strong>: Results can be verified and replicated</li>
+<li class="">✅ <strong>Testability</strong>: Objective performance metrics across historical data</li>
+<li class="">✅ <strong>Confidence</strong>: Know when and where models perform reliably</li>
+</ul>
+<p>This isn't just a technical improvement — it's the foundation for next-generation prediction algorithms built on scientific rigor rather than intuition.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="looking-forward">Looking Forward<a href="https://docs.locki.io/blog/locki-in-2025#looking-forward" class="hash-link" aria-label="Direct link to Looking Forward" title="Direct link to Looking Forward" translate="no">​</a></h2>
+<p>2025 marks a transition for Locki Labs. We're moving from "what does the data say right now?" to "what would we have known then, and how can we learn from it?"</p>
+<p>Valkyria represents our commitment to building prediction systems we can trust, test, and continuously improve. One snapshot at a time.</p>
+<hr>
+<p><em>Stay tuned for updates as we progress through the Valkyria implementation phases.</em></p>]]></content>
+        <author>
+            <name>Jean-Noël Schilling</name>
+            <uri>https://linkedin.com/in/jnschilling</uri>
+        </author>
+        <category label="Locki Labs" term="Locki Labs"/>
+        <category label="valkyria" term="valkyria"/>
+        <category label="temporal-predictions" term="temporal-predictions"/>
+        <category label="machine-learning" term="machine-learning"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Locki Labs: From Hackathon to Production - Navigating Blockchain Evolution and Data Challenges]]></title>
+        <id>https://docs.locki.io/blog/locki-journey-2023-2025</id>
+        <link href="https://docs.locki.io/blog/locki-journey-2023-2025"/>
+        <updated>2024-01-15T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Locki started as a vision during the Encode MultiversX Hackathon in October 2023, with the ambitious goal of creating a decentralized platform for minting, viewing, and interacting with 3D Data NFTs using the Itheum protocol.]]></summary>
+        <content type="html"><![CDATA[<p>Locki started as a vision during the <strong>Encode MultiversX Hackathon in October 2023</strong>, with the ambitious goal of creating a decentralized platform for minting, viewing, and interacting with 3D Data NFTs using the Itheum protocol.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="current-status">Current Status<a href="https://docs.locki.io/blog/locki-journey-2023-2025#current-status" class="hash-link" aria-label="Direct link to Current Status" title="Direct link to Current Status" translate="no">​</a></h2>
+<div class="theme-admonition theme-admonition-info admonition_xJq3 alert alert--info"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></span>Project Status</div><div class="admonitionContent_BuS1"><p>Locki dApp is currently in <strong>alpha phase</strong> on MultiversX devnet, and has been supported by the <strong>xPand Itheum program</strong>.</p></div></div>
+<p>The platform has evolved significantly since its inception, now featuring:</p>
+<ul>
+<li class=""><strong>3D Data NFT minting and visualization</strong> using Three.js and React Three Fiber</li>
+<li class=""><strong>AI-powered chat assistant</strong> for Blender Python scripting guidance</li>
+<li class=""><strong>Whitelist management system</strong> for controlled access</li>
+<li class=""><strong>Integration with MultiversX wallets</strong> including xAlias support</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-challenge-of-collecting-rag-data-and-intellectual-property">The Challenge of Collecting RAG Data and Intellectual Property<a href="https://docs.locki.io/blog/locki-journey-2023-2025#the-challenge-of-collecting-rag-data-and-intellectual-property" class="hash-link" aria-label="Direct link to The Challenge of Collecting RAG Data and Intellectual Property" title="Direct link to The Challenge of Collecting RAG Data and Intellectual Property" translate="no">​</a></h2>
+<p>One of the most significant hurdles we've encountered is <strong>building a quality dataset for our RAG (Retrieval-Augmented Generation) system</strong> while respecting intellectual property rights.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-ip-dilemma">The IP Dilemma<a href="https://docs.locki.io/blog/locki-journey-2023-2025#the-ip-dilemma" class="hash-link" aria-label="Direct link to The IP Dilemma" title="Direct link to The IP Dilemma" translate="no">​</a></h3>
+<p>Creating an effective AI assistant for 3D modeling and Blender scripting requires extensive training data:</p>
+<ul>
+<li class=""><strong>Documentation licensing</strong>: Much of the best Blender documentation exists under various licenses that complicate commercial use</li>
+<li class=""><strong>Community content</strong>: Forum posts, tutorials, and Stack Exchange answers have complex attribution requirements</li>
+<li class=""><strong>Proprietary scripts</strong>: Many advanced Blender scripts are commercial products with restrictive licenses</li>
+<li class=""><strong>Version fragmentation</strong>: Blender's rapid release cycle means documentation quickly becomes outdated</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="our-approach">Our Approach<a href="https://docs.locki.io/blog/locki-journey-2023-2025#our-approach" class="hash-link" aria-label="Direct link to Our Approach" title="Direct link to Our Approach" translate="no">​</a></h3>
+<p>We've had to carefully curate our data sources, focusing on:</p>
+<ol>
+<li class=""><strong>Open-source documentation</strong> with permissive licenses</li>
+<li class=""><strong>Original content creation</strong> to fill knowledge gaps</li>
+<li class=""><strong>User-generated content</strong> with explicit consent</li>
+<li class=""><strong>Partnerships</strong> with content creators in the Blender ecosystem</li>
+</ol>
+<div class="theme-admonition theme-admonition-tip admonition_xJq3 alert alert--success"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 12 16"><path fill-rule="evenodd" d="M6.5 0C3.48 0 1 2.19 1 5c0 .92.55 2.25 1 3 1.34 2.25 1.78 2.78 2 4v1h5v-1c.22-1.22.66-1.75 2-4 .45-.75 1-2.08 1-3 0-2.81-2.48-5-5.5-5zm3.64 7.48c-.25.44-.47.8-.67 1.11-.86 1.41-1.25 2.06-1.45 3.23-.02.05-.02.11-.02.17H5c0-.06 0-.13-.02-.17-.2-1.17-.59-1.83-1.45-3.23-.2-.31-.42-.67-.67-1.11C2.44 6.78 2 5.65 2 5c0-2.2 2.02-4 4.5-4 1.22 0 2.36.42 3.22 1.19C10.55 2.94 11 3.94 11 5c0 .66-.44 1.78-.86 2.48zM4 14h5c-.23 1.14-1.3 2-2.5 2s-2.27-.86-2.5-2z"></path></svg></span>Locki Companion Status</div><div class="admonitionContent_BuS1"><p>The Locki companion AI feature is currently <strong>on pause</strong> while we navigate these data collection challenges and ensure full compliance with IP rights.</p></div></div>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="technical-challenges-the-blockchain-moving-target">Technical Challenges: The Blockchain Moving Target<a href="https://docs.locki.io/blog/locki-journey-2023-2025#technical-challenges-the-blockchain-moving-target" class="hash-link" aria-label="Direct link to Technical Challenges: The Blockchain Moving Target" title="Direct link to Technical Challenges: The Blockchain Moving Target" translate="no">​</a></h2>
+<p>Perhaps the most demanding aspect of maintaining Locki has been keeping pace with the <strong>rapid evolution of blockchain infrastructure</strong>.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="sdk-version-churn">SDK Version Churn<a href="https://docs.locki.io/blog/locki-journey-2023-2025#sdk-version-churn" class="hash-link" aria-label="Direct link to SDK Version Churn" title="Direct link to SDK Version Churn" translate="no">​</a></h3>
+<p>The MultiversX ecosystem has undergone substantial changes:</p>
+<div class="language-json codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-json codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token comment" style="color:#999988;font-style:italic">// Our current dependency snapshot</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token property" style="color:#36acaa">"@multiversx/sdk-core"</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"12.18.0"</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token property" style="color:#36acaa">"@multiversx/sdk-dapp"</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"2.28.7"</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token property" style="color:#36acaa">"@multiversx/sdk-network-providers"</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"2.3.0"</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token property" style="color:#36acaa">"@itheum/sdk-mx-data-nft"</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">"2.7.0-beta.4"</span><br></span></code></pre></div></div>
+<p>Each major version brings:</p>
+<ul>
+<li class=""><strong>Breaking API changes</strong> requiring code refactoring</li>
+<li class=""><strong>New authentication patterns</strong> (we've integrated xAlias, native auth tokens)</li>
+<li class=""><strong>Smart contract interface updates</strong> affecting our ABI integrations</li>
+<li class=""><strong>Wallet provider deprecations</strong> forcing migration to new connection methods</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="specific-challenges-weve-faced">Specific Challenges We've Faced<a href="https://docs.locki.io/blog/locki-journey-2023-2025#specific-challenges-weve-faced" class="hash-link" aria-label="Direct link to Specific Challenges We've Faced" title="Direct link to Specific Challenges We've Faced" translate="no">​</a></h3>
+<ol>
+<li class="">
+<p><strong>SSR Compatibility</strong>: Next.js App Router with blockchain SDKs requires careful dynamic imports to avoid server-side rendering issues</p>
+</li>
+<li class="">
+<p><strong>Transaction Handling</strong>: The move from legacy transaction signing to the new <code>signAndSendTransactions</code> utility required substantial refactoring</p>
+</li>
+<li class="">
+<p><strong>Smart Contract ABIs</strong>: Contract updates on devnet mean our local ABIs must be continuously synchronized</p>
+</li>
+<li class="">
+<p><strong>Network Provider Changes</strong>: API endpoint changes and rate limiting adjustments have required multiple backend adaptations</p>
+</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-maintenance-burden">The Maintenance Burden<a href="https://docs.locki.io/blog/locki-journey-2023-2025#the-maintenance-burden" class="hash-link" aria-label="Direct link to The Maintenance Burden" title="Direct link to The Maintenance Burden" translate="no">​</a></h3>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Recent commits reflecting ongoing maintenance:</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">- "Upgrade: Status locki companion"</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">- "fix vulnerabilities"</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">- "Fixed build issues"</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">- "Fixes smart contract dependencies and code refactoring"</span><br></span></code></pre></div></div>
+<p>Each vulnerability fix in upstream dependencies cascades through our codebase. The security-conscious nature of blockchain applications means we cannot defer these updates.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="lessons-learned">Lessons Learned<a href="https://docs.locki.io/blog/locki-journey-2023-2025#lessons-learned" class="hash-link" aria-label="Direct link to Lessons Learned" title="Direct link to Lessons Learned" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="for-blockchain-developers">For Blockchain Developers<a href="https://docs.locki.io/blog/locki-journey-2023-2025#for-blockchain-developers" class="hash-link" aria-label="Direct link to For Blockchain Developers" title="Direct link to For Blockchain Developers" translate="no">​</a></h3>
+<ol>
+<li class=""><strong>Abstract your SDK interactions</strong>: Create wrapper classes (like our <code>baseSmartContract.ts</code>) to isolate breaking changes</li>
+<li class=""><strong>Pin versions carefully</strong>: Use exact versions in production, but test against latest regularly</li>
+<li class=""><strong>Monitor ecosystem announcements</strong>: Join Discord channels and follow GitHub releases</li>
+<li class=""><strong>Build with deprecation in mind</strong>: What works today may be obsolete in 6 months</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="for-airag-builders">For AI/RAG Builders<a href="https://docs.locki.io/blog/locki-journey-2023-2025#for-airag-builders" class="hash-link" aria-label="Direct link to For AI/RAG Builders" title="Direct link to For AI/RAG Builders" translate="no">​</a></h3>
+<ol>
+<li class=""><strong>Document your data sources</strong>: Track provenance from day one</li>
+<li class=""><strong>Build consent mechanisms</strong>: Make it easy for users to contribute data with clear licensing</li>
+<li class=""><strong>Plan for re-training</strong>: Your model will need updates as source material evolves</li>
+<li class=""><strong>Consider synthetic data</strong>: Generate training examples where real data is restricted</li>
+</ol>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="whats-next-for-locki">What's Next for Locki<a href="https://docs.locki.io/blog/locki-journey-2023-2025#whats-next-for-locki" class="hash-link" aria-label="Direct link to What's Next for Locki" title="Direct link to What's Next for Locki" translate="no">​</a></h2>
+<p>Despite these challenges, we remain committed to the vision:</p>
+<ul>
+<li class=""><strong>Mainnet deployment</strong> once alpha testing is complete</li>
+<li class=""><strong>Enhanced 3D NFT features</strong> with improved GLTF/GLB support</li>
+<li class=""><strong>Expanded AI capabilities</strong> with properly licensed training data</li>
+<li class=""><strong>Community governance</strong> for whitelist and platform decisions</li>
+</ul>
+<hr>
+<p><em>Locki is an open-source project. We welcome contributors who share our passion for decentralized 3D asset ownership and AI-assisted creativity.</em></p>
+<p><strong>Special Collections on MultiversX Devnet:</strong></p>
+<ul>
+<li class=""><code>DATANFTFT-e0b917</code></li>
+<li class=""><code>I3TICKER-03e5c2</code></li>
+<li class=""><code>COLNAMA-539838</code></li>
+</ul>]]></content>
+        <author>
+            <name>Jean-Noël Schilling</name>
+            <uri>https://linkedin.com/in/jnschilling</uri>
+        </author>
+        <category label="Locki Labs" term="Locki Labs"/>
+        <category label="Blockchain" term="Blockchain"/>
+        <category label="MultiversX" term="MultiversX"/>
+        <category label="Itheum" term="Itheum"/>
+        <category label="RAG" term="RAG"/>
+        <category label="Web3 Technologies" term="Web3 Technologies"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Welcome]]></title>
+        <id>https://docs.locki.io/blog/welcome</id>
+        <link href="https://docs.locki.io/blog/welcome"/>
+        <updated>2021-08-26T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Docusaurus blogging features are powered by the blog plugin.]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://docusaurus.io/docs/blog" target="_blank" rel="noopener noreferrer" class="">Docusaurus blogging features</a> are powered by the <a href="https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-blog" target="_blank" rel="noopener noreferrer" class="">blog plugin</a>.</p>
+<p>Here are a few tips you might find useful.</p>
+<p>Simply add Markdown files (or folders) to the <code>blog</code> directory.</p>
+<p>Regular blog authors can be added to <code>authors.yml</code>.</p>
+<p>The blog post date can be extracted from filenames, such as:</p>
+<ul>
+<li class=""><code>2019-05-30-welcome.md</code></li>
+<li class=""><code>2019-05-30-welcome/index.md</code></li>
+</ul>
+<p>A blog post folder can be convenient to co-locate blog post images:</p>
+<p><img decoding="async" loading="lazy" alt="Docusaurus Plushie" src="https://docs.locki.io/assets/images/docusaurus-plushie-banner-a60f7593abca1e3eef26a9afa244e4fb.jpeg" width="1500" height="500" class="img_ev3q"></p>
+<p>The blog supports tags as well!</p>
+<p><strong>And if you don't want a blog</strong>: just delete this directory, and use <code>blog: false</code> in your Docusaurus config.</p>]]></content>
+        <author>
+            <name>Jean-Noël Schilling</name>
+            <uri>https://linkedin.com/in/jnschilling</uri>
+        </author>
+        <category label="Facebook" term="Facebook"/>
+        <category label="Hello" term="Hello"/>
+    </entry>
+</feed>
