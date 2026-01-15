@@ -52,3 +52,18 @@ web3:
   label: Web3 Technologies
   permalink: /web3
   description: Discussions on Web3 technologies and trends
+
+valkyria:
+  label: AI and Machine Learning
+  permalink: /ai-ml
+  description: Articles on AI, machine learning, and related technologies
+
+temporal-predictions:
+  label: Temporal Predictions
+  permalink: /temporal-predictions
+  description: Insights into temporal prediction models and applications
+
+machine-learning:
+  label: Machine Learning
+  permalink: /machine-learning
+  description: Articles on machine learning and related technologies
