@@ -1,0 +1,153 @@
+---
+slug: locki-in-2025
+title: Locki Labs in 2025 - Introducing Valkyria
+authors: [jnxmas]
+tags: [locki, valkyria, temporal-predictions, machine-learning]
+---
+
+# Locki Labs in 2025: Building Valkyria, a Temporal Prediction Laboratory
+
+After months of development on our horse racing analysis platform, we're taking a bold step forward. In 2025, Locki Labs shifts focus from real-time data aggregation to something far more ambitious: **Valkyria** — a temporal prediction system designed for scientific rigor and reproducible results.
+
+<!-- truncate -->
+
+## The Problem We Set Out to Solve
+
+Our existing platform excels at real-time race analysis. But we discovered a fundamental limitation when it came to developing prediction models: **temporal blindness**.
+
+When analyzing a historical race from, say, November 16th, our system would use horse data from _today_ — including races that happened _after_ the race we're analyzing. This is called **data leakage**, and it makes prediction models unreliable.
+
+```
+Scenario: Analyzing a race from November 16, 2025
+
+❌ Current approach:
+   Uses horse career data as of TODAY
+   → Includes future races (data leakage)
+   → Predictions are scientifically invalid
+
+✅ Valkyria approach:
+   Uses horse career data as of November 16
+   → Only past information available
+   → Predictions are reproducible and valid
+```
+
+## What is Valkyria?
+
+Valkyria is a **temporal prediction laboratory** — a system that can reproduce predictions with historical accuracy. The core principle is simple but powerful:
+
+> **Analyze any race using only the data that would have been available at that exact moment in time.**
+
+This enables:
+
+- **Time-Travel Analysis**: Query any race from the past 18 months with temporally-accurate data
+- **Model Training**: Train prediction algorithms on clean, causally-valid datasets
+- **Backtesting**: Validate strategies on historical races without information leakage
+- **Reproducibility**: Same race, same analysis, same results — every time
+
+## The Three-Tier Architecture
+
+Valkyria operates on a three-tier temporal system:
+
+### Tier 1: Real-Time (48 hours)
+
+Live operations for current and upcoming races. Odds tracking, race analysis, chat features — all powered by Redis cache with 15-minute refresh cycles.
+
+### Tier 2: Recent History (7 days)
+
+Fast access to recently finished races. Runner snapshots stored in Redis with file backup for durability.
+
+### Tier 3: Historical Archive (18 months)
+
+**This is the innovation.** A SQLite-based temporal database containing runner snapshots — immutable records of each horse's state at race time. No future information, ever.
+
+## Campaign-Based Population
+
+Rather than fetching all historical data upfront, Valkyria uses a **campaign-based approach**:
+
+| Campaign | Period       | Estimated Races | Status   |
+| -------- | ------------ | --------------- | -------- |
+| Q4-2025  | Oct-Dec 2025 | ~4,500          | Priority |
+| Q3-2025  | Jul-Sep 2025 | ~4,500          | Next     |
+| Q2-2025  | Apr-Jun 2025 | ~4,500          | Planned  |
+
+Each campaign represents a 3-month slice of racing data, populated incrementally during off-peak hours. The database grows organically while maintaining full temporal accuracy.
+
+## Model Unification: One Model, Multiple Lifecycles
+
+A key architectural decision: **CanonicalRunner** becomes the single source of truth across all lifecycle stages:
+
+1. **Pre-Race**: Upcoming participant with updating odds
+2. **Post-Race**: Finished runner with final results
+3. **Career History**: Stored snapshot for temporal queries
+
+This eliminates 88% of field duplication from our previous dual-model system and ensures consistency across the entire platform.
+
+## What This Means for Predictions
+
+With Valkyria, we can finally build prediction models with scientific integrity:
+
+```
+Historical snapshots (18 months)
+    ↓
+Feature engineering (career metrics, confrontations)
+    ↓
+Model training (XGBoost, Neural Networks)
+    ↓
+Backtesting (temporal validation)
+    ↓
+Production deployment (high confidence)
+```
+
+We'll be able to:
+
+- Compare multiple models on the same historical data
+- Calculate accuracy by race type (HARNESS, FLAT, Quinté)
+- Calibrate confidence scores based on actual performance
+- Generate algorithmic selections with transparent methodology
+
+## The Road Ahead
+
+Valkyria development follows a phased approach:
+
+**Foundation** — Database schema, storage functions, basic snapshot capabilities
+
+**Daily Population** — Automated jobs to capture yesterday's races every night
+
+**Workflow Integration** — Career workflows query the temporal database for historical analysis
+
+**Campaign Population** — Bulk population of 3-month historical periods
+
+**Model Unification** — Full migration to CanonicalRunner across all analyzers
+
+Each phase delivers value independently. If we complete only the foundation and daily population, we still have a working temporal snapshot system. The full vision builds incrementally.
+
+## Storage & Retention
+
+The numbers are reassuring:
+
+- **18 months of racing**: ~27,000 races, ~324,000 runner snapshots
+- **Storage requirement**: ~486 MB
+- **Cleanup policy**: Monthly removal of data older than 18 months
+
+SQLite handles this efficiently, and the system remains lightweight.
+
+## Why This Matters
+
+Without temporal accuracy, predictions are anecdotal. With Valkyria:
+
+- ✅ **Causal validity**: Only past data influences predictions
+- ✅ **Reproducibility**: Results can be verified and replicated
+- ✅ **Testability**: Objective performance metrics across historical data
+- ✅ **Confidence**: Know when and where models perform reliably
+
+This isn't just a technical improvement — it's the foundation for next-generation prediction algorithms built on scientific rigor rather than intuition.
+
+## Looking Forward
+
+2025 marks a transition for Locki Labs. We're moving from "what does the data say right now?" to "what would we have known then, and how can we learn from it?"
+
+Valkyria represents our commitment to building prediction systems we can trust, test, and continuously improve. One snapshot at a time.
+
+---
+
+_Stay tuned for updates as we progress through the Valkyria implementation phases._

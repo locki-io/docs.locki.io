@@ -1,0 +1,136 @@
+---
+slug: locki-journey-2023-2025
+title: "Locki Labs: From Hackathon to Production - Navigating Blockchain Evolution and Data Challenges"
+authors: [jnxmas]
+tags: [locki, blockchain, multiversx, itheum, rag, web3]
+date: 2024-01-15
+---
+
+# Locki: A Journey Through Blockchain Innovation
+
+Locki started as a vision during the **Encode MultiversX Hackathon in October 2023**, with the ambitious goal of creating a decentralized platform for minting, viewing, and interacting with 3D Data NFTs using the Itheum protocol.
+
+<!-- truncate -->
+
+## Current Status
+
+:::info Project Status
+
+Locki dApp is currently in **alpha phase** on MultiversX devnet, and has been supported by the **xPand Itheum program**.
+
+:::
+
+The platform has evolved significantly since its inception, now featuring:
+
+- **3D Data NFT minting and visualization** using Three.js and React Three Fiber
+- **AI-powered chat assistant** for Blender Python scripting guidance
+- **Whitelist management system** for controlled access
+- **Integration with MultiversX wallets** including xAlias support
+
+## The Challenge of Collecting RAG Data and Intellectual Property
+
+One of the most significant hurdles we've encountered is **building a quality dataset for our RAG (Retrieval-Augmented Generation) system** while respecting intellectual property rights.
+
+### The IP Dilemma
+
+Creating an effective AI assistant for 3D modeling and Blender scripting requires extensive training data:
+
+- **Documentation licensing**: Much of the best Blender documentation exists under various licenses that complicate commercial use
+- **Community content**: Forum posts, tutorials, and Stack Exchange answers have complex attribution requirements
+- **Proprietary scripts**: Many advanced Blender scripts are commercial products with restrictive licenses
+- **Version fragmentation**: Blender's rapid release cycle means documentation quickly becomes outdated
+
+### Our Approach
+
+We've had to carefully curate our data sources, focusing on:
+
+1. **Open-source documentation** with permissive licenses
+2. **Original content creation** to fill knowledge gaps
+3. **User-generated content** with explicit consent
+4. **Partnerships** with content creators in the Blender ecosystem
+
+:::tip Locki Companion Status
+
+The Locki companion AI feature is currently **on pause** while we navigate these data collection challenges and ensure full compliance with IP rights.
+
+:::
+
+## Technical Challenges: The Blockchain Moving Target
+
+Perhaps the most demanding aspect of maintaining Locki has been keeping pace with the **rapid evolution of blockchain infrastructure**.
+
+### SDK Version Churn
+
+The MultiversX ecosystem has undergone substantial changes:
+
+```json
+// Our current dependency snapshot
+"@multiversx/sdk-core": "12.18.0",
+"@multiversx/sdk-dapp": "2.28.7",
+"@multiversx/sdk-network-providers": "2.3.0",
+"@itheum/sdk-mx-data-nft": "2.7.0-beta.4"
+```
+
+Each major version brings:
+
+- **Breaking API changes** requiring code refactoring
+- **New authentication patterns** (we've integrated xAlias, native auth tokens)
+- **Smart contract interface updates** affecting our ABI integrations
+- **Wallet provider deprecations** forcing migration to new connection methods
+
+### Specific Challenges We've Faced
+
+1. **SSR Compatibility**: Next.js App Router with blockchain SDKs requires careful dynamic imports to avoid server-side rendering issues
+
+2. **Transaction Handling**: The move from legacy transaction signing to the new `signAndSendTransactions` utility required substantial refactoring
+
+3. **Smart Contract ABIs**: Contract updates on devnet mean our local ABIs must be continuously synchronized
+
+4. **Network Provider Changes**: API endpoint changes and rate limiting adjustments have required multiple backend adaptations
+
+### The Maintenance Burden
+
+```
+Recent commits reflecting ongoing maintenance:
+- "Upgrade: Status locki companion"
+- "fix vulnerabilities"
+- "Fixed build issues"
+- "Fixes smart contract dependencies and code refactoring"
+```
+
+Each vulnerability fix in upstream dependencies cascades through our codebase. The security-conscious nature of blockchain applications means we cannot defer these updates.
+
+## Lessons Learned
+
+### For Blockchain Developers
+
+1. **Abstract your SDK interactions**: Create wrapper classes (like our `baseSmartContract.ts`) to isolate breaking changes
+2. **Pin versions carefully**: Use exact versions in production, but test against latest regularly
+3. **Monitor ecosystem announcements**: Join Discord channels and follow GitHub releases
+4. **Build with deprecation in mind**: What works today may be obsolete in 6 months
+
+### For AI/RAG Builders
+
+1. **Document your data sources**: Track provenance from day one
+2. **Build consent mechanisms**: Make it easy for users to contribute data with clear licensing
+3. **Plan for re-training**: Your model will need updates as source material evolves
+4. **Consider synthetic data**: Generate training examples where real data is restricted
+
+## What's Next for Locki
+
+Despite these challenges, we remain committed to the vision:
+
+- **Mainnet deployment** once alpha testing is complete
+- **Enhanced 3D NFT features** with improved GLTF/GLB support
+- **Expanded AI capabilities** with properly licensed training data
+- **Community governance** for whitelist and platform decisions
+
+---
+
+_Locki is an open-source project. We welcome contributors who share our passion for decentralized 3D asset ownership and AI-assisted creativity._
+
+**Special Collections on MultiversX Devnet:**
+
+- `DATANFTFT-e0b917`
+- `I3TICKER-03e5c2`
+- `COLNAMA-539838`

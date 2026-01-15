@@ -17,3 +17,38 @@ encode:
   label: Encode hackathon
   permalink: /encode
   description: Information from the Encode hackathon
+
+civictech:
+  label: civitech
+  permalink: /civictech
+  description: Citizen technologies and open source for the public good
+
+locki:
+  label: Locki Labs
+  permalink: /locki-labs
+  description: Startup adventures at Locki Labs still in formation
+
+blockchain:
+  label: Blockchain
+  permalink: /blockchain
+  description: Articles related to blockchain technology
+
+multiversx:
+  label: MultiversX
+  permalink: /multiversx
+  description: Content about the MultiversX ecosystem
+
+itheum:
+  label: Itheum
+  permalink: /itheum
+  description: Posts regarding Itheum platform
+
+rag:
+  label: RAG
+  permalink: /rag
+  description: Retrieval-Augmented Generation topics
+
+web3:
+  label: Web3 Technologies
+  permalink: /web3
+  description: Discussions on Web3 technologies and trends

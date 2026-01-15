@@ -14,12 +14,6 @@ example_author:
   title: ocapistaine hackathon participants
   url: https://website.com
   image_url: https://github.com/name_image.png
-  page:
-    # customize the url of the author page at /blog/authors/<permalink>
-    permalink: "/all-xxx-articles"
+  page: true
   socials:
-    linkedin: xxx
-    github: xxx
-    twitter: xxx
-    newsletter: https://xxx.com
-    mastodon: "@"
+    github: your_github
