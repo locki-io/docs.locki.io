@@ -1,16 +1,23 @@
 ---
-slug: welcome
-title: Welcome
+slug: help me write in the blog
+title: Locki blog introduction
 authors: [jnxmas]
 tags: [facebook, hello]
 ---
 
 [Docusaurus blogging features](https://docusaurus.io/docs/blog) are powered by the [blog plugin](https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-blog).
 
-Here are a few tips you might find useful.
+:::tip
+The blog is interesting because it allows our agent in cursor and claude code to dive into our reflexion to have a set of the status and the priorities of the project.
+Use it referencing our discussion for your feature branches.
+:::
 
 <!-- truncate -->
 
+:::tip
+The blog is interesting because it allows our agent in cursor and claude code to dive into our reflexion to have a set of the status and the priorities of the project.
+Use it referencing our discussion for your feature branches.
+:::
 Simply add Markdown files (or folders) to the `blog` directory.
 
 Regular blog authors can be added to `authors.yml`.
@@ -25,5 +32,3 @@ A blog post folder can be convenient to co-locate blog post images:
 ![Docusaurus Plushie](./docusaurus-plushie-banner.jpeg)
 
 The blog supports tags as well!
-
-**And if you don't want a blog**: just delete this directory, and use `blog: false` in your Docusaurus config.
