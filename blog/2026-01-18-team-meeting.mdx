@@ -23,7 +23,7 @@ tags: [sprints, civictech, rag, locki, meeting, encode]
 
 **Active Members**:
 
-- **Jean-Noël aka jnXmas (@jnxmas)**: Project lead, architecture, N8N deployment, Firecrawl testing, documentation, political outreach
+- **[jnxmas] aka Johnny Christmass (@jnxmas)**: Project lead, architecture, N8N deployment, Firecrawl testing, documentation, political outreach
 - **Meher/Gurmukher/Guru (@GurmeherSingh)**: ML Engineer, RAG agent + Opik integration (recently arrived US East Coast, jet-lagged)
 - **Victor (@zcbtvag)**: Backend Python, Firecrawl pipeline (intensive work Mon-Wed, unavailable Thu-Sun for France travel, returns following week)
 
@@ -69,7 +69,7 @@ tags: [sprints, civictech, rag, locki, meeting, encode]
 - **Crawl Tracking Database**: SQL Lite/SQL Model chosen
   - Metadata: Crawl status, RAG inclusion, content category
   - SQL Model benefits: Type safety (Python → SQL columns), FastAPI/Pydantic compatibility, PostgreSQL support
-  - Owner: Jean-Noël will build during Victor's absence
+  - Owner: [jnxmas] will build during Victor's absence
     **3. Business Logic Layer**
     **Agent 1: Charter Validation Agent** (PRIORITY)
 - **Purpose**: Auto-validate citizen contributions against charter rules
@@ -136,7 +136,7 @@ tags: [sprints, civictech, rag, locki, meeting, encode]
 - **Dashboard Approach**: Single unified dashboard to monitor all agents (avoid complexity of separate dashboards per agent)
 - **API Keys**: Likely one project with multiple keys for per-developer usage tracking
 - **Access**:
-  - Jean-Noël has access to `Ocapistaine Dev` dashboard
+  - [jnxmas] has access to `ocapistaine-dev` dashboard
   - Need to grant Guru and Victor access
   - Guru has existing Opik account (needs to share user ID/Discord username)
   - Victor's Opik status: Not confirmed
@@ -168,7 +168,7 @@ tags: [sprints, civictech, rag, locki, meeting, encode]
 - **French language**: Critical for citizen-facing content - Mistral chosen for optimization
 - **Political optics**: Using French LLM provider avoids criticism of not supporting French solutions
 - **Cost management**: Prioritize free/sponsored options (Gemini, Ollama)
-- **Failsafe approach**: NOMIC primary + Mistral backup = "two tracks maximum" (Jean-Noël's preference given 4-week timeline)
+- **Failsafe approach**: NOMIC primary + Mistral backup = "two tracks maximum" ([jnxmas]'s preference given 4-week timeline)
 
 ---
 
@@ -179,7 +179,7 @@ tags: [sprints, civictech, rag, locki, meeting, encode]
 - **Protected branch**: `dev` branch - no direct pushes
 - **Feature branches**: Mandatory for all work
 - **PR workflow**: Victor successfully resolved upstream branch issue, has open PR ready for review
-- **Review process**: Jean-Noël reviews and merges into `dev`
+- **Review process**: [jnxmas] reviews and merges into `dev`
   **Dependency Management**:
 - **Poetry ONLY**: NOT pip - ensures library compatibility
 - **Command**: `poetry add `
@@ -193,17 +193,17 @@ tags: [sprints, civictech, rag, locki, meeting, encode]
 
 ## Critical Technical Decisions Summary
 
-| Component             | Decision                                        | Owner              | Status                 |
-| --------------------- | ----------------------------------------------- | ------------------ | ---------------------- |
-| **Vector DB**         | VectorStore (standard)                          | Team               | ✅ Confirmed           |
-| **Embeddings**        | NOMIC primary, Mistral backup                   | Guru               | ✅ Confirmed           |
-| **Orchestration**     | N8N (Docker, viety.loki.io)                     | Jean-Noël          | 🟡 ~2h from deployment |
-| **Crawl Tracking**    | SQL Lite + SQL Model                            | Jean-Noël          | 🔴 Design phase        |
-| **LLM Providers**     | Gemini, Ollama, Mistral, OpenAI, Perplexity     | Team               | ✅ Multi-provider      |
-| **Opik Setup**        | Single dashboard, Dev → Prod, multiple API keys | Jean-Noël          | 🟡 Access pending      |
-| **OCR Libraries**     | pdf2ocr, Tabula, pypdf (test all 3)             | Victor → Jean-Noël | 🔴 Blocked on crawling |
-| **Prompt Management** | Hardcoded → Opik library (future)               | Guru               | 🔴 Not started         |
-| **Search Agent**      | Conditional on RAG completeness                 | TBD                | 🟡 On hold             |
+| Component             | Decision                                        | Owner             | Status                 |
+| --------------------- | ----------------------------------------------- | ----------------- | ---------------------- |
+| **Vector DB**         | VectorStore (standard)                          | Team              | ✅ Confirmed           |
+| **Embeddings**        | NOMIC primary, Mistral backup                   | Guru              | ✅ Confirmed           |
+| **Orchestration**     | N8N (Docker, viety.loki.io)                     | [jnxmas]          | 🟡 ~2h from deployment |
+| **Crawl Tracking**    | SQL Lite + SQL Model                            | [jnxmas]          | 🔴 Design phase        |
+| **LLM Providers**     | Gemini, Ollama, Mistral, OpenAI, Perplexity     | Team              | ✅ Multi-provider      |
+| **Opik Setup**        | Single dashboard, Dev → Prod, multiple API keys | [jnxmas]          | 🟡 Access pending      |
+| **OCR Libraries**     | pdf2ocr, Tabula, pypdf (test all 3)             | Victor → [jnxmas] | 🔴 Blocked on crawling |
+| **Prompt Management** | Hardcoded → Opik library (future)               | Guru              | 🔴 Not started         |
+| **Search Agent**      | Conditional on RAG completeness                 | TBD               | 🟡 On hold             |
 
 ---
 
@@ -227,8 +227,8 @@ tags: [sprints, civictech, rag, locki, meeting, encode]
 
 1. Victor finalizes additional commits to feature branch
 2. Victor signals when PR ready for final review
-3. Jean-Noël reviews and merges into `dev`
-4. Jean-Noël tests merged pipeline on additional sources during Victor's absence
+3. [jnxmas] reviews and merges into `dev`
+4. [jnxmas] tests merged pipeline on additional sources during Victor's absence
 5. Once crawling complete → Apply OCR to PDFs (pdf2ocr, Tabula, pypdf testing)
 
 ---
@@ -242,7 +242,7 @@ tags: [sprints, civictech, rag, locki, meeting, encode]
 2. Tabula
 3. pypdf
    **Approach**: Test all 3, compare outputs for quality
-   **Owner**: Victor (primary), Jean-Noël (testing during Victor's absence)
+   **Owner**: Victor (primary), [jnxmas] (testing during Victor's absence)
    **Status**: Blocked on Firecrawl crawling completion
 
 ---
@@ -258,7 +258,7 @@ tags: [sprints, civictech, rag, locki, meeting, encode]
   - 3D objects on-chain (paused - too early/complex, slow blockchain)
   - Horse racing betting strategy (15 years expert knowledge → code/data layer, not yet commercialized)
   - Multiverse Six / XRP experience (3D NFTs)
-    **Jean-Noël's Work**:
+    **[jnxmas]'s Work**:
 - Freelancing: Apps, websites, e-commerce development
 - Computer teacher for small children (Thursdays, 2 hours)
 - Locki is primary passion project ("what makes me wake up in the morning")
@@ -285,7 +285,7 @@ tags: [sprints, civictech, rag, locki, meeting, encode]
 2. ⏳ **Firecrawl PR readiness**: Signal when ready for final review
 3. ⏳ **Poetry environment**: Verify local setup uses Poetry (not pip)
 
-### For Jean-Noël:
+### For [jnxmas]:
 
 1. ⏳ **N8N deployment**: Complete final ~2 hours of setup
 2. ⏳ **Opik dashboard access**: Invite Guru + Victor (need usernames)
@@ -307,14 +307,14 @@ tags: [sprints, civictech, rag, locki, meeting, encode]
 
 **Task 1: Complete N8N Deployment & GitHub Integration**
 
-- **Owner**: Jean-Noël (@jnxmas)
+- **Owner**: [jnxmas] (@[jnxmas])
 - **Description**: Finish final ~2 hours of N8N Docker deployment on viety.loki.io, configure workflows to pull issues from `audierne2026` repo, trigger charter validation agent, push validated/labeled issues back, provide API endpoint for testing
 - **Deadline**: Within 48 hours (before Guru needs to test agent)
 - **Dependencies**: None (infrastructure task)
 - **Success Criteria**: N8N accessible at viety.loki.io, test workflow successfully pulls/pushes GitHub issue, API endpoint documented
   **Task 2: Set Up Opik Dev Environment & Team Access**
-- **Owner**: Jean-Noël (@jnxmas)
-- **Description**: Create/configure `Ocapistaine Dev` Opik project, generate separate API keys for Jean-Noël/Guru/Victor, grant dashboard access to all team members, document key assignment and usage tracking approach
+- **Owner**: [jnxmas] (@[jnxmas])
+- **Description**: Create/configure `Ocapistaine Dev` Opik project, generate separate API keys for [jnxmas]/Guru/Victor, grant dashboard access to all team members, document key assignment and usage tracking approach
 - **Deadline**: Before Guru starts agent development (next 24 hours)
 - **Dependencies**: Guru's Opik user ID/Discord username, Victor's Opik account confirmation
 - **Success Criteria**: All team members can access dashboard, separate keys functional, usage trackable per developer
@@ -341,13 +341,13 @@ tags: [sprints, civictech, rag, locki, meeting, encode]
 - **Dependencies**: VectorStore setup, crawled data (start with available), Opik access
 - **Success Criteria**: Functional RAG agent with Opik tracing active, no hallucinations in test cases, proper French language responses
   **Task 6: Firecrawl PR Review & Merge**
-- **Owner**: Victor (@zcbtvag) + Jean-Noël (review)
-- **Description**: Victor signals PR ready, Jean-Noël reviews and merges into `dev` branch, test merged pipeline functionality
+- **Owner**: Victor (@zcbtvag) + [jnxmas] (review)
+- **Description**: Victor signals PR ready, [jnxmas] reviews and merges into `dev` branch, test merged pipeline functionality
 - **Deadline**: End of week (allow Victor time for improvements)
 - **Dependencies**: Task 3 completion
 - **Success Criteria**: PR merged, Firecrawl pipeline functional on test sources
   **Task 7: Test Firecrawl on Additional Sources & Build Crawl Tracking DB**
-- **Owner**: Jean-Noël (@jnxmas)
+- **Owner**: [jnxmas] (@[jnxmas])
 - **Description**: Intensively test Victor's Firecrawl code on ocapistaine repo PDFs/websites and other sources beyond current scope, begin SQL Lite/SQL Model database for tracking crawled content with metadata (crawl status, RAG inclusion, content category)
 - **Deadline**: Sunday evening (status update)
 - **Dependencies**: Task 6 completion (merged Firecrawl code)
@@ -369,31 +369,31 @@ tags: [sprints, civictech, rag, locki, meeting, encode]
 
 **Task 10: Test OCR Libraries on Scanned PDFs**
 
-- **Owner**: Victor (@zcbtvag) → Jean-Noël (if Victor unavailable)
+- **Owner**: Victor (@zcbtvag) → [jnxmas] (if Victor unavailable)
 - **Description**: Test pdf2ocr, Tabula, pypdf on sample scanned PDFs from municipal archives, compare outputs for quality, select best library/combination for production
 - **Deadline**: Immediately after crawling complete (or during Victor's absence)
 - **Dependencies**: Task 3/6 completion (crawling functional)
 - **Success Criteria**: 3 libraries tested, quality comparison documented, production OCR library selected
   **Task 11: Architecture Documentation Review**
 - **Owner**: Guru (@GurmeherSingh) + Victor (@zcbtvag)
-- **Description**: Read architecture blog post Jean-Noël created (in `ocapistaine` repo), suggest additions specifically around NOMIC embedding implementation details, RAG service integration points, any conflicts/improvements from experience
+- **Description**: Read architecture blog post [jnxmas] created (in `ocapistaine` repo), suggest additions specifically around NOMIC embedding implementation details, RAG service integration points, any conflicts/improvements from experience
 - **Deadline**: Next 2-3 days (before architecture freeze)
 - **Dependencies**: Access to blog in repo
 - **Success Criteria**: Comments/suggestions posted, team aligned on architecture
   **Task 12: Define Document Service Requirements**
-- **Owner**: Jean-Noël + Guru + Victor
+- **Owner**: [jnxmas] + Guru + Victor
 - **Description**: Collaboratively define Document Service scope: query documentation/source info, scheduled re-crawling (detect new docs), document categorization + metadata tagging, change detection logic (compare current vs. new crawls), decide if separate DB needed, clarify distinction from Chat Service
 - **Deadline**: Next sync meeting
 - **Dependencies**: Vector store decision (confirmed), crawl tracking DB design (Task 7)
 - **Success Criteria**: Document Service requirements documented, team aligned, ready for implementation
   **Task 13: Finish All Ores Tracking Template**
-- **Owner**: Jean-Noël (@jnxmas)
+- **Owner**: [jnxmas] (@[jnxmas])
 - **Description**: Complete effort attribution tracking system for fair team contribution recognition, share with team for feedback
 - **Deadline**: ASAP (ongoing discussion on Discord)
 - **Dependencies**: None
 - **Success Criteria**: Template finalized, shared on Discord, team feedback incorporated
   **Task 14: Follow Up with Remaining Electoral List**
-- **Owner**: Jean-Noël (@jnxmas)
+- **Owner**: [jnxmas] (@[jnxmas])
 - **Description**: Contact 4th electoral list for outreach, gauge interest in Audierne2026 project
 - **Deadline**: Before January 31 (contributions deadline)
 - **Dependencies**: None
@@ -415,7 +415,7 @@ tags: [sprints, civictech, rag, locki, meeting, encode]
 - **Dependencies**: Opik platform familiarity (Task 8), working agents with hardcoded prompts
 - **Success Criteria**: Prompts managed in Opik, agents use library-based prompts, versioning functional
   **Task 17: Redis Integration for Scheduler + Task Memory**
-- **Owner**: Jean-Noël (@jnxmas)
+- **Owner**: [jnxmas] (@[jnxmas])
 - **Description**: Integrate Redis for APScheduler persistence and task memory across restarts
 - **Deadline**: Post-initial prototype (when scaling/production readiness needed)
 - **Dependencies**: Working scheduler tasks (crawl updates, GitHub monitoring)
@@ -431,21 +431,21 @@ tags: [sprints, civictech, rag, locki, meeting, encode]
 
 ## Risk Assessment & Mitigations
 
-| Risk                                                            | Impact   | Mitigation                                                                                                            | Owner              | Status                           |
-| --------------------------------------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------- | ------------------ | -------------------------------- |
-| **Guru missing from stack discussion**                          | Medium   | Record meetings, request written feedback on tasks, schedule follow-up calls                                          | Jean-Noël          | 🟢 Mitigated (recordings shared) |
-| **Victor unavailable Thu-Sun**                                  | Medium   | Victor completes Firecrawl by Wed, Jean-Noël tests during absence                                                     | Victor + Jean-Noël | 🟢 Planned                       |
-| **Crawler pagination not returning full results**               | High     | Victor debugging this week; if blocked, escalate to team                                                              | Victor             | 🟡 In progress                   |
-| **N8N deployment blocking agent testing**                       | High     | Jean-Noël prioritizes ~2h completion ASAP                                                                             | Jean-Noël          | 🟡 In progress                   |
-| **Opik access blocking Guru's development**                     | High     | Jean-Noël grants access within 24h (need Guru's username)                                                             | Jean-Noël          | 🟡 In progress                   |
-| **Vector store decision blocking RAG**                          | Medium   | VectorStore + NOMIC confirmed; fallback = Mistral Studio                                                              | Guru + Jean-Noël   | 🟢 Resolved                      |
-| **OCR quality unknown for scanned PDFs**                        | Medium   | Test 3 libraries (pdf2ocr, Tabula, pypdf), compare outputs                                                            | Victor → Jean-Noël | 🟡 Planned                       |
-| **4-week sprint timeline pressure**                             | High     | Prioritize working prototype over perfection, ruthless task board management, limit to "two tracks" (NOMIC + Mistral) | All                | 🟡 Ongoing                       |
-| **First agent not live before contributions deadline (~Feb 1)** | Critical | Fast-track Charter agent development this week, daily standups                                                        | Guru + Jean-Noël   | 🔴 Active risk                   |
-| **Low citizen engagement with contributions**                   | Medium   | Consider UX simplification, focus on chatbot quality over contribution volume                                         | Jean-Noël          | 🟡 Monitoring                    |
-| **Team still in ideation phase despite deadline pressure**      | Medium   | Shift to execution mode immediately, lock architecture decisions                                                      | All                | 🟡 Transitioning                 |
-| **French language hallucinations/bias in chatbot**              | Critical | Mistral backup, heavy Opik guardrails, manual testing in French                                                       | Guru + Jean-Noël   | 🟡 Design phase                  |
-| **Hackathon Opik showcase insufficient**                        | Medium   | "Maximize Opik at every opportunity", document integration patterns, trace everything                                 | Guru               | 🟡 In progress                   |
+| Risk                                                            | Impact   | Mitigation                                                                                                            | Owner             | Status                           |
+| --------------------------------------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------- | ----------------- | -------------------------------- |
+| **Guru missing from stack discussion**                          | Medium   | Record meetings, request written feedback on tasks, schedule follow-up calls                                          | [jnxmas]          | 🟢 Mitigated (recordings shared) |
+| **Victor unavailable Thu-Sun**                                  | Medium   | Victor completes Firecrawl by Wed, [jnxmas] tests during absence                                                      | Victor + [jnxmas] | 🟢 Planned                       |
+| **Crawler pagination not returning full results**               | High     | Victor debugging this week; if blocked, escalate to team                                                              | Victor            | 🟡 In progress                   |
+| **N8N deployment blocking agent testing**                       | High     | [jnxmas] prioritizes ~2h completion ASAP                                                                              | [jnxmas]          | 🟡 In progress                   |
+| **Opik access blocking Guru's development**                     | High     | [jnxmas] grants access within 24h (need Guru's username)                                                              | [jnxmas]          | 🟡 In progress                   |
+| **Vector store decision blocking RAG**                          | Medium   | VectorStore + NOMIC confirmed; fallback = Mistral Studio                                                              | Guru + [jnxmas]   | 🟢 Resolved                      |
+| **OCR quality unknown for scanned PDFs**                        | Medium   | Test 3 libraries (pdf2ocr, Tabula, pypdf), compare outputs                                                            | Victor → [jnxmas] | 🟡 Planned                       |
+| **4-week sprint timeline pressure**                             | High     | Prioritize working prototype over perfection, ruthless task board management, limit to "two tracks" (NOMIC + Mistral) | All               | 🟡 Ongoing                       |
+| **First agent not live before contributions deadline (~Feb 1)** | Critical | Fast-track Charter agent development this week, daily standups                                                        | Guru + [jnxmas]   | 🔴 Active risk                   |
+| **Low citizen engagement with contributions**                   | Medium   | Consider UX simplification, focus on chatbot quality over contribution volume                                         | [jnxmas]          | 🟡 Monitoring                    |
+| **Team still in ideation phase despite deadline pressure**      | Medium   | Shift to execution mode immediately, lock architecture decisions                                                      | All               | 🟡 Transitioning                 |
+| **French language hallucinations/bias in chatbot**              | Critical | Mistral backup, heavy Opik guardrails, manual testing in French                                                       | Guru + [jnxmas]   | 🟡 Design phase                  |
+| **Hackathon Opik showcase insufficient**                        | Medium   | "Maximize Opik at every opportunity", document integration patterns, trace everything                                 | Guru              | 🟡 In progress                   |
 
 ---
 
@@ -458,13 +458,13 @@ tags: [sprints, civictech, rag, locki, meeting, encode]
 - French language focus (Mistral) addresses political optics and user needs
 - Modular ETL architecture enables swapping components without rewrites
 - Team expertise (NOMIC, Streamlit, VectorStore) matches stack decisions
-- Task ownership clear and distributed well (Guru = agents, Victor = crawling, Jean-Noël = infrastructure/orchestration)
+- Task ownership clear and distributed well (Guru = agents, Victor = crawling, [jnxmas] = infrastructure/orchestration)
   **⚠️ Potential Misalignments**:
 - **Timeline vs. scope**: 4 weeks for full pipeline (crawling + OCR + RAG + Charter agent + chatbot + Opik showcase) is aggressive
   - **Mitigation**: Limit to "two tracks" (NOMIC primary, Mistral backup), prioritize Charter agent + basic RAG over perfect Search Agent
 - **Citizen engagement vs. effort**: Low contribution volume may not justify complex validation workflow
   - **Mitigation**: Focus on chatbot quality (broader citizen reach) over contribution automation
-- **Team availability gaps**: Victor's Thu-Sun absence, Guru's jet lag, Jean-Noël's teaching commitment
+- **Team availability gaps**: Victor's Thu-Sun absence, Guru's jet lag, [jnxmas]'s teaching commitment
   - **Mitigation**: Strong async collaboration (recordings, blog summaries, GitHub comments), clear handoffs
     **🔍 Clarifications Needed**:
 - **Document Service vs. Chat Service**: Distinction still fuzzy (addressed as: Document = search/crawl management; Chat = conversational interface, but needs formal requirements doc)
@@ -499,11 +499,11 @@ tags: [sprints, civictech, rag, locki, meeting, encode]
 
 ## Next Sync Meeting Agenda (Suggested)
 
-1. **N8N + Opik access**: Confirm both unblocked (Jean-Noël updates)
-2. **Firecrawl PR status**: Review and merge if ready (Victor + Jean-Noël)
+1. **N8N + Opik access**: Confirm both unblocked ([jnxmas] updates)
+2. **Firecrawl PR status**: Review and merge if ready (Victor + [jnxmas])
 3. **Charter agent progress**: Demo initial prototype, discuss Opik traces (Guru)
 4. **RAG agent update**: Share approach, blockers, timeline (Guru)
-5. **Crawl tracking DB**: Review schema design (Jean-Noël)
+5. **Crawl tracking DB**: Review schema design ([jnxmas])
 6. **Document Service requirements**: Collaborative definition session (All)
 7. **Task board review**: Close completed tasks, reprioritize open items (All)
 8. **Opik showcase strategy**: What metrics/traces will impress hackathon judges? (All)
@@ -528,21 +528,21 @@ tags: [sprints, civictech, rag, locki, meeting, encode]
 - 🟢 **Documentation**: Blog summaries active, recordings shared, task tracking functional
   **Open High-Priority Tasks** (Top 5):
 
-1. **🔴 URGENT**: Complete N8N deployment (Jean-Noël, <48h) - blocks agent testing
-2. **🔴 URGENT**: Set up Opik team access (Jean-Noël, <24h) - blocks Guru's development
+1. **🔴 URGENT**: Complete N8N deployment ([jnxmas], &lt;48h) - blocks agent testing
+2. **🔴 URGENT**: Set up Opik team access ([jnxmas], &lt;24h) - blocks Guru's development
 3. **🔴 URGENT**: Complete Firecrawl pipeline (Victor, by Wed) - data ingestion dependency
 4. **🔴 HIGH**: Build Charter validation agent (Guru, update 1-2 days) - critical path for hackathon
 5. **🔴 HIGH**: Build RAG agent with Opik (Guru, update 1-2 days) - citizen-facing deliverable
    **Next Milestones**:
 
 - **Week 1 Goal (by ~Jan 30-31)**: Charter validation agent functional with Opik tracing + Firecrawl pipeline merged + N8N orchestrating GitHub workflows + RAG agent prototype
-- **Immediate Blockers**: N8N deployment (<48h), Opik access (<24h), Firecrawl pagination tuning (<3 days)
+- **Immediate Blockers**: N8N deployment (&lt;48h), Opik access (&lt;24h), Firecrawl pagination tuning (&lt;3 days)
 - **Hackathon Prototype Delivery**: ~mid-February 2026 (2.5 weeks remaining from late Jan)
 - **Critical Path**: Crawling → OCR → Vector DB → RAG + Opik → Chatbot MVP → French language validation
   **Team Availability This Week**:
 - **Guru**: Available now (jet-lagged but active), development starting
 - **Victor**: Intensive Mon-Wed, unavailable Thu-Sun (France travel)
-- **Jean-Noël**: Full availability, prioritizing N8N/Opik/testing during Victor's absence
+- **[jnxmas]**: Full availability, prioritizing N8N/Opik/testing during Victor's absence
   **Risk Level**: 🟡 **MEDIUM-HIGH** - Timeline tight, first agent not yet live despite approaching contributions deadline, but team aligned and architecture solid. Immediate focus on unblocking N8N + Opik access will shift to 🟢 GREEN if completed within 48h.
 
 ---
@@ -551,35 +551,41 @@ tags: [sprints, civictech, rag, locki, meeting, encode]
 
 **Immediate (Next 24 Hours)**:
 
-1. Jean-Noël completes N8N deployment (~2 hours)
-2. Jean-Noël sets up Opik team access (needs Guru + Victor usernames via Discord)
+1. [jnxmas] completes N8N deployment (~2 hours)
+2. [jnxmas] sets up Opik team access (needs Guru + Victor usernames via Discord)
 3. Guru shares Opik user ID/Discord username
 4. Victor continues Firecrawl pagination debugging
 5. Team explores Opik platform features once access granted
-   **This Week (Next 3-7 Days)**:
-6. Victor completes Firecrawl PR by Wednesday
-7. Jean-Noël reviews and merges Firecrawl PR
-8. Guru develops Charter validation agent, provides update in 1-2 days
-9. Guru develops RAG agent prototype, provides update in 1-2 days
-10. Jean-Noël tests Firecrawl on additional sources during Victor's absence
-11. Jean-Noël begins crawl tracking DB with SQL Model
-12. Guru + Victor review architecture blog post, suggest improvements
-13. All team members familiarize with Opik capabilities
-    **Next Week (Week 2 of Sprint)**:
-14. OCR library testing begins (Victor returns, or Jean-Noël covers)
-15. Document Service requirements defined collaboratively
-16. RAG agent fully functional with Opik guardrails
-17. Charter agent deployed to N8N workflows
-18. Crawl tracking DB prototype operational
-19. Architecture frozen, team shifts to integration phase
-    **Week 3-4 (Final Sprint)**:
-20. Full pipeline integration testing
-21. French language validation and bias checking
-22. Citizen-facing chatbot MVP deployment
-23. Opik showcase polish (metrics, traces, dashboards, experiment tracking)
-24. Hackathon submission preparation
-25. Final outreach to 4th electoral list
-26. Documentation finalization
+
+**This Week (Next 3-7 Days)**:
+
+1. Victor completes Firecrawl PR by Wednesday
+2. [jnxmas] reviews and merges Firecrawl PR
+3. Guru develops Charter validation agent, provides update in 1-2 days
+4. Guru develops RAG agent prototype, provides update in 1-2 days
+5. [jnxmas] tests Firecrawl on additional sources during Victor's absence
+6. [jnxmas] begins crawl tracking DB with SQL Model
+7. Guru + Victor review architecture blog post, suggest improvements
+8. All team members familiarize with Opik capabilities
+
+**Next Week (Week 2 of Sprint)**:
+
+1. OCR library testing begins (Victor returns, or [jnxmas] covers)
+2. Document Service requirements defined collaboratively
+3. RAG agent fully functional with Opik guardrails
+4. Charter agent deployed to N8N workflows
+5. Crawl tracking DB prototype operational
+6. Architecture frozen, team shifts to integration phase
+
+**Week 3-4 (Final Sprint)**:
+
+1. Full pipeline integration testing
+2. French language validation and bias checking
+3. Citizen-facing chatbot MVP deployment
+4. Opik showcase polish (metrics, traces, dashboards, experiment tracking)
+5. Hackathon submission preparation
+6. Final outreach to 4th electoral list
+7. Documentation finalization
 
 ---
 
