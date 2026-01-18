@@ -2,11 +2,586 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://docs.locki.io/fr/blog</id>
     <title>Ò Capistaine Docs Blog</title>
-    <updated>2026-01-16T00:00:00.000Z</updated>
+    <updated>2026-01-18T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://docs.locki.io/fr/blog"/>
     <subtitle>Ò Capistaine Docs Blog</subtitle>
     <icon>https://docs.locki.io/fr/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[Let us choose the stack]]></title>
+        <id>https://docs.locki.io/fr/blog/meeting-ocapistaine-1</id>
+        <link href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1"/>
+        <updated>2026-01-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Project Context Update (Mid-to-Late January 2026)]]></summary>
+        <content type="html"><![CDATA[<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="project-context-update-mid-to-late-january-2026">Project Context Update (Mid-to-Late January 2026)<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#project-context-update-mid-to-late-january-2026" class="hash-link" aria-label="Lien direct vers Project Context Update (Mid-to-Late January 2026)" title="Lien direct vers Project Context Update (Mid-to-Late January 2026)" translate="no">​</a></h2>
+<p><strong>Project</strong>: Locki / Ò Capistaine (audierne2026) - AI-powered civic transparency &amp; participatory democracy platform for Audierne 2026 local elections (France)
+<strong>Core Mission</strong>: Build a neutral, source-based RAG chatbot to answer citizen questions about 4 municipal programs, automate contribution validation against charter rules, crawl/process municipal data (150+ links, 4,000+ PDFs), and showcase Opik integration for the "Commit to Change" Hackathon.
+<strong>Critical Timeline</strong>:</p>
+<ul>
+<li class="">Contributions deadline: ~January 31, 2026</li>
+<li class="">Hackathon prototype delivery: ~mid-February 2026 (4-week sprint)</li>
+<li class="">Election period: ~March 15-22, 2026</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="team-status--availability">Team Status &amp; Availability<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#team-status--availability" class="hash-link" aria-label="Lien direct vers Team Status &amp; Availability" title="Lien direct vers Team Status &amp; Availability" translate="no">​</a></h2>
+<p><strong>Active Members</strong>:</p>
+<ul>
+<li class="">
+<p><strong>[jnxmas] aka Johnny Christmass (@jnxmas)</strong>: Project lead, architecture, N8N deployment, Firecrawl testing, documentation, political outreach</p>
+</li>
+<li class="">
+<p><strong>Meher/Gurmukher/Guru (@GurmeherSingh)</strong>: ML Engineer, RAG agent + Opik integration (recently arrived US East Coast, jet-lagged)</p>
+</li>
+<li class="">
+<p><strong>Victor (@zcbtvag)</strong>: Backend Python, Firecrawl pipeline (intensive work Mon-Wed, unavailable Thu-Sun for France travel, returns following week)</p>
+<p><strong>Team Experience Alignment</strong>:</p>
+</li>
+<li class="">
+<p>✅ <strong>Shared expertise</strong>: Streamlit, VectorStore, Python, Firecrawl, Gemini, Opik</p>
+</li>
+<li class="">
+<p>✅ <strong>Guru's strengths</strong>: NOMIC embeddings (Sentence Transformer), Azure, Ollama</p>
+</li>
+<li class="">
+<p>❌ <strong>Learning curve</strong>: N8N (new for Guru + Victor)</p>
+</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="political--community-engagement-progress">Political &amp; Community Engagement Progress<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#political--community-engagement-progress" class="hash-link" aria-label="Lien direct vers Political &amp; Community Engagement Progress" title="Lien direct vers Political &amp; Community Engagement Progress" translate="no">​</a></h2>
+<p><strong>Achievements</strong>:</p>
+<ul>
+<li class=""><strong>Outgoing mayor</strong>: Positive signal at New Year's event - mentioned "new paradigm in politics"</li>
+<li class=""><strong>Email follow-up</strong>: Mayor acknowledged project email (10+ days prior), interested in discussing Audierne2026</li>
+<li class=""><strong>Electoral lists</strong>: 3 of 4 lists contacted, very positive responses</li>
+<li class=""><strong>Remaining</strong>: 1 list still to contact (before Jan 31)
+<strong>Current Challenge</strong>:</li>
+<li class=""><strong>Low citizen engagement</strong>: Contributions/discussions system seeing minimal activity ("it's a bit too much right now")</li>
+<li class=""><strong>Content workflow</strong>: Issues validated → transferred to discussions → posted on website after community review</li>
+<li class=""><strong>Validation stages</strong>: Charter compliance + Contextualization (innovative agent finding solutions)
+<strong>Strategic Shift</strong>: Team needs to move from outreach to coding and delivery.</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="technical-architecture---stack-decisions-finalized">Technical Architecture - Stack Decisions Finalized<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#technical-architecture---stack-decisions-finalized" class="hash-link" aria-label="Lien direct vers Technical Architecture - Stack Decisions Finalized" title="Lien direct vers Technical Architecture - Stack Decisions Finalized" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="layer-structure-bottom-up-etl-pattern">Layer Structure (Bottom-Up ETL Pattern)<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#layer-structure-bottom-up-etl-pattern" class="hash-link" aria-label="Lien direct vers Layer Structure (Bottom-Up ETL Pattern)" title="Lien direct vers Layer Structure (Bottom-Up ETL Pattern)" translate="no">​</a></h3>
+<p><strong>1. External Services Layer</strong></p>
+<ul>
+<li class=""><strong>Firecrawl API</strong>: Primary web scraping/crawling service</li>
+<li class=""><strong>Status</strong>: Victor progressing, PR open, completion target Wednesday (before travel)</li>
+<li class=""><strong>Blocker</strong>: Pagination settings need tuning (tested with <code>max_pages=10</code>, returned only 1 page)</li>
+<li class=""><strong>Priority source</strong>: Délibérations du conseil municipal (municipal council deliberations)
+<strong>2. Data Access Layer</strong></li>
+<li class=""><strong>Vector Store</strong>: Confirmed standard VectorStore approach (all team members familiar)</li>
+<li class=""><strong>Embeddings Strategy</strong>:<!-- -->
+<ul>
+<li class=""><strong>Primary</strong>: NOMIC model (Sentence Transformer) - Guru has experience</li>
+<li class=""><strong>Backup/Failsafe</strong>: Mistral Studio - French language optimization + potential local sponsorship</li>
+</ul>
+</li>
+<li class=""><strong>Crawl Tracking Database</strong>: SQL Lite/SQL Model chosen<!-- -->
+<ul>
+<li class="">Metadata: Crawl status, RAG inclusion, content category</li>
+<li class="">SQL Model benefits: Type safety (Python → SQL columns), FastAPI/Pydantic compatibility, PostgreSQL support</li>
+<li class="">Owner: [jnxmas] will build during Victor's absence
+<strong>3. Business Logic Layer</strong>
+<strong>Agent 1: Charter Validation Agent</strong> (PRIORITY)</li>
+</ul>
+</li>
+<li class=""><strong>Purpose</strong>: Auto-validate citizen contributions against charter rules</li>
+<li class=""><strong>Checks</strong>: Respectful language, no personal naming, constructive content</li>
+<li class=""><strong>Functionality</strong>: Binary (green/red) conformance + auto-correct miscategorized submissions (7 categories)</li>
+<li class=""><strong>Tech Stack</strong>: Gemini (primary), Ollama (testing), Opik evaluation/tracing</li>
+<li class=""><strong>Workflow</strong>: Reads <code>audierne2026</code> repo issues → labels/updates in <code>ocapistaine</code> repo</li>
+<li class=""><strong>Owner</strong>: Guru (@GurmeherSingh)</li>
+<li class=""><strong>Status</strong>: Not started (blocked by Opik access + N8N deployment)
+<strong>Agent 2: RAG Agent / Citizen Q&amp;A Chatbot</strong></li>
+<li class=""><strong>Purpose</strong>: Answer citizen questions with neutral, contextual responses, cross-reference municipal programs</li>
+<li class=""><strong>Requirements</strong>: No hallucinations (Opik guardrails), source attribution, French language</li>
+<li class=""><strong>Approach</strong>: Start with available data, iterate as crawling progresses</li>
+<li class=""><strong>Owner</strong>: Guru (@GurmeherSingh)</li>
+<li class=""><strong>Status</strong>: Starting development, update expected in 1-2 days</li>
+<li class=""><strong>Dependencies</strong>: VectorStore populated, Charter agent outputs (optional)
+<strong>Agent 3: Search Agent</strong> (CONDITIONAL)</li>
+<li class=""><strong>Decision</strong>: Pending RAG completeness assessment</li>
+<li class=""><strong>Logic</strong>: If RAG sufficient → search agent unnecessary; if RAG insufficient → search agent as fallback</li>
+<li class=""><strong>Status</strong>: On hold pending RAG testing
+<strong>Chat Service</strong> (Already Working)</li>
+<li class=""><strong>Functionality</strong>: Multi-turn conversations with thread management (UUID per user)</li>
+<li class=""><strong>Providers</strong>: OpenAI, Ollama (Mistral, DeepSeek tested locally), Perplexity, Gemini</li>
+<li class=""><strong>Features</strong>: System message config, prompt engineering, thread history persistence, strategy selection (Charter mode, Q&amp;A mode, etc.)</li>
+<li class=""><strong>Opik Integration</strong>: Full tracing via <code>workflow_chat</code> class
+<strong>Document Service</strong> (To Be Defined)</li>
+<li class=""><strong>Proposed Purpose</strong>:<!-- -->
+<ul>
+<li class="">Query documentation/source information</li>
+<li class="">Scheduled re-crawling (detect new docs since last crawl)</li>
+<li class="">Document categorization + metadata tagging</li>
+<li class="">Change detection (compare current vs. new crawls, decide RAG updates)</li>
+</ul>
+</li>
+<li class=""><strong>Open Question</strong>: How does this differ from Chat Service? (Clarified: Document = search/crawl management; Chat = conversational interface)</li>
+<li class=""><strong>Status</strong>: Requirements to be defined collaboratively
+<strong>4. Application Layer</strong></li>
+<li class=""><strong>Streamlit</strong>: Primary presentation interface</li>
+<li class=""><strong>FastAPI</strong>: Routing layer</li>
+<li class=""><strong>Debug Scripts</strong>: One-click full stack launch (UV cone + Streamlit app automation)</li>
+<li class=""><strong>Hot Reload</strong>: Code modifications work without restart</li>
+<li class=""><strong>Future</strong>: Redis integration for scheduler + task memory persistence
+<strong>5. External Orchestration Layer</strong></li>
+<li class=""><strong>N8N</strong>: Self-hosted Docker deployment on Contabo server (viety.loki.io)</li>
+<li class=""><strong>Status</strong>: ~2 hours from completion (as of last meeting)</li>
+<li class=""><strong>Workflows</strong>:<!-- -->
+<ul>
+<li class="">Pull issues from <code>audierne2026</code> GitHub repo</li>
+<li class="">Trigger charter validation agent</li>
+<li class="">Push validated/labeled issues back to repo</li>
+<li class="">Modify Jekyll website content</li>
+<li class="">Provide API endpoint for agent testing</li>
+</ul>
+</li>
+<li class=""><strong>Multi-project approach</strong>: Separate workflows per project on shared dashboard</li>
+<li class=""><strong>Future</strong>: Pull data from Opik Cloud back into app (feedback loop via N8N API)
+<strong>Supporting Infrastructure</strong>:</li>
+<li class=""><strong>APScheduler (cron-based)</strong>: Time-based tasks (daily/weekly crawl updates, GitHub monitoring, Charter violation checks)</li>
+<li class=""><strong>Opik</strong>: Evaluation, tracing, prompt management (future), hallucination detection, metrics/dashboards</li>
+<li class=""><strong>Poetry</strong>: Dependency management (NOT pip) for library compatibility</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="opik-integration-strategy---maximize-usage">Opik Integration Strategy - MAXIMIZE USAGE<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#opik-integration-strategy---maximize-usage" class="hash-link" aria-label="Lien direct vers Opik Integration Strategy - MAXIMIZE USAGE" title="Lien direct vers Opik Integration Strategy - MAXIMIZE USAGE" translate="no">​</a></h2>
+<p><strong>Team Consensus</strong>: "Maximize Opik usage at every opportunity" - it's the hackathon focus.
+<strong>Dashboard Setup Decisions</strong>:</p>
+<ul>
+<li class=""><strong>Environment</strong>: Start with Opik Dev, migrate to Prod when ready</li>
+<li class=""><strong>Dashboard Approach</strong>: Single unified dashboard to monitor all agents (avoid complexity of separate dashboards per agent)</li>
+<li class=""><strong>API Keys</strong>: Likely one project with multiple keys for per-developer usage tracking</li>
+<li class=""><strong>Access</strong>:<!-- -->
+<ul>
+<li class="">[jnxmas] has access to <code>ocapistaine-dev</code> dashboard</li>
+<li class="">Need to grant Guru and Victor access</li>
+<li class="">Guru has existing Opik account (needs to share user ID/Discord username)</li>
+<li class="">Victor's Opik status: Not confirmed
+<strong>Integration Points</strong>:</li>
+</ul>
+</li>
+<li class="">Charter validation agent: Trace every decision, verify adherence to charter rules</li>
+<li class="">RAG agent: Hallucination prevention, prompt evaluation, guardrails</li>
+<li class="">N8N workflows: Plug into Opik for agent activity reporting</li>
+<li class="">Chat service: Already using Opik tracing via <code>workflow_chat</code> class</li>
+<li class="">Prompt management: Start hardcoded, potentially migrate to Opik prompt library later</li>
+<li class="">Evaluation judge: Verify LLM adherence to prompts
+<strong>Team Familiarity</strong>:</li>
+<li class="">Platform exploration phase: Team has not yet fully explored Opik capabilities</li>
+<li class="">Reference materials: Git examples available for implementation patterns</li>
+<li class="">Action needed: All team members familiarize with Opik features (dashboards, prompt library, evaluation)</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="llm-provider-strategy---multi-provider-approach">LLM Provider Strategy - Multi-Provider Approach<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#llm-provider-strategy---multi-provider-approach" class="hash-link" aria-label="Lien direct vers LLM Provider Strategy - Multi-Provider Approach" title="Lien direct vers LLM Provider Strategy - Multi-Provider Approach" translate="no">​</a></h2>
+<p><strong>Confirmed Providers</strong>:</p>
+<ol>
+<li class=""><strong>Gemini</strong>: Sponsored/free option (primary for Charter agent)</li>
+<li class=""><strong>Ollama</strong>: Completely free (local testing) - Mistral, DeepSeek tested</li>
+<li class=""><strong>Mistral</strong>: French language optimization + potential sponsorship target (French govt/local alignment, political risk mitigation)</li>
+<li class=""><strong>OpenAI</strong>: Already working in Chat service</li>
+<li class=""><strong>Perplexity</strong>: Available option
+<strong>Strategic Rationale</strong>:</li>
+</ol>
+<ul>
+<li class=""><strong>French language</strong>: Critical for citizen-facing content - Mistral chosen for optimization</li>
+<li class=""><strong>Political optics</strong>: Using French LLM provider avoids criticism of not supporting French solutions</li>
+<li class=""><strong>Cost management</strong>: Prioritize free/sponsored options (Gemini, Ollama)</li>
+<li class=""><strong>Failsafe approach</strong>: NOMIC primary + Mistral backup = "two tracks maximum" ([jnxmas]'s preference given 4-week timeline)</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="development-workflow--version-control">Development Workflow &amp; Version Control<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#development-workflow--version-control" class="hash-link" aria-label="Lien direct vers Development Workflow &amp; Version Control" title="Lien direct vers Development Workflow &amp; Version Control" translate="no">​</a></h2>
+<p><strong>Git Strategy</strong>:</p>
+<ul>
+<li class=""><strong>Protected branch</strong>: <code>dev</code> branch - no direct pushes</li>
+<li class=""><strong>Feature branches</strong>: Mandatory for all work</li>
+<li class=""><strong>PR workflow</strong>: Victor successfully resolved upstream branch issue, has open PR ready for review</li>
+<li class=""><strong>Review process</strong>: [jnxmas] reviews and merges into <code>dev</code>
+<strong>Dependency Management</strong>:</li>
+<li class=""><strong>Poetry ONLY</strong>: NOT pip - ensures library compatibility</li>
+<li class=""><strong>Command</strong>: <code>poetry add </code></li>
+<li class=""><strong>Action</strong>: Victor + Guru ensure local environments use Poetry
+<strong>Documentation</strong>:</li>
+<li class=""><strong>Docusaurus blog</strong>: All meeting summaries posted to <code>blog/</code> for async collaboration + AI context (Cursor/Claude code context)</li>
+<li class=""><strong>GitHub tasks</strong>: Self-assignment encouraged, commenting for async feedback</li>
+<li class=""><strong>Task board</strong>: 3 tasks "In Progress" with all three team members assigned</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="critical-technical-decisions-summary">Critical Technical Decisions Summary<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#critical-technical-decisions-summary" class="hash-link" aria-label="Lien direct vers Critical Technical Decisions Summary" title="Lien direct vers Critical Technical Decisions Summary" translate="no">​</a></h2>
+<table><thead><tr><th>Component</th><th>Decision</th><th>Owner</th><th>Status</th></tr></thead><tbody><tr><td><strong>Vector DB</strong></td><td>VectorStore (standard)</td><td>Team</td><td>✅ Confirmed</td></tr><tr><td><strong>Embeddings</strong></td><td>NOMIC primary, Mistral backup</td><td>Guru</td><td>✅ Confirmed</td></tr><tr><td><strong>Orchestration</strong></td><td>N8N (Docker, viety.loki.io)</td><td>[jnxmas]</td><td>🟡 ~2h from deployment</td></tr><tr><td><strong>Crawl Tracking</strong></td><td>SQL Lite + SQL Model</td><td>[jnxmas]</td><td>🔴 Design phase</td></tr><tr><td><strong>LLM Providers</strong></td><td>Gemini, Ollama, Mistral, OpenAI, Perplexity</td><td>Team</td><td>✅ Multi-provider</td></tr><tr><td><strong>Opik Setup</strong></td><td>Single dashboard, Dev → Prod, multiple API keys</td><td>[jnxmas]</td><td>🟡 Access pending</td></tr><tr><td><strong>OCR Libraries</strong></td><td>pdf2ocr, Tabula, pypdf (test all 3)</td><td>Victor → [jnxmas]</td><td>🔴 Blocked on crawling</td></tr><tr><td><strong>Prompt Management</strong></td><td>Hardcoded → Opik library (future)</td><td>Guru</td><td>🔴 Not started</td></tr><tr><td><strong>Search Agent</strong></td><td>Conditional on RAG completeness</td><td>TBD</td><td>🟡 On hold</td></tr></tbody></table>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="firecrawl-pipeline-progress-victors-focus">Firecrawl Pipeline Progress (Victor's Focus)<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#firecrawl-pipeline-progress-victors-focus" class="hash-link" aria-label="Lien direct vers Firecrawl Pipeline Progress (Victor's Focus)" title="Lien direct vers Firecrawl Pipeline Progress (Victor's Focus)" translate="no">​</a></h2>
+<p><strong>Completed</strong>:</p>
+<ul>
+<li class="">✅ Debugged and fixed scraper component</li>
+<li class="">✅ Fixed crawler functionality (operational after "small but critical" config issues)</li>
+<li class="">✅ Open PR ready for review</li>
+<li class="">✅ Resolved upstream branch issue
+<strong>Current Issues</strong>:</li>
+<li class="">⚠️ Pagination settings need adjustment (tested <code>max_pages=10</code>, returned only 1 page)</li>
+<li class="">⚠️ Full document retrieval tuning required
+<strong>Victor's Timeline</strong>:</li>
+<li class=""><strong>Mon-Wed (this week)</strong>: Intensive work, complete Firecrawl pipeline</li>
+<li class=""><strong>Thu-Sun</strong>: Unavailable (travel to France - pre-planned holiday)</li>
+<li class=""><strong>Following week</strong>: Returns and continues contributions</li>
+<li class=""><strong>Goal</strong>: Finish Firecrawl work before Wednesday departure
+<strong>Next Steps</strong>:</li>
+</ul>
+<ol>
+<li class="">Victor finalizes additional commits to feature branch</li>
+<li class="">Victor signals when PR ready for final review</li>
+<li class="">[jnxmas] reviews and merges into <code>dev</code></li>
+<li class="">[jnxmas] tests merged pipeline on additional sources during Victor's absence</li>
+<li class="">Once crawling complete → Apply OCR to PDFs (pdf2ocr, Tabula, pypdf testing)</li>
+</ol>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="ocr-pipeline-strategy-post-firecrawl">OCR Pipeline Strategy (Post-Firecrawl)<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#ocr-pipeline-strategy-post-firecrawl" class="hash-link" aria-label="Lien direct vers OCR Pipeline Strategy (Post-Firecrawl)" title="Lien direct vers OCR Pipeline Strategy (Post-Firecrawl)" translate="no">​</a></h2>
+<p><strong>Target Documents</strong>: Scanned PDFs in municipal archives (~4,000+ documents)
+<strong>Libraries to Test</strong>:</p>
+<ol>
+<li class="">pdf2ocr</li>
+<li class="">Tabula</li>
+<li class="">pypdf
+<strong>Approach</strong>: Test all 3, compare outputs for quality
+<strong>Owner</strong>: Victor (primary), [jnxmas] (testing during Victor's absence)
+<strong>Status</strong>: Blocked on Firecrawl crawling completion</li>
+</ol>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="project-background--context">Project Background &amp; Context<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#project-background--context" class="hash-link" aria-label="Lien direct vers Project Background &amp; Context" title="Lien direct vers Project Background &amp; Context" translate="no">​</a></h2>
+<p><strong>Locki Project Evolution</strong>:</p>
+<ul>
+<li class="">Origin: Started from hackathon 2 years ago</li>
+<li class="">Built agents on top of Locki stack</li>
+<li class="">Participated in cohorts to improve functionality</li>
+<li class="">Previous projects:<!-- -->
+<ul>
+<li class="">3D objects on-chain (paused - too early/complex, slow blockchain)</li>
+<li class="">Horse racing betting strategy (15 years expert knowledge → code/data layer, not yet commercialized)</li>
+<li class="">Multiverse Six / XRP experience (3D NFTs)
+<strong>[jnxmas]'s Work</strong>:</li>
+</ul>
+</li>
+<li class="">Freelancing: Apps, websites, e-commerce development</li>
+<li class="">Computer teacher for small children (Thursdays, 2 hours)</li>
+<li class="">Locki is primary passion project ("what makes me wake up in the morning")</li>
+<li class="">Successfully built Locki mobile app prototype
+<strong>Dev Environment</strong>:</li>
+<li class="">VS Code with debug scripts for one-click launch</li>
+<li class="">Team using Cursor IDE may need to adapt scripts</li>
+<li class="">Victor considering switch to VS Code for easier workflow</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="open-questions--decisions-needed">Open Questions &amp; Decisions Needed<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#open-questions--decisions-needed" class="hash-link" aria-label="Lien direct vers Open Questions &amp; Decisions Needed" title="Lien direct vers Open Questions &amp; Decisions Needed" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="for-guru-flagged-for-response">For Guru (Flagged for Response):<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#for-guru-flagged-for-response" class="hash-link" aria-label="Lien direct vers For Guru (Flagged for Response):" title="Lien direct vers For Guru (Flagged for Response):" translate="no">​</a></h3>
+<ol>
+<li class="">✅ <strong>Vector store preference</strong>: VectorStore confirmed, NOMIC embeddings confirmed</li>
+<li class="">⏳ <strong>Opik user ID/Discord username</strong>: Needed for dashboard access grant</li>
+<li class="">⏳ <strong>Stack alignment review</strong>: Read architecture blog post in repo, suggest improvements</li>
+<li class="">⏳ <strong>Charter agent design</strong>: Begin development, provide update in 1-2 days</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="for-victor">For Victor:<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#for-victor" class="hash-link" aria-label="Lien direct vers For Victor:" title="Lien direct vers For Victor:" translate="no">​</a></h3>
+<ol>
+<li class="">⏳ <strong>Opik account status</strong>: Confirm if account exists or needs creation</li>
+<li class="">⏳ <strong>Firecrawl PR readiness</strong>: Signal when ready for final review</li>
+<li class="">⏳ <strong>Poetry environment</strong>: Verify local setup uses Poetry (not pip)</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="for-jnxmas">For [jnxmas]:<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#for-jnxmas" class="hash-link" aria-label="Lien direct vers For [jnxmas]:" title="Lien direct vers For [jnxmas]:" translate="no">​</a></h3>
+<ol>
+<li class="">⏳ <strong>N8N deployment</strong>: Complete final ~2 hours of setup</li>
+<li class="">⏳ <strong>Opik dashboard access</strong>: Invite Guru + Victor (need usernames)</li>
+<li class="">⏳ <strong>Document Service requirements</strong>: Define scope and distinction from Chat Service</li>
+<li class="">⏳ <strong>Crawl scheduling</strong>: Decide frequency (daily vs. weekly) for production</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="for-team-discussion">For Team Discussion:<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#for-team-discussion" class="hash-link" aria-label="Lien direct vers For Team Discussion:" title="Lien direct vers For Team Discussion:" translate="no">​</a></h3>
+<ol>
+<li class="">⏳ <strong>Search Agent decision</strong>: Revisit after RAG testing complete</li>
+<li class="">⏳ <strong>Citizen engagement UX</strong>: Consider simplifying contribution system if low engagement persists</li>
+<li class="">⏳ <strong>Effort attribution</strong>: Finalize "all ores tracking template" for fair team contribution recognition</li>
+<li class="">⏳ <strong>Prompt management migration</strong>: Timeline for moving hardcoded prompts to Opik library</li>
+</ol>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="comprehensive-task-list">Comprehensive Task List<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#comprehensive-task-list" class="hash-link" aria-label="Lien direct vers Comprehensive Task List" title="Lien direct vers Comprehensive Task List" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="urgent-next-48-hours">URGENT (Next 48 Hours)<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#urgent-next-48-hours" class="hash-link" aria-label="Lien direct vers URGENT (Next 48 Hours)" title="Lien direct vers URGENT (Next 48 Hours)" translate="no">​</a></h3>
+<p><strong>Task 1: Complete N8N Deployment &amp; GitHub Integration</strong></p>
+<ul>
+<li class=""><strong>Owner</strong>: [jnxmas] (@[jnxmas])</li>
+<li class=""><strong>Description</strong>: Finish final ~2 hours of N8N Docker deployment on viety.loki.io, configure workflows to pull issues from <code>audierne2026</code> repo, trigger charter validation agent, push validated/labeled issues back, provide API endpoint for testing</li>
+<li class=""><strong>Deadline</strong>: Within 48 hours (before Guru needs to test agent)</li>
+<li class=""><strong>Dependencies</strong>: None (infrastructure task)</li>
+<li class=""><strong>Success Criteria</strong>: N8N accessible at viety.loki.io, test workflow successfully pulls/pushes GitHub issue, API endpoint documented
+<strong>Task 2: Set Up Opik Dev Environment &amp; Team Access</strong></li>
+<li class=""><strong>Owner</strong>: [jnxmas] (@[jnxmas])</li>
+<li class=""><strong>Description</strong>: Create/configure <code>Ocapistaine Dev</code> Opik project, generate separate API keys for [jnxmas]/Guru/Victor, grant dashboard access to all team members, document key assignment and usage tracking approach</li>
+<li class=""><strong>Deadline</strong>: Before Guru starts agent development (next 24 hours)</li>
+<li class=""><strong>Dependencies</strong>: Guru's Opik user ID/Discord username, Victor's Opik account confirmation</li>
+<li class=""><strong>Success Criteria</strong>: All team members can access dashboard, separate keys functional, usage trackable per developer
+<strong>Task 3: Complete Firecrawl Pipeline Implementation</strong></li>
+<li class=""><strong>Owner</strong>: Victor (@zcbtvag)</li>
+<li class=""><strong>Description</strong>: Finalize additional commits to Firecrawl feature branch, fix pagination settings to ensure full document retrieval, test with multiple sources, signal when PR ready for final review</li>
+<li class=""><strong>Deadline</strong>: Wednesday (before France travel)</li>
+<li class=""><strong>Dependencies</strong>: Firecrawl API keys, crawler pagination tuning</li>
+<li class=""><strong>Success Criteria</strong>: PR merged without conflicts, Firecrawl successfully crawls full test dataset, documented in code
+<strong>Task 4: Build Charter Validation Agent - Core Logic</strong></li>
+<li class=""><strong>Owner</strong>: Guru (@GurmeherSingh)</li>
+<li class=""><strong>Description</strong>: Develop charter validation agent that reads citizen contribution issues from <code>audierne2026</code> repo, validates against charter rules (respectful, no naming, constructive), auto-corrects category misclassifications (7 categories), returns binary validation + corrected category, integrates Opik evaluation at every decision point</li>
+<li class=""><strong>Deadline</strong>: Update in 1-2 days, full prototype ASAP (foundation for other workflows)</li>
+<li class=""><strong>Dependencies</strong>: Access to Opik dashboard, <code>audierne2026</code> repo read access, N8N API endpoint</li>
+<li class=""><strong>Success Criteria</strong>: Agent correctly validates 95%+ test cases, Opik traces show decision transparency, category corrections work</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="high-priority-this-week">HIGH PRIORITY (This Week)<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#high-priority-this-week" class="hash-link" aria-label="Lien direct vers HIGH PRIORITY (This Week)" title="Lien direct vers HIGH PRIORITY (This Week)" translate="no">​</a></h3>
+<p><strong>Task 5: Build RAG Agent with Opik Integration</strong></p>
+<ul>
+<li class=""><strong>Owner</strong>: Guru (@GurmeherSingh)</li>
+<li class=""><strong>Description</strong>: Develop core RAG agent for citizen Q&amp;A, integrate NOMIC embeddings (primary) + Mistral (backup), implement Opik for evaluation/tracing/hallucination prevention, generate neutral contextual responses with source attribution, cross-reference municipal program data</li>
+<li class=""><strong>Deadline</strong>: Update in 1-2 days, working prototype by end of week (Jan 30-31)</li>
+<li class=""><strong>Dependencies</strong>: VectorStore setup, crawled data (start with available), Opik access</li>
+<li class=""><strong>Success Criteria</strong>: Functional RAG agent with Opik tracing active, no hallucinations in test cases, proper French language responses
+<strong>Task 6: Firecrawl PR Review &amp; Merge</strong></li>
+<li class=""><strong>Owner</strong>: Victor (@zcbtvag) + [jnxmas] (review)</li>
+<li class=""><strong>Description</strong>: Victor signals PR ready, [jnxmas] reviews and merges into <code>dev</code> branch, test merged pipeline functionality</li>
+<li class=""><strong>Deadline</strong>: End of week (allow Victor time for improvements)</li>
+<li class=""><strong>Dependencies</strong>: Task 3 completion</li>
+<li class=""><strong>Success Criteria</strong>: PR merged, Firecrawl pipeline functional on test sources
+<strong>Task 7: Test Firecrawl on Additional Sources &amp; Build Crawl Tracking DB</strong></li>
+<li class=""><strong>Owner</strong>: [jnxmas] (@[jnxmas])</li>
+<li class=""><strong>Description</strong>: Intensively test Victor's Firecrawl code on ocapistaine repo PDFs/websites and other sources beyond current scope, begin SQL Lite/SQL Model database for tracking crawled content with metadata (crawl status, RAG inclusion, content category)</li>
+<li class=""><strong>Deadline</strong>: Sunday evening (status update)</li>
+<li class=""><strong>Dependencies</strong>: Task 6 completion (merged Firecrawl code)</li>
+<li class=""><strong>Success Criteria</strong>: Multiple sources tested successfully, tracking database prototype with crawl status and categorization functional
+<strong>Task 8: Explore Opik Platform Features</strong></li>
+<li class=""><strong>Owner</strong>: All team members</li>
+<li class=""><strong>Description</strong>: Familiarize with Opik capabilities, dashboards, prompt library, evaluation features, tracing, metrics, experiment tracking</li>
+<li class=""><strong>Deadline</strong>: Next 2-3 days (parallel with development)</li>
+<li class=""><strong>Dependencies</strong>: Opik access granted (Task 2)</li>
+<li class=""><strong>Success Criteria</strong>: Team comfortable with platform, ready to maximize hackathon showcase, documented learnings
+<strong>Task 9: Poetry Dependency Management Setup</strong></li>
+<li class=""><strong>Owner</strong>: Victor (@zcbtvag) + Guru (@GurmeherSingh)</li>
+<li class=""><strong>Description</strong>: Ensure local dev environments use Poetry (not pip) for all library additions, verify compatible with current workflows</li>
+<li class=""><strong>Deadline</strong>: Before next library additions</li>
+<li class=""><strong>Dependencies</strong>: Poetry installed locally</li>
+<li class=""><strong>Success Criteria</strong>: No pip-related dependency conflicts, <code>pyproject.toml</code> up to date, team using <code>poetry add </code> exclusively</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="medium-priority-next-week">MEDIUM PRIORITY (Next Week)<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#medium-priority-next-week" class="hash-link" aria-label="Lien direct vers MEDIUM PRIORITY (Next Week)" title="Lien direct vers MEDIUM PRIORITY (Next Week)" translate="no">​</a></h3>
+<p><strong>Task 10: Test OCR Libraries on Scanned PDFs</strong></p>
+<ul>
+<li class=""><strong>Owner</strong>: Victor (@zcbtvag) → [jnxmas] (if Victor unavailable)</li>
+<li class=""><strong>Description</strong>: Test pdf2ocr, Tabula, pypdf on sample scanned PDFs from municipal archives, compare outputs for quality, select best library/combination for production</li>
+<li class=""><strong>Deadline</strong>: Immediately after crawling complete (or during Victor's absence)</li>
+<li class=""><strong>Dependencies</strong>: Task 3/6 completion (crawling functional)</li>
+<li class=""><strong>Success Criteria</strong>: 3 libraries tested, quality comparison documented, production OCR library selected
+<strong>Task 11: Architecture Documentation Review</strong></li>
+<li class=""><strong>Owner</strong>: Guru (@GurmeherSingh) + Victor (@zcbtvag)</li>
+<li class=""><strong>Description</strong>: Read architecture blog post [jnxmas] created (in <code>ocapistaine</code> repo), suggest additions specifically around NOMIC embedding implementation details, RAG service integration points, any conflicts/improvements from experience</li>
+<li class=""><strong>Deadline</strong>: Next 2-3 days (before architecture freeze)</li>
+<li class=""><strong>Dependencies</strong>: Access to blog in repo</li>
+<li class=""><strong>Success Criteria</strong>: Comments/suggestions posted, team aligned on architecture
+<strong>Task 12: Define Document Service Requirements</strong></li>
+<li class=""><strong>Owner</strong>: [jnxmas] + Guru + Victor</li>
+<li class=""><strong>Description</strong>: Collaboratively define Document Service scope: query documentation/source info, scheduled re-crawling (detect new docs), document categorization + metadata tagging, change detection logic (compare current vs. new crawls), decide if separate DB needed, clarify distinction from Chat Service</li>
+<li class=""><strong>Deadline</strong>: Next sync meeting</li>
+<li class=""><strong>Dependencies</strong>: Vector store decision (confirmed), crawl tracking DB design (Task 7)</li>
+<li class=""><strong>Success Criteria</strong>: Document Service requirements documented, team aligned, ready for implementation
+<strong>Task 13: Finish All Ores Tracking Template</strong></li>
+<li class=""><strong>Owner</strong>: [jnxmas] (@[jnxmas])</li>
+<li class=""><strong>Description</strong>: Complete effort attribution tracking system for fair team contribution recognition, share with team for feedback</li>
+<li class=""><strong>Deadline</strong>: ASAP (ongoing discussion on Discord)</li>
+<li class=""><strong>Dependencies</strong>: None</li>
+<li class=""><strong>Success Criteria</strong>: Template finalized, shared on Discord, team feedback incorporated
+<strong>Task 14: Follow Up with Remaining Electoral List</strong></li>
+<li class=""><strong>Owner</strong>: [jnxmas] (@[jnxmas])</li>
+<li class=""><strong>Description</strong>: Contact 4th electoral list for outreach, gauge interest in Audierne2026 project</li>
+<li class=""><strong>Deadline</strong>: Before January 31 (contributions deadline)</li>
+<li class=""><strong>Dependencies</strong>: None</li>
+<li class=""><strong>Success Criteria</strong>: All 4 lists contacted, responses documented</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="future--conditional">FUTURE / CONDITIONAL<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#future--conditional" class="hash-link" aria-label="Lien direct vers FUTURE / CONDITIONAL" title="Lien direct vers FUTURE / CONDITIONAL" translate="no">​</a></h3>
+<p><strong>Task 15: Search Agent Design &amp; Implementation</strong> (CONDITIONAL)</p>
+<ul>
+<li class=""><strong>Owner</strong>: TBD (likely Guru)</li>
+<li class=""><strong>Description</strong>: IF RAG agent proves insufficient during testing, design and implement Search Agent as fallback for citizen queries</li>
+<li class=""><strong>Deadline</strong>: Week 2 of sprint (after RAG testing complete)</li>
+<li class=""><strong>Dependencies</strong>: Task 5 completion (RAG agent functional), RAG sufficiency evaluation</li>
+<li class=""><strong>Success Criteria</strong>: Decision documented (Search Agent needed: yes/no), if yes → design document with Opik integration plan
+<strong>Task 16: Migrate Prompts to Opik Library</strong> (FUTURE)</li>
+<li class=""><strong>Owner</strong>: Guru (@GurmeherSingh)</li>
+<li class=""><strong>Description</strong>: After initial hardcoded prompts working, migrate to Opik prompt library for centralized management, versioning, experimentation</li>
+<li class=""><strong>Deadline</strong>: Post-hackathon or if time permits in sprint</li>
+<li class=""><strong>Dependencies</strong>: Opik platform familiarity (Task 8), working agents with hardcoded prompts</li>
+<li class=""><strong>Success Criteria</strong>: Prompts managed in Opik, agents use library-based prompts, versioning functional
+<strong>Task 17: Redis Integration for Scheduler + Task Memory</strong></li>
+<li class=""><strong>Owner</strong>: [jnxmas] (@[jnxmas])</li>
+<li class=""><strong>Description</strong>: Integrate Redis for APScheduler persistence and task memory across restarts</li>
+<li class=""><strong>Deadline</strong>: Post-initial prototype (when scaling/production readiness needed)</li>
+<li class=""><strong>Dependencies</strong>: Working scheduler tasks (crawl updates, GitHub monitoring)</li>
+<li class=""><strong>Success Criteria</strong>: Scheduler tasks persist across app restarts, task memory functional
+<strong>Task 18: Citizen Q&amp;A RAG Agent - Planning</strong> (After Charter Agent)</li>
+<li class=""><strong>Owner</strong>: Guru (@GurmeherSingh)</li>
+<li class=""><strong>Description</strong>: After charter agent working, design second RAG agent iteration for citizen questions: reads validated contributions from charter agent, generates neutral contextual responses, cross-references municipal program data, no hallucinations (Opik guardrails)</li>
+<li class=""><strong>Deadline</strong>: Week 2 of sprint (after charter agent complete)</li>
+<li class=""><strong>Dependencies</strong>: Charter agent functional (Task 4), N8N workflows ready, VectorStore populated</li>
+<li class=""><strong>Success Criteria</strong>: Design document with Opik integration plan, data flow diagram</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="risk-assessment--mitigations">Risk Assessment &amp; Mitigations<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#risk-assessment--mitigations" class="hash-link" aria-label="Lien direct vers Risk Assessment &amp; Mitigations" title="Lien direct vers Risk Assessment &amp; Mitigations" translate="no">​</a></h2>
+<table><thead><tr><th>Risk</th><th>Impact</th><th>Mitigation</th><th>Owner</th><th>Status</th></tr></thead><tbody><tr><td><strong>Guru missing from stack discussion</strong></td><td>Medium</td><td>Record meetings, request written feedback on tasks, schedule follow-up calls</td><td>[jnxmas]</td><td>🟢 Mitigated (recordings shared)</td></tr><tr><td><strong>Victor unavailable Thu-Sun</strong></td><td>Medium</td><td>Victor completes Firecrawl by Wed, [jnxmas] tests during absence</td><td>Victor + [jnxmas]</td><td>🟢 Planned</td></tr><tr><td><strong>Crawler pagination not returning full results</strong></td><td>High</td><td>Victor debugging this week; if blocked, escalate to team</td><td>Victor</td><td>🟡 In progress</td></tr><tr><td><strong>N8N deployment blocking agent testing</strong></td><td>High</td><td>[jnxmas] prioritizes ~2h completion ASAP</td><td>[jnxmas]</td><td>🟡 In progress</td></tr><tr><td><strong>Opik access blocking Guru's development</strong></td><td>High</td><td>[jnxmas] grants access within 24h (need Guru's username)</td><td>[jnxmas]</td><td>🟡 In progress</td></tr><tr><td><strong>Vector store decision blocking RAG</strong></td><td>Medium</td><td>VectorStore + NOMIC confirmed; fallback = Mistral Studio</td><td>Guru + [jnxmas]</td><td>🟢 Resolved</td></tr><tr><td><strong>OCR quality unknown for scanned PDFs</strong></td><td>Medium</td><td>Test 3 libraries (pdf2ocr, Tabula, pypdf), compare outputs</td><td>Victor → [jnxmas]</td><td>🟡 Planned</td></tr><tr><td><strong>4-week sprint timeline pressure</strong></td><td>High</td><td>Prioritize working prototype over perfection, ruthless task board management, limit to "two tracks" (NOMIC + Mistral)</td><td>All</td><td>🟡 Ongoing</td></tr><tr><td><strong>First agent not live before contributions deadline (~Feb 1)</strong></td><td>Critical</td><td>Fast-track Charter agent development this week, daily standups</td><td>Guru + [jnxmas]</td><td>🔴 Active risk</td></tr><tr><td><strong>Low citizen engagement with contributions</strong></td><td>Medium</td><td>Consider UX simplification, focus on chatbot quality over contribution volume</td><td>[jnxmas]</td><td>🟡 Monitoring</td></tr><tr><td><strong>Team still in ideation phase despite deadline pressure</strong></td><td>Medium</td><td>Shift to execution mode immediately, lock architecture decisions</td><td>All</td><td>🟡 Transitioning</td></tr><tr><td><strong>French language hallucinations/bias in chatbot</strong></td><td>Critical</td><td>Mistral backup, heavy Opik guardrails, manual testing in French</td><td>Guru + [jnxmas]</td><td>🟡 Design phase</td></tr><tr><td><strong>Hackathon Opik showcase insufficient</strong></td><td>Medium</td><td>"Maximize Opik at every opportunity", document integration patterns, trace everything</td><td>Guru</td><td>🟡 In progress</td></tr></tbody></table>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="alignment-confirmations--strategic-notes">Alignment Confirmations &amp; Strategic Notes<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#alignment-confirmations--strategic-notes" class="hash-link" aria-label="Lien direct vers Alignment Confirmations &amp; Strategic Notes" title="Lien direct vers Alignment Confirmations &amp; Strategic Notes" translate="no">​</a></h2>
+<p><strong>✅ Strong Alignments</strong>:</p>
+<ul>
+<li class="">Opik-first approach aligns perfectly with hackathon goals</li>
+<li class="">Multi-provider LLM strategy provides resilience and cost optimization</li>
+<li class="">French language focus (Mistral) addresses political optics and user needs</li>
+<li class="">Modular ETL architecture enables swapping components without rewrites</li>
+<li class="">Team expertise (NOMIC, Streamlit, VectorStore) matches stack decisions</li>
+<li class="">Task ownership clear and distributed well (Guru = agents, Victor = crawling, [jnxmas] = infrastructure/orchestration)
+<strong>⚠️ Potential Misalignments</strong>:</li>
+<li class=""><strong>Timeline vs. scope</strong>: 4 weeks for full pipeline (crawling + OCR + RAG + Charter agent + chatbot + Opik showcase) is aggressive<!-- -->
+<ul>
+<li class=""><strong>Mitigation</strong>: Limit to "two tracks" (NOMIC primary, Mistral backup), prioritize Charter agent + basic RAG over perfect Search Agent</li>
+</ul>
+</li>
+<li class=""><strong>Citizen engagement vs. effort</strong>: Low contribution volume may not justify complex validation workflow<!-- -->
+<ul>
+<li class=""><strong>Mitigation</strong>: Focus on chatbot quality (broader citizen reach) over contribution automation</li>
+</ul>
+</li>
+<li class=""><strong>Team availability gaps</strong>: Victor's Thu-Sun absence, Guru's jet lag, [jnxmas]'s teaching commitment<!-- -->
+<ul>
+<li class=""><strong>Mitigation</strong>: Strong async collaboration (recordings, blog summaries, GitHub comments), clear handoffs
+<strong>🔍 Clarifications Needed</strong>:</li>
+</ul>
+</li>
+<li class=""><strong>Document Service vs. Chat Service</strong>: Distinction still fuzzy (addressed as: Document = search/crawl management; Chat = conversational interface, but needs formal requirements doc)</li>
+<li class=""><strong>Search Agent necessity</strong>: Conditional decision pending RAG testing (good pragmatic approach)</li>
+<li class=""><strong>Opik dashboard structure</strong>: Single unified dashboard confirmed, but team needs to explore platform features to maximize value
+<strong>📈 Recommended Focus Areas</strong>:</li>
+</ul>
+<ol>
+<li class=""><strong>This week</strong>: Charter agent + RAG agent + Firecrawl completion + Opik access = critical path</li>
+<li class=""><strong>Next week</strong>: OCR testing + Document Service definition + crawl tracking DB = data pipeline completion</li>
+<li class=""><strong>Week 3-4</strong>: Integration, testing, French language validation, Opik showcase polish, citizen-facing chatbot MVP</li>
+</ol>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="documentation--knowledge-management">Documentation &amp; Knowledge Management<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#documentation--knowledge-management" class="hash-link" aria-label="Lien direct vers Documentation &amp; Knowledge Management" title="Lien direct vers Documentation &amp; Knowledge Management" translate="no">​</a></h2>
+<p><strong>Current Practices</strong> (Strong):</p>
+<ul>
+<li class="">✅ Docusaurus blog: Meeting summaries posted to <code>blog/</code> for async collaboration</li>
+<li class="">✅ GitHub tasks: Self-assignment, commenting for feedback</li>
+<li class="">✅ Task board: 3 tasks "In Progress" with assignments</li>
+<li class="">✅ Architecture blog post: Created for team review + AI context (Cursor/Claude)</li>
+<li class="">✅ Meeting recordings: Shared for async team members (Guru)</li>
+<li class="">✅ "Tell what we do and do what we tell": Commitment tracking across conversations
+<strong>Improvements Suggested</strong>:</li>
+<li class="">📝 Document Opik integration patterns as you build (hackathon showcase value)</li>
+<li class="">📝 Create crawl tracking DB schema diagram (avoid ambiguity)</li>
+<li class="">📝 Formalize Document Service requirements doc (per Task 12)</li>
+<li class="">📝 Keep citizen-facing deliverable timeline visible (dashboard/Gantt chart)</li>
+<li class="">📝 Document OCR library comparison results (Task 10)</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="next-sync-meeting-agenda-suggested">Next Sync Meeting Agenda (Suggested)<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#next-sync-meeting-agenda-suggested" class="hash-link" aria-label="Lien direct vers Next Sync Meeting Agenda (Suggested)" title="Lien direct vers Next Sync Meeting Agenda (Suggested)" translate="no">​</a></h2>
+<ol>
+<li class=""><strong>N8N + Opik access</strong>: Confirm both unblocked ([jnxmas] updates)</li>
+<li class=""><strong>Firecrawl PR status</strong>: Review and merge if ready (Victor + [jnxmas])</li>
+<li class=""><strong>Charter agent progress</strong>: Demo initial prototype, discuss Opik traces (Guru)</li>
+<li class=""><strong>RAG agent update</strong>: Share approach, blockers, timeline (Guru)</li>
+<li class=""><strong>Crawl tracking DB</strong>: Review schema design ([jnxmas])</li>
+<li class=""><strong>Document Service requirements</strong>: Collaborative definition session (All)</li>
+<li class=""><strong>Task board review</strong>: Close completed tasks, reprioritize open items (All)</li>
+<li class=""><strong>Opik showcase strategy</strong>: What metrics/traces will impress hackathon judges? (All)</li>
+</ol>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="status-dashboard">Status Dashboard<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#status-dashboard" class="hash-link" aria-label="Lien direct vers Status Dashboard" title="Lien direct vers Status Dashboard" translate="no">​</a></h2>
+<p><strong>Overall Progress</strong>:</p>
+<ul>
+<li class="">🟢 <strong>Architecture</strong>: Finalized (VectorStore, NOMIC, Mistral, N8N, Opik strategy confirmed)</li>
+<li class="">🟡 <strong>Firecrawl Pipeline</strong>: Victor progressing, PR open, completion target Wed</li>
+<li class="">🟡 <strong>N8N Deployment</strong>: ~2 hours from completion (infrastructure blocker)</li>
+<li class="">🟡 <strong>Opik Setup</strong>: Account exists, team access pending (need usernames)</li>
+<li class="">🔴 <strong>Charter Agent</strong>: Not started (blocked by Opik access + N8N)</li>
+<li class="">🟡 <strong>RAG Agent</strong>: Starting development, update expected 1-2 days</li>
+<li class="">🔴 <strong>OCR Pipeline</strong>: Blocked on crawling completion</li>
+<li class="">🔴 <strong>Crawl Tracking DB</strong>: Design phase</li>
+<li class="">🟢 <strong>Team Coordination</strong>: Strong communication, clear roles, async collaboration working</li>
+<li class="">🟡 <strong>Political Outreach</strong>: 3/4 lists contacted, positive signals</li>
+<li class="">🔴 <strong>Citizen Engagement</strong>: Low contribution volume (UX consideration needed)</li>
+<li class="">🟢 <strong>Documentation</strong>: Blog summaries active, recordings shared, task tracking functional
+<strong>Open High-Priority Tasks</strong> (Top 5):</li>
+</ul>
+<ol>
+<li class=""><strong>🔴 URGENT</strong>: Complete N8N deployment ([jnxmas], &lt;48h) - blocks agent testing</li>
+<li class=""><strong>🔴 URGENT</strong>: Set up Opik team access ([jnxmas], &lt;24h) - blocks Guru's development</li>
+<li class=""><strong>🔴 URGENT</strong>: Complete Firecrawl pipeline (Victor, by Wed) - data ingestion dependency</li>
+<li class=""><strong>🔴 HIGH</strong>: Build Charter validation agent (Guru, update 1-2 days) - critical path for hackathon</li>
+<li class=""><strong>🔴 HIGH</strong>: Build RAG agent with Opik (Guru, update 1-2 days) - citizen-facing deliverable
+<strong>Next Milestones</strong>:</li>
+</ol>
+<ul>
+<li class=""><strong>Week 1 Goal (by ~Jan 30-31)</strong>: Charter validation agent functional with Opik tracing + Firecrawl pipeline merged + N8N orchestrating GitHub workflows + RAG agent prototype</li>
+<li class=""><strong>Immediate Blockers</strong>: N8N deployment (&lt;48h), Opik access (&lt;24h), Firecrawl pagination tuning (&lt;3 days)</li>
+<li class=""><strong>Hackathon Prototype Delivery</strong>: ~mid-February 2026 (2.5 weeks remaining from late Jan)</li>
+<li class=""><strong>Critical Path</strong>: Crawling → OCR → Vector DB → RAG + Opik → Chatbot MVP → French language validation
+<strong>Team Availability This Week</strong>:</li>
+<li class=""><strong>Guru</strong>: Available now (jet-lagged but active), development starting</li>
+<li class=""><strong>Victor</strong>: Intensive Mon-Wed, unavailable Thu-Sun (France travel)</li>
+<li class=""><strong>[jnxmas]</strong>: Full availability, prioritizing N8N/Opik/testing during Victor's absence
+<strong>Risk Level</strong>: 🟡 <strong>MEDIUM-HIGH</strong> - Timeline tight, first agent not yet live despite approaching contributions deadline, but team aligned and architecture solid. Immediate focus on unblocking N8N + Opik access will shift to 🟢 GREEN if completed within 48h.</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="action-summary---what-happens-next">Action Summary - What Happens Next<a href="https://docs.locki.io/fr/blog/meeting-ocapistaine-1#action-summary---what-happens-next" class="hash-link" aria-label="Lien direct vers Action Summary - What Happens Next" title="Lien direct vers Action Summary - What Happens Next" translate="no">​</a></h2>
+<p><strong>Immediate (Next 24 Hours)</strong>:</p>
+<ol>
+<li class="">[jnxmas] completes N8N deployment (~2 hours)</li>
+<li class="">[jnxmas] sets up Opik team access (needs Guru + Victor usernames via Discord)</li>
+<li class="">Guru shares Opik user ID/Discord username</li>
+<li class="">Victor continues Firecrawl pagination debugging</li>
+<li class="">Team explores Opik platform features once access granted</li>
+</ol>
+<p><strong>This Week (Next 3-7 Days)</strong>:</p>
+<ol>
+<li class="">Victor completes Firecrawl PR by Wednesday</li>
+<li class="">[jnxmas] reviews and merges Firecrawl PR</li>
+<li class="">Guru develops Charter validation agent, provides update in 1-2 days</li>
+<li class="">Guru develops RAG agent prototype, provides update in 1-2 days</li>
+<li class="">[jnxmas] tests Firecrawl on additional sources during Victor's absence</li>
+<li class="">[jnxmas] begins crawl tracking DB with SQL Model</li>
+<li class="">Guru + Victor review architecture blog post, suggest improvements</li>
+<li class="">All team members familiarize with Opik capabilities</li>
+</ol>
+<p><strong>Next Week (Week 2 of Sprint)</strong>:</p>
+<ol>
+<li class="">OCR library testing begins (Victor returns, or [jnxmas] covers)</li>
+<li class="">Document Service requirements defined collaboratively</li>
+<li class="">RAG agent fully functional with Opik guardrails</li>
+<li class="">Charter agent deployed to N8N workflows</li>
+<li class="">Crawl tracking DB prototype operational</li>
+<li class="">Architecture frozen, team shifts to integration phase</li>
+</ol>
+<p><strong>Week 3-4 (Final Sprint)</strong>:</p>
+<ol>
+<li class="">Full pipeline integration testing</li>
+<li class="">French language validation and bias checking</li>
+<li class="">Citizen-facing chatbot MVP deployment</li>
+<li class="">Opik showcase polish (metrics, traces, dashboards, experiment tracking)</li>
+<li class="">Hackathon submission preparation</li>
+<li class="">Final outreach to 4th electoral list</li>
+<li class="">Documentation finalization</li>
+</ol>
+<hr>
+<p><strong>Confidence Level</strong>: 🟡 <strong>CAUTIOUSLY OPTIMISTIC</strong> - Strong team, solid architecture, clear tasks, but timeline aggressive and first agent not yet live. Success depends on unblocking N8N + Opik access within 48h and Charter agent prototype within 1 week. Victor's Wed deadline and Guru's jet lag are manageable with current plans.
+<strong>Recommendation</strong>: Daily async standups (Discord) this week to track Charter agent + Firecrawl progress. Consider lightweight demo/review session Friday to validate week 1 progress before weekend.</p>]]></content>
+        <author>
+            <name>Jean-Noël Schilling</name>
+            <uri>https://github.com/jnschilling</uri>
+        </author>
+        <category label="Sprints" term="Sprints"/>
+        <category label="civitech" term="civitech"/>
+        <category label="RAG" term="RAG"/>
+        <category label="Locki Labs" term="Locki Labs"/>
+        <category label="Meeting" term="Meeting"/>
+        <category label="Encode hackathon" term="Encode hackathon"/>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Lets us code]]></title>
         <id>https://docs.locki.io/fr/blog/meher-jnxmas-letscode</id>
