@@ -67,3 +67,8 @@ machine-learning:
   label: Machine Learning
   permalink: /machine-learning
   description: Articles on machine learning and related technologies
+
+sprints:
+  label: Sprints
+  permalink: /sprints
+  description: Articles on sprints and current status updates

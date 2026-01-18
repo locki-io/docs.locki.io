@@ -1,0 +1,587 @@
+---
+slug: meeting-ocapistaine-1
+title: Let us choose the stack
+authors: [jnxmas]
+tags: [sprints, civictech, rag, locki, meeting, encode]
+---
+
+# Locki / Ò Capistaine Project - Consolidated Meeting Summary
+
+## Project Context Update (Mid-to-Late January 2026)
+
+**Project**: Locki / Ò Capistaine (audierne2026) - AI-powered civic transparency & participatory democracy platform for Audierne 2026 local elections (France)
+**Core Mission**: Build a neutral, source-based RAG chatbot to answer citizen questions about 4 municipal programs, automate contribution validation against charter rules, crawl/process municipal data (150+ links, 4,000+ PDFs), and showcase Opik integration for the "Commit to Change" Hackathon.
+**Critical Timeline**:
+
+- Contributions deadline: ~January 31, 2026
+- Hackathon prototype delivery: ~mid-February 2026 (4-week sprint)
+- Election period: ~March 15-22, 2026
+
+---
+
+## Team Status & Availability
+
+**Active Members**:
+
+- **Jean-Noël aka jnXmas (@jnxmas)**: Project lead, architecture, N8N deployment, Firecrawl testing, documentation, political outreach
+- **Meher/Gurmukher/Guru (@GurmeherSingh)**: ML Engineer, RAG agent + Opik integration (recently arrived US East Coast, jet-lagged)
+- **Victor (@zcbtvag)**: Backend Python, Firecrawl pipeline (intensive work Mon-Wed, unavailable Thu-Sun for France travel, returns following week)
+
+  **Team Experience Alignment**:
+
+- ✅ **Shared expertise**: Streamlit, VectorStore, Python, Firecrawl, Gemini, Opik
+- ✅ **Guru's strengths**: NOMIC embeddings (Sentence Transformer), Azure, Ollama
+- ❌ **Learning curve**: N8N (new for Guru + Victor)
+
+---
+
+## Political & Community Engagement Progress
+
+**Achievements**:
+
+- **Outgoing mayor**: Positive signal at New Year's event - mentioned "new paradigm in politics"
+- **Email follow-up**: Mayor acknowledged project email (10+ days prior), interested in discussing Audierne2026
+- **Electoral lists**: 3 of 4 lists contacted, very positive responses
+- **Remaining**: 1 list still to contact (before Jan 31)
+  **Current Challenge**:
+- **Low citizen engagement**: Contributions/discussions system seeing minimal activity ("it's a bit too much right now")
+- **Content workflow**: Issues validated → transferred to discussions → posted on website after community review
+- **Validation stages**: Charter compliance + Contextualization (innovative agent finding solutions)
+  **Strategic Shift**: Team needs to move from outreach to coding and delivery.
+
+---
+
+## Technical Architecture - Stack Decisions Finalized
+
+### Layer Structure (Bottom-Up ETL Pattern)
+
+**1. External Services Layer**
+
+- **Firecrawl API**: Primary web scraping/crawling service
+- **Status**: Victor progressing, PR open, completion target Wednesday (before travel)
+- **Blocker**: Pagination settings need tuning (tested with `max_pages=10`, returned only 1 page)
+- **Priority source**: Délibérations du conseil municipal (municipal council deliberations)
+  **2. Data Access Layer**
+- **Vector Store**: Confirmed standard VectorStore approach (all team members familiar)
+- **Embeddings Strategy**:
+  - **Primary**: NOMIC model (Sentence Transformer) - Guru has experience
+  - **Backup/Failsafe**: Mistral Studio - French language optimization + potential local sponsorship
+- **Crawl Tracking Database**: SQL Lite/SQL Model chosen
+  - Metadata: Crawl status, RAG inclusion, content category
+  - SQL Model benefits: Type safety (Python → SQL columns), FastAPI/Pydantic compatibility, PostgreSQL support
+  - Owner: Jean-Noël will build during Victor's absence
+    **3. Business Logic Layer**
+    **Agent 1: Charter Validation Agent** (PRIORITY)
+- **Purpose**: Auto-validate citizen contributions against charter rules
+- **Checks**: Respectful language, no personal naming, constructive content
+- **Functionality**: Binary (green/red) conformance + auto-correct miscategorized submissions (7 categories)
+- **Tech Stack**: Gemini (primary), Ollama (testing), Opik evaluation/tracing
+- **Workflow**: Reads `audierne2026` repo issues → labels/updates in `ocapistaine` repo
+- **Owner**: Guru (@GurmeherSingh)
+- **Status**: Not started (blocked by Opik access + N8N deployment)
+  **Agent 2: RAG Agent / Citizen Q&A Chatbot**
+- **Purpose**: Answer citizen questions with neutral, contextual responses, cross-reference municipal programs
+- **Requirements**: No hallucinations (Opik guardrails), source attribution, French language
+- **Approach**: Start with available data, iterate as crawling progresses
+- **Owner**: Guru (@GurmeherSingh)
+- **Status**: Starting development, update expected in 1-2 days
+- **Dependencies**: VectorStore populated, Charter agent outputs (optional)
+  **Agent 3: Search Agent** (CONDITIONAL)
+- **Decision**: Pending RAG completeness assessment
+- **Logic**: If RAG sufficient → search agent unnecessary; if RAG insufficient → search agent as fallback
+- **Status**: On hold pending RAG testing
+  **Chat Service** (Already Working)
+- **Functionality**: Multi-turn conversations with thread management (UUID per user)
+- **Providers**: OpenAI, Ollama (Mistral, DeepSeek tested locally), Perplexity, Gemini
+- **Features**: System message config, prompt engineering, thread history persistence, strategy selection (Charter mode, Q&A mode, etc.)
+- **Opik Integration**: Full tracing via `workflow_chat` class
+  **Document Service** (To Be Defined)
+- **Proposed Purpose**:
+  - Query documentation/source information
+  - Scheduled re-crawling (detect new docs since last crawl)
+  - Document categorization + metadata tagging
+  - Change detection (compare current vs. new crawls, decide RAG updates)
+- **Open Question**: How does this differ from Chat Service? (Clarified: Document = search/crawl management; Chat = conversational interface)
+- **Status**: Requirements to be defined collaboratively
+  **4. Application Layer**
+- **Streamlit**: Primary presentation interface
+- **FastAPI**: Routing layer
+- **Debug Scripts**: One-click full stack launch (UV cone + Streamlit app automation)
+- **Hot Reload**: Code modifications work without restart
+- **Future**: Redis integration for scheduler + task memory persistence
+  **5. External Orchestration Layer**
+- **N8N**: Self-hosted Docker deployment on Contabo server (viety.loki.io)
+- **Status**: ~2 hours from completion (as of last meeting)
+- **Workflows**:
+  - Pull issues from `audierne2026` GitHub repo
+  - Trigger charter validation agent
+  - Push validated/labeled issues back to repo
+  - Modify Jekyll website content
+  - Provide API endpoint for agent testing
+- **Multi-project approach**: Separate workflows per project on shared dashboard
+- **Future**: Pull data from Opik Cloud back into app (feedback loop via N8N API)
+  **Supporting Infrastructure**:
+- **APScheduler (cron-based)**: Time-based tasks (daily/weekly crawl updates, GitHub monitoring, Charter violation checks)
+- **Opik**: Evaluation, tracing, prompt management (future), hallucination detection, metrics/dashboards
+- **Poetry**: Dependency management (NOT pip) for library compatibility
+
+---
+
+## Opik Integration Strategy - MAXIMIZE USAGE
+
+**Team Consensus**: "Maximize Opik usage at every opportunity" - it's the hackathon focus.
+**Dashboard Setup Decisions**:
+
+- **Environment**: Start with Opik Dev, migrate to Prod when ready
+- **Dashboard Approach**: Single unified dashboard to monitor all agents (avoid complexity of separate dashboards per agent)
+- **API Keys**: Likely one project with multiple keys for per-developer usage tracking
+- **Access**:
+  - Jean-Noël has access to `Ocapistaine Dev` dashboard
+  - Need to grant Guru and Victor access
+  - Guru has existing Opik account (needs to share user ID/Discord username)
+  - Victor's Opik status: Not confirmed
+    **Integration Points**:
+- Charter validation agent: Trace every decision, verify adherence to charter rules
+- RAG agent: Hallucination prevention, prompt evaluation, guardrails
+- N8N workflows: Plug into Opik for agent activity reporting
+- Chat service: Already using Opik tracing via `workflow_chat` class
+- Prompt management: Start hardcoded, potentially migrate to Opik prompt library later
+- Evaluation judge: Verify LLM adherence to prompts
+  **Team Familiarity**:
+- Platform exploration phase: Team has not yet fully explored Opik capabilities
+- Reference materials: Git examples available for implementation patterns
+- Action needed: All team members familiarize with Opik features (dashboards, prompt library, evaluation)
+
+---
+
+## LLM Provider Strategy - Multi-Provider Approach
+
+**Confirmed Providers**:
+
+1. **Gemini**: Sponsored/free option (primary for Charter agent)
+2. **Ollama**: Completely free (local testing) - Mistral, DeepSeek tested
+3. **Mistral**: French language optimization + potential sponsorship target (French govt/local alignment, political risk mitigation)
+4. **OpenAI**: Already working in Chat service
+5. **Perplexity**: Available option
+   **Strategic Rationale**:
+
+- **French language**: Critical for citizen-facing content - Mistral chosen for optimization
+- **Political optics**: Using French LLM provider avoids criticism of not supporting French solutions
+- **Cost management**: Prioritize free/sponsored options (Gemini, Ollama)
+- **Failsafe approach**: NOMIC primary + Mistral backup = "two tracks maximum" (Jean-Noël's preference given 4-week timeline)
+
+---
+
+## Development Workflow & Version Control
+
+**Git Strategy**:
+
+- **Protected branch**: `dev` branch - no direct pushes
+- **Feature branches**: Mandatory for all work
+- **PR workflow**: Victor successfully resolved upstream branch issue, has open PR ready for review
+- **Review process**: Jean-Noël reviews and merges into `dev`
+  **Dependency Management**:
+- **Poetry ONLY**: NOT pip - ensures library compatibility
+- **Command**: `poetry add `
+- **Action**: Victor + Guru ensure local environments use Poetry
+  **Documentation**:
+- **Docusaurus blog**: All meeting summaries posted to `blog/` for async collaboration + AI context (Cursor/Claude code context)
+- **GitHub tasks**: Self-assignment encouraged, commenting for async feedback
+- **Task board**: 3 tasks "In Progress" with all three team members assigned
+
+---
+
+## Critical Technical Decisions Summary
+
+| Component             | Decision                                        | Owner              | Status                 |
+| --------------------- | ----------------------------------------------- | ------------------ | ---------------------- |
+| **Vector DB**         | VectorStore (standard)                          | Team               | ✅ Confirmed           |
+| **Embeddings**        | NOMIC primary, Mistral backup                   | Guru               | ✅ Confirmed           |
+| **Orchestration**     | N8N (Docker, viety.loki.io)                     | Jean-Noël          | 🟡 ~2h from deployment |
+| **Crawl Tracking**    | SQL Lite + SQL Model                            | Jean-Noël          | 🔴 Design phase        |
+| **LLM Providers**     | Gemini, Ollama, Mistral, OpenAI, Perplexity     | Team               | ✅ Multi-provider      |
+| **Opik Setup**        | Single dashboard, Dev → Prod, multiple API keys | Jean-Noël          | 🟡 Access pending      |
+| **OCR Libraries**     | pdf2ocr, Tabula, pypdf (test all 3)             | Victor → Jean-Noël | 🔴 Blocked on crawling |
+| **Prompt Management** | Hardcoded → Opik library (future)               | Guru               | 🔴 Not started         |
+| **Search Agent**      | Conditional on RAG completeness                 | TBD                | 🟡 On hold             |
+
+---
+
+## Firecrawl Pipeline Progress (Victor's Focus)
+
+**Completed**:
+
+- ✅ Debugged and fixed scraper component
+- ✅ Fixed crawler functionality (operational after "small but critical" config issues)
+- ✅ Open PR ready for review
+- ✅ Resolved upstream branch issue
+  **Current Issues**:
+- ⚠️ Pagination settings need adjustment (tested `max_pages=10`, returned only 1 page)
+- ⚠️ Full document retrieval tuning required
+  **Victor's Timeline**:
+- **Mon-Wed (this week)**: Intensive work, complete Firecrawl pipeline
+- **Thu-Sun**: Unavailable (travel to France - pre-planned holiday)
+- **Following week**: Returns and continues contributions
+- **Goal**: Finish Firecrawl work before Wednesday departure
+  **Next Steps**:
+
+1. Victor finalizes additional commits to feature branch
+2. Victor signals when PR ready for final review
+3. Jean-Noël reviews and merges into `dev`
+4. Jean-Noël tests merged pipeline on additional sources during Victor's absence
+5. Once crawling complete → Apply OCR to PDFs (pdf2ocr, Tabula, pypdf testing)
+
+---
+
+## OCR Pipeline Strategy (Post-Firecrawl)
+
+**Target Documents**: Scanned PDFs in municipal archives (~4,000+ documents)
+**Libraries to Test**:
+
+1. pdf2ocr
+2. Tabula
+3. pypdf
+   **Approach**: Test all 3, compare outputs for quality
+   **Owner**: Victor (primary), Jean-Noël (testing during Victor's absence)
+   **Status**: Blocked on Firecrawl crawling completion
+
+---
+
+## Project Background & Context
+
+**Locki Project Evolution**:
+
+- Origin: Started from hackathon 2 years ago
+- Built agents on top of Locki stack
+- Participated in cohorts to improve functionality
+- Previous projects:
+  - 3D objects on-chain (paused - too early/complex, slow blockchain)
+  - Horse racing betting strategy (15 years expert knowledge → code/data layer, not yet commercialized)
+  - Multiverse Six / XRP experience (3D NFTs)
+    **Jean-Noël's Work**:
+- Freelancing: Apps, websites, e-commerce development
+- Computer teacher for small children (Thursdays, 2 hours)
+- Locki is primary passion project ("what makes me wake up in the morning")
+- Successfully built Locki mobile app prototype
+  **Dev Environment**:
+- VS Code with debug scripts for one-click launch
+- Team using Cursor IDE may need to adapt scripts
+- Victor considering switch to VS Code for easier workflow
+
+---
+
+## Open Questions & Decisions Needed
+
+### For Guru (Flagged for Response):
+
+1. ✅ **Vector store preference**: VectorStore confirmed, NOMIC embeddings confirmed
+2. ⏳ **Opik user ID/Discord username**: Needed for dashboard access grant
+3. ⏳ **Stack alignment review**: Read architecture blog post in repo, suggest improvements
+4. ⏳ **Charter agent design**: Begin development, provide update in 1-2 days
+
+### For Victor:
+
+1. ⏳ **Opik account status**: Confirm if account exists or needs creation
+2. ⏳ **Firecrawl PR readiness**: Signal when ready for final review
+3. ⏳ **Poetry environment**: Verify local setup uses Poetry (not pip)
+
+### For Jean-Noël:
+
+1. ⏳ **N8N deployment**: Complete final ~2 hours of setup
+2. ⏳ **Opik dashboard access**: Invite Guru + Victor (need usernames)
+3. ⏳ **Document Service requirements**: Define scope and distinction from Chat Service
+4. ⏳ **Crawl scheduling**: Decide frequency (daily vs. weekly) for production
+
+### For Team Discussion:
+
+1. ⏳ **Search Agent decision**: Revisit after RAG testing complete
+2. ⏳ **Citizen engagement UX**: Consider simplifying contribution system if low engagement persists
+3. ⏳ **Effort attribution**: Finalize "all ores tracking template" for fair team contribution recognition
+4. ⏳ **Prompt management migration**: Timeline for moving hardcoded prompts to Opik library
+
+---
+
+## Comprehensive Task List
+
+### URGENT (Next 48 Hours)
+
+**Task 1: Complete N8N Deployment & GitHub Integration**
+
+- **Owner**: Jean-Noël (@jnxmas)
+- **Description**: Finish final ~2 hours of N8N Docker deployment on viety.loki.io, configure workflows to pull issues from `audierne2026` repo, trigger charter validation agent, push validated/labeled issues back, provide API endpoint for testing
+- **Deadline**: Within 48 hours (before Guru needs to test agent)
+- **Dependencies**: None (infrastructure task)
+- **Success Criteria**: N8N accessible at viety.loki.io, test workflow successfully pulls/pushes GitHub issue, API endpoint documented
+  **Task 2: Set Up Opik Dev Environment & Team Access**
+- **Owner**: Jean-Noël (@jnxmas)
+- **Description**: Create/configure `Ocapistaine Dev` Opik project, generate separate API keys for Jean-Noël/Guru/Victor, grant dashboard access to all team members, document key assignment and usage tracking approach
+- **Deadline**: Before Guru starts agent development (next 24 hours)
+- **Dependencies**: Guru's Opik user ID/Discord username, Victor's Opik account confirmation
+- **Success Criteria**: All team members can access dashboard, separate keys functional, usage trackable per developer
+  **Task 3: Complete Firecrawl Pipeline Implementation**
+- **Owner**: Victor (@zcbtvag)
+- **Description**: Finalize additional commits to Firecrawl feature branch, fix pagination settings to ensure full document retrieval, test with multiple sources, signal when PR ready for final review
+- **Deadline**: Wednesday (before France travel)
+- **Dependencies**: Firecrawl API keys, crawler pagination tuning
+- **Success Criteria**: PR merged without conflicts, Firecrawl successfully crawls full test dataset, documented in code
+  **Task 4: Build Charter Validation Agent - Core Logic**
+- **Owner**: Guru (@GurmeherSingh)
+- **Description**: Develop charter validation agent that reads citizen contribution issues from `audierne2026` repo, validates against charter rules (respectful, no naming, constructive), auto-corrects category misclassifications (7 categories), returns binary validation + corrected category, integrates Opik evaluation at every decision point
+- **Deadline**: Update in 1-2 days, full prototype ASAP (foundation for other workflows)
+- **Dependencies**: Access to Opik dashboard, `audierne2026` repo read access, N8N API endpoint
+- **Success Criteria**: Agent correctly validates 95%+ test cases, Opik traces show decision transparency, category corrections work
+
+### HIGH PRIORITY (This Week)
+
+**Task 5: Build RAG Agent with Opik Integration**
+
+- **Owner**: Guru (@GurmeherSingh)
+- **Description**: Develop core RAG agent for citizen Q&A, integrate NOMIC embeddings (primary) + Mistral (backup), implement Opik for evaluation/tracing/hallucination prevention, generate neutral contextual responses with source attribution, cross-reference municipal program data
+- **Deadline**: Update in 1-2 days, working prototype by end of week (Jan 30-31)
+- **Dependencies**: VectorStore setup, crawled data (start with available), Opik access
+- **Success Criteria**: Functional RAG agent with Opik tracing active, no hallucinations in test cases, proper French language responses
+  **Task 6: Firecrawl PR Review & Merge**
+- **Owner**: Victor (@zcbtvag) + Jean-Noël (review)
+- **Description**: Victor signals PR ready, Jean-Noël reviews and merges into `dev` branch, test merged pipeline functionality
+- **Deadline**: End of week (allow Victor time for improvements)
+- **Dependencies**: Task 3 completion
+- **Success Criteria**: PR merged, Firecrawl pipeline functional on test sources
+  **Task 7: Test Firecrawl on Additional Sources & Build Crawl Tracking DB**
+- **Owner**: Jean-Noël (@jnxmas)
+- **Description**: Intensively test Victor's Firecrawl code on ocapistaine repo PDFs/websites and other sources beyond current scope, begin SQL Lite/SQL Model database for tracking crawled content with metadata (crawl status, RAG inclusion, content category)
+- **Deadline**: Sunday evening (status update)
+- **Dependencies**: Task 6 completion (merged Firecrawl code)
+- **Success Criteria**: Multiple sources tested successfully, tracking database prototype with crawl status and categorization functional
+  **Task 8: Explore Opik Platform Features**
+- **Owner**: All team members
+- **Description**: Familiarize with Opik capabilities, dashboards, prompt library, evaluation features, tracing, metrics, experiment tracking
+- **Deadline**: Next 2-3 days (parallel with development)
+- **Dependencies**: Opik access granted (Task 2)
+- **Success Criteria**: Team comfortable with platform, ready to maximize hackathon showcase, documented learnings
+  **Task 9: Poetry Dependency Management Setup**
+- **Owner**: Victor (@zcbtvag) + Guru (@GurmeherSingh)
+- **Description**: Ensure local dev environments use Poetry (not pip) for all library additions, verify compatible with current workflows
+- **Deadline**: Before next library additions
+- **Dependencies**: Poetry installed locally
+- **Success Criteria**: No pip-related dependency conflicts, `pyproject.toml` up to date, team using `poetry add ` exclusively
+
+### MEDIUM PRIORITY (Next Week)
+
+**Task 10: Test OCR Libraries on Scanned PDFs**
+
+- **Owner**: Victor (@zcbtvag) → Jean-Noël (if Victor unavailable)
+- **Description**: Test pdf2ocr, Tabula, pypdf on sample scanned PDFs from municipal archives, compare outputs for quality, select best library/combination for production
+- **Deadline**: Immediately after crawling complete (or during Victor's absence)
+- **Dependencies**: Task 3/6 completion (crawling functional)
+- **Success Criteria**: 3 libraries tested, quality comparison documented, production OCR library selected
+  **Task 11: Architecture Documentation Review**
+- **Owner**: Guru (@GurmeherSingh) + Victor (@zcbtvag)
+- **Description**: Read architecture blog post Jean-Noël created (in `ocapistaine` repo), suggest additions specifically around NOMIC embedding implementation details, RAG service integration points, any conflicts/improvements from experience
+- **Deadline**: Next 2-3 days (before architecture freeze)
+- **Dependencies**: Access to blog in repo
+- **Success Criteria**: Comments/suggestions posted, team aligned on architecture
+  **Task 12: Define Document Service Requirements**
+- **Owner**: Jean-Noël + Guru + Victor
+- **Description**: Collaboratively define Document Service scope: query documentation/source info, scheduled re-crawling (detect new docs), document categorization + metadata tagging, change detection logic (compare current vs. new crawls), decide if separate DB needed, clarify distinction from Chat Service
+- **Deadline**: Next sync meeting
+- **Dependencies**: Vector store decision (confirmed), crawl tracking DB design (Task 7)
+- **Success Criteria**: Document Service requirements documented, team aligned, ready for implementation
+  **Task 13: Finish All Ores Tracking Template**
+- **Owner**: Jean-Noël (@jnxmas)
+- **Description**: Complete effort attribution tracking system for fair team contribution recognition, share with team for feedback
+- **Deadline**: ASAP (ongoing discussion on Discord)
+- **Dependencies**: None
+- **Success Criteria**: Template finalized, shared on Discord, team feedback incorporated
+  **Task 14: Follow Up with Remaining Electoral List**
+- **Owner**: Jean-Noël (@jnxmas)
+- **Description**: Contact 4th electoral list for outreach, gauge interest in Audierne2026 project
+- **Deadline**: Before January 31 (contributions deadline)
+- **Dependencies**: None
+- **Success Criteria**: All 4 lists contacted, responses documented
+
+### FUTURE / CONDITIONAL
+
+**Task 15: Search Agent Design & Implementation** (CONDITIONAL)
+
+- **Owner**: TBD (likely Guru)
+- **Description**: IF RAG agent proves insufficient during testing, design and implement Search Agent as fallback for citizen queries
+- **Deadline**: Week 2 of sprint (after RAG testing complete)
+- **Dependencies**: Task 5 completion (RAG agent functional), RAG sufficiency evaluation
+- **Success Criteria**: Decision documented (Search Agent needed: yes/no), if yes → design document with Opik integration plan
+  **Task 16: Migrate Prompts to Opik Library** (FUTURE)
+- **Owner**: Guru (@GurmeherSingh)
+- **Description**: After initial hardcoded prompts working, migrate to Opik prompt library for centralized management, versioning, experimentation
+- **Deadline**: Post-hackathon or if time permits in sprint
+- **Dependencies**: Opik platform familiarity (Task 8), working agents with hardcoded prompts
+- **Success Criteria**: Prompts managed in Opik, agents use library-based prompts, versioning functional
+  **Task 17: Redis Integration for Scheduler + Task Memory**
+- **Owner**: Jean-Noël (@jnxmas)
+- **Description**: Integrate Redis for APScheduler persistence and task memory across restarts
+- **Deadline**: Post-initial prototype (when scaling/production readiness needed)
+- **Dependencies**: Working scheduler tasks (crawl updates, GitHub monitoring)
+- **Success Criteria**: Scheduler tasks persist across app restarts, task memory functional
+  **Task 18: Citizen Q&A RAG Agent - Planning** (After Charter Agent)
+- **Owner**: Guru (@GurmeherSingh)
+- **Description**: After charter agent working, design second RAG agent iteration for citizen questions: reads validated contributions from charter agent, generates neutral contextual responses, cross-references municipal program data, no hallucinations (Opik guardrails)
+- **Deadline**: Week 2 of sprint (after charter agent complete)
+- **Dependencies**: Charter agent functional (Task 4), N8N workflows ready, VectorStore populated
+- **Success Criteria**: Design document with Opik integration plan, data flow diagram
+
+---
+
+## Risk Assessment & Mitigations
+
+| Risk                                                            | Impact   | Mitigation                                                                                                            | Owner              | Status                           |
+| --------------------------------------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------- | ------------------ | -------------------------------- |
+| **Guru missing from stack discussion**                          | Medium   | Record meetings, request written feedback on tasks, schedule follow-up calls                                          | Jean-Noël          | 🟢 Mitigated (recordings shared) |
+| **Victor unavailable Thu-Sun**                                  | Medium   | Victor completes Firecrawl by Wed, Jean-Noël tests during absence                                                     | Victor + Jean-Noël | 🟢 Planned                       |
+| **Crawler pagination not returning full results**               | High     | Victor debugging this week; if blocked, escalate to team                                                              | Victor             | 🟡 In progress                   |
+| **N8N deployment blocking agent testing**                       | High     | Jean-Noël prioritizes ~2h completion ASAP                                                                             | Jean-Noël          | 🟡 In progress                   |
+| **Opik access blocking Guru's development**                     | High     | Jean-Noël grants access within 24h (need Guru's username)                                                             | Jean-Noël          | 🟡 In progress                   |
+| **Vector store decision blocking RAG**                          | Medium   | VectorStore + NOMIC confirmed; fallback = Mistral Studio                                                              | Guru + Jean-Noël   | 🟢 Resolved                      |
+| **OCR quality unknown for scanned PDFs**                        | Medium   | Test 3 libraries (pdf2ocr, Tabula, pypdf), compare outputs                                                            | Victor → Jean-Noël | 🟡 Planned                       |
+| **4-week sprint timeline pressure**                             | High     | Prioritize working prototype over perfection, ruthless task board management, limit to "two tracks" (NOMIC + Mistral) | All                | 🟡 Ongoing                       |
+| **First agent not live before contributions deadline (~Feb 1)** | Critical | Fast-track Charter agent development this week, daily standups                                                        | Guru + Jean-Noël   | 🔴 Active risk                   |
+| **Low citizen engagement with contributions**                   | Medium   | Consider UX simplification, focus on chatbot quality over contribution volume                                         | Jean-Noël          | 🟡 Monitoring                    |
+| **Team still in ideation phase despite deadline pressure**      | Medium   | Shift to execution mode immediately, lock architecture decisions                                                      | All                | 🟡 Transitioning                 |
+| **French language hallucinations/bias in chatbot**              | Critical | Mistral backup, heavy Opik guardrails, manual testing in French                                                       | Guru + Jean-Noël   | 🟡 Design phase                  |
+| **Hackathon Opik showcase insufficient**                        | Medium   | "Maximize Opik at every opportunity", document integration patterns, trace everything                                 | Guru               | 🟡 In progress                   |
+
+---
+
+## Alignment Confirmations & Strategic Notes
+
+**✅ Strong Alignments**:
+
+- Opik-first approach aligns perfectly with hackathon goals
+- Multi-provider LLM strategy provides resilience and cost optimization
+- French language focus (Mistral) addresses political optics and user needs
+- Modular ETL architecture enables swapping components without rewrites
+- Team expertise (NOMIC, Streamlit, VectorStore) matches stack decisions
+- Task ownership clear and distributed well (Guru = agents, Victor = crawling, Jean-Noël = infrastructure/orchestration)
+  **⚠️ Potential Misalignments**:
+- **Timeline vs. scope**: 4 weeks for full pipeline (crawling + OCR + RAG + Charter agent + chatbot + Opik showcase) is aggressive
+  - **Mitigation**: Limit to "two tracks" (NOMIC primary, Mistral backup), prioritize Charter agent + basic RAG over perfect Search Agent
+- **Citizen engagement vs. effort**: Low contribution volume may not justify complex validation workflow
+  - **Mitigation**: Focus on chatbot quality (broader citizen reach) over contribution automation
+- **Team availability gaps**: Victor's Thu-Sun absence, Guru's jet lag, Jean-Noël's teaching commitment
+  - **Mitigation**: Strong async collaboration (recordings, blog summaries, GitHub comments), clear handoffs
+    **🔍 Clarifications Needed**:
+- **Document Service vs. Chat Service**: Distinction still fuzzy (addressed as: Document = search/crawl management; Chat = conversational interface, but needs formal requirements doc)
+- **Search Agent necessity**: Conditional decision pending RAG testing (good pragmatic approach)
+- **Opik dashboard structure**: Single unified dashboard confirmed, but team needs to explore platform features to maximize value
+  **📈 Recommended Focus Areas**:
+
+1. **This week**: Charter agent + RAG agent + Firecrawl completion + Opik access = critical path
+2. **Next week**: OCR testing + Document Service definition + crawl tracking DB = data pipeline completion
+3. **Week 3-4**: Integration, testing, French language validation, Opik showcase polish, citizen-facing chatbot MVP
+
+---
+
+## Documentation & Knowledge Management
+
+**Current Practices** (Strong):
+
+- ✅ Docusaurus blog: Meeting summaries posted to `blog/` for async collaboration
+- ✅ GitHub tasks: Self-assignment, commenting for feedback
+- ✅ Task board: 3 tasks "In Progress" with assignments
+- ✅ Architecture blog post: Created for team review + AI context (Cursor/Claude)
+- ✅ Meeting recordings: Shared for async team members (Guru)
+- ✅ "Tell what we do and do what we tell": Commitment tracking across conversations
+  **Improvements Suggested**:
+- 📝 Document Opik integration patterns as you build (hackathon showcase value)
+- 📝 Create crawl tracking DB schema diagram (avoid ambiguity)
+- 📝 Formalize Document Service requirements doc (per Task 12)
+- 📝 Keep citizen-facing deliverable timeline visible (dashboard/Gantt chart)
+- 📝 Document OCR library comparison results (Task 10)
+
+---
+
+## Next Sync Meeting Agenda (Suggested)
+
+1. **N8N + Opik access**: Confirm both unblocked (Jean-Noël updates)
+2. **Firecrawl PR status**: Review and merge if ready (Victor + Jean-Noël)
+3. **Charter agent progress**: Demo initial prototype, discuss Opik traces (Guru)
+4. **RAG agent update**: Share approach, blockers, timeline (Guru)
+5. **Crawl tracking DB**: Review schema design (Jean-Noël)
+6. **Document Service requirements**: Collaborative definition session (All)
+7. **Task board review**: Close completed tasks, reprioritize open items (All)
+8. **Opik showcase strategy**: What metrics/traces will impress hackathon judges? (All)
+
+---
+
+## Status Dashboard
+
+**Overall Progress**:
+
+- 🟢 **Architecture**: Finalized (VectorStore, NOMIC, Mistral, N8N, Opik strategy confirmed)
+- 🟡 **Firecrawl Pipeline**: Victor progressing, PR open, completion target Wed
+- 🟡 **N8N Deployment**: ~2 hours from completion (infrastructure blocker)
+- 🟡 **Opik Setup**: Account exists, team access pending (need usernames)
+- 🔴 **Charter Agent**: Not started (blocked by Opik access + N8N)
+- 🟡 **RAG Agent**: Starting development, update expected 1-2 days
+- 🔴 **OCR Pipeline**: Blocked on crawling completion
+- 🔴 **Crawl Tracking DB**: Design phase
+- 🟢 **Team Coordination**: Strong communication, clear roles, async collaboration working
+- 🟡 **Political Outreach**: 3/4 lists contacted, positive signals
+- 🔴 **Citizen Engagement**: Low contribution volume (UX consideration needed)
+- 🟢 **Documentation**: Blog summaries active, recordings shared, task tracking functional
+  **Open High-Priority Tasks** (Top 5):
+
+1. **🔴 URGENT**: Complete N8N deployment (Jean-Noël, <48h) - blocks agent testing
+2. **🔴 URGENT**: Set up Opik team access (Jean-Noël, <24h) - blocks Guru's development
+3. **🔴 URGENT**: Complete Firecrawl pipeline (Victor, by Wed) - data ingestion dependency
+4. **🔴 HIGH**: Build Charter validation agent (Guru, update 1-2 days) - critical path for hackathon
+5. **🔴 HIGH**: Build RAG agent with Opik (Guru, update 1-2 days) - citizen-facing deliverable
+   **Next Milestones**:
+
+- **Week 1 Goal (by ~Jan 30-31)**: Charter validation agent functional with Opik tracing + Firecrawl pipeline merged + N8N orchestrating GitHub workflows + RAG agent prototype
+- **Immediate Blockers**: N8N deployment (<48h), Opik access (<24h), Firecrawl pagination tuning (<3 days)
+- **Hackathon Prototype Delivery**: ~mid-February 2026 (2.5 weeks remaining from late Jan)
+- **Critical Path**: Crawling → OCR → Vector DB → RAG + Opik → Chatbot MVP → French language validation
+  **Team Availability This Week**:
+- **Guru**: Available now (jet-lagged but active), development starting
+- **Victor**: Intensive Mon-Wed, unavailable Thu-Sun (France travel)
+- **Jean-Noël**: Full availability, prioritizing N8N/Opik/testing during Victor's absence
+  **Risk Level**: 🟡 **MEDIUM-HIGH** - Timeline tight, first agent not yet live despite approaching contributions deadline, but team aligned and architecture solid. Immediate focus on unblocking N8N + Opik access will shift to 🟢 GREEN if completed within 48h.
+
+---
+
+## Action Summary - What Happens Next
+
+**Immediate (Next 24 Hours)**:
+
+1. Jean-Noël completes N8N deployment (~2 hours)
+2. Jean-Noël sets up Opik team access (needs Guru + Victor usernames via Discord)
+3. Guru shares Opik user ID/Discord username
+4. Victor continues Firecrawl pagination debugging
+5. Team explores Opik platform features once access granted
+   **This Week (Next 3-7 Days)**:
+6. Victor completes Firecrawl PR by Wednesday
+7. Jean-Noël reviews and merges Firecrawl PR
+8. Guru develops Charter validation agent, provides update in 1-2 days
+9. Guru develops RAG agent prototype, provides update in 1-2 days
+10. Jean-Noël tests Firecrawl on additional sources during Victor's absence
+11. Jean-Noël begins crawl tracking DB with SQL Model
+12. Guru + Victor review architecture blog post, suggest improvements
+13. All team members familiarize with Opik capabilities
+    **Next Week (Week 2 of Sprint)**:
+14. OCR library testing begins (Victor returns, or Jean-Noël covers)
+15. Document Service requirements defined collaboratively
+16. RAG agent fully functional with Opik guardrails
+17. Charter agent deployed to N8N workflows
+18. Crawl tracking DB prototype operational
+19. Architecture frozen, team shifts to integration phase
+    **Week 3-4 (Final Sprint)**:
+20. Full pipeline integration testing
+21. French language validation and bias checking
+22. Citizen-facing chatbot MVP deployment
+23. Opik showcase polish (metrics, traces, dashboards, experiment tracking)
+24. Hackathon submission preparation
+25. Final outreach to 4th electoral list
+26. Documentation finalization
+
+---
+
+**Confidence Level**: 🟡 **CAUTIOUSLY OPTIMISTIC** - Strong team, solid architecture, clear tasks, but timeline aggressive and first agent not yet live. Success depends on unblocking N8N + Opik access within 48h and Charter agent prototype within 1 week. Victor's Wed deadline and Guru's jet lag are manageable with current plans.
+**Recommendation**: Daily async standups (Discord) this week to track Charter agent + Firecrawl progress. Consider lightweight demo/review session Friday to validate week 1 progress before weekend.
