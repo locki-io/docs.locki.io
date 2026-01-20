@@ -232,7 +232,7 @@ Content-Type: application/json
 ```bash
 curl -X POST "https://vaettir.locki.io/webhook/participons/issues" \
   -H "Content-Type: application/json" \
-  -d '{"state": "open", "type": "task","per_page": 5, "page": 1}'
+  -d '{"state": "open", "type": "Task","per_page": 5, "page": 1}'
 ```
 
 ## Related
