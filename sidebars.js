@@ -45,6 +45,7 @@ const sidebars = {
         "workflows/consolidation",
         "workflows/contribution-charter",
         "workflows/firecrawl",
+        "workflows/n8n-github-integration",
       ],
     },
   ],

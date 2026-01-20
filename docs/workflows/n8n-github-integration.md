@@ -2,6 +2,35 @@
 
 Design document for N8N workflows managing GitHub issues from `audierne2026/participons`.
 
+> **Important**: All N8N Code nodes should use **Python** for consistency and maintainability.
+> See individual workflow documentation in [n8n_integrations/](./n8n_integrations/) for implementation details.
+
+## Conventions
+
+### Code Nodes: Python Only
+
+All transformation and logic code in N8N workflows **must be written in Python** for:
+
+- Consistency with OCapistaine backend (Python)
+- Easier debugging and testing
+- Shared utility functions
+
+### GitHub API Access
+
+Use **HTTP Request node** instead of the GitHub node for listing issues. The GitHub node's `getAll` operation is not available for issues.
+
+```
+GET https://api.github.com/repos/{owner}/{repo}/issues
+Headers:
+  Authorization: Bearer {token}
+  Accept: application/vnd.github.v3+json
+```
+
+### Workflow Documentation
+
+Each workflow has detailed documentation in `n8n_integrations/`:
+- [Participons - List Issues](./n8n_integrations/Participons%20-%20List%20Issues.md)
+
 ## Architecture Overview
 
 ```
@@ -50,7 +79,15 @@ Design document for N8N workflows managing GitHub issues from `audierne2026/part
 - **Scopes**: `repo`, `issues:read`, `issues:write`
 - **Repository**: `audierne2026/participons`
 
+### Forseti461 :
+
+Personal Access Token : FORSETI_TOKEN
+github_username : forseti461
+
 ### OCapistaine API (internal network)
+
+Personal Access Token : OCAP_TOKEN
+github_username : ocapistaine
 
 - **Base URL**: `http://localhost:8050` (or internal Docker network URL)
 - No authentication required for local calls
@@ -60,6 +97,8 @@ Design document for N8N workflows managing GitHub issues from `audierne2026/part
 ## Workflow 1: List Participons Issues
 
 **Purpose**: Fetch and filter issues from the participons repository.
+
+> **Documentation**: [n8n_integrations/Participons - List Issues.md](./n8n_integrations/Participons%20-%20List%20Issues.md)
 
 ### Trigger
 
@@ -71,11 +110,9 @@ Design document for N8N workflows managing GitHub issues from `audierne2026/part
 
 ```json
 {
-  "state": "open", // open | closed | all
-  "labels": ["Task"], // filter by labels
-  "category": null, // filter by category label
-  "per_page": 50, // max results
-  "since": null // ISO date, only issues updated after
+  "state": "open",
+  "labels": "Task",
+  "per_page": 50
 }
 ```
 
@@ -83,66 +120,93 @@ Design document for N8N workflows managing GitHub issues from `audierne2026/part
 
 ```
 ┌──────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────┐
-│ Webhook  │───►│ GitHub Node  │───►│ Filter/Map   │───►│ Response │
-│ Trigger  │    │ List Issues  │    │ Transform    │    │ JSON     │
+│ Webhook  │───►│ HTTP Request │───►│ Python       │───►│ Response │
+│ Trigger  │    │ GitHub API   │    │ Transform    │    │ JSON     │
 └──────────┘    └──────────────┘    └──────────────┘    └──────────┘
 ```
 
-### GitHub Node Configuration
+> **Note**: Use HTTP Request node instead of GitHub node. The GitHub node's `getAll` operation for issues is not available.
 
-- **Resource**: Issue
-- **Operation**: Get Many
-- **Repository Owner**: `audierne2026`
-- **Repository Name**: `participons`
-- **Return All**: false (use pagination)
-- **Filters**: state, labels, since
+### HTTP Request Configuration
 
-### Output Transformation
+```
+Method: GET
+URL: https://api.github.com/repos/audierne2026/participons/issues
 
-```javascript
-// Code node to transform GitHub response
-return items.map((issue) => ({
-  id: issue.number,
-  title: issue.title,
-  body: issue.body || "",
-  state: issue.state,
-  labels: issue.labels.map((l) => l.name),
-  category: extractCategory(issue), // from [category] in title or body
-  created_at: issue.created_at,
-  updated_at: issue.updated_at,
-  html_url: issue.html_url,
-  user: issue.user.login,
-}));
+Query Parameters:
+  state: {{ $json.body.state || 'open' }}
+  labels: {{ $json.body.labels || 'Task' }}
+  per_page: {{ $json.body.per_page || 50 }}
 
-function extractCategory(issue) {
-  // Check title for [category]
-  const titleMatch = issue.title.match(/\[([^\]]+)\]/);
-  if (titleMatch) return titleMatch[1].toLowerCase();
+Headers:
+  Authorization: Bearer {{ $credentials.githubApi.accessToken }}
+  Accept: application/vnd.github.v3+json
+  User-Agent: N8N-Forseti461
+```
 
-  // Check body for Category: xxx
-  if (issue.body) {
-    const bodyMatch = issue.body.match(/Category:\s*(\w+)/i);
-    if (bodyMatch) return bodyMatch[1].toLowerCase();
-  }
+### Output Transformation (Python)
 
-  // Check labels
-  const categoryLabels = [
-    "economie",
-    "logement",
-    "culture",
-    "ecologie",
-    "associations",
-    "jeunesse",
-    "alimentation-bien-etre-soins",
-  ];
-  for (const label of issue.labels) {
-    if (categoryLabels.includes(label.name.toLowerCase())) {
-      return label.name.toLowerCase();
-    }
-  }
+```python
+import re
 
-  return null;
-}
+def extract_category(issue):
+    """Extract category from issue title, body, or labels."""
+    title = issue.get('title', '')
+    body = issue.get('body', '') or ''
+    labels = issue.get('labels', [])
+
+    # Check title for [category]
+    title_match = re.search(r'\[([^\]]+)\]', title)
+    if title_match:
+        return title_match.group(1).lower()
+
+    # Check body for Category: xxx
+    body_match = re.search(r'Category:\s*(\w+)', body, re.IGNORECASE)
+    if body_match:
+        return body_match.group(1).lower()
+
+    # Check labels
+    category_labels = [
+        'economie', 'logement', 'culture', 'ecologie',
+        'associations', 'jeunesse', 'alimentation-bien-etre-soins'
+    ]
+    for label in labels:
+        label_name = label.get('name', '') if isinstance(label, dict) else str(label)
+        if label_name.lower() in category_labels:
+            return label_name.lower()
+
+    return None
+
+
+def transform_issues(items):
+    """Transform GitHub API response to standardized format."""
+    issues = []
+    for item in items:
+        issue = item if isinstance(item, dict) else item.get('json', {})
+        labels = issue.get('labels', [])
+        label_names = [l.get('name') if isinstance(l, dict) else str(l) for l in labels]
+
+        issues.append({
+            'id': issue.get('number'),
+            'title': issue.get('title'),
+            'body': issue.get('body') or '',
+            'state': issue.get('state'),
+            'labels': label_names,
+            'category': extract_category(issue),
+            'created_at': issue.get('created_at'),
+            'updated_at': issue.get('updated_at'),
+            'html_url': issue.get('html_url'),
+            'user': issue.get('user', {}).get('login', 'unknown'),
+            'has_conforme_charte': 'conforme charte' in [l.lower() for l in label_names]
+        })
+
+    return {'success': True, 'count': len(issues), 'issues': issues}
+
+
+# N8N entry point
+items = $input.all()
+github_issues = items[0]['json'] if items and isinstance(items[0].get('json'), list) else [i.get('json', i) for i in items]
+return [{'json': transform_issues(github_issues)}]
 ```
 
 ### Response Format
@@ -290,23 +354,25 @@ Content-Type: application/json
 }
 ```
 
-### Label Logic
+### Label Logic (Python)
 
-```javascript
-// Code node after validation
-const result = $input.first().json;
+```python
+# Code node after validation
+result = $input.first().json
 
-// Simple logic: only add "conforme charte" if valid
-// Violations are tracked in Opik, not via GitHub labels
-const labelsToAdd = result.is_valid ? ["conforme charte"] : [];
+# Simple logic: only add "conforme charte" if valid
+# Violations are tracked in Opik, not via GitHub labels
+labels_to_add = ['conforme charte'] if result.get('is_valid') else []
 
-return {
-  issue_number: $("Get Issue").first().json.number,
-  labels_to_add: labelsToAdd,
-  is_valid: result.is_valid,
-  validation_result: result,
-  // Note: violations logged to Opik automatically by OCapistaine
-};
+return [{
+    'json': {
+        'issue_number': $node['Get Issue'].json.get('number'),
+        'labels_to_add': labels_to_add,
+        'is_valid': result.get('is_valid'),
+        'validation_result': result
+        # Note: violations logged to Opik automatically by OCapistaine
+    }
+}]
 ```
 
 ### Response Format
