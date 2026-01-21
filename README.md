@@ -49,9 +49,13 @@ docs/
 │   ├── getting-started.md
 │   ├── troubleshooting.md
 └── workflows/
+    ├── n8n-integrations/
+    │   └── Participons-List-Issues.md
     ├── consolidation.md        # Weekly consolidation
     ├── contribution-charter.md # Governance rules
+    ├── n8n-github-integration.md # N8N setup
     └── firecrawl.md           # Document acquisition
+
 ```
 
 ## Deployment
@@ -78,3 +82,21 @@ Translations are in `i18n/` directory.
 - Edit docs in `docs/` directory
 - Preview with `npm start`
 - Submit PR to `locki-io/docs.locki.io`
+
+## Troubleshooting
+
+### Broken Links Error
+
+If you encounter `[ERROR] Docusaurus found broken links!`, check for:
+
+1. **Links to directories instead of files**: Docusaurus requires links to point to specific `.md` files, not directories
+   - Bad: `[docs](./directory/)`
+   - Good: `[docs](./directory/index.md)` or just use code formatting: `` `directory/` ``
+
+2. **Missing or renamed files**: Verify all linked files exist
+   - Use `git status` to check for deleted/renamed files
+   - Update links to match new filenames
+
+3. **Case sensitivity**: Ensure file paths match exact case (especially on case-insensitive systems)
+
+**Example fix**: Change `[n8n_integrations/](./n8n_integrations/)` to `` `n8n_integrations/` `` in `docs/workflows/n8n-github-integration.md:14`

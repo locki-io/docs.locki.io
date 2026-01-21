@@ -1,9 +1,17 @@
+---
+id: n8n-github-integration
+title: Integration of the N8N server to allow github actions
+sidebar_label: n8n-integration
+sidebar_position: 4
+description: n8n allows to integrate external services like github - email - discord
+---
+
 # N8N GitHub Integration Workflows
 
 Design document for N8N workflows managing GitHub issues from `audierne2026/participons`.
 
 > **Important**: All N8N Code nodes should use **Python** for consistency and maintainability.
-> See individual workflow documentation in [n8n_integrations/](./n8n_integrations/) for implementation details.
+> See individual workflow documentation in `n8n_integrations/` for implementation details.
 
 ## Conventions
 
@@ -29,7 +37,8 @@ Headers:
 ### Workflow Documentation
 
 Each workflow has detailed documentation in `n8n_integrations/`:
-- [Participons - List Issues](./n8n_integrations/Participons%20-%20List%20Issues.md)
+
+- [Participons - List Issues](./n8n_integrations/Participons-List-Issues.md)
 
 ## Architecture Overview
 
@@ -98,7 +107,7 @@ github_username : ocapistaine
 
 **Purpose**: Fetch and filter issues from the participons repository.
 
-> **Documentation**: [n8n_integrations/Participons - List Issues.md](./n8n_integrations/Participons%20-%20List%20Issues.md)
+> **Documentation**: [n8n_integrations/Participons - List Issues.md](./n8n_integrations/Participons-List-Issues.md)
 
 ### Trigger
 
@@ -654,12 +663,12 @@ OCAPISTAINE_API_KEY=optional_api_key
 ## Sequence Diagram: Full Validation Flow
 
 ```
-┌─────────┐     ┌─────────┐     ┌─────────────┐     ┌──────────┐
-│ Claude  │     │  N8N    │     │ OCapistaine │     │  GitHub  │
-│  Code   │     │ Vaettir │     │ Forseti 461 │     │   API    │
-└────┬────┘     └────┬────┘     └──────┬──────┘     └────┬─────┘
+┌─────────┐     ┌─────────┐     ┌─────────────┐      ┌──────────┐
+│ Claude  │     │  N8N    │     │ OCapistaine │      │  GitHub  │
+│  Code   │     │ Vaettir │     │ Forseti 461 │      │   API    │
+└────┬────┘     └────┬────┘     └──────┬──────┘      └────┬─────┘
      │               │                 │                  │
-     │ MCP: list_issues               │                  │
+     │ MCP: list_issues                │                  │
      │──────────────►│                 │                  │
      │               │ GET /issues     │                  │
      │               │────────────────────────────────────►
@@ -668,7 +677,7 @@ OCAPISTAINE_API_KEY=optional_api_key
      │  issues[]     │                 │                  │
      │◄──────────────│                 │                  │
      │               │                 │                  │
-     │ MCP: validate_issue(42)        │                  │
+     │ MCP: validate_issue(42)         │                  │
      │──────────────►│                 │                  │
      │               │ GET /issues/42  │                  │
      │               │────────────────────────────────────►
