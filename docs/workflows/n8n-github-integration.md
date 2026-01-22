@@ -39,6 +39,8 @@ Headers:
 Each workflow has detailed documentation in `n8n_integrations/`:
 
 - [Participons - List Issues](./n8n_integrations/Participons-List-Issues.md)
+- [Participons - List Discussions](./n8n_integrations/Participons-List-Discussions.md)
+- [Participons - Get Discussion](./n8n_integrations/Participons-Get-Discussion.md)
 
 ## Architecture Overview
 
@@ -566,6 +568,135 @@ In `audierne2026/participons` repository settings:
 
 ---
 
+## Workflow 7: List Discussions
+
+**Purpose**: Fetch discussions from the participons repository using GitHub's GraphQL API.
+
+> **Documentation**: [n8n_integrations/Participons - List Discussions.md](./n8n_integrations/Participons-List-Discussions.md)
+
+### Trigger
+
+- **Type**: Webhook / MCP Tool
+- **Method**: POST
+- **Path**: `/webhook/participons/discussions`
+
+### Input Parameters
+
+```json
+{
+  "per_page": 10,          // Number of discussions (default: 10, max: 100)
+  "category_slug": null,   // Filter by category (e.g., "ideas", "announcements")
+  "after": null            // Pagination cursor
+}
+```
+
+### Flow
+
+```
+┌──────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Webhook  │───►│ Python Build │───►│ HTTP Request │───►│ Python       │
+│ Trigger  │    │ GraphQL      │    │ GraphQL API  │    │ Transform    │
+└──────────┘    └──────────────┘    └──────────────┘    └──────┬───────┘
+                                                                │
+                                                                ▼
+                                                         ┌──────────────┐
+                                                         │ Response     │
+                                                         │ JSON         │
+                                                         └──────────────┘
+```
+
+### GraphQL Query (built in Python node)
+
+```python
+def build_discussions_query(owner, repo, first=10, category=None, after=None):
+    """Build GraphQL query for fetching discussions."""
+    category_filter = f', categoryId: "{category}"' if category else ""
+    after_clause = f', after: "{after}"' if after else ""
+
+    query = f"""
+    query {{
+      repository(owner: "{owner}", name: "{repo}") {{
+        discussions(first: {first}{category_filter}{after_clause},
+                   orderBy: {{field: UPDATED_AT, direction: DESC}}) {{
+          totalCount
+          pageInfo {{ hasNextPage endCursor }}
+          nodes {{
+            id number title body url createdAt updatedAt
+            author {{ login }}
+            category {{ id name slug }}
+            labels(first: 10) {{ nodes {{ name }} }}
+            comments(first: 1) {{ totalCount }}
+            upvoteCount isAnswered answerChosenAt
+          }}
+        }}
+        discussionCategories(first: 10) {{
+          nodes {{ id name slug description }}
+        }}
+      }}
+    }}
+    """
+    return query
+```
+
+### HTTP Request Configuration
+
+```
+Method: POST
+URL: https://api.github.com/graphql
+
+Headers:
+  Authorization: Bearer {{ $credentials.githubApi.accessToken }}
+  Content-Type: application/json
+  User-Agent: N8N-Forseti461
+
+Body:
+  { "query": "{{ $json.query }}" }
+```
+
+### Response Format
+
+```json
+{
+  "success": true,
+  "count": 10,
+  "total_count": 45,
+  "has_next_page": true,
+  "end_cursor": "Y3Vyc29yOnYyOpK5MjAyNC0wMS0xNVQxMDozMDowMFo=",
+  "discussions": [
+    {
+      "id": 5,
+      "title": "Proposition pour améliorer le port d'Audierne",
+      "body": "Je propose de moderniser...",
+      "url": "https://github.com/audierne2026/participons/discussions/5",
+      "created_at": "2024-01-15T10:30:00Z",
+      "updated_at": "2024-01-20T14:20:00Z",
+      "author": "citizen123",
+      "category": {
+        "id": "DIC_kwDOJxyz1M4CZabc",
+        "name": "Ideas",
+        "slug": "ideas"
+      },
+      "labels": ["economie", "infrastructure"],
+      "comments_count": 12,
+      "upvotes": 8,
+      "is_answered": false
+    }
+  ],
+  "available_categories": [
+    {
+      "id": "DIC_kwDOJxyz1M4CZabc",
+      "name": "Ideas",
+      "slug": "ideas",
+      "description": "Share ideas for new features"
+    }
+  ]
+}
+```
+
+**Note**: GitHub Discussions use GraphQL API (v4), not REST API. Category filtering requires GraphQL IDs, which are provided in the response's `available_categories` field.
+
+---
+
 ## MCP Tool Definitions
 
 When exposed via N8N's MCP Server, these workflows become tools:
@@ -619,6 +750,37 @@ When exposed via N8N's MCP Server, these workflows become tools:
           "limit": { "type": "integer", "default": 20 },
           "dry_run": { "type": "boolean", "default": false }
         }
+      }
+    },
+    {
+      "name": "participons_list_discussions",
+      "description": "List discussions from audierne2026/participons repository using GraphQL API",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "per_page": { "type": "integer", "default": 10, "maximum": 100 },
+          "category_slug": {
+            "type": "string",
+            "enum": ["ideas", "announcements", "q-and-a", "general"],
+            "description": "Filter by discussion category slug"
+          },
+          "after": {
+            "type": "string",
+            "description": "Pagination cursor for next page (from previous response's end_cursor)"
+          }
+        }
+      }
+    },
+    {
+      "name": "participons_get_discussion",
+      "description": "Get details of a specific discussion including all comments",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "number": { "type": "integer" },
+          "include_comments": { "type": "boolean", "default": true }
+        },
+        "required": ["number"]
       }
     }
   ]
