@@ -13,49 +13,67 @@ This happens because Streamlit checks the origin of requests and blocks connecti
 
 ## Solution
 
-Configure Streamlit to allow connections from your production domain.
+Configure Streamlit to allow connections from your production domain using dynamic environment-based configuration.
 
-### Step 1: Create Streamlit Config Directory
+### Step 1: Configure Environment Variables
 
-In your Streamlit application directory (e.g., `ocapistaine`):
+OCapistaine uses a dynamic CORS strategy that automatically includes:
+- Localhost (for development)
+- Your fixed ngrok domain (if `NGROK_DOMAIN` is set)
+- Production domains (vaettir.locki.io)
+- Any custom origins you specify
+
+Edit your `.env` file:
 
 ```bash
-cd ~/dev/ocapistaine
-mkdir -p .streamlit
+# Set your fixed ngrok domain
+NGROK_DOMAIN=ocapistaine.ngrok-free.app
+
+# Streamlit will automatically allow:
+# - http://localhost:8502
+# - https://ocapistaine.ngrok-free.app (from NGROK_DOMAIN)
+# - https://ocapistaine.vaettir.locki.io
+# - https://vaettir.locki.io
+
+# Optional: Add custom origins (comma-separated)
+# STREAMLIT_CUSTOM_ORIGINS=https://my-custom-domain.com
 ```
 
-### Step 2: Create Config File
+### Step 2: Use Dynamic Configuration Script
 
-Create `.streamlit/config.toml`:
+Run Streamlit with automatic CORS configuration:
+
+```bash
+# Method 1: Export environment variables, then run
+eval $(python scripts/set_streamlit_env.py)
+streamlit run app/front.py
+
+# Method 2: Use shell script (recommended)
+# Create a run script that does both
+```
+
+The script automatically configures:
+- `STREAMLIT_SERVER_ALLOWED_ORIGINS` - All allowed domains
+- `STREAMLIT_SERVER_ENABLE_CORS=true`
+- `STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION=false`
+- `STREAMLIT_BROWSER_SERVER_ADDRESS` - Set to ngrok domain if configured
+
+### Step 3: Static Config File (Alternative)
+
+A basic `.streamlit/config.toml` is provided, but it defers to environment variables for allowed origins:
 
 ```toml
 [server]
-# Enable CORS for proxy access
 enableCORS = true
 enableXsrfProtection = false
-
-# Allow WebSocket connections from your domains
-# Add all domains that will access your app
-allowedOrigins = [
-    "https://ocapistaine.vaettir.locki.io",
-    "https://ocapistaine.ngrok-free.app",
-    "http://localhost:8050",
-    "https://vaettir.locki.io"
-]
-
-# Server settings
-port = 8050
+port = 8502
 address = "0.0.0.0"
 headless = true
 
 [browser]
-# Disable automatic browser opening
 gatherUsageStats = false
-serverAddress = "ocapistaine.vaettir.locki.io"
-serverPort = 443
 
 [client]
-# Show detailed error messages
 showErrorDetails = true
 ```
 
