@@ -584,9 +584,9 @@ In `audierne2026/participons` repository settings:
 
 ```json
 {
-  "per_page": 10,          // Number of discussions (default: 10, max: 100)
-  "category_slug": null,   // Filter by category (e.g., "ideas", "announcements")
-  "after": null            // Pagination cursor
+  "per_page": 10, // Number of discussions (default: 10, max: 100)
+  "category_slug": null, // Filter by category (e.g., "ideas", "announcements")
+  "after": null // Pagination cursor
 }
 ```
 
