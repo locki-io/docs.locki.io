@@ -202,38 +202,143 @@ connect() to [2a05:...]:443 failed (101: Network unreachable)
 resolver 8.8.8.8 8.8.4.4 valid=300s ipv6=off;
 ```
 
-### Streamlit Apps - JavaScript Required / 403 WebSocket
+### Streamlit Apps - JavaScript Required / WebSocket Failures
 
 **Symptoms:**
 - Page loads but shows "You need to enable JavaScript to run this app"
+- WebSocket connection errors in browser console: `WebSocket connection to 'wss://ocapistaine.vaettir.locki.io/_stcore/stream' failed`
 - 403 Forbidden errors on `/_stcore/stream` in logs
 - App appears broken or disconnected
 
-**Cause:** Streamlit CORS configuration blocking proxy domain
+**Root Causes:**
+1. **Nginx proxy missing WebSocket upgrade headers** (most common)
+2. Streamlit CORS configuration blocking proxy domain
+3. Missing proxy headers for proper host forwarding
 
-**Quick Fix:**
+**Fix 1: Update Nginx Proxy for WebSocket Support**
 
-1. Create Streamlit config in your app directory:
+The nginx proxy on vaettir **MUST** include WebSocket upgrade headers. Edit the proxy configuration:
+
 ```bash
-cd ~/dev/ocapistaine
-mkdir -p .streamlit
-cat > .streamlit/config.toml << 'EOF'
-[server]
-enableCORS = true
-enableXsrfProtection = false
-allowedOrigins = [
-    "https://ocapistaine.vaettir.locki.io",
-    "https://ocapistaine.ngrok-free.app"
-]
-port = 8050
-address = "0.0.0.0"
-EOF
+# SSH to vaettir
+ssh jnxmas@vaettir.locki.io
+
+# Edit the ocapistaine proxy config
+cd ~/vaettir
+nano proxy-configs/ocapistaine.conf.template
 ```
 
-2. Restart your app:
-```bash
-docker compose restart
+**Required configuration:**
+
+```nginx
+# WebSocket upgrade support (add at the top, outside server block)
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+    '' close;
+}
+
+server {
+    listen 80;
+
+    # DNS resolver for dynamic upstream
+    resolver 8.8.8.8 8.8.4.4 valid=300s ipv6=off;
+
+    location / {
+        # Target ngrok URL (from environment variable)
+        proxy_pass ${OCAPISTAINE_TARGET_URL};
+
+        # WebSocket support - CRITICAL for Streamlit
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+
+        # Disable buffering for real-time streaming
+        proxy_buffering off;
+        proxy_cache off;
+
+        # Standard proxy headers
+        proxy_set_header Host ocapistaine.ngrok-free.app;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $host;
+
+        # SSL settings for ngrok
+        proxy_ssl_server_name on;
+        proxy_ssl_name ocapistaine.ngrok-free.app;
+
+        # Timeouts (important for WebSocket long-polling)
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 300s;
+        proxy_read_timeout 300s;
+    }
+}
 ```
+
+**Rebuild and restart:**
+
+```bash
+# Rebuild the proxy container with new config
+docker compose build ocapistaine
+
+# Restart with production profile
+docker compose --profile production --profile proxy up -d ocapistaine
+
+# Verify it's running
+docker compose ps ocapistaine
+
+# Check logs for errors
+docker compose logs ocapistaine --tail 50
+```
+
+**Fix 2: Streamlit CORS Configuration**
+
+In your local ocapistaine app, ensure CORS is configured via **environment variables** (not config.toml):
+
+```bash
+# In ocapistaine/.env
+NGROK_DOMAIN=ocapistaine.ngrok-free.app
+
+# Run Streamlit with automatic CORS setup
+./scripts/run_streamlit.sh
+```
+
+The `run_streamlit.sh` script automatically configures:
+- `STREAMLIT_SERVER_ALLOWED_ORIGINS` with all required domains
+- `STREAMLIT_SERVER_ENABLE_CORS=true`
+- `STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION=false`
+
+**Note:** Streamlit 1.53.0 does NOT support `allowedOrigins` in config.toml. You MUST use environment variables.
+
+**Fix 3: Verify Configuration**
+
+After applying fixes, test the connection:
+
+```bash
+# 1. Check WebSocket endpoint accessibility
+curl -I https://ocapistaine.vaettir.locki.io/_stcore/stream
+
+# Should return "426 Upgrade Required" (not 403 or 502)
+
+# 2. Test in browser
+open https://ocapistaine.vaettir.locki.io
+
+# 3. Check browser console (F12 → Console)
+# Should see: WebSocket connection established
+# Should NOT see: WebSocket connection failed or 403 errors
+
+# 4. Check Network tab (F12 → Network → WS filter)
+# Look for: /_stcore/stream with status "101 Switching Protocols"
+```
+
+**Troubleshooting:**
+
+| Error | Cause | Fix |
+|-------|-------|-----|
+| `WebSocket connection failed` | Missing WebSocket headers in proxy | Add `Upgrade` and `Connection` headers (Fix 1) |
+| `403 Forbidden` | CORS blocking domain | Configure STREAMLIT_SERVER_ALLOWED_ORIGINS (Fix 2) |
+| `502 Bad Gateway` | Proxy can't reach ngrok | Verify ngrok is running and URL is correct |
+| `426 Upgrade Required` | **NORMAL** - This is correct for direct curl (not a browser) | No fix needed |
 
 **For detailed Streamlit configuration:** See [STREAMLIT_SETUP.md](../app/STREAMLIT_SETUP.md)
 

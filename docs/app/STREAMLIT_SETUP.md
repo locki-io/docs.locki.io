@@ -58,9 +58,9 @@ The script automatically configures:
 - `STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION=false`
 - `STREAMLIT_BROWSER_SERVER_ADDRESS` - Set to ngrok domain if configured
 
-### Step 3: Static Config File (Alternative)
+### Step 3: Static Config File
 
-A basic `.streamlit/config.toml` is provided, but it defers to environment variables for allowed origins:
+A basic `.streamlit/config.toml` is provided, which sets static values:
 
 ```toml
 [server]
@@ -77,7 +77,9 @@ gatherUsageStats = false
 showErrorDetails = true
 ```
 
-### Step 3: Environment Variables (Alternative)
+**IMPORTANT:** Streamlit 1.53.0 does NOT support `allowedOrigins` in config.toml. Use environment variables instead (configured by `set_streamlit_env.py`).
+
+### Alternative: Manual Environment Variables
 
 Alternatively, set via environment variables:
 
@@ -165,21 +167,24 @@ curl -I https://ocapistaine.vaettir.locki.io/_stcore/stream
 
 ### Still Getting 403 on WebSocket
 
-**Check allowed origins:**
+**Check environment variables:**
 ```bash
-# Verify config is loaded
-grep allowedOrigins .streamlit/config.toml
+# Verify CORS is configured
+echo $STREAMLIT_SERVER_ALLOWED_ORIGINS
+
+# Should show comma-separated list of domains
+# If empty, run: eval $(python scripts/set_streamlit_env.py)
 ```
 
-**Add wildcard (less secure, for testing):**
-```toml
-[server]
-enableCORS = true
-enableXsrfProtection = false
-allowedOrigins = ["*"]
+**For testing, allow all origins (less secure):**
+```bash
+export STREAMLIT_SERVER_ALLOWED_ORIGINS="*"
+streamlit run app/front.py
 ```
 
-**Restart and test again.**
+**If that works, the issue is CORS. Check your domain is in the allowed list.**
+
+**Note:** Most WebSocket failures are caused by missing proxy headers, not CORS. See [PROXY_MANAGEMENT.md](../orchestration/PROXY_MANAGEMENT.md) for nginx WebSocket configuration.
 
 ### XSRF Token Errors
 
@@ -246,17 +251,16 @@ curl -I https://ocapistaine.vaettir.locki.io
 
 ### Production Settings
 
-For production, use specific origins (not wildcards):
+For production, use specific origins (not wildcards) via environment variables:
 
-```toml
-[server]
-enableCORS = true
-enableXsrfProtection = true  # Enable for production
-allowedOrigins = [
-    "https://ocapistaine.vaettir.locki.io",
-    "https://vaettir.locki.io"
-]
+```bash
+# Set in production environment or .env
+export STREAMLIT_SERVER_ALLOWED_ORIGINS="https://ocapistaine.vaettir.locki.io,https://vaettir.locki.io"
+export STREAMLIT_SERVER_ENABLE_CORS=true
+export STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION=true  # Enable for production if needed
 ```
+
+**Note:** OCapistaine automatically configures these via `scripts/set_streamlit_env.py`.
 
 ### HTTPS Only
 
@@ -278,35 +282,30 @@ serverAddress = "ocapistaine.vaettir.locki.io"
 
 ### Development
 
-`.streamlit/config.dev.toml`:
-```toml
-[server]
-enableCORS = true
-enableXsrfProtection = false
-allowedOrigins = ["*"]
-port = 8050
+```bash
+# Allow all origins for local testing
+export STREAMLIT_SERVER_ALLOWED_ORIGINS="*"
+export STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION=false
+streamlit run app/front.py
 ```
 
 ### Production
 
-`.streamlit/config.prod.toml`:
-```toml
-[server]
-enableCORS = true
-enableXsrfProtection = true
-allowedOrigins = [
-    "https://ocapistaine.vaettir.locki.io"
-]
-port = 8050
+```bash
+# Specific origins only
+export STREAMLIT_SERVER_ALLOWED_ORIGINS="https://ocapistaine.vaettir.locki.io,https://vaettir.locki.io"
+export STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION=false
+streamlit run app/front.py
 ```
 
-**Load specific config:**
+**Using OCapistaine's dynamic config:**
 ```bash
-# Development
-STREAMLIT_CONFIG_FILE=.streamlit/config.dev.toml streamlit run app.py
+# Automatically configures based on .env settings
+eval $(python scripts/set_streamlit_env.py)
+streamlit run app/front.py
 
-# Production (via environment variable in docker-compose.yml)
-STREAMLIT_CONFIG_FILE=.streamlit/config.prod.toml
+# Or use the convenience script
+./scripts/run_streamlit.sh
 ```
 
 ## Complete Example
@@ -328,18 +327,16 @@ ocapistaine/
 [server]
 enableCORS = true
 enableXsrfProtection = false
-port = 8050
+port = 8502
 address = "0.0.0.0"
 headless = true
-allowedOrigins = [
-    "https://ocapistaine.vaettir.locki.io",
-    "https://ocapistaine.ngrok-free.app"
-]
+# NOTE: allowedOrigins is NOT supported in Streamlit 1.53.0
+# Use environment variable STREAMLIT_SERVER_ALLOWED_ORIGINS instead
 
 [browser]
 gatherUsageStats = false
-serverAddress = "ocapistaine.vaettir.locki.io"
-serverPort = 443
+# serverAddress and serverPort are set dynamically via environment variables
+# STREAMLIT_BROWSER_SERVER_ADDRESS and STREAMLIT_BROWSER_SERVER_PORT
 
 [client]
 showErrorDetails = true
@@ -351,25 +348,26 @@ services:
   app:
     build: .
     ports:
-      - "8050:8050"
+      - "8502:8502"
     volumes:
       - .:/app
       - ./.streamlit:/app/.streamlit:ro
     environment:
       - STREAMLIT_SERVER_ENABLE_CORS=true
-      - STREAMLIT_SERVER_PORT=8050
+      - STREAMLIT_SERVER_PORT=8502
+      - STREAMLIT_SERVER_ALLOWED_ORIGINS=https://ocapistaine.vaettir.locki.io,https://ocapistaine.ngrok-free.app
     restart: unless-stopped
 ```
 
 ### Start Everything
 
 ```bash
-# 1. Start local app
+# 1. Start local app (using run script with automatic CORS config)
 cd ~/dev/ocapistaine
-docker compose up -d
+./scripts/run_streamlit.sh
 
-# 2. Start ngrok
-ngrok http 8050 --domain=ocapistaine.ngrok-free.app
+# 2. In another terminal, start ngrok
+ngrok http 8502 --domain=ocapistaine.ngrok-free.app
 
 # 3. Access via proxy
 open https://ocapistaine.vaettir.locki.io
