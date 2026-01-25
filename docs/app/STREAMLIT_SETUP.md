@@ -203,12 +203,12 @@ This is safe when behind a proxy with HTTPS.
 - Should see `/_stcore/stream` with status `101`
 
 **If not connected:**
-1. Check proxy logs: `ssh jnxmas@vaettir.locki.io 'cd ~/vaettir && docker compose logs ocapistaine'`
+1. Check proxy logs: `ssh <user>@<server> 'cd ~/vaettir && docker compose logs ocapistaine'`
 2. Verify proxy config has WebSocket support (see below)
 
 ### Verify Proxy Configuration
 
-The proxy must support WebSocket upgrade. Check `/Users/jnxmas/dev/vaettir/proxy-configs/ocapistaine.conf.template`:
+The proxy must support WebSocket upgrade. Check `/Users/<user>/dev/vaettir/proxy-configs/ocapistaine.conf.template`:
 
 ```nginx
 # Map for WebSocket upgrade

@@ -104,7 +104,7 @@ http {
 
 On the server:
 ```bash
-ssh jnxmas@vaettir.locki.io
+ssh <user>@<server>
 cd ~/vaettir
 
 # Copy from example and customize

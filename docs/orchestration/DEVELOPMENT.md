@@ -167,7 +167,7 @@ The proxy config (`proxy-configs/ocapistaine.conf.template`) is also pre-configu
 If using a temporary ngrok URL, you need to update it every time ngrok restarts:
 
 ```bash
-ssh jnxmas@vaettir.locki.io
+ssh <user>@<server>
 cd ~/vaettir
 nano .env
 ```
@@ -201,7 +201,7 @@ Save and exit (Ctrl+X, Y, Enter).
 
 ```bash
 # SSH to production
-ssh jnxmas@vaettir.locki.io
+ssh <user>@<server>
 cd ~/vaettir
 
 # Build proxy image
@@ -288,7 +288,7 @@ ngrok http 8050
 # Copy the URL: https://xyz789.ngrok-free.app
 
 # 3. Update production server
-ssh jnxmas@vaettir.locki.io
+ssh <user>@<server>
 cd ~/vaettir
 nano .env
 # Update: OCAPISTAINE_TARGET_URL=https://xyz789.ngrok-free.app
@@ -324,17 +324,17 @@ Changes are immediately available:
 
 ```bash
 # From local machine
-ssh jnxmas@vaettir.locki.io 'cd ~/vaettir && docker compose ps ocapistaine'
+ssh <user>@<server> 'cd ~/vaettir && docker compose ps ocapistaine'
 
 # Check logs
-ssh jnxmas@vaettir.locki.io 'cd ~/vaettir && docker compose logs -f ocapistaine'
+ssh <user>@<server> 'cd ~/vaettir && docker compose logs -f ocapistaine'
 ```
 
 **Restart Proxy**
 
 ```bash
 # Quick restart (no code changes)
-ssh jnxmas@vaettir.locki.io 'cd ~/vaettir && docker compose --profile production --profile proxy restart ocapistaine'
+ssh <user>@<server> 'cd ~/vaettir && docker compose --profile production --profile proxy restart ocapistaine'
 
 # Or use the helper script from local machine
 ./scripts/update_proxy.sh
@@ -360,7 +360,7 @@ Without custom domain (free plan):
 
 ```bash
 # 1. Update .env on production
-ssh jnxmas@vaettir.locki.io
+ssh <user>@<server>
 cd ~/vaettir
 nano .env
 # Change: OCAPISTAINE_TARGET_URL=https://new-ngrok-url.ngrok-free.app
@@ -381,7 +381,7 @@ docker compose --profile production --profile proxy up -d ocapistaine
 curl -I https://ocapistaine.vaettir.locki.io
 
 # Test from n8n container
-ssh jnxmas@vaettir.locki.io 'docker exec vaettir-n8n-1 curl -I http://ocapistaine:80'
+ssh <user>@<server> 'docker exec vaettir-n8n-1 curl -I http://ocapistaine:80'
 ```
 
 ### Evening Cleanup (Optional)
@@ -394,7 +394,7 @@ cd ~/dev/ocapistaine
 docker compose down
 
 # On server: stop proxy (optional, but usually leave it running)
-ssh jnxmas@vaettir.locki.io
+ssh <user>@<server>
 cd ~/vaettir
 docker compose stop ocapistaine
 ```

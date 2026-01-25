@@ -16,10 +16,10 @@ User/n8n → vaettir.locki.io:443 → Traefik → ocapistaine:80 → ngrok → l
 
 ```bash
 # View proxy status
-ssh jnxmas@vaettir.locki.io 'cd ~/vaettir && docker compose ps ocapistaine'
+ssh <user>@<server> 'cd ~/vaettir && docker compose ps ocapistaine'
 
 # View logs
-ssh jnxmas@vaettir.locki.io 'cd ~/vaettir && docker compose logs -f ocapistaine'
+ssh <user>@<server> 'cd ~/vaettir && docker compose logs -f ocapistaine'
 
 # Test endpoint
 curl -I https://ocapistaine.vaettir.locki.io
@@ -82,7 +82,7 @@ If using free ngrok, URL changes on each restart.
 
 2. Update production `.env`:
 ```bash
-ssh jnxmas@vaettir.locki.io
+ssh <user>@<server>
 cd ~/vaettir
 nano .env
 # Update: OCAPISTAINE_TARGET_URL=https://xyz123.ngrok-free.app
@@ -107,12 +107,12 @@ docker compose --profile production --profile proxy up -d ocapistaine
 
 **Check service status:**
 ```bash
-ssh jnxmas@vaettir.locki.io 'cd ~/vaettir && docker compose ps ocapistaine'
+ssh <user>@<server> 'cd ~/vaettir && docker compose ps ocapistaine'
 ```
 
 **If not running:**
 ```bash
-ssh jnxmas@vaettir.locki.io 'cd ~/vaettir && docker compose --profile production --profile proxy up -d ocapistaine'
+ssh <user>@<server> 'cd ~/vaettir && docker compose --profile production --profile proxy up -d ocapistaine'
 ```
 
 ### Connection Refused
@@ -141,7 +141,7 @@ curl http://localhost:8050/health
 curl http://localhost:4040/api/tunnels | jq '.tunnels[0].public_url'
 
 # Update production .env if different
-ssh jnxmas@vaettir.locki.io
+ssh <user>@<server>
 cd ~/vaettir
 nano .env
 # Update OCAPISTAINE_TARGET_URL
@@ -154,7 +154,7 @@ docker compose --profile production --profile proxy restart ocapistaine
 
 Nginx config error - check logs:
 ```bash
-ssh jnxmas@vaettir.locki.io 'cd ~/vaettir && docker compose logs ocapistaine --tail 50'
+ssh <user>@<server> 'cd ~/vaettir && docker compose logs ocapistaine --tail 50'
 ```
 
 **Common issue:** Environment variable substitution problem
@@ -162,7 +162,7 @@ ssh jnxmas@vaettir.locki.io 'cd ~/vaettir && docker compose logs ocapistaine --t
 **Fix:**
 ```bash
 # Check generated nginx config
-ssh jnxmas@vaettir.locki.io 'docker exec vaettir-ocapistaine-1 cat /etc/nginx/nginx.conf'
+ssh <user>@<server> 'docker exec vaettir-ocapistaine-1 cat /etc/nginx/nginx.conf'
 
 # Should see the actual URL, not ${OCAPISTAINE_TARGET_URL}
 ```
@@ -221,7 +221,7 @@ The nginx proxy on vaettir **MUST** include WebSocket upgrade headers. Edit the 
 
 ```bash
 # SSH to vaettir
-ssh jnxmas@vaettir.locki.io
+ssh <user>@<server>
 
 # Edit the ocapistaine proxy config
 cd ~/vaettir
@@ -361,7 +361,7 @@ Shows:
 ### Check Traefik Routing
 
 ```bash
-ssh jnxmas@vaettir.locki.io 'cd ~/vaettir && docker compose logs traefik | grep ocapistaine'
+ssh <user>@<server> 'cd ~/vaettir && docker compose logs traefik | grep ocapistaine'
 ```
 
 Should see:
@@ -401,10 +401,10 @@ Configuration is in git, but to backup manually:
 
 ```bash
 # Backup proxy config
-scp jnxmas@vaettir.locki.io:~/vaettir/proxy-configs/ocapistaine.conf.template ./PRIVATE_backups/
+scp <user>@<server>:~/vaettir/proxy-configs/ocapistaine.conf.template ./PRIVATE_backups/
 
 # Backup .env (contains ngrok URL)
-ssh jnxmas@vaettir.locki.io 'cd ~/vaettir && grep OCAPISTAINE .env' > ./PRIVATE_backups/proxy-env-backup.txt
+ssh <user>@<server> 'cd ~/vaettir && grep OCAPISTAINE .env' > ./PRIVATE_backups/proxy-env-backup.txt
 ```
 
 ## Adding New Proxy Services

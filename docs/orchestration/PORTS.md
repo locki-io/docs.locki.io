@@ -94,13 +94,13 @@ OCAPISTAINE_TARGET_URL=https://abc123.ngrok-free.app
 ### On Production Server
 ```bash
 # Check which ports are listening
-ssh jnxmas@vaettir.locki.io 'sudo netstat -tulpn | grep LISTEN'
+ssh <user>@<server> 'sudo netstat -tulpn | grep LISTEN'
 
 # Check specific service
-ssh jnxmas@vaettir.locki.io 'docker compose ps'
+ssh <user>@<server> 'docker compose ps'
 
 # Check Traefik routing
-ssh jnxmas@vaettir.locki.io 'docker compose logs traefik | grep -i router'
+ssh <user>@<server> 'docker compose logs traefik | grep -i router'
 ```
 
 ### On Local Machine

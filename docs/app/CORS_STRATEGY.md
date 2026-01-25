@@ -241,10 +241,10 @@ After=network.target
 
 [Service]
 Type=simple
-User=jnxmas
-WorkingDirectory=/home/jnxmas/ocapistaine
-EnvironmentFile=/home/jnxmas/ocapistaine/.env
-ExecStart=/home/jnxmas/ocapistaine/scripts/run_streamlit.sh
+User=<user>
+WorkingDirectory=/home/<user>/ocapistaine
+EnvironmentFile=/home/<user>/ocapistaine/.env
+ExecStart=/home/<user>/ocapistaine/scripts/run_streamlit.sh
 Restart=always
 
 [Install]
