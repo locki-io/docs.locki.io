@@ -218,6 +218,43 @@ docker compose restart traefik
 
 ---
 
+## Custom Error Page for Offline Agents
+
+When ngrok is down (ERR_NGROK_3200), nginx shows a **custom branded page** with a Discord invite link instead of the default ngrok error.
+
+### How it Works
+
+1. **Error Detection**: nginx intercepts upstream errors (502, 503, 504)
+2. **Custom Page**: Shows `/error-offline.html` with Discord link
+3. **Environment Variable**: `DISCORD_INVITE_URL` is injected at container startup
+
+### Setup
+
+Add to your `.env` file:
+```bash
+DISCORD_INVITE_URL=https://discord.gg/your-invite-code
+```
+
+Then rebuild:
+```bash
+docker compose build ocapistaine
+docker compose --profile production --profile proxy up -d ocapistaine
+```
+
+### Testing the Error Page
+
+Stop your ngrok tunnel to simulate the agent being offline:
+```bash
+# Locally: kill ngrok
+pkill ngrok
+
+# Then visit your proxy URL
+curl https://ocapistaine.vaettir.locki.io
+# Should show custom page with Discord link
+```
+
+---
+
 ## Proxy Config File Management
 
 Proxy configs are **not tracked in git** (environment-specific):
@@ -225,6 +262,7 @@ Proxy configs are **not tracked in git** (environment-specific):
 ```
 proxy-configs/
 ├── agent.conf.template.example  # Git-tracked template
+├── error-offline.html.template  # Git-tracked error page
 ├── ocapistaine.conf.template    # Server-specific (gitignored)
 └── other-agent.conf.template    # Server-specific (gitignored)
 ```
@@ -232,7 +270,9 @@ proxy-configs/
 To create a new agent proxy:
 1. Copy `agent.conf.template.example` to `AGENT_NAME.conf.template`
 2. Replace `AGENT_NAME` with your agent name
-3. Set environment variable `AGENT_NAME_TARGET_URL` in `.env`
+3. Set environment variables in `.env`:
+   - `AGENT_NAME_TARGET_URL` - ngrok or service URL
+   - `DISCORD_INVITE_URL` - Discord invite for error page
 
 ---
 
