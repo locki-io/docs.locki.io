@@ -2,11 +2,282 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://docs.locki.io/blog</id>
     <title>Ò Capistaine Docs Blog</title>
-    <updated>2026-01-18T00:00:00.000Z</updated>
+    <updated>2026-01-24T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://docs.locki.io/blog"/>
     <subtitle>Ò Capistaine Docs Blog</subtitle>
     <icon>https://docs.locki.io/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[Catch-up Call: Deployment Strategy]]></title>
+        <id>https://docs.locki.io/blog/meeting-ocapistaine-3</id>
+        <link href="https://docs.locki.io/blog/meeting-ocapistaine-3"/>
+        <updated>2026-01-24T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Here is the assessment of the catch-up call between @jnxmas and Victor regarding the Ò Capistaine project status and immediate priorities.]]></summary>
+        <content type="html"><![CDATA[<p>Here is the assessment of the catch-up call between @jnxmas and Victor regarding the <strong>Ò Capistaine</strong> project status and immediate priorities.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="summary-of-the-call"><strong>Summary of the Call</strong><a href="https://docs.locki.io/blog/meeting-ocapistaine-3#summary-of-the-call" class="hash-link" aria-label="Direct link to summary-of-the-call" title="Direct link to summary-of-the-call" translate="no">​</a></h2>
+<p>@jnxmas and Victor discussed the immediate roadmap for the <strong>Opik/Commit to Change Hackathon MVP submission</strong> (deadline: ~1 day, 14 hours). Victor has successfully downloaded approximately 4,000 PDFs (including ~3,965 deliberation documents), though he noted some potential duplicates and that the download process was synchronous and could be optimized later. He has committed changes to a development branch but not yet merged them, preferring to use GitHub as a medium to exchange the code while keeping the large PDF dataset local (or shared via a specific sub-directory).
+The team agreed on a strategy for the <strong>Hackathon demo deployment</strong>. Instead of using Vercel, which complicates environment variable management for their specific security setup (ngrok, multiple API keys for Opik, Firecrawl, Gemini, etc.), @jnxmas will run the demo from his local machine using a secure, paid ngrok tunnel (<code>ocapistaine.ngrok.app</code>). This setup allows the jury to interact with the Streamlit UI (restricted to Ollama for the external demo) while the team can continue testing other models (Gemini) locally. The architecture involves <strong>Locki.io -&gt; Vaettir Orchestration -&gt; Local Machine (Ocapistaine Agent)</strong>.</p>
+<p><strong>Key Technical Decisions &amp; Next Steps:</strong></p>
+<ul>
+<li class=""><strong>OCR &amp; Database:</strong> Victor is moving immediately to OCR processing. While <code>pdf2ocr</code> was discussed, they agreed that since most files are text-based PDFs (not scanned images), full image-to-text conversion might be overkill. The priority is text extraction and categorization. @jnxmas plans to implement a NoSQL database (MongoDB) to store OCR content alongside metadata (source, date) to support the RAG system.</li>
+<li class=""><strong>Observability:</strong> @jnxmas is finalizing the integration of Opik within <strong>n8n workflows</strong>. This ensures that if the Ocapistaine application triggers an n8n workflow involving an LLM, both systems report traces to the same Opik observability project, providing a unified view of checking the "Charter validity" and "Hallucination detection."</li>
+<li class=""><strong>Submission Prep:</strong> @jnxmas will focus on writing the article/documentation to justify the technical choices and process for the submission, while Victor attempts to finish the OCR pipeline and potentially start the MongoDB implementation before he becomes unavailable for a few days.</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="action-plan--tasks"><strong>Action Plan &amp; Tasks</strong><a href="https://docs.locki.io/blog/meeting-ocapistaine-3#action-plan--tasks" class="hash-link" aria-label="Direct link to action-plan--tasks" title="Direct link to action-plan--tasks" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-data-engineering--backend"><strong>1. Data Engineering &amp; Backend</strong><a href="https://docs.locki.io/blog/meeting-ocapistaine-3#1-data-engineering--backend" class="hash-link" aria-label="Direct link to 1-data-engineering--backend" title="Direct link to 1-data-engineering--backend" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Task:</strong> Finalize PDF Text Extraction &amp; OCR<!-- -->
+<ul>
+<li class=""><strong>Owner:</strong> @zcbtvag (Victor)</li>
+<li class=""><strong>Description:</strong> Run the extraction on the downloaded ~4,000 PDFs. Focus on text-based extraction first, only using heavy OCR (image-to-text) if necessary. Commit the code logic (not the files themselves) to the dev branch.</li>
+<li class=""><strong>Deadline:</strong> <strong>Tonight / ASAP</strong> (Before Victor travels).</li>
+<li class=""><strong>Success Criteria:</strong> Text extracted from PDFs and ready for database ingestion.</li>
+</ul>
+</li>
+<li class=""><strong>Task:</strong> Push Dev Branch Changes<!-- -->
+<ul>
+<li class=""><strong>Owner:</strong> @zcbtvag (Victor)</li>
+<li class=""><strong>Description:</strong> Push the latest scraper and extraction logic to GitHub so @jnxmas can pull the code.</li>
+<li class=""><strong>Deadline:</strong> <strong>Tonight</strong>.</li>
+<li class=""><strong>Success Criteria:</strong> PR raised/Code available on the remote repository.</li>
+</ul>
+</li>
+<li class=""><strong>Task:</strong> Implement MongoDB for Vector/Content Storage<!-- -->
+<ul>
+<li class=""><strong>Owner:</strong> @jnxmas [Secondary: Victor if time permits]</li>
+<li class=""><strong>Description:</strong> Set up a NoSQL database (MongoDB) to store extracted PDF content + metadata (source URL, date, category). This is crucial for the RAG system to function efficiently.</li>
+<li class=""><strong>Deadline:</strong> <strong>Next 24 Hours</strong>.</li>
+<li class=""><strong>Success Criteria:</strong> DB instance running and successfully storing OCR output.</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-deployment--hackathon-submission"><strong>2. Deployment &amp; Hackathon Submission</strong><a href="https://docs.locki.io/blog/meeting-ocapistaine-3#2-deployment--hackathon-submission" class="hash-link" aria-label="Direct link to 2-deployment--hackathon-submission" title="Direct link to 2-deployment--hackathon-submission" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Task:</strong> Configure Local Demo Environment (ngrok)<!-- -->
+<ul>
+<li class=""><strong>Owner:</strong> @jnxmas</li>
+<li class=""><strong>Description:</strong> Finalize the secure ngrok tunnel (<code>ocapistaine.ngrok.app</code>) pointing to the local Streamlit UI. Ensure the external facing demo is locked to Ollama, while internal dev builds can use Gemini.</li>
+<li class=""><strong>Deadline:</strong> <strong>Tomorrow Morning</strong>.</li>
+<li class=""><strong>Success Criteria:</strong> Live URL accessible to external users (jury) without exposing sensitive internal keys.</li>
+</ul>
+</li>
+<li class=""><strong>Task:</strong> Draft Hackathon Submission Article<!-- -->
+<ul>
+<li class=""><strong>Owner:</strong> @jnxmas</li>
+<li class=""><strong>Description:</strong> Write the required project description, work process, and key achievements for the hackathon platform. Focus on the "Charter Check" agent and Opik integration.</li>
+<li class=""><strong>Deadline:</strong> <strong>Tomorrow Mid-day</strong>.</li>
+<li class=""><strong>Success Criteria:</strong> Text ready for copy-paste into the submission form.</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-observability-opik"><strong>3. Observability (Opik)</strong><a href="https://docs.locki.io/blog/meeting-ocapistaine-3#3-observability-opik" class="hash-link" aria-label="Direct link to 3-observability-opik" title="Direct link to 3-observability-opik" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Task:</strong> Verify Double-Tracing (App + N8N)<!-- -->
+<ul>
+<li class=""><strong>Owner:</strong> @jnxmas</li>
+<li class=""><strong>Description:</strong> Confirm that Opik receives traces from both the Python app (Ocapistaine) and the n8n docker container when an LLM is triggered.</li>
+<li class=""><strong>Deadline:</strong> <strong>Tomorrow</strong>.</li>
+<li class=""><strong>Success Criteria:</strong> Unified dashboard in Opik showing traces from both sources.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="status-dashboard"><strong>Status Dashboard</strong><a href="https://docs.locki.io/blog/meeting-ocapistaine-3#status-dashboard" class="hash-link" aria-label="Direct link to status-dashboard" title="Direct link to status-dashboard" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Overall Progress:</strong> 🟡 <strong>Mixed</strong> (Scraping done, OCR/DB pending, Deployment strategy fixed).</li>
+<li class=""><strong>Open High-Priority Tasks:</strong>
+<ol>
+<li class="">Run/Finish OCR on 4k PDFs (@zcbtvag).</li>
+<li class="">Set up MongoDB for data ingestion (@jnschilling).</li>
+<li class="">Finalize "Charter Check" Agent + Opik Tracing for Demo (@jnschilling).</li>
+</ol>
+</li>
+<li class=""><strong>Next Milestone:</strong> <strong>Hackathon MVP Submission</strong> (Deadline: ~1 day 14 hours).</li>
+</ul>]]></content>
+        <author>
+            <name>Jean-Noël Schilling</name>
+            <uri>https://github.com/jnschilling</uri>
+        </author>
+        <category label="Meeting" term="Meeting"/>
+        <category label="civitech" term="civitech"/>
+        <category label="AI and Machine Learning" term="AI and Machine Learning"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Technical Strategy: Google Gemini Integration]]></title>
+        <id>https://docs.locki.io/blog/gemini-workshop-1</id>
+        <link href="https://docs.locki.io/blog/gemini-workshop-1"/>
+        <updated>2026-01-22T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Context: Audierne 2026 Election Platform]]></summary>
+        <content type="html"><![CDATA[<p><strong>Context:</strong> Audierne 2026 Election Platform</p>
+<p>This document outlines how we will leverage the Google Gemini ecosystem (AI Studio, Flash models, and Agentic workflows) to accelerate the development of the Locki project. By utilizing these tools, we aim to bridge the gap between human ideation and automated N8N workflows, specifically for the <code>Commit to Change</code> hackathon and the subsequent election period.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-the-human-to-agent-workflow-bridge">1. The <code>Human-to-Agent</code> Workflow Bridge<a href="https://docs.locki.io/blog/gemini-workshop-1#1-the-human-to-agent-workflow-bridge" class="hash-link" aria-label="Direct link to 1-the-human-to-agent-workflow-bridge" title="Direct link to 1-the-human-to-agent-workflow-bridge" translate="no">​</a></h2>
+<p>A core strategy for our development is enabling our automated GitHub agents to <code>learn</code> from human-validated workflows. We will use Google AI Studio as the prototyping environment to define logic that is subsequently exported to our N8N instance.</p>
+<iframe width="100%" style="aspect-ratio:16 / 9" src="https://www.encodeclub.com/programmes/comet-resolution-v2-hackathon/events/mastering-gemini-3-building-next-gen-ai-agents-in-google-ai-studio" title="OPIK workshop 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<ul>
+<li class=""><strong>Prototyping in AI Studio:</strong> Team members (jnxmas, etc.) can solve complex data extraction problems within the AI Studio interface (e.g., <code>Analyze this specific municipal PDF and extract the 2024 housing budget</code>).</li>
+<li class=""><strong>The <code>Get Code</code> Feature:</strong> Once the model successfully completes a task or fixes a bug, we utilize the <strong>Get Code</strong> feature. This provides the exact Python or cURL code required to replicate the action.</li>
+<li class=""><strong>N8N Integration:</strong> Instead of writing scrapers from scratch, we export this verified logic and integrate it directly into N8N Python nodes. This allows our automated agents to search the Audierne environment and context with logic already proven to work.</li>
+<li class=""><strong>Workflow Orchestration:</strong> We can prompt the model to stitch together disparate services (e.g., Search + Summarize + Store). The model designs the prompts and orchestrates the data flow, which we then convert into Dockerized N8N workflow nodes.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-advanced-scraping--contextual-search-firecrawl-optimization">2. Advanced Scraping &amp; Contextual Search (Firecrawl Optimization)<a href="https://docs.locki.io/blog/gemini-workshop-1#2-advanced-scraping--contextual-search-firecrawl-optimization" class="hash-link" aria-label="Direct link to 2. Advanced Scraping &amp; Contextual Search (Firecrawl Optimization)" title="Direct link to 2. Advanced Scraping &amp; Contextual Search (Firecrawl Optimization)" translate="no">​</a></h2>
+<p>To effectively crawl the ~150 links and municipal portals of Audierne, we will apply Gemini's <code>Anti-Gravity</code> and DOM-aware capabilities to our Firecrawl pipeline.</p>
+<ul>
+<li class=""><strong>DOM &amp; Visual Navigation:</strong> Unlike standard <code>curl</code> requests which may be blocked, Gemini-based logic can navigate the Document Object Model (DOM) and use visual cues (screenshots) to handle cookies, pop-ups, and complex navigation menus found on municipal sites.</li>
+<li class=""><strong>Autonomous Planning:</strong> We can equip our agents to formulate multi-step plans (Search -&gt; Filter by <code>Audierne</code> -&gt; Check Date -&gt; Download PDF).</li>
+<li class=""><strong>Code Repair:</strong> Using the <code>Live</code> and <code>Annotate</code> features, developers can debug scraper errors in real-time. The model can identify logical breaks in the scraping code and suggest fixes while maintaining context.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-multimodal-data-processing-for-municipal-archives">3. Multimodal Data Processing for Municipal Archives<a href="https://docs.locki.io/blog/gemini-workshop-1#3-multimodal-data-processing-for-municipal-archives" class="hash-link" aria-label="Direct link to 3. Multimodal Data Processing for Municipal Archives" title="Direct link to 3. Multimodal Data Processing for Municipal Archives" translate="no">​</a></h2>
+<p>Processing the dataset of 4,000+ PDFs and various multimedia links requires a high-volume, low-cost solution.</p>
+<ul>
+<li class=""><strong>Gemini Flash Models (1.5 / 3):</strong> We will standardize on <code>Flash</code> models for the majority of our RAG pipeline. These models offer high speed and vast token windows at a fraction of the cost, making them sustainable for our project budget.</li>
+<li class=""><strong>Video &amp; Audio Analysis:</strong> We can upload long-form video/audio recordings of Audierne municipal council meetings directly. Gemini can generate timestamps, summaries, and extract specific topic discussions (e.g., <code>Culture budget debates</code>) without requiring a separate, expensive Speech-to-Text pipeline.</li>
+<li class=""><strong>Gemma 3 (Local/Open):</strong> For local testing and zero-cost prototyping of OCR pipelines, we can utilize the open Gemma 3 model before deploying to the cloud.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-accuracy--sandbox-code-execution">4. Accuracy &amp; Sandbox Code Execution<a href="https://docs.locki.io/blog/gemini-workshop-1#4-accuracy--sandbox-code-execution" class="hash-link" aria-label="Direct link to 4. Accuracy &amp; Sandbox Code Execution" title="Direct link to 4. Accuracy &amp; Sandbox Code Execution" translate="no">​</a></h2>
+<p>To adhere to our goal of a <code>neutral, impartial RAG-based chatbot,</code> we must minimize hallucinations, especially regarding budget figures.</p>
+<ul>
+<li class=""><strong>Sandboxed Execution:</strong> We will utilize Gemini's <code>Code Execution</code> tool. Instead of asking the LLM to <em>predict</em> the sum of a budget list, we ask it to <em>write and run Python code</em> to calculate it.</li>
+<li class=""><strong>Data Visualization:</strong> This feature allows us to ask the model to plot data (e.g., <code>Create a graph comparing the budget allocation of the 4 lists</code>) which can be displayed on the frontend.</li>
+<li class=""><strong>Logic Verification:</strong> This forces the model to use computational logic, ensuring that the comparisons provided to Audierne citizens are mathematically accurate.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="5-frontend-acceleration--multilingual-support">5. Frontend Acceleration &amp; Multilingual Support<a href="https://docs.locki.io/blog/gemini-workshop-1#5-frontend-acceleration--multilingual-support" class="hash-link" aria-label="Direct link to 5. Frontend Acceleration &amp; Multilingual Support" title="Direct link to 5. Frontend Acceleration &amp; Multilingual Support" translate="no">​</a></h2>
+<ul>
+<li class=""><strong>The <code>Build</code> Feature:</strong> For the upcoming Hackathon, we can use the <code>Build</code> feature to describe user interfaces (e.g., <code>Create a citizen contribution intake form with camera access</code>) and instantly generate deployed React/TypeScript code. This significantly reduces boilerplate work.</li>
+<li class=""><strong>Gemini Live (Bilingual):</strong> To support our EN/FR requirement, we leverage the model's native multilingual capabilities. It can seamlessly switch between French and English, ensuring the chatbot interacts fluently with all demographics in Audierne.</li>
+</ul>
+<hr>
+<p><strong>Project Coordinator Status Update</strong></p>
+<ul>
+<li class="">
+<p><strong>Overall Progress:</strong> 🟡 Firecrawl (Optimization via DOM-aware logic needed) 🟢 Docs (Gemini Strategy Added) 🟡 RAG (Integration of Flash models pending)</p>
+</li>
+<li class="">
+<p><strong>Open High-Priority Tasks:</strong></p>
+<ul>
+<li class=""><strong>Task:</strong> Prototype PDF extraction in AI Studio &amp; export Python code.<!-- -->
+<ul>
+<li class=""><strong>Owner:</strong> Victor / Meher</li>
+<li class=""><strong>Description:</strong> Use AI Studio to solve a specific Audierne PDF parsing challenge, use <code>Get Code,</code> and integrate the Python script into a custom N8N node.</li>
+<li class=""><strong>Deadline:</strong> Next call.</li>
+</ul>
+</li>
+<li class=""><strong>Task:</strong> Secure API keys for Gemini Flash.<!-- -->
+<ul>
+<li class=""><strong>Owner:</strong> jnxmas</li>
+<li class=""><strong>Description:</strong> Provision keys to test cost-effective OCR and massive token processing for the 4k PDF dataset.</li>
+<li class=""><strong>Deadline:</strong> ASAP.</li>
+</ul>
+</li>
+<li class=""><strong>Task:</strong> Refine Firecrawl Agents with DOM Logic.<!-- -->
+<ul>
+<li class=""><strong>Owner:</strong> Meher / jnxmas</li>
+<li class=""><strong>Description:</strong> Use <code>Anti-Gravity</code> style logic to handle complex municipal site navigation (cookies/popups) where standard scraping fails.</li>
+<li class=""><strong>Deadline:</strong> Hackathon Start.</li>
+</ul>
+</li>
+<li class=""><strong>Task:</strong> Hackathon Frontend Prototype.<!-- -->
+<ul>
+<li class=""><strong>Owner:</strong> Open (Frontend Contributor)</li>
+<li class=""><strong>Description:</strong> Use Gemini <code>Build</code> feature to generate the base React code for the citizen contribution portal.</li>
+<li class=""><strong>Deadline:</strong> Mid-February.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Next Milestone:</strong> Hackathon Prototype Delivery (~Mid-February)</p>
+</li>
+</ul>]]></content>
+        <author>
+            <name>Jean-Noël Schilling</name>
+            <uri>https://github.com/jnschilling</uri>
+        </author>
+        <category label="AI and Machine Learning" term="AI and Machine Learning"/>
+        <category label="civitech" term="civitech"/>
+        <category label="RAG" term="RAG"/>
+        <category label="Encode hackathon" term="Encode hackathon"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Team Sync: Gemini Integration and Agent Workflows]]></title>
+        <id>https://docs.locki.io/blog/meeting-ocapistaine-2</id>
+        <link href="https://docs.locki.io/blog/meeting-ocapistaine-2"/>
+        <updated>2026-01-22T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Strategy Update: Leveraging Gemini & Agent Workflows]]></summary>
+        <content type="html"><![CDATA[<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="strategy-update-leveraging-gemini--agent-workflows">Strategy Update: Leveraging Gemini &amp; Agent Workflows<a href="https://docs.locki.io/blog/meeting-ocapistaine-2#strategy-update-leveraging-gemini--agent-workflows" class="hash-link" aria-label="Direct link to Strategy Update: Leveraging Gemini &amp; Agent Workflows" title="Direct link to Strategy Update: Leveraging Gemini &amp; Agent Workflows" translate="no">​</a></h2>
+<p>This document summarizes key insights from the recent team sync following Jean-Noël's attendance at the Google Gemini workshop. The focus is on accelerating the <strong>Locki / Ò Capistaine</strong> project by transitioning from manual human analysis to automated agent workflows.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-gemini-opportunity">The Gemini Opportunity<a href="https://docs.locki.io/blog/meeting-ocapistaine-2#the-gemini-opportunity" class="hash-link" aria-label="Direct link to The Gemini Opportunity" title="Direct link to The Gemini Opportunity" translate="no">​</a></h3>
+<p>jnxmas reported that despite initial skepticism, the Gemini workshop revealed significant opportunities for the project, particularly regarding scraping and rapid prototyping.</p>
+<ul>
+<li class=""><strong>Google AI Studio Capabilities:</strong> The team discussed the power of Google AI Studio (specifically Gemini 1.5 Pro/Flash). It allows for multimodal input—users can upload images or video recordings of a screen process, and the AI can generate the corresponding code (Python) to replicate that workflow.</li>
+<li class=""><strong>Anti-Gravity &amp; DOM Awareness:</strong> The team is considering testing "Anti-Gravity" (potentially as a VS Code alternative or extension) to utilize Gemini's DOM-aware capabilities. This could allow for smarter scraping of the ~150 target links compared to the current "brute force" Firecrawl approach.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="from-human-workflow-to-ai-agent">From Human Workflow to AI Agent<a href="https://docs.locki.io/blog/meeting-ocapistaine-2#from-human-workflow-to-ai-agent" class="hash-link" aria-label="Direct link to From Human Workflow to AI Agent" title="Direct link to From Human Workflow to AI Agent" translate="no">​</a></h3>
+<p>A core strategic pivot discussed is the methodology for building the project's autonomous agents (specifically the <strong>Ocapistaine</strong> GitHub user/agent).
+<strong>The Proposed Workflow:</strong></p>
+<ol>
+<li class=""><strong>Human Prototype:</strong> A team member manually processes a citizen contribution using Gemini Studio.<!-- -->
+<ul>
+<li class=""><em>Example Action:</em> Take a contribution about "rainwater taxes," validate it against the charter, search Google for similar implementations in France, and check the <code>audierne2026</code> docs for local context.</li>
+</ul>
+</li>
+<li class=""><strong>Code Generation:</strong> Ask Gemini to "make a script of this search and interpretation process."</li>
+<li class=""><strong>Agent Implementation:</strong> This script is converted into a workflow stored in the repository.</li>
+<li class=""><strong>Execution via N8N:</strong> The "Ocapistaine" agent (which has specific GitHub credentials) triggers these workflows. It acts as the owner of the process, running searches, documenting findings in the repo, and replying to issues using the context generated.</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="integration-architecture-github--n8n">Integration Architecture: GitHub &amp; N8N<a href="https://docs.locki.io/blog/meeting-ocapistaine-2#integration-architecture-github--n8n" class="hash-link" aria-label="Direct link to Integration Architecture: GitHub &amp; N8N" title="Direct link to Integration Architecture: GitHub &amp; N8N" translate="no">​</a></h3>
+<p>The infrastructure is being updated to support this "Agent-driven" model:</p>
+<ul>
+<li class=""><strong>Cross-Repo Context:</strong> Documentation from <code>docs.locki.io</code> is now set up as a submodule, allowing the AI to access context across different repositories (e.g., <code>vaettir</code> and <code>ocapistaine</code>) simultaneously.</li>
+<li class=""><strong>Workflow Orchestration:</strong> Python workflows within the <code>ocapistaine</code> repository are designed to call N8N workflows.</li>
+<li class=""><strong>Automated Workflow Creation:</strong> Experiments suggest that tools like Claude or Gemini can be used to write the JSON files required for N8N workflows, essentially allowing the AI to build its own integration pipelines using the project's existing API keys (Forseti/Ocapistaine).</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="current-progress--blockers">Current Progress &amp; Blockers<a href="https://docs.locki.io/blog/meeting-ocapistaine-2#current-progress--blockers" class="hash-link" aria-label="Direct link to Current Progress &amp; Blockers" title="Direct link to Current Progress &amp; Blockers" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Scraping (Firecrawl):</strong> Victor has successfully scraped municipal considerations (PDFs/data), but there are file management issues. The files need to be renamed and committed to the <code>dev</code> branch properly to avoid needing complex cleanup later.</li>
+<li class=""><strong>Opik Integration:</strong> The integration is live. Jean-Noël demonstrated a trace where the system successfully checked the "contribution charter" and returned a confidence score and category (e.g., "Youth") using local LLMs (Ollama/Mistral) to save costs during dev.</li>
+<li class=""><strong>Cost Management:</strong> The team plans to use "Flash" models or free tiers (Gemini/Gemma) for the heavy lifting of RAG and video/audio analysis to keep the project sustainable.</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="project-coordinator-dashboard">Project Coordinator Dashboard<a href="https://docs.locki.io/blog/meeting-ocapistaine-2#project-coordinator-dashboard" class="hash-link" aria-label="Direct link to Project Coordinator Dashboard" title="Direct link to Project Coordinator Dashboard" translate="no">​</a></h3>
+<p><strong>Overall Progress:</strong> 🟡 <strong>Processing</strong> (Scraping logic is working but needs cleanup; Agent workflow defined but not implemented).
+<strong>Open High-Priority Tasks:</strong></p>
+<ul>
+<li class=""><strong>Task:</strong> Clean and Commit Scraped Data<!-- -->
+<ul>
+<li class=""><strong>Owner:</strong> @zcbtvag (Victor)</li>
+<li class=""><strong>Description:</strong> Rename scraped municipal files/folders and commit to the <code>dev</code> branch so the team can access the dataset.</li>
+<li class=""><strong>Deadline:</strong> ASAP</li>
+<li class=""><strong>Success Criteria:</strong> Files visible in <code>dev</code> branch without directory errors.</li>
+</ul>
+</li>
+<li class=""><strong>Task:</strong> Prototype "Human-to-Agent" Workflow<!-- -->
+<ul>
+<li class=""><strong>Owner:</strong> @jnxmas / @GurmeherSingh</li>
+<li class=""><strong>Description:</strong> Record a manual analysis session in Gemini Studio, generate the Python script, and convert it into a GitHub Action/N8N trigger.</li>
+<li class=""><strong>Deadline:</strong> Next Sync</li>
+<li class=""><strong>Success Criteria:</strong> One functional automated workflow generated from a video/image input.</li>
+</ul>
+</li>
+<li class=""><strong>Task:</strong> Test Anti-Gravity / Gemini DOM Scanning<!-- -->
+<ul>
+<li class=""><strong>Owner:</strong> @jnxmas</li>
+<li class=""><strong>Description:</strong> Evaluate if Gemini's DOM-aware browsing is more efficient than the current Firecrawl setup for the 150 links.</li>
+<li class=""><strong>Deadline:</strong> End of Week</li>
+<li class=""><strong>Success Criteria:</strong> Decision on whether to switch scraping tools.
+<strong>Next Milestone:</strong></li>
+</ul>
+</li>
+<li class=""><strong>Mid-February:</strong> Hackathon Prototype Delivery (Functional RAG chatbot with automated contribution processing).</li>
+</ul>]]></content>
+        <author>
+            <name>Jean-Noël Schilling</name>
+            <uri>https://github.com/jnschilling</uri>
+        </author>
+        <category label="Meeting" term="Meeting"/>
+        <category label="civitech" term="civitech"/>
+        <category label="AI and Machine Learning" term="AI and Machine Learning"/>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Let us choose the stack]]></title>
         <id>https://docs.locki.io/blog/meeting-ocapistaine-1</id>
@@ -693,18 +964,972 @@
         <category label="civitech" term="civitech"/>
     </entry>
     <entry>
+        <title type="html"><![CDATA[OPIK : Agent & Prompt Optimization for LLM Systems]]></title>
+        <id>https://docs.locki.io/blog/opik-workshop-2</id>
+        <link href="https://docs.locki.io/blog/opik-workshop-2"/>
+        <updated>2026-01-15T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This training consolidates the operational and technical foundations needed to run and execute agent/prompt optimization in team settings (e.g., hackathons and internal workshops).]]></summary>
+        <content type="html"><![CDATA[<p>This training consolidates the operational and technical foundations needed to run and execute <strong>agent/prompt optimization</strong> in team settings (e.g., hackathons and internal workshops).</p>
+<p>It includes :</p>
+<ul>
+<li class=""><strong>eval-driven optimization</strong> of LLM agent prompts using measurable metrics and iterative loops,</li>
+<li class="">including <strong>meta-prompting</strong>, <strong>genetic/evolutionary methods</strong>, <strong>hierarchical/reflective optimizers (HRPO)</strong>, <strong>few-shot Bayesian selection</strong>, and <strong>parameter tuning</strong>.</li>
+</ul>
+<div class="theme-admonition theme-admonition-tip admonition_xJq3 alert alert--success"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 12 16"><path fill-rule="evenodd" d="M6.5 0C3.48 0 1 2.19 1 5c0 .92.55 2.25 1 3 1.34 2.25 1.78 2.78 2 4v1h5v-1c.22-1.22.66-1.75 2-4 .45-.75 1-2.08 1-3 0-2.81-2.48-5-5.5-5zm3.64 7.48c-.25.44-.47.8-.67 1.11-.86 1.41-1.25 2.06-1.45 3.23-.02.05-.02.11-.02.17H5c0-.06 0-.13-.02-.17-.2-1.17-.59-1.83-1.45-3.23-.2-.31-.42-.67-.67-1.11C2.44 6.78 2 5.65 2 5c0-2.2 2.02-4 4.5-4 1.22 0 2.36.42 3.22 1.19C10.55 2.94 11 3.94 11 5c0 .66-.44 1.78-.86 2.48zM4 14h5c-.23 1.14-1.3 2-2.5 2s-2.27-.86-2.5-2z"></path></svg></span>tip</div><div class="admonitionContent_BuS1"><p>It is important because prompt iteration without datasets and metrics devolves into subjective “doom wordsmithing,” leading to unreliable, expensive, and non-reproducible agents.</p></div></div>
+<p>This material applies to <strong>AI/ML engineers, LLM practitioners, platform and DevEx teams, facilitators/mentors</strong>, and anyone responsible for building and improving <strong>tool-using agents (RAG/MCP), multimodal agents, or production chatbots</strong> under constraints of <strong>speed, accuracy, and cost</strong>.</p>
+<iframe width="100%" style="aspect-ratio:16 / 9" src="https://www.encodeclub.com/programmes/comet-resolution-v2-hackathon/events/agent-optimization-with-opik" title="OPIK workshop 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-development-of-the-content-chronological-and-logical-sequence">1) Development of the Content (Chronological and Logical Sequence)<a href="https://docs.locki.io/blog/opik-workshop-2#1-development-of-the-content-chronological-and-logical-sequence" class="hash-link" aria-label="Direct link to 1) Development of the Content (Chronological and Logical Sequence)" title="Direct link to 1) Development of the Content (Chronological and Logical Sequence)" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="a-concepts-fundamental">A. Concepts Fundamental<a href="https://docs.locki.io/blog/opik-workshop-2#a-concepts-fundamental" class="hash-link" aria-label="Direct link to A. Concepts Fundamental" title="Direct link to A. Concepts Fundamental" translate="no">​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="a1-workshop-mechanics-for-agent-optimization-sessions-hackathon-ready">A1) Workshop mechanics for “agent optimization” sessions (hackathon-ready)<a href="https://docs.locki.io/blog/opik-workshop-2#a1-workshop-mechanics-for-agent-optimization-sessions-hackathon-ready" class="hash-link" aria-label="Direct link to A1) Workshop mechanics for “agent optimization” sessions (hackathon-ready)" title="Direct link to A1) Workshop mechanics for “agent optimization” sessions (hackathon-ready)" translate="no">​</a></h4>
+<p>In interactive workshops, success depends on <strong>facilitation + operational readiness</strong> as much as technical depth.</p>
+<ul>
+<li class=""><strong>Live attendance</strong> enables:<!-- -->
+<ul>
+<li class="">Real-time <strong>Q&amp;A</strong></li>
+<li class="">Higher engagement in hands-on segments</li>
+<li class="">Faster alignment on team objectives and constraints</li>
+</ul>
+</li>
+<li class=""><strong>Recording</strong> is essential for:<!-- -->
+<ul>
+<li class="">Participants across incompatible time zones</li>
+<li class="">Rewatching technical steps and setup instructions later</li>
+</ul>
+</li>
+<li class=""><strong>Hands-on sessions</strong> increase operational sensitivity:<!-- -->
+<ul>
+<li class="">Frequent tool switching</li>
+<li class="">Screen sharing and multi-monitor complexity</li>
+<li class="">High cognitive load for participants following along
+<strong>Conceptual grounding before coding</strong></li>
+</ul>
+</li>
+<li class="">Start with a short theory block to align terminology, scope, and outcomes.</li>
+<li class="">Prevents early derailment into deep technical detail without a shared baseline.
+<strong>Analogy</strong></li>
+<li class="">Conceptual grounding is like agreeing on a <strong>map legend</strong> before navigating; without it, people interpret instructions differently even if they follow the same steps.</li>
+</ul>
+<hr>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="a2-the-optimization-target-prompts-context-demonstrations-and-parameters">A2) The optimization target: prompts, context, demonstrations, and parameters<a href="https://docs.locki.io/blog/opik-workshop-2#a2-the-optimization-target-prompts-context-demonstrations-and-parameters" class="hash-link" aria-label="Direct link to A2) The optimization target: prompts, context, demonstrations, and parameters" title="Direct link to A2) The optimization target: prompts, context, demonstrations, and parameters" translate="no">​</a></h4>
+<p>“Prompt optimization” is broader than rewriting a single system message. In practice, teams optimize multiple levers:</p>
+<ul>
+<li class=""><strong>System prompt / developer prompt</strong>: core behavior, constraints, safety, formatting.</li>
+<li class=""><strong>Context engineering</strong>: retrieval and tools (RAG, MCP servers/clients), memory, long-context strategies.</li>
+<li class=""><strong>Intent engineering</strong>: define “what good looks like” using examples of desired conversations/outputs, then optimize toward them.</li>
+<li class=""><strong>Few-shot demonstrations</strong>: which examples to include, how many, and in what order.</li>
+<li class=""><strong>Sampling parameters</strong>: temperature, top_p, top_k (reduce variance, tune style/creativity).
+<strong>Prompt optimization vs. fine-tuning</strong></li>
+<li class=""><strong>Prompt optimization</strong> changes instructions/context/examples/parameters without changing model weights.<!-- -->
+<ul>
+<li class="">Faster iteration, lower operational burden, often cheaper.</li>
+</ul>
+</li>
+<li class=""><strong>Fine-tuning</strong> changes model weights.<!-- -->
+<ul>
+<li class="">Higher complexity and governance; sometimes necessary, but not the default path.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="a3-evals-the-required-feedback-signal">A3) Evals: the required feedback signal<a href="https://docs.locki.io/blog/opik-workshop-2#a3-evals-the-required-feedback-signal" class="hash-link" aria-label="Direct link to A3) Evals: the required feedback signal" title="Direct link to A3) Evals: the required feedback signal" translate="no">​</a></h4>
+<p>An <strong>eval</strong> is an automated test harness that:</p>
+<ul>
+<li class="">Runs an agent/prompt on a <strong>dataset</strong></li>
+<li class="">Scores outputs via a <strong>metric</strong></li>
+<li class="">Produces repeatable feedback for iteration
+Common metric dimensions:</li>
+<li class=""><strong>Accuracy / task success</strong></li>
+<li class=""><strong>Hallucination rate / factuality</strong></li>
+<li class=""><strong>Format compliance</strong> (schemas, JSON, bullet structure)</li>
+<li class=""><strong>Latency</strong> (end-to-end runtime)</li>
+<li class=""><strong>Cost</strong> (tokens, tool calls, infra)</li>
+</ul>
+<hr>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="a4-the-impossible-triangle-speed--accuracy--cost">A4) The “Impossible Triangle”: Speed × Accuracy × Cost<a href="https://docs.locki.io/blog/opik-workshop-2#a4-the-impossible-triangle-speed--accuracy--cost" class="hash-link" aria-label="Direct link to A4) The “Impossible Triangle”: Speed × Accuracy × Cost" title="Direct link to A4) The “Impossible Triangle”: Speed × Accuracy × Cost" translate="no">​</a></h4>
+<p>Agent design and optimization inevitably trade off:</p>
+<ul>
+<li class=""><strong>Speed</strong>: latency, time-to-first-token, end-to-end runtime</li>
+<li class=""><strong>Accuracy</strong>: correctness, task completion, policy compliance</li>
+<li class=""><strong>Cost</strong>: token usage, model pricing, tool calls, infrastructure
+Key implications:</li>
+<li class="">You typically can’t maximize all three simultaneously.</li>
+<li class="">Optimization must explicitly measure and constrain all three.
+Common architecture pattern:</li>
+<li class=""><strong>Fast front agent</strong> for interactive UX</li>
+<li class=""><strong>Slower or cheaper back agents</strong> for verification, retrieval, or deeper reasoning</li>
+</ul>
+<hr>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="a5-optimizer-families-what-they-do-and-when-to-use">A5) Optimizer families (what they do and when to use)<a href="https://docs.locki.io/blog/opik-workshop-2#a5-optimizer-families-what-they-do-and-when-to-use" class="hash-link" aria-label="Direct link to A5) Optimizer families (what they do and when to use)" title="Direct link to A5) Optimizer families (what they do and when to use)" translate="no">​</a></h4>
+<p>This training consolidates multiple optimizer approaches discussed across sessions:</p>
+<ol>
+<li class=""><strong>Meta-prompting (Meta-reasoner)</strong>
+<ul>
+<li class="">An LLM rewrites your prompt to produce candidate variants.</li>
+<li class="">You evaluate candidates and keep the best.</li>
+</ul>
+</li>
+<li class=""><strong>Genetic / Evolutionary optimization</strong>
+<ul>
+<li class="">Maintains a population of prompts.</li>
+<li class="">Applies <strong>mutations</strong> (remove/reorder/rewrite sections) and <strong>selection</strong> (keep winners).</li>
+<li class="">Often includes “fresh gene injection” and a <strong>Hall of Fame</strong> of best prompts/components.</li>
+</ul>
+</li>
+<li class=""><strong>Hierarchical / Reflective optimization (HRPO)</strong>
+<ul>
+<li class="">Diagnoses failure clusters, forms hypotheses, proposes targeted prompt changes, re-evaluates.</li>
+<li class="">Requires a clear metric + explanation so it can reason about failures.</li>
+</ul>
+</li>
+<li class=""><strong>Few-shot Bayesian optimization</strong>
+<ul>
+<li class="">Selects:<!-- -->
+<ul>
+<li class="">Which few-shot examples,</li>
+<li class="">How many,</li>
+<li class="">In which order,</li>
+</ul>
+</li>
+<li class="">Then inserts them into the prompt for stronger in-context guidance.</li>
+</ul>
+</li>
+<li class=""><strong>Parameter optimization</strong>
+<ul>
+<li class="">Tunes generation parameters (temperature/top_p/top_k) after prompt structure is solid.</li>
+<li class="">Useful for controlling non-determinism and output variance.
+<strong>Chaining optimizers (recommended workflow)</strong></li>
+</ul>
+</li>
+</ol>
+<ul>
+<li class="">A practical pipeline:<!-- -->
+<ol>
+<li class="">Reflective/hierarchical (HRPO) or evolutionary to improve core instructions</li>
+<li class="">Few-shot Bayesian to optimize demonstrations</li>
+<li class="">Parameter tuning to stabilize style/variance and meet latency/cost constraints</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="a6-multimodal-prompt-optimization-images--text">A6) Multimodal prompt optimization (images + text)<a href="https://docs.locki.io/blog/opik-workshop-2#a6-multimodal-prompt-optimization-images--text" class="hash-link" aria-label="Direct link to A6) Multimodal prompt optimization (images + text)" title="Direct link to A6) Multimodal prompt optimization (images + text)" translate="no">​</a></h4>
+<p>Multimodal agents take:</p>
+<ul>
+<li class=""><strong>Image inputs</strong> (e.g., dashcam frames)</li>
+<li class=""><strong>Text inputs</strong> (questions/instructions)</li>
+<li class="">Produce <strong>text outputs</strong> (e.g., hazard descriptions)
+Multimodality raises difficulty because correctness depends on accurately grounding outputs in visual evidence and describing it consistently.</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="b-principal-pains-and-practical-problems-encountered">B. Principal Pains and Practical Problems Encountered<a href="https://docs.locki.io/blog/opik-workshop-2#b-principal-pains-and-practical-problems-encountered" class="hash-link" aria-label="Direct link to B. Principal Pains and Practical Problems Encountered" title="Direct link to B. Principal Pains and Practical Problems Encountered" translate="no">​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="b1-workshopsession-problems-operational--facilitation">B1) Workshop/session problems (operational + facilitation)<a href="https://docs.locki.io/blog/opik-workshop-2#b1-workshopsession-problems-operational--facilitation" class="hash-link" aria-label="Direct link to B1) Workshop/session problems (operational + facilitation)" title="Direct link to B1) Workshop/session problems (operational + facilitation)" translate="no">​</a></h4>
+<ul>
+<li class="">Time zone mismatch reduces live attendance quality.</li>
+<li class="">Startup friction:<!-- -->
+<ul>
+<li class="">Zoom connection issues</li>
+<li class="">Screen sharing failures (multi-monitor confusion)</li>
+</ul>
+</li>
+<li class="">Logistics questions interrupt technical flow.</li>
+<li class="">Early “deep technical” derailments due to lack of conceptual alignment.</li>
+<li class="">High cognitive load in hands-on segments (tools + steps + Q&amp;A at once).</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="b2-optimization-and-engineering-problems-technical">B2) Optimization and engineering problems (technical)<a href="https://docs.locki.io/blog/opik-workshop-2#b2-optimization-and-engineering-problems-technical" class="hash-link" aria-label="Direct link to B2) Optimization and engineering problems (technical)" title="Direct link to B2) Optimization and engineering problems (technical)" translate="no">​</a></h4>
+<ul>
+<li class=""><strong>No dataset → no optimization</strong>: teams want improvement without ground truth.</li>
+<li class=""><strong>No metric → no signal</strong>: changes are judged by “vibes.”</li>
+<li class="">Hidden tradeoffs: gains in accuracy may increase cost/latency.</li>
+<li class="">Overfitting to small/clean datasets that don’t represent production.</li>
+<li class="">Tooling complexity:<!-- -->
+<ul>
+<li class="">Provider setup (API keys)</li>
+<li class="">Version/environment issues</li>
+<li class="">Multimodal data formatting and cost</li>
+</ul>
+</li>
+<li class="">Non-determinism: outputs vary across runs; naive evals are unstable.</li>
+<li class="">Multilingual drift: improvements in one language/style can degrade perceived quality for non-native speakers.</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="c-causes-of-common-errors-and-deviations-technical-diagnosis">C. Causes of Common Errors and Deviations (Technical Diagnosis)<a href="https://docs.locki.io/blog/opik-workshop-2#c-causes-of-common-errors-and-deviations-technical-diagnosis" class="hash-link" aria-label="Direct link to C. Causes of Common Errors and Deviations (Technical Diagnosis)" title="Direct link to C. Causes of Common Errors and Deviations (Technical Diagnosis)" translate="no">​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="c1-process-errors">C1) Process errors<a href="https://docs.locki.io/blog/opik-workshop-2#c1-process-errors" class="hash-link" aria-label="Direct link to C1) Process errors" title="Direct link to C1) Process errors" translate="no">​</a></h4>
+<ul>
+<li class="">Starting implementation before defining:<!-- -->
+<ul>
+<li class="">“What does success look like?”</li>
+<li class="">“How will we measure it?”</li>
+</ul>
+</li>
+<li class="">Iterating prompts manually without repeatable evals (“doom wordsmithing”).</li>
+<li class="">Changing too many variables at once (prompt + model + dataset + metric), breaking attribution.</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="c2-data-and-evaluation-errors">C2) Data and evaluation errors<a href="https://docs.locki.io/blog/opik-workshop-2#c2-data-and-evaluation-errors" class="hash-link" aria-label="Direct link to C2) Data and evaluation errors" title="Direct link to C2) Data and evaluation errors" translate="no">​</a></h4>
+<ul>
+<li class="">Non-representative datasets (too small, too idealized, not production-like).</li>
+<li class="">No holdout/validation: training improvements don’t generalize.</li>
+<li class="">Overfitting to dataset phrasing rather than task intent.</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="c3-metric-errors">C3) Metric errors<a href="https://docs.locki.io/blog/opik-workshop-2#c3-metric-errors" class="hash-link" aria-label="Direct link to C3) Metric errors" title="Direct link to C3) Metric errors" translate="no">​</a></h4>
+<ul>
+<li class="">Metric-task mismatch:<!-- -->
+<ul>
+<li class="">Character-level similarity (e.g., Levenshtein) penalizes correct paraphrases.</li>
+<li class="">Fast metrics can reward superficial closeness rather than semantic correctness.</li>
+</ul>
+</li>
+<li class="">Missing metric explanations:<!-- -->
+<ul>
+<li class="">Reflective optimizers need “why this score” to hypothesize and fix failure modes.</li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="c4-operational-and-facilitation-errors">C4) Operational and facilitation errors<a href="https://docs.locki.io/blog/opik-workshop-2#c4-operational-and-facilitation-errors" class="hash-link" aria-label="Direct link to C4) Operational and facilitation errors" title="Direct link to C4) Operational and facilitation errors" translate="no">​</a></h4>
+<ul>
+<li class="">No pre-flight checks for recording/screen share.</li>
+<li class="">Letting logistics Q&amp;A repeatedly interrupt technical depth.</li>
+<li class="">Skipping conceptual grounding and jumping into highly technical steps.</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="d-solutions-best-practices-and-strategies">D. Solutions, Best Practices, and Strategies<a href="https://docs.locki.io/blog/opik-workshop-2#d-solutions-best-practices-and-strategies" class="hash-link" aria-label="Direct link to D. Solutions, Best Practices, and Strategies" title="Direct link to D. Solutions, Best Practices, and Strategies" translate="no">​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="d1-facilitation-strategy-for-optimization-workshops">D1) Facilitation strategy for optimization workshops<a href="https://docs.locki.io/blog/opik-workshop-2#d1-facilitation-strategy-for-optimization-workshops" class="hash-link" aria-label="Direct link to D1) Facilitation strategy for optimization workshops" title="Direct link to D1) Facilitation strategy for optimization workshops" translate="no">​</a></h4>
+<p>Use a structured agenda:</p>
+<ol>
+<li class=""><strong>Buffer + housekeeping</strong> (2–5 min)</li>
+<li class=""><strong>Conceptual grounding</strong> (5–10 min)</li>
+<li class=""><strong>Hands-on optimization</strong> (primary block)</li>
+<li class=""><strong>Q&amp;A checkpoints</strong> (periodic)</li>
+<li class=""><strong>Closeout</strong>: follow-ups and resources channel (e.g., Discord)
+Logistics handling:</li>
+</ol>
+<ul>
+<li class="">Allow limited buffer for urgent logistics at the start.</li>
+<li class="">Route ongoing logistics to a dedicated channel (Discord/moderators).
+Operational readiness:</li>
+<li class="">Test recording and screen share before the session begins.</li>
+<li class="">Prepare backup plan (rejoin meeting, share window instead of full screen, alternate host).</li>
+</ul>
+<hr>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="d2-build-an-eval-driven-optimization-loop-core-technical-workflow">D2) Build an eval-driven optimization loop (core technical workflow)<a href="https://docs.locki.io/blog/opik-workshop-2#d2-build-an-eval-driven-optimization-loop-core-technical-workflow" class="hash-link" aria-label="Direct link to D2) Build an eval-driven optimization loop (core technical workflow)" title="Direct link to D2) Build an eval-driven optimization loop (core technical workflow)" translate="no">​</a></h4>
+<p>A repeatable loop:</p>
+<ol>
+<li class="">Define a <strong>dataset</strong> (inputs + expected behavior)</li>
+<li class="">Define a <strong>metric</strong> (scoring rubric and constraints)</li>
+<li class="">Run a <strong>baseline</strong> prompt/agent and record results</li>
+<li class="">Generate candidate prompts (human + optimizer)</li>
+<li class="">Evaluate candidates on the same harness</li>
+<li class="">Select the best under constraints (accuracy + speed + cost)</li>
+<li class="">Iterate until target reached or budget exhausted</li>
+<li class="">Validate on <strong>holdout/validation</strong> to detect overfitting</li>
+</ol>
+<hr>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="d3-optimizer-selection-guidance">D3) Optimizer selection guidance<a href="https://docs.locki.io/blog/opik-workshop-2#d3-optimizer-selection-guidance" class="hash-link" aria-label="Direct link to D3) Optimizer selection guidance" title="Direct link to D3) Optimizer selection guidance" translate="no">​</a></h4>
+<ul>
+<li class=""><strong>Meta-prompting</strong>: fast setup, quick baseline improvements.</li>
+<li class=""><strong>Genetic/evolutionary</strong>: broad exploration; good when small phrasing changes matter.</li>
+<li class=""><strong>Reflective/HRPO</strong>: best for nuanced failure clusters and “last mile” improvements.</li>
+<li class=""><strong>Few-shot Bayesian</strong>: when selection and ordering of examples is a major performance lever.</li>
+<li class=""><strong>Parameter tuning</strong>: stabilize variance and style after instructions/examples are strong.
+Budget warning:</li>
+<li class="">More sophisticated optimizers typically increase API calls, tokens, and wall-clock time.</li>
+</ul>
+<hr>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="d4-metric-strategy-fast-iteration-vs-semantic-correctness">D4) Metric strategy (fast iteration vs semantic correctness)<a href="https://docs.locki.io/blog/opik-workshop-2#d4-metric-strategy-fast-iteration-vs-semantic-correctness" class="hash-link" aria-label="Direct link to D4) Metric strategy (fast iteration vs semantic correctness)" title="Direct link to D4) Metric strategy (fast iteration vs semantic correctness)" translate="no">​</a></h4>
+<ul>
+<li class="">Use <strong>fast metrics</strong> early:<!-- -->
+<ul>
+<li class="">regression detection</li>
+<li class="">formatting/stability checks</li>
+</ul>
+</li>
+<li class="">Upgrade to <strong>semantic evals</strong> for correctness:<!-- -->
+<ul>
+<li class=""><strong>LLM-as-a-judge</strong> with a strict rubric</li>
+<li class="">hybrid metrics (semantic + format + safety)</li>
+</ul>
+</li>
+<li class="">Consider <strong>multi-metric objectives</strong>:<!-- -->
+<ul>
+<li class="">accuracy + cost + latency to prevent “accurate but too expensive” prompts</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="d5-production-readiness-strategy-safety-and-reproducibility">D5) Production readiness strategy (safety and reproducibility)<a href="https://docs.locki.io/blog/opik-workshop-2#d5-production-readiness-strategy-safety-and-reproducibility" class="hash-link" aria-label="Direct link to D5) Production readiness strategy (safety and reproducibility)" title="Direct link to D5) Production readiness strategy (safety and reproducibility)" translate="no">​</a></h4>
+<p>Treat prompt optimization as controlled production change:</p>
+<ul>
+<li class="">Use staging, monitoring, and rollback prompts.</li>
+<li class="">Keep prompt versioning, changelogs, and eval results history.</li>
+<li class="">Build datasets from <strong>production traces</strong>:<!-- -->
+<ul>
+<li class="">convert traces into eval datasets or annotation queues</li>
+</ul>
+</li>
+<li class="">Add human-in-the-loop review for safety-critical workflows.
+Model strategy:</li>
+<li class="">Use a <strong>larger model</strong> to generate candidate prompts (“authoring model”).</li>
+<li class="">Evaluate on the <strong>target deployment model</strong> (smaller/cheaper) for parity.
+Multilingual concerns:</li>
+<li class="">Ensure evals cover target languages.</li>
+<li class="">Use judges that understand the language or add human evaluation.</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="e-what-should-be-done-dos">E. What Should Be Done (Do’s)<a href="https://docs.locki.io/blog/opik-workshop-2#e-what-should-be-done-dos" class="hash-link" aria-label="Direct link to E. What Should Be Done (Do’s)" title="Direct link to E. What Should Be Done (Do’s)" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Start every workshop</strong> with conceptual grounding (terms, scope, intended outcome).</li>
+<li class=""><strong>Enable and test recording</strong>; ensure rewatchability for time zones.</li>
+<li class=""><strong>Pre-flight check</strong> (5–10 minutes before start):<!-- -->
+<ul>
+<li class="">Zoom audio/video</li>
+<li class="">correct monitor/window sharing</li>
+<li class="">recording status</li>
+</ul>
+</li>
+<li class=""><strong>Define success metrics upfront</strong> (rubric, pass/fail rules, partial credit).</li>
+<li class=""><strong>Build/curate a representative dataset</strong> (typical + edge + adversarial cases).</li>
+<li class=""><strong>Run and document a baseline</strong> before optimization.</li>
+<li class=""><strong>Use train + validation (+ test)</strong> splits; add a holdout set to detect overfitting.</li>
+<li class=""><strong>Select an optimizer</strong> based on:<!-- -->
+<ul>
+<li class="">budget, failure complexity, exploration vs targeted fixes</li>
+</ul>
+</li>
+<li class=""><strong>Log and version everything</strong>:<!-- -->
+<ul>
+<li class="">prompt versions, scores, dataset versions, model/provider settings</li>
+</ul>
+</li>
+<li class=""><strong>Constrain outputs</strong> when consistency matters (schemas, bullet limits, citation rules).</li>
+<li class=""><strong>Use production traces</strong> to keep evaluation realistic; build an annotation queue when needed.</li>
+<li class=""><strong>Apply multi-metric gates</strong> (accuracy must improve without breaking cost/latency).</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="f-what-should-not-be-done-donts">F. What Should NOT Be Done (Don’ts)<a href="https://docs.locki.io/blog/opik-workshop-2#f-what-should-not-be-done-donts" class="hash-link" aria-label="Direct link to F. What Should NOT Be Done (Don’ts)" title="Direct link to F. What Should NOT Be Done (Don’ts)" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Don’t</strong> jump into technical implementation without aligning key concepts and goals.</li>
+<li class=""><strong>Don’t</strong> rely only on live attendance; always provide recordings.</li>
+<li class=""><strong>Don’t</strong> allow logistics Q&amp;A to repeatedly interrupt technical flow (route it elsewhere).</li>
+<li class=""><strong>Don’t</strong> optimize without a dataset or without a metric.</li>
+<li class=""><strong>Don’t</strong> rely only on “doom wordsmithing” (random manual edits) without evals.</li>
+<li class=""><strong>Don’t</strong> ignore the <strong>speed–accuracy–cost</strong> triangle.</li>
+<li class=""><strong>Don’t</strong> let optimizers run without guardrails:<!-- -->
+<ul>
+<li class="">they may exploit metric loopholes or create brittle prompts</li>
+</ul>
+</li>
+<li class=""><strong>Don’t</strong> assume gains on tiny samples generalize to production.</li>
+<li class=""><strong>Don’t</strong> use only character-level similarity for semantic tasks in production-critical scenarios.</li>
+<li class=""><strong>Don’t</strong> change prompt + model + metric + dataset simultaneously without tracking; you lose causal understanding.</li>
+<li class=""><strong>Don’t</strong> treat experiment tracking as optional; without it, improvements are not reproducible.</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="g-tools-tasks-and-recommended-actions">G. Tools, Tasks, and Recommended Actions<a href="https://docs.locki.io/blog/opik-workshop-2#g-tools-tasks-and-recommended-actions" class="hash-link" aria-label="Direct link to G. Tools, Tasks, and Recommended Actions" title="Direct link to G. Tools, Tasks, and Recommended Actions" translate="no">​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="g1-tools-explicitly-referenced-or-strongly-implied">G1) Tools (explicitly referenced or strongly implied)<a href="https://docs.locki.io/blog/opik-workshop-2#g1-tools-explicitly-referenced-or-strongly-implied" class="hash-link" aria-label="Direct link to G1) Tools (explicitly referenced or strongly implied)" title="Direct link to G1) Tools (explicitly referenced or strongly implied)" translate="no">​</a></h4>
+<ul>
+<li class=""><strong>Zoom</strong>: live delivery, screen sharing, recording</li>
+<li class=""><strong>Discord</strong>: async logistics, follow-ups, announcements</li>
+<li class=""><strong>Comet</strong>: experiment tracking UI, dataset management, optimization studio</li>
+<li class=""><strong>OPIK SDK</strong> (Python): optimization/evaluation loops (multimodal demo)</li>
+<li class=""><strong>OPIC SDK / OPIC GitHub monorepo</strong>: optimizer suite and algorithms</li>
+<li class=""><strong>LLM providers</strong>: OpenAI, Gemini, local models (e.g., Ollama)</li>
+<li class=""><strong>RAG + MCP servers/clients</strong>: context/tool ecosystem patterns</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="g2-recommended-team-routines-practical">G2) Recommended team routines (practical)<a href="https://docs.locki.io/blog/opik-workshop-2#g2-recommended-team-routines-practical" class="hash-link" aria-label="Direct link to G2) Recommended team routines (practical)" title="Direct link to G2) Recommended team routines (practical)" translate="no">​</a></h4>
+<ol>
+<li class=""><strong>Workshop runbook</strong>
+<ul>
+<li class="">setup checklist + agenda template + escalation channel for logistics</li>
+</ul>
+</li>
+<li class=""><strong>Minimal eval harness</strong>
+<ul>
+<li class="">dataset loader</li>
+<li class="">prompt runner</li>
+<li class="">metric function (with explanation)</li>
+<li class="">reporting dashboard</li>
+</ul>
+</li>
+<li class=""><strong>Optimization experiments</strong>
+<ul>
+<li class="">meta-prompting run (N candidates × M trials)</li>
+<li class="">genetic/evolutionary run (population, mutation operators, selection)</li>
+<li class="">reflective/HRPO run (failure clustering, hypothesis generation)</li>
+</ul>
+</li>
+<li class=""><strong>Budget controls</strong>
+<ul>
+<li class="">max trials, max tokens, max wall-clock time</li>
+</ul>
+</li>
+<li class=""><strong>Acceptance gates</strong>
+<ul>
+<li class="">“no merge if validation score drops”</li>
+<li class="">enforce latency/cost ceilings</li>
+</ul>
+</li>
+<li class=""><strong>Trace-to-dataset pipeline</strong>
+<ul>
+<li class="">export 100–500 production traces</li>
+<li class="">label via annotation queue</li>
+<li class="">iterate dataset quality before optimizing further</li>
+</ul>
+</li>
+<li class=""><strong>Release checklist</strong>
+<ul>
+<li class="">staging rollout, monitoring KPIs, rollback prompt</li>
+</ul>
+</li>
+</ol>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id="g3-multimodal-data-preparation-when-applicable">G3) Multimodal data preparation (when applicable)<a href="https://docs.locki.io/blog/opik-workshop-2#g3-multimodal-data-preparation-when-applicable" class="hash-link" aria-label="Direct link to G3) Multimodal data preparation (when applicable)" title="Direct link to G3) Multimodal data preparation (when applicable)" translate="no">​</a></h4>
+<ul>
+<li class="">Images/audio/video may require <strong>Base64 encoding</strong> in datasets.</li>
+<li class="">Video can be token-heavy; plan budget and limits accordingly.</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-practical-examples-reviewed-and-rewritten">2) Practical Examples (Reviewed and Rewritten)<a href="https://docs.locki.io/blog/opik-workshop-2#2-practical-examples-reviewed-and-rewritten" class="hash-link" aria-label="Direct link to 2) Practical Examples (Reviewed and Rewritten)" title="Direct link to 2) Practical Examples (Reviewed and Rewritten)" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="example-1--handling-a-delayed-workshop-start-screen-sharing-issue">Example 1 — Handling a delayed workshop start (screen sharing issue)<a href="https://docs.locki.io/blog/opik-workshop-2#example-1--handling-a-delayed-workshop-start-screen-sharing-issue" class="hash-link" aria-label="Direct link to Example 1 — Handling a delayed workshop start (screen sharing issue)" title="Direct link to Example 1 — Handling a delayed workshop start (screen sharing issue)" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Scenario:</strong> Presenter cannot share the correct screen due to multi-monitor setup.</li>
+<li class=""><strong>Recommended response:</strong>
+<ul>
+<li class="">Announce a brief delay and the cause (“screen share setup”).</li>
+<li class="">Use the time for housekeeping:<!-- -->
+<ul>
+<li class="">confirm recording is on,</li>
+<li class="">ask attendees to post time zones in chat,</li>
+<li class="">redirect logistics questions to Discord.</li>
+</ul>
+</li>
+<li class="">Resume with <strong>conceptual grounding</strong> once stable.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="example-2--preventing-early-technical-derailment">Example 2 — Preventing early technical derailment<a href="https://docs.locki.io/blog/opik-workshop-2#example-2--preventing-early-technical-derailment" class="hash-link" aria-label="Direct link to Example 2 — Preventing early technical derailment" title="Direct link to Example 2 — Preventing early technical derailment" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Scenario:</strong> Participants immediately ask deep implementation questions (tool calling, optimizer internals) before definitions are aligned.</li>
+<li class=""><strong>Recommended response:</strong>
+<ul>
+<li class="">Pause and define:<!-- -->
+<ul>
+<li class="">agent vs prompt vs context vs eval,</li>
+<li class="">the target metric and dataset,</li>
+<li class="">success criteria and constraints.</li>
+</ul>
+</li>
+<li class="">Explicitly defer deep dives:<!-- -->
+<ul>
+<li class="">“We’ll go deep in a moment—first we align on concepts and the evaluation loop.”</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="example-3--meta-prompting-to-fix-inconsistent-formatting">Example 3 — Meta-prompting to fix inconsistent formatting<a href="https://docs.locki.io/blog/opik-workshop-2#example-3--meta-prompting-to-fix-inconsistent-formatting" class="hash-link" aria-label="Direct link to Example 3 — Meta-prompting to fix inconsistent formatting" title="Direct link to Example 3 — Meta-prompting to fix inconsistent formatting" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Scenario:</strong> A support chatbot fails JSON schema compliance ~30% of the time.</li>
+<li class=""><strong>Approach:</strong>
+<ul>
+<li class="">Create an eval set of real formatting cases.</li>
+<li class="">Use a meta-reasoner prompt to generate ~6 system-prompt variants:<!-- -->
+<ul>
+<li class="">stricter schema instructions,</li>
+<li class="">explicit formatting steps,</li>
+<li class="">refusal conditions for missing fields.</li>
+</ul>
+</li>
+<li class="">Evaluate all candidates; select the best and iterate until compliance stabilizes.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="example-4--genetic-optimization-for-a-sensitive-classification-task">Example 4 — Genetic optimization for a sensitive classification task<a href="https://docs.locki.io/blog/opik-workshop-2#example-4--genetic-optimization-for-a-sensitive-classification-task" class="hash-link" aria-label="Direct link to Example 4 — Genetic optimization for a sensitive classification task" title="Direct link to Example 4 — Genetic optimization for a sensitive classification task" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Scenario:</strong> Ticket triage accuracy varies heavily with small prompt phrasing differences.</li>
+<li class=""><strong>Approach:</strong>
+<ul>
+<li class="">Start from a parent prompt.</li>
+<li class="">Generate a population of children via mutations:<!-- -->
+<ul>
+<li class="">reorder priorities (labels first, then rules),</li>
+<li class="">remove ambiguous wording,</li>
+<li class="">tighten label definitions.</li>
+</ul>
+</li>
+<li class="">Evaluate all prompts; keep winners and discard losers.</li>
+<li class="">Inject fresh prompts periodically (including the original) to avoid premature convergence.</li>
+<li class="">Maintain a <strong>Hall of Fame</strong> of best prompts/components.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="example-5--reflectivehrpo-optimizer-to-reduce-hallucinations-in-incomplete-context">Example 5 — Reflective/HRPO optimizer to reduce hallucinations in incomplete context<a href="https://docs.locki.io/blog/opik-workshop-2#example-5--reflectivehrpo-optimizer-to-reduce-hallucinations-in-incomplete-context" class="hash-link" aria-label="Direct link to Example 5 — Reflective/HRPO optimizer to reduce hallucinations in incomplete context" title="Direct link to Example 5 — Reflective/HRPO optimizer to reduce hallucinations in incomplete context" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Scenario:</strong> An agent hallucinates when retrieval returns partial or irrelevant documents.</li>
+<li class=""><strong>Approach:</strong>
+<ul>
+<li class="">Define a metric that penalizes hallucination and rewards:<!-- -->
+<ul>
+<li class="">uncertainty statements,</li>
+<li class="">citations/quotes from sources.</li>
+</ul>
+</li>
+<li class="">Reflective optimizer clusters failures:<!-- -->
+<ul>
+<li class="">missing citations,</li>
+<li class="">overconfident claims with no evidence.</li>
+</ul>
+</li>
+<li class="">Prompt changes:<!-- -->
+<ul>
+<li class="">“If the answer is not supported by context, say ‘I don’t know’ and ask for clarification.”</li>
+<li class="">require quoting or citing retrieved passages.</li>
+</ul>
+</li>
+<li class="">Re-run eval until hallucination rate drops on validation.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="example-6--multimodal-hazard-detection-optimization-comet--opik">Example 6 — Multimodal hazard detection optimization (Comet + OPIK)<a href="https://docs.locki.io/blog/opik-workshop-2#example-6--multimodal-hazard-detection-optimization-comet--opik" class="hash-link" aria-label="Direct link to Example 6 — Multimodal hazard detection optimization (Comet + OPIK)" title="Direct link to Example 6 — Multimodal hazard detection optimization (Comet + OPIK)" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Scenario:</strong> Dashcam hazard detector gives generic driving advice instead of image-grounded hazards.</li>
+<li class=""><strong>Dataset pattern:</strong>
+<ul>
+<li class="">image + question → reference hazard annotation</li>
+</ul>
+</li>
+<li class=""><strong>Metric approach (fast demo metric):</strong>
+<ul>
+<li class="">Levenshtein ratio vs reference text (fast but not semantic)</li>
+</ul>
+</li>
+<li class=""><strong>Reflective prompt improvements:</strong>
+<ul>
+<li class="">“Only describe hazards visible or strongly implied by the image; do not provide general driving advice.”</li>
+<li class="">Output constraint: “Return 1–3 bullet points, each a hazard statement.”</li>
+</ul>
+</li>
+<li class=""><strong>Validation caution:</strong>
+<ul>
+<li class="">Small subsets can cause high variance and overfitting; confirm improvements on validation/test and consider LLM-judge for semantic correctness.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="example-7--intent-engineering-for-a-safety-sensitive-conversational-assistant">Example 7 — Intent engineering for a safety-sensitive conversational assistant<a href="https://docs.locki.io/blog/opik-workshop-2#example-7--intent-engineering-for-a-safety-sensitive-conversational-assistant" class="hash-link" aria-label="Direct link to Example 7 — Intent engineering for a safety-sensitive conversational assistant" title="Direct link to Example 7 — Intent engineering for a safety-sensitive conversational assistant" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Scenario:</strong> Build an empathetic therapy-style assistant with safety protocols.</li>
+<li class=""><strong>Intent-first approach:</strong>
+<ul>
+<li class="">Create a dataset of ideal conversations:<!-- -->
+<ul>
+<li class="">anxiety → validation + grounding exercise</li>
+<li class="">self-harm → safety protocol and resources</li>
+<li class="">diagnosis request → refuse diagnosis, provide guidance/resources</li>
+</ul>
+</li>
+<li class="">Define eval rubric:<!-- -->
+<ul>
+<li class="">empathy markers, safety compliance, refusal correctness</li>
+</ul>
+</li>
+<li class="">Optimize prompts:<!-- -->
+<ul>
+<li class="">meta-prompting for quick gains</li>
+<li class="">reflective optimizer for recurring failures (too clinical, insufficient validation)</li>
+</ul>
+</li>
+<li class="">Add holdout eval set to avoid overfitting to scripted examples.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-conclusion-and-practical-application">3) Conclusion and Practical Application<a href="https://docs.locki.io/blog/opik-workshop-2#3-conclusion-and-practical-application" class="hash-link" aria-label="Direct link to 3) Conclusion and Practical Application" title="Direct link to 3) Conclusion and Practical Application" translate="no">​</a></h2>
+<p>Agent/prompt optimization becomes reliable only when treated as an engineering discipline: <strong>dataset + metric + iterative eval loop + controlled changes</strong>. Operationally, successful workshops require <strong>conceptual grounding</strong>, tested <strong>recording/screen-sharing</strong>, and clear boundaries between logistics and technical work. Technically, improvements should be driven by <strong>evals</strong> and chosen optimizers (meta-prompting, genetic/evolutionary, reflective/HRPO, few-shot Bayesian, parameter tuning), with explicit management of the <strong>speed–accuracy–cost</strong> tradeoff. In day-to-day practice, start with a minimal eval harness and baseline, run low-budget optimization, validate on holdout data, and ship through a controlled release process with monitoring and rollback.
+<strong>Next steps</strong></p>
+<ol>
+<li class="">Build a reusable <strong>workshop runbook</strong> (checklist + agenda + support channels).</li>
+<li class="">Implement a minimal <strong>eval harness</strong> for one real agent flow and record baseline metrics.</li>
+<li class="">Run <strong>meta-prompting</strong> to capture quick wins, then escalate to <strong>reflective/HRPO</strong> or <strong>genetic</strong> as needed.</li>
+<li class="">Add <strong>few-shot selection</strong> and <strong>parameter tuning</strong> once prompt structure is stable.</li>
+<li class="">Upgrade metrics to <strong>LLM-judge + rubric</strong> (and human review where required), and enforce <strong>multi-metric gates</strong> (accuracy + cost + latency).</li>
+</ol>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="glossary-key-terms">Glossary (Key Terms)<a href="https://docs.locki.io/blog/opik-workshop-2#glossary-key-terms" class="hash-link" aria-label="Direct link to Glossary (Key Terms)" title="Direct link to Glossary (Key Terms)" translate="no">​</a></h2>
+<ul>
+<li class=""><strong>Agent</strong>: An LLM-based system that may use tools (APIs, retrieval, MCP) to complete tasks.</li>
+<li class=""><strong>Agent optimization</strong>: Improving an agent’s effectiveness through systematic iteration using datasets and metrics.</li>
+<li class=""><strong>Conceptual grounding</strong>: A short theory-based alignment step to ensure shared definitions, goals, and assumptions.</li>
+<li class=""><strong>Context engineering</strong>: Supplying relevant context via retrieval/tools/memory/long context windows (e.g., RAG, MCP).</li>
+<li class=""><strong>Intent engineering</strong>: Defining desired outputs/behaviors first (examples), then optimizing backward toward them.</li>
+<li class=""><strong>Eval (evaluation)</strong>: Automated testing of prompts/agents against a dataset using a metric/rubric.</li>
+<li class=""><strong>Metric / reward function</strong>: A scoring function used to judge outputs (accuracy, hallucination, cost, latency, etc.).</li>
+<li class=""><strong>Meta-prompting (meta-reasoner)</strong>: Using an LLM to generate improved prompts for another task.</li>
+<li class=""><strong>Genetic / evolutionary optimization</strong>: Population-based search over prompts via mutation and selection.</li>
+<li class=""><strong>Mutation</strong>: A change applied to a prompt to create variation (remove/reorder/replace text).</li>
+<li class=""><strong>Hall of Fame</strong>: A retained set of top-performing prompts/components across generations.</li>
+<li class=""><strong>Reflective / hierarchical optimizer (HRPO)</strong>: Optimizer that diagnoses failure patterns, forms hypotheses, and proposes targeted fixes.</li>
+<li class=""><strong>Few-shot Bayesian optimizer</strong>: Method for selecting and ordering few-shot examples to include in prompts.</li>
+<li class=""><strong>Parameter optimization</strong>: Tuning inference parameters like temperature/top_p/top_k to manage variability and style.</li>
+<li class=""><strong>LLM-as-a-judge</strong>: Using an LLM to grade another model’s output against a rubric/reference.</li>
+<li class=""><strong>Levenshtein ratio</strong>: Character-level similarity score based on edit distance (fast, but not semantic).</li>
+<li class=""><strong>Overfitting</strong>: Improvements on training data that don’t generalize to validation/test.</li>
+<li class=""><strong>MCP (Model Context Protocol)</strong>: Tool ecosystem pattern (servers/clients) enabling models to access external capabilities.</li>
+<li class=""><strong>RAG (Retrieval-Augmented Generation)</strong>: Retrieval system that injects documents into context to ground responses.</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="review-questions-knowledge-check">Review Questions (Knowledge Check)<a href="https://docs.locki.io/blog/opik-workshop-2#review-questions-knowledge-check" class="hash-link" aria-label="Direct link to Review Questions (Knowledge Check)" title="Direct link to Review Questions (Knowledge Check)" translate="no">​</a></h2>
+<ol>
+<li class="">Why is <strong>conceptual grounding</strong> important before hands-on optimization in a workshop?</li>
+<li class="">What are the three constraints in the <strong>speed–accuracy–cost</strong> triangle, and why do they conflict?</li>
+<li class="">What are the minimum components of an <strong>eval-driven optimization loop</strong>?</li>
+<li class="">When would you choose <strong>meta-prompting</strong> vs <strong>genetic optimization</strong> vs <strong>reflective/HRPO</strong>?</li>
+<li class="">Why can <strong>Levenshtein ratio</strong> be misleading for semantic tasks, and what should you use instead?</li>
+<li class="">What does it mean to <strong>chain optimizers</strong>, and what reminder should guide the order (instructions → examples → parameters)?</li>
+<li class="">Why are <strong>validation/holdout sets</strong> necessary during prompt optimization?</li>
+<li class="">What operational checklist items should be validated before running a live interactive workshop?</li>
+</ol>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="suggested-further-reading--resources">Suggested Further Reading / Resources<a href="https://docs.locki.io/blog/opik-workshop-2#suggested-further-reading--resources" class="hash-link" aria-label="Direct link to Suggested Further Reading / Resources" title="Direct link to Suggested Further Reading / Resources" translate="no">​</a></h2>
+<ul>
+<li class=""><strong>Facilitation &amp; workshop design</strong>
+<ul>
+<li class="">Atlassian Team Playbook (facilitation patterns and team rituals): <a href="https://www.atlassian.com/team-playbook" target="_blank" rel="noopener noreferrer" class="">https://www.atlassian.com/team-playbook</a></li>
+</ul>
+</li>
+<li class=""><strong>Evals and LLM testing</strong>
+<ul>
+<li class="">OpenAI Evals (conceptual reference): <a href="https://github.com/openai/evals" target="_blank" rel="noopener noreferrer" class="">https://github.com/openai/evals</a></li>
+<li class="">LangChain evaluation guides: <a href="https://python.langchain.com/docs/guides/evaluation/" target="_blank" rel="noopener noreferrer" class="">https://python.langchain.com/docs/guides/evaluation/</a></li>
+</ul>
+</li>
+<li class=""><strong>Agent systems and tool use</strong>
+<ul>
+<li class="">OpenAI documentation (agents/tooling concepts): <a href="https://platform.openai.com/docs/" target="_blank" rel="noopener noreferrer" class="">https://platform.openai.com/docs/</a></li>
+<li class="">Anthropic documentation (tool use and agent patterns): <a href="https://docs.anthropic.com/" target="_blank" rel="noopener noreferrer" class="">https://docs.anthropic.com/</a></li>
+<li class="">LangChain agent patterns and evaluation tooling: <a href="https://python.langchain.com/docs/" target="_blank" rel="noopener noreferrer" class="">https://python.langchain.com/docs/</a></li>
+</ul>
+</li>
+<li class=""><strong>RAG learning resources</strong>
+<ul>
+<li class="">Pinecone RAG guides: <a href="https://www.pinecone.io/learn/" target="_blank" rel="noopener noreferrer" class="">https://www.pinecone.io/learn/</a></li>
+<li class="">Weaviate RAG resources: <a href="https://weaviate.io/developers/weaviate" target="_blank" rel="noopener noreferrer" class="">https://weaviate.io/developers/weaviate</a></li>
+</ul>
+</li>
+<li class=""><strong>Experiment tracking</strong>
+<ul>
+<li class="">Comet platform: <a href="https://www.comet.com/" target="_blank" rel="noopener noreferrer" class="">https://www.comet.com/</a></li>
+</ul>
+</li>
+</ul>]]></content>
+        <author>
+            <name>Jean-Noël Schilling</name>
+            <uri>https://github.com/jnschilling</uri>
+        </author>
+        <category label="AI and Machine Learning" term="AI and Machine Learning"/>
+        <category label="RAG" term="RAG"/>
+        <category label="Encode hackathon" term="Encode hackathon"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[OPIK : AI Evaluation and Observability]]></title>
+        <id>https://docs.locki.io/blog/opik-workshop-1</id>
+        <link href="https://docs.locki.io/blog/opik-workshop-1"/>
+        <updated>2026-01-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This lecture, led by Abby Morgan, an AI Research Engineer, introduces AI evaluation as a systematic feedback loop for transitioning prototypes to production-ready systems. It outlines the four key components of a useful evaluation: a target capability, a test set, a scoring method, and decision rules. The session differentiates between general benchmarks and specific product evaluations, emphasizing the need for observability in agent evaluation. It demonstrates using OPIK, an open-source tool, to track, debug, and evaluate LLM agents through features like traces, spans, 'LM as a judge', and regression testing datasets.]]></summary>
+        <content type="html"><![CDATA[<p>This lecture, led by Abby Morgan, an AI Research Engineer, introduces AI evaluation as a systematic feedback loop for transitioning prototypes to production-ready systems. It outlines the four key components of a useful evaluation: a target capability, a test set, a scoring method, and decision rules. The session differentiates between general benchmarks and specific product evaluations, emphasizing the need for observability in agent evaluation. It demonstrates using OPIK, an open-source tool, to track, debug, and evaluate LLM agents through features like traces, spans, 'LM as a judge', and regression testing datasets.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="takeaways">Takeaways<a href="https://docs.locki.io/blog/opik-workshop-1#takeaways" class="hash-link" aria-label="Direct link to Takeaways" title="Direct link to Takeaways" translate="no">​</a></h2>
+<ol>
+<li class="">Introduction to Abby Morgan, an AI Research Engineer and Developer Advocate at Comet.</li>
+<li class="">Housekeeping rules for the hackathon: use the public Discord channel for specific questions to ensure fairness and help others.</li>
+<li class="">Recap of the previous session on AI evaluations: they turn prototypes into production-ready systems.</li>
+<li class="">Evaluation is the feedback loop that enables systematic improvement, turning guesswork into a scientific process.</li>
+<li class="">Evaluations help in making decisions (ship or roll back), debugging failures, and building trustworthy systems.</li>
+<li class="">An evaluation is defined as a structured, repeatable measurement of system behavior against specific criteria.</li>
+<li class="">Four key ingredients of a useful evaluation: a target capability, a test set reflecting the relevant world, a scoring method, and decision rules.</li>
+<li class="">Evaluation outputs are not just numbers; they can include concrete examples, categorical slices, and error taxonomies.</li>
+<li class="">Distinction between benchmarks and product evaluations: Benchmarks are for broad comparisons, while product evals are specific to your use case, tools, and workflows.</li>
+<li class="">The importance of observability in evaluating agents: the full trace (context, prompts, tool calls) is crucial as agents don't fail like traditional software.</li>
+</ol>
+<iframe width="100%" style="aspect-ratio:16 / 9" src="https://www.encodeclub.com/programmes/comet-resolution-v2-hackathon/events/intro-to-opik" title="OPIK workshop 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="highlights">Highlights<a href="https://docs.locki.io/blog/opik-workshop-1#highlights" class="hash-link" aria-label="Direct link to Highlights" title="Direct link to Highlights" translate="no">​</a></h2>
+<ul>
+<li class=""><code>"Evaluation is essentially just the feedback loop that makes improvement thematic."-- Annie Morgan</code></li>
+<li class=""><code>"Evals are what turn random iteration or guesswork into more of a scientific process that allows you to improve in a systematic way."-- Annie Morgan</code></li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="chapters--topics">Chapters &amp; Topics<a href="https://docs.locki.io/blog/opik-workshop-1#chapters--topics" class="hash-link" aria-label="Direct link to Chapters &amp; Topics" title="Direct link to Chapters &amp; Topics" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-role-and-definition-of-ai-evaluation">The Role and Definition of AI Evaluation<a href="https://docs.locki.io/blog/opik-workshop-1#the-role-and-definition-of-ai-evaluation" class="hash-link" aria-label="Direct link to The Role and Definition of AI Evaluation" title="Direct link to The Role and Definition of AI Evaluation" translate="no">​</a></h3>
+<blockquote>
+<p>An evaluation is a structured, repeatable measurement of system behavior against criteria we care about. This structured approach is key to distinguishing a true evaluation from a mere product demo, as it must be consistently runnable over time to interpret changes.</p>
+</blockquote>
+<ul>
+<li class=""><strong>Keypoints</strong>
+<ul>
+<li class="">Evaluation turns a prototype into a production-ready system.</li>
+<li class="">It provides a feedback loop for systematic improvement.</li>
+<li class="">It helps make decisions like shipping or rolling back features.</li>
+<li class="">An evaluation must be structured and repeatable.</li>
+<li class="">It's the difference between a product demo and a scientific process.</li>
+<li class="">It helps build systems that people can trust in the real world.</li>
+</ul>
+</li>
+<li class=""><strong>Explanation</strong>
+The process of evaluation is what transforms a cool but unreliable prototype into something that can be confidently shipped and iterated upon in a real-world production environment. It provides the necessary feedback loop to make improvements systematic rather than random. It helps decide whether to ship new features, roll back changes, debug failures, and ultimately, build systems that users can trust. Without a structured evaluation process, it's difficult to know if a system is actually improving or if observed successes are just cherry-picked examples or irrelevant outliers.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="four-ingredients-of-a-useful-evaluation">Four Ingredients of a Useful Evaluation<a href="https://docs.locki.io/blog/opik-workshop-1#four-ingredients-of-a-useful-evaluation" class="hash-link" aria-label="Direct link to Four Ingredients of a Useful Evaluation" title="Direct link to Four Ingredients of a Useful Evaluation" translate="no">​</a></h3>
+<blockquote>
+<p>Most useful evaluations are composed of four essential ingredients: a target capability, a test set, a scoring method, and decision rules.</p>
+</blockquote>
+<ul>
+<li class=""><strong>Keypoints</strong>
+<ul>
+<li class="">A target capability (e.g., fluency, relevance, toxicity).</li>
+<li class="">A test set that reflects the specific world and edge cases you care about.</li>
+<li class="">A scoring method, which can be human annotation or an automated metric.</li>
+<li class="">Decision rules that dictate actions based on the evaluation scores (e.g., ship, roll back).</li>
+</ul>
+</li>
+<li class=""><strong>Explanation</strong>
+To create a useful evaluation, you need four components. First, a 'target capability' which could be things like fluency, relevance, or toxicity. Second, a 'test set' that accurately reflects the real-world scenarios you care about, including edge cases. This is where product evals differ from general benchmarks. Third, a 'scoring method', which can be either human annotation or an automated metric. Finally, 'decision rules' which define what actions to take based on the evaluation scores, such as deploying a new feature or rolling it back.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="benchmarks-vs-product-evals">Benchmarks vs. Product Evals<a href="https://docs.locki.io/blog/opik-workshop-1#benchmarks-vs-product-evals" class="hash-link" aria-label="Direct link to Benchmarks vs. Product Evals" title="Direct link to Benchmarks vs. Product Evals" translate="no">​</a></h3>
+<blockquote>
+<p>Benchmarks are standardized evaluations for broad comparisons across a wide range of use cases, whereas product evaluations are tailored to a specific use case, including its unique tools and workflows. Benchmarks are helpful for general comparisons, but are not a substitute for product-specific evaluations.</p>
+</blockquote>
+<ul>
+<li class=""><strong>Keypoints</strong>
+<ul>
+<li class="">Benchmarks are standardized and cover a wide range of use cases.</li>
+<li class="">Product evals are specific to your use case, tools, and workflows.</li>
+<li class="">Benchmarks are for broader comparisons.</li>
+<li class="">Product evals are for seriously evaluating your system for its specific purpose.</li>
+<li class="">Product evals should use a test set that reflects the particular world you care about, including edge cases.</li>
+</ul>
+</li>
+<li class=""><strong>Explanation</strong>
+While the term 'benchmark' is often used in AI evals, it's important to distinguish it from a 'product eval'. Benchmarks are generalized and standardized, designed to test a wide range of examples and use cases. They are useful for broader comparisons. On the other hand, a product evaluation is specific to your product's use case. It should use a test set that reflects the world you care about, including specific edge cases, and incorporate your particular tools and workflows. For serious evaluation of your own system's performance for its intended purpose, a product-specific eval is necessary.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="observability-as-the-foundation-for-agent-evaluation">Observability as the Foundation for Agent Evaluation<a href="https://docs.locki.io/blog/opik-workshop-1#observability-as-the-foundation-for-agent-evaluation" class="hash-link" aria-label="Direct link to Observability as the Foundation for Agent Evaluation" title="Direct link to Observability as the Foundation for Agent Evaluation" translate="no">​</a></h3>
+<blockquote>
+<p>For AI agents, observability is the foundation of evaluation. Since agents don't fail like traditional software, it's crucial to look beyond the final output and observe the full trace of their operation. This includes the context retrieved, prompts used, tools called, and all intermediate steps. This observation is the first step in a cycle of improvement: observe, understand, evaluate, and then improve.</p>
+</blockquote>
+<ul>
+<li class=""><strong>Keypoints</strong>
+<ul>
+<li class="">The final output of an agent is never the full story.</li>
+<li class="">Observing the full trace is critical for evaluation.</li>
+<li class="">The trace includes retrieved context, prompts, tool calls, and intermediate steps.</li>
+<li class="">Agents do not fail like traditional software, so observation is key.</li>
+<li class="">The improvement cycle is: observe -&gt; understand -&gt; evaluate -&gt; improve.</li>
+<li class="">OPIK is designed to make observability and evaluation practical and simple.</li>
+</ul>
+</li>
+<li class=""><strong>Explanation</strong>
+Evaluating agents requires starting with observability because their final output alone doesn't tell the whole story. Unlike traditional software, an agent's failure or success is determined by a complex series of steps. Therefore, you must be able to see the full trace of its actions. This includes what context was retrieved, what prompts were generated and used, which tools were called, and all the intermediate results. Once you can observe this entire process, you can begin to understand what is happening. With understanding, you can then evaluate the agent's performance against your criteria. Finally, with these evaluations and measurements of success, you can systematically begin to improve the agent. OPIC is a tool specifically designed to facilitate this process by making observability and evaluation practical and easy.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="integrating-opik-into-your-code">Integrating OPIK into Your Code<a href="https://docs.locki.io/blog/opik-workshop-1#integrating-opik-into-your-code" class="hash-link" aria-label="Direct link to Integrating OPIK into Your Code" title="Direct link to Integrating OPIK into Your Code" translate="no">​</a></h3>
+<blockquote>
+<p>OPIK is an observability tool that can be easily integrated into your code to track, monitor, and evaluate the performance of LLM agents. It requires minimal code, often just one to three lines, to start logging agent interactions. The integration method might vary slightly depending on whether you're using a direct integration like with OpenAI Agents or a more general method like the track decorator.</p>
+</blockquote>
+<ul>
+<li class=""><strong>Keypoints</strong>
+<ul>
+<li class="">Import OPIK at the top of your file.</li>
+<li class="">Integration can be as simple as one to three lines of code.</li>
+<li class="">Direct integrations, like with OpenAI Agents, might have a specific syntax.</li>
+<li class="">The '@track' decorator is another common method for integration.</li>
+</ul>
+</li>
+<li class=""><strong>Explanation</strong>
+To integrate OPIK, you first import it at the top of your script. Then, depending on the framework, you might use a specific call like the one shown for OpenAI Agents, or use a track decorator. For the demonstrated recipe generator agent, which uses OpenAI Agents, the integration was slightly different but still very simple. This minimal setup allows OPIK to automatically capture detailed information about each agent run.</li>
+<li class=""><strong>Examples</strong>
+<blockquote>
+<p>A basic agent acting as a recipe generator. The user provides a list of ingredients, and the agent performs two LLM calls. The first LLM call suggests a recipe based on the ingredients (e.g., creamy orange tomato soup from tomatoes, cream, and oranges). The second LLM call researches the steps to create that specific recipe.</p>
+</blockquote>
+<ul>
+<li class="">The user runs the script and is prompted for ingredients.</li>
+<li class="">The user enters 'tomatoes, cream, oranges'.</li>
+<li class="">The first LLM processes these ingredients and suggests 'creamy orange tomato soup'.</li>
+<li class="">This recipe name is then passed to the second LLM.</li>
+<li class="">The second LLM researches and outputs the detailed steps for making the soup.</li>
+<li class="">All of this activity is logged as a single trace in the OPIC dashboard.</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="understanding-traces-and-spans">Understanding Traces and Spans<a href="https://docs.locki.io/blog/opik-workshop-1#understanding-traces-and-spans" class="hash-link" aria-label="Direct link to Understanding Traces and Spans" title="Direct link to Understanding Traces and Spans" translate="no">​</a></h3>
+<blockquote>
+<p>OPIC organizes logged data into traces and spans. A trace represents a single, complete end-to-end process or execution of your agent. A span is a smaller, individual step or operation within that trace. This hierarchical structure allows for both a high-level overview and a granular look at each component of the agent's execution, which is crucial for debugging and evaluation.</p>
+</blockquote>
+<ul>
+<li class=""><strong>Keypoints</strong>
+<ul>
+<li class="">A trace is the entire end-to-end agentic call.</li>
+<li class="">A span is an individual step within the trace.</li>
+<li class="">The dashboard allows you to view the overall trace and drill down into individual spans.</li>
+<li class="">This structure helps isolate where failures or issues occur in a complex agent.</li>
+</ul>
+</li>
+<li class=""><strong>Explanation</strong>
+When an agent runs, the entire operation is captured as one trace. Within this trace, you can see individual spans corresponding to specific actions, like LLM calls or tool usage. The OPIC dashboard clearly displays the input and output for the entire agent call (the trace) and for each individual step (the spans). This helps identify exactly where in the process a failure or unexpected behavior occurs. For example, if an agent fails, you can inspect the spans leading up to the failure to understand the root cause.</li>
+<li class=""><strong>Examples</strong>
+<blockquote>
+<p>In the recipe generator agent, the entire process from taking user ingredients to outputting a full recipe is one trace. Within that trace, the first LLM call (suggesting 'chicken parmesan') is one span, and the second LLM call (researching how to make it) is another span.</p>
+</blockquote>
+<ul>
+<li class="">User interacts with the agent, triggering a run. This entire run is a 'trace'.</li>
+<li class="">The agent calls the first LLM to generate a recipe idea. This call is a 'span'.</li>
+<li class="">The agent then calls the second LLM to get the recipe steps. This second call is another 'span'.</li>
+<li class="">The dashboard shows the full trace and allows clicking into it to see the individual spans, each with its own inputs, outputs, and metadata.</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="online-evaluations-and-lm-as-a-judge">Online Evaluations and 'LM as a Judge'<a href="https://docs.locki.io/blog/opik-workshop-1#online-evaluations-and-lm-as-a-judge" class="hash-link" aria-label="Direct link to Online Evaluations and 'LM as a Judge'" title="Direct link to Online Evaluations and 'LM as a Judge'" translate="no">​</a></h3>
+<blockquote>
+<p>OPIC allows for creating online evaluations that automatically score agent performance against predefined criteria every time an agent runs. A key feature is 'LM as a judge,' where one LLM is used to evaluate the output of your agent's LLM based on a custom prompt and scoring scale you provide. This enables automated, qualitative assessment of agent outputs.</p>
+</blockquote>
+<ul>
+<li class=""><strong>Keypoints</strong>
+<ul>
+<li class="">Online evaluations automatically score agent calls based on created rules.</li>
+<li class="">'LM as a judge' uses an external LLM to evaluate your agent's output.</li>
+<li class="">You must provide a detailed prompt to guide the judge LLM.</li>
+<li class="">Users can manually annotate traces with their own scores to calibrate the 'LM as a judge' evaluator.</li>
+<li class="">You can compare human scores with LLM-generated scores to improve the evaluation prompt.</li>
+</ul>
+</li>
+<li class=""><strong>Explanation</strong>
+To set up an online evaluation, you navigate to the 'Online Evaluation' section in the OPIC dashboard and create a new rule. You name the rule, provide API keys for the external judging LLM (e.g., from OpenAI, Anthropic, or OpenRouter), and select the model. You then write a detailed prompt that instructs the judge LLM on how to score the output, including the context, scoring scale, and criteria. Once the rule is created, every new trace will be automatically scored against this metric, and the scores will appear in your trace list.</li>
+<li class=""><strong>Examples</strong>
+<blockquote>
+<p>For the recipe agent, three 'LM as a judge' evaluation metrics were created to assess the generated recipes. The user set up a rule by providing a prompt to a judge LLM, defining a scoring scale and the context for what constitutes a good recipe suggestion. After setup, every time the recipe agent ran, it was automatically scored by these metrics.</p>
+</blockquote>
+<ul>
+<li class="">Go to 'Online Evaluation' and click 'Create New Rule'.</li>
+<li class="">Name the rule (e.g., 'Recipe Coherence').</li>
+<li class="">Choose a provider and model for the judge LLM (e.g., OpenAI's GPT-4).</li>
+<li class="">Write a prompt for the judge: 'You are an evaluator. Rate the following recipe on a scale of 1-5 for coherence...'</li>
+<li class="">Save the rule. Now, all subsequent runs of the recipe agent will have a 'Recipe Coherence' score.</li>
+<li class="">You can then go into a trace and manually add a human score to compare against the 'LM as a judge' score, which helps in refining the evaluation prompt.</li>
+</ul>
+</li>
+<li class=""><strong>Considerations</strong></li>
+<li class="">It's good practice to use a healthy mix of heuristic evaluation metrics and 'LLM as a judge' metrics.</li>
+<li class="">You may need to iterate on the prompt given to the judging LLM to ensure its evaluations align with your definition of success.</li>
+<li class="">Using one LLM to judge another can be problematic, so human oversight and comparison are valuable.</li>
+<li class=""><strong>Special Circumstances</strong></li>
+<li class="">If you suspect the 'LM as a judge' is providing inaccurate scores, you should go into the traces, manually score them yourself, and compare your scores to the AI's. Based on the discrepancies, you can tweak the prompt given to the judge LLM to make its ratings more closely aligned with human judgment.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="managing-and-testing-with-problematic-samples">Managing and Testing with Problematic Samples<a href="https://docs.locki.io/blog/opik-workshop-1#managing-and-testing-with-problematic-samples" class="hash-link" aria-label="Direct link to Managing and Testing with Problematic Samples" title="Direct link to Managing and Testing with Problematic Samples" translate="no">​</a></h3>
+<blockquote>
+<p>OPIC provides features to isolate problematic agent runs and use them for regression testing. When an agent produces an error or an undesirable output, you can select these 'problematic samples' from your traces and add them to a named dataset. This dataset can then be used to repeatedly test your agent after making code changes, ensuring that your fixes are effective and don't introduce new issues.</p>
+</blockquote>
+<ul>
+<li class=""><strong>Keypoints</strong>
+<ul>
+<li class="">Isolate traces where the agent fails or performs poorly.</li>
+<li class="">Select these problematic samples in the dashboard.</li>
+<li class="">Add them to a new or existing dataset.</li>
+<li class="">Use this dataset to run regression tests on your agent after making code changes.</li>
+<li class="">This helps verify that improvements are effective and don't cause regressions.</li>
+</ul>
+</li>
+<li class=""><strong>Explanation</strong>
+To do this, you would go through your list of traces in the OPIC dashboard. You can filter or sort by low evaluation scores or errors to find the problematic runs. Select the checkboxes next to these traces. Then, use the option to 'add to a dataset'. You can create a new dataset (e.g., 'problematic samples') or add to an existing one. Later, when you've modified your agent's code, you can run the agent specifically against the inputs from this dataset to see if the outputs have improved.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="getting-started-with-opic-and-basic-tracing">Getting Started with OPIC and Basic Tracing<a href="https://docs.locki.io/blog/opik-workshop-1#getting-started-with-opic-and-basic-tracing" class="hash-link" aria-label="Direct link to Getting Started with OPIC and Basic Tracing" title="Direct link to Getting Started with OPIC and Basic Tracing" translate="no">​</a></h3>
+<blockquote>
+<p>OPIC (Open-Source Project for Instrumenting and Correcting AI) is an open-source tool for LLM observability. It can be self-hosted locally for free, providing high customization, or used via a 100% free cloud tier for quick setup. The demonstration and initial setup guide focus on the free cloud tier.</p>
+</blockquote>
+<ul>
+<li class=""><strong>Keypoints</strong>
+<ul>
+<li class="">OPIC is 100% open source and offers a 100% free cloud tier.</li>
+<li class="">Setup involves installing the package and configuring it with an API key and workspace.</li>
+<li class="">The '@track' decorator is the simplest way to add tracing to any Python function.</li>
+<li class="">Direct integrations for frameworks like OpenAI provide deeper observability by wrapping the client object.</li>
+</ul>
+</li>
+<li class=""><strong>Explanation</strong>
+To get started with the free cloud tier, first install OPIC using 'pip install opic'. Then, configure your account by running 'open configure'. This command will prompt you for your API key, which can be found in your Comet account settings. You will also confirm the workspace you want to use. You can also set these as environment variables to avoid entering them manually each time. A project name can be specified using a code snippet provided in the quick start guide.</li>
+<li class=""><strong>Examples</strong>
+<blockquote>
+<p>A simple 'Hello World' trace example can be created using the '@track' decorator from OPIC. You import 'track' from OPIC and place the decorator above the definition of the function you want to monitor, such as an LLM call. This allows you to track the function's execution without rewriting your code. Every time the decorated function is run, it will automatically log to Comet, and a link to view the trace will be provided in the output.</p>
+</blockquote>
+<ul>
+<li class="">Import the 'track' decorator: <code>from opic import track</code></li>
+<li class="">Place the decorator above your function definition: <code>@track def my_function(): ...</code></li>
+</ul>
+</li>
+<li class="">Run the function. It will automatically log its execution, inputs, and outputs to OPIC.<!-- -->
+<blockquote>
+<p>OPIC offers direct integrations with popular frameworks like OpenAI. Instead of using the '@track' decorator, you import the specific integration module (e.g., <code>opic.integrations.openai</code>). Then, you wrap your framework client (e.g., the OpenAI client) in an OPIC track function. This provides deep observability into all system metrics and information from the LLM call with just one or two lines of code.</p>
+</blockquote>
+</li>
+<li class="">Import the integration: <code>import opic.integrations.openai</code></li>
+<li class="">Instantiate your original client: <code>client = OpenAI()</code></li>
+<li class="">Wrap the client with the OPIC function: <code>client = opic.integrations.openai.patch(client)</code></li>
+<li class="">Now, all calls made using this <code>client</code> object will be automatically tracked.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="debugging-and-evaluation-with-opic">Debugging and Evaluation with OPIC<a href="https://docs.locki.io/blog/opik-workshop-1#debugging-and-evaluation-with-opic" class="hash-link" aria-label="Direct link to Debugging and Evaluation with OPIC" title="Direct link to Debugging and Evaluation with OPIC" translate="no">​</a></h3>
+<blockquote>
+<p>OPIC provides visibility into an agent's execution flow, helping users debug errors and identify areas for improvement. It allows you to see exactly which step in a multi-step agent failed, avoiding the need to manually sift through code or error traces.</p>
+</blockquote>
+<ul>
+<li class=""><strong>Keypoints</strong>
+<ul>
+<li class="">OPIC's trace visualization helps pinpoint the exact step where an error occurred in an agent.</li>
+<li class="">This reduces debugging time by narrowing the search space from the entire codebase to a specific component (e.g., one LLM call).</li>
+<li class="">Automatic evaluation metrics can be set up to flag issues like toxicity that are hard to catch manually.</li>
+<li class="">The UI allows filtering the entire dataset based on evaluation flags, aggregating all relevant examples for analysis.</li>
+</ul>
+</li>
+<li class=""><strong>Explanation</strong>
+When an agent call fails, OPIC's trace view shows the sequence of operations (e.g., LLM calls, tool calls). If a step fails, the trace stops there. For example, if an agent fails at the 'recipe suggester' step, you know the problem lies within that specific LLM call. This narrows down the debugging scope significantly. For more subtle issues, you can create evaluation metrics for things like toxicity. These metrics can automatically flag problematic runs, which you can then filter and analyze in the OPIC UI. This makes it much easier to consume a lot of information quickly and distill it down to find where things are going wrong, why, and how to fix them.</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="managing-evaluation-datasets-and-metrics">Managing Evaluation Datasets and Metrics<a href="https://docs.locki.io/blog/opik-workshop-1#managing-evaluation-datasets-and-metrics" class="hash-link" aria-label="Direct link to Managing Evaluation Datasets and Metrics" title="Direct link to Managing Evaluation Datasets and Metrics" translate="no">​</a></h3>
+<blockquote>
+<p>To maintain a relevant dataset for evaluations as an application evolves, OPIC allows for dynamic management of evaluation datasets. It is also highly recommended to use a combination of evaluation methods rather than relying on a single one.</p>
+</blockquote>
+<ul>
+<li class=""><strong>Keypoints</strong>
+<ul>
+<li class="">Evaluation datasets in OPIC can be dynamically updated by adding or removing traces.</li>
+<li class="">If a dataset becomes irrelevant due to application changes, you can edit it or create a new one from scratch.</li>
+<li class="">It is recommended to use multiple evaluation metrics, such as combining heuristic logic with an LLM-as-a-judge, for more robust evaluation.</li>
+<li class="">Users are not limited to one evaluation dataset and can maintain several for different testing scenarios.</li>
+</ul>
+</li>
+<li class=""><strong>Explanation</strong>
+As your application changes (e.g., tool call names, parameters), some traces in your evaluation dataset may become obsolete. In the OPIC UI, you can easily remove irrelevant traces from an existing dataset. You can also add new, more relevant traces. If a dataset has largely lost its relevance, you can create a completely new one from scratch. Users are not limited to a single evaluation dataset and can have dozens for different purposes. For the evaluation itself, you can and should use multiple metrics. For example, you can evaluate a model using a combination of heuristic logic and an LLM-as-a-judge.</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="assignments--suggestions">Assignments &amp; Suggestions<a href="https://docs.locki.io/blog/opik-workshop-1#assignments--suggestions" class="hash-link" aria-label="Direct link to Assignments &amp; Suggestions" title="Direct link to Assignments &amp; Suggestions" translate="no">​</a></h2>
+<ul>
+<li class="">Include the source code file (like a cursor) or basic setup steps in your final submission if you use AI tools like n8n, so judges can confirm the project works as intended.</li>
+<li class="">For detailed or 'deep divey' questions about OPIC, post them on the Discord server for a more thorough answer.</li>
+<li class="">For questions about specific SDKs and the functional differences between various OPIC integration methods, post them on Discord.</li>
+</ul>]]></content>
+        <author>
+            <name>Jean-Noël Schilling</name>
+            <uri>https://github.com/jnschilling</uri>
+        </author>
+        <category label="AI and Machine Learning" term="AI and Machine Learning"/>
+        <category label="civitech" term="civitech"/>
+        <category label="Encode hackathon" term="Encode hackathon"/>
+        <category label="Observability" term="Observability"/>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Project scope - Victor + JNS]]></title>
-        <id>https://docs.locki.io/blog/victor-intro-project description</id>
-        <link href="https://docs.locki.io/blog/victor-intro-project description"/>
+        <id>https://docs.locki.io/blog/victor-intro-project-description</id>
+        <link href="https://docs.locki.io/blog/victor-intro-project-description"/>
         <updated>2026-01-14T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Location: Discord voice chat]]></summary>
         <content type="html"><![CDATA[<blockquote>
 <p>Location: Discord voice chat
 Attendees: jnxmas, Victor</p>
 </blockquote>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="overview">Overview<a href="https://docs.locki.io/blog/victor-intro-project%20description#overview" class="hash-link" aria-label="Direct link to Overview" title="Direct link to Overview" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="overview">Overview<a href="https://docs.locki.io/blog/victor-intro-project-description#overview" class="hash-link" aria-label="Direct link to Overview" title="Direct link to Overview" translate="no">​</a></h2>
 <p>This document summarizes a series of project meetings focused on building a community-focused AI application for a local election. The discussions cover team composition and recruitment, defining the project's scope for a hackathon, and outlining the technical architecture. Key activities include automating the processing of community contributions, developing a neutral chatbot to compare political programs, and initiating web crawling operations to gather data. The plan involves using technologies like Firecrawl, N8N, Pydantic, and a Retrieval-Augmented Generation (RAG) system, with a strong emphasis on collaborative development practices via GitHub.</p>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="key-topics">Key Topics<a href="https://docs.locki.io/blog/victor-intro-project%20description#key-topics" class="hash-link" aria-label="Direct link to Key Topics" title="Direct link to Key Topics" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="key-topics">Key Topics<a href="https://docs.locki.io/blog/victor-intro-project-description#key-topics" class="hash-link" aria-label="Direct link to Key Topics" title="Direct link to Key Topics" translate="no">​</a></h2>
 <ul>
 <li class="">Two new potential members from Audierne, France, were identified. They are developers focused on websites but are new to AI and Python, so they are considered to be starting from scratch.</li>
 <li class="">Their primary value is their familiarity with the local context of the project (audierne2026), making them a potential bridge to the local population. They are seen as good candidates for an "observer" role within the hackathon.</li>
@@ -819,7 +2044,7 @@ Attendees: jnxmas, Victor</p>
 </ul>
 </li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="open-issues--risks">Open Issues &amp; Risks<a href="https://docs.locki.io/blog/victor-intro-project%20description#open-issues--risks" class="hash-link" aria-label="Direct link to Open Issues &amp; Risks" title="Direct link to Open Issues &amp; Risks" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="open-issues--risks">Open Issues &amp; Risks<a href="https://docs.locki.io/blog/victor-intro-project-description#open-issues--risks" class="hash-link" aria-label="Direct link to Open Issues &amp; Risks" title="Direct link to Open Issues &amp; Risks" translate="no">​</a></h2>
 <ul>
 <li class="">It is unclear how the new team members from Audierne, who have limited technical experience in AI, will be integrated into the project.</li>
 <li class="">The availability of a key potential collaborator, Satish, is uncertain due to his current work commitments.</li>
@@ -829,7 +2054,7 @@ Attendees: jnxmas, Victor</p>
 <li class="">A key challenge will be designing the chatbot to remain neutral and avoid generating biased responses to leading questions.</li>
 <li class="">The project's success depends on receiving a sufficient number of community contributions, which requires incentivizing and motivating people to participate.</li>
 </ul>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="action-items">Action Items<a href="https://docs.locki.io/blog/victor-intro-project%20description#action-items" class="hash-link" aria-label="Direct link to Action Items" title="Direct link to Action Items" translate="no">​</a></h2>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="action-items">Action Items<a href="https://docs.locki.io/blog/victor-intro-project-description#action-items" class="hash-link" aria-label="Direct link to Action Items" title="Direct link to Action Items" translate="no">​</a></h2>
 <ul class="contains-task-list containsTaskList_mC6p">
 <li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Prioritize project tasks.</li>
 <li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Set up a server for the Vaettir repo so the team can access it with a password.</li>
@@ -1356,8 +2581,8 @@ Participants are tasked with creating an MVP (Minimum Viable Product) of a web o
     </entry>
     <entry>
         <title type="html"><![CDATA[Locki blog introduction]]></title>
-        <id>https://docs.locki.io/blog/help me write in the blog</id>
-        <link href="https://docs.locki.io/blog/help me write in the blog"/>
+        <id>https://docs.locki.io/blog/welcome</id>
+        <link href="https://docs.locki.io/blog/welcome"/>
         <updated>2021-08-26T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Docusaurus blogging features are powered by the blog plugin.]]></summary>
         <content type="html"><![CDATA[<p><a href="https://docusaurus.io/docs/blog" target="_blank" rel="noopener noreferrer" class="">Docusaurus blogging features</a> are powered by the <a href="https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-blog" target="_blank" rel="noopener noreferrer" class="">blog plugin</a>.</p>
