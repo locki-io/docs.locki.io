@@ -7,6 +7,7 @@ Recommendations and patterns for creating effective n8n workflows in Vaettir.
 ### 1. Keep Workflows Focused
 
 **Good**: Single-purpose workflows
+
 ```
 Workflow: "Process GitHub Webhook"
 - Receives webhook
@@ -16,6 +17,7 @@ Workflow: "Process GitHub Webhook"
 ```
 
 **Avoid**: Kitchen-sink workflows
+
 ```
 Workflow: "Handle Everything"
 - GitHub webhooks
@@ -38,6 +40,7 @@ Always add error handling paths:
 ```
 
 **In n8n**:
+
 1. Click on node
 2. Settings → "Continue On Fail"
 3. Add error handling nodes
@@ -46,11 +49,13 @@ Always add error handling paths:
 ### 3. Use Descriptive Names
 
 **Good names**:
+
 - `GitHub: Validate Webhook Signature`
 - `DB: Insert New Contribution`
 - `Email: Send Welcome Message`
 
 **Bad names**:
+
 - `HTTP Request`
 - `Code`
 - `Function 1`
@@ -78,6 +83,7 @@ For calling external APIs reliably:
 ```
 
 **Configuration**:
+
 - HTTP Request node: Settings → Retry: 3
 - Continue on fail: true
 - Error workflow: Create separate error handler
@@ -127,6 +133,7 @@ Background jobs that run periodically:
 ```
 
 **Best practices**:
+
 - Use "Cron" trigger for precise scheduling
 - Add "If" nodes to skip when no work needed
 - Clean up old data to prevent database bloat
@@ -151,6 +158,7 @@ Receiving and processing webhooks:
 ```
 
 **Security**:
+
 - Always verify webhook signatures
 - Validate payload structure
 - Rate limit if possible
@@ -175,6 +183,7 @@ Coordinating multiple services (via proxy pattern):
 ```
 
 **Benefits**:
+
 - Services are interchangeable (dev vs prod)
 - Easy to test with local instances
 - Clean separation of concerns
@@ -213,6 +222,7 @@ return results
 ```
 
 **Tips**:
+
 - Always return list of dicts with `json` key
 - Use `$input.all()` for all items or `$input.first()` for single
 - Available modules defined in `n8n-task-runners.json`
@@ -225,7 +235,7 @@ return results
 const items = $input.all();
 
 // Process
-const results = items.map(item => {
+const results = items.map((item) => {
   const data = item.json;
 
   // Your logic
@@ -233,8 +243,8 @@ const results = items.map(item => {
     json: {
       original: data,
       timestamp: new Date().toISOString(),
-      processed: true
-    }
+      processed: true,
+    },
   };
 });
 
@@ -243,6 +253,7 @@ return results;
 ```
 
 **Tips**:
+
 - Modern JS (ES6+) supported
 - No external npm packages by default (configure in task-runners.json)
 - Use `console.log()` for debugging
@@ -253,6 +264,7 @@ return results;
 ### 1. Use Set Node for Data Shaping
 
 **Instead of Code node**:
+
 ```
 [HTTP Request]
    ↓
@@ -260,6 +272,7 @@ return results;
 ```
 
 **Use Set node**:
+
 ```
 [HTTP Request]
    ↓
@@ -296,6 +309,7 @@ When combining data from multiple sources:
 ```
 
 **Merge options**:
+
 - **Append**: Combine all items
 - **Keep Matches**: Inner join
 - **Keep Non-Matches**: Left/right join
@@ -307,6 +321,7 @@ Choose based on your needs.
 ### 1. Batch Operations
 
 **Slow** (1000 database calls):
+
 ```
 [For Each of 1000 Items]
    ↓
@@ -314,6 +329,7 @@ Choose based on your needs.
 ```
 
 **Fast** (10 database calls):
+
 ```
 [Split in Batches: 100]
    ↓
@@ -348,6 +364,7 @@ For expensive operations that don't change often:
 ```
 
 **Implementation**:
+
 - Use n8n database nodes
 - Set TTL (time to live)
 - Clear cache when data updates
@@ -368,12 +385,14 @@ Add timeouts to prevent hanging:
 ### 1. Use Credentials
 
 **Never hardcode**:
+
 ```javascript
 // BAD!
-const apiKey = 'sk-1234567890abcdef';
+const apiKey = "sk-1234567890abcdef";
 ```
 
 **Use n8n credentials**:
+
 1. Settings → Credentials → Add
 2. Create "API Key" credential
 3. Reference in nodes: `{{ $credentials.myApiKey }}`
@@ -423,6 +442,7 @@ safe_input = sanitize_input(user_provided_data)
 ### 4. Use HTTPS
 
 All external HTTP calls should use HTTPS:
+
 ```
 URL: https://api.example.com  ✓
 URL: http://api.example.com   ✗
@@ -449,11 +469,13 @@ Exception: Internal services (http://ocapistaine:8000 is fine)
 ### Debug Techniques
 
 **View data between nodes**:
+
 - Click on connector line between nodes
 - See data flowing through
 - Identify transformation issues
 
 **Use Stop nodes**:
+
 ```
 [Process A]
    ↓
@@ -463,10 +485,11 @@ Exception: Internal services (http://ocapistaine:8000 is fine)
 ```
 
 **Add logging**:
+
 ```javascript
 // In Code node
-console.log('Processing item:', item);
-console.log('Result:', result);
+console.log("Processing item:", item);
+console.log("Result:", result);
 ```
 
 View logs: `docker compose logs n8n | grep "Processing"`
@@ -488,6 +511,7 @@ Examples:
 ### Tagging
 
 Use tags for organization:
+
 - `production` - Live workflows
 - `test` - Testing workflows
 - `archived` - Old/unused
@@ -509,11 +533,13 @@ Add notes to workflows:
 ### Version Control
 
 n8n has built-in version history:
+
 - Every save creates a version
 - View: Workflow → Versions
 - Restore previous versions if needed
 
 **Also backup workflows**:
+
 ```bash
 # Export all workflows (via n8n API or UI)
 # Store in git repository
@@ -530,6 +556,7 @@ n8n has built-in version history:
 
 **Problem**: Workflow triggers itself
 **Solution**:
+
 - Add loop detection
 - Use "Workflow Already Running" check
 - Limit iterations
@@ -538,6 +565,7 @@ n8n has built-in version history:
 
 **Problem**: Processing too much data at once
 **Solution**:
+
 - Use "Split in Batches" node
 - Limit query results
 - Stream large files
@@ -546,6 +574,7 @@ n8n has built-in version history:
 
 **Problem**: API blocks your requests
 **Solution**:
+
 - Add delays between requests
 - Batch operations
 - Implement backoff strategy
@@ -554,6 +583,7 @@ n8n has built-in version history:
 
 **Problem**: Scheduled workflows run at wrong time
 **Solution**:
+
 - Set `GENERIC_TIMEZONE=Europe/Paris` in .env
 - Use UTC internally, convert for display
 - Test schedule triggers carefully
@@ -565,6 +595,7 @@ n8n has built-in version history:
 Break complex logic into reusable pieces:
 
 **Main Workflow**:
+
 ```
 [Trigger]
    ↓
@@ -574,6 +605,7 @@ Break complex logic into reusable pieces:
 ```
 
 **Sub-Workflow: Process User**:
+
 ```
 [Receive Input]
    ↓
@@ -604,6 +636,7 @@ Store state in database, update as workflow progresses.
 Multiple workflows communicating:
 
 **Workflow A**: Publishes event
+
 ```
 [Action Happens]
    ↓
@@ -612,6 +645,7 @@ Multiple workflows communicating:
 ```
 
 **Workflow B**: Subscribes to event
+
 ```
 [Webhook: /webhook/event]
    ↓
@@ -625,7 +659,7 @@ Multiple workflows communicating:
 - **n8n Workflow Templates**: https://n8n.io/workflows
 - **n8n Community Forum**: https://community.n8n.io
 - **Expression Reference**: https://docs.n8n.io/code/expressions/
-- **ocapistaine Knowledge Base**: [../docs/docs/](../docs/docs/) - Methods, agents, and workflows for content moderation
+- **ocapistaine Knowledge Base**: [The locki docusaurus](https://docs.locki.io/) - Methods, agents, and workflows for content moderation
 
 ## Next Steps
 

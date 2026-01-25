@@ -1,0 +1,88 @@
+---
+slug: gemini-workshop-1
+title: "Technical Strategy: Google Gemini Integration"
+authors: [jnxmas]
+tags: [ai-ml, civictech, rag, encode]
+---
+
+# leveraging Google Gemini for Locki / Ò Capistaine Acceleration
+
+**Context:** Audierne 2026 Election Platform
+
+This document outlines how we will leverage the Google Gemini ecosystem (AI Studio, Flash models, and Agentic workflows) to accelerate the development of the Locki project. By utilizing these tools, we aim to bridge the gap between human ideation and automated N8N workflows, specifically for the `Commit to Change` hackathon and the subsequent election period.
+
+<!-- truncate -->
+
+## 1. The `Human-to-Agent` Workflow Bridge
+
+A core strategy for our development is enabling our automated GitHub agents to `learn` from human-validated workflows. We will use Google AI Studio as the prototyping environment to define logic that is subsequently exported to our N8N instance.
+
+<iframe
+  width="100%"
+  style={{ "aspect-ratio": "16 / 9" }}
+  src="https://www.encodeclub.com/programmes/comet-resolution-v2-hackathon/events/mastering-gemini-3-building-next-gen-ai-agents-in-google-ai-studio"
+  title="OPIK workshop 2"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen
+></iframe>
+
+- **Prototyping in AI Studio:** Team members (jnxmas, etc.) can solve complex data extraction problems within the AI Studio interface (e.g., `Analyze this specific municipal PDF and extract the 2024 housing budget`).
+- **The `Get Code` Feature:** Once the model successfully completes a task or fixes a bug, we utilize the **Get Code** feature. This provides the exact Python or cURL code required to replicate the action.
+- **N8N Integration:** Instead of writing scrapers from scratch, we export this verified logic and integrate it directly into N8N Python nodes. This allows our automated agents to search the Audierne environment and context with logic already proven to work.
+- **Workflow Orchestration:** We can prompt the model to stitch together disparate services (e.g., Search + Summarize + Store). The model designs the prompts and orchestrates the data flow, which we then convert into Dockerized N8N workflow nodes.
+
+## 2. Advanced Scraping & Contextual Search (Firecrawl Optimization)
+
+To effectively crawl the ~150 links and municipal portals of Audierne, we will apply Gemini's `Anti-Gravity` and DOM-aware capabilities to our Firecrawl pipeline.
+
+- **DOM & Visual Navigation:** Unlike standard `curl` requests which may be blocked, Gemini-based logic can navigate the Document Object Model (DOM) and use visual cues (screenshots) to handle cookies, pop-ups, and complex navigation menus found on municipal sites.
+- **Autonomous Planning:** We can equip our agents to formulate multi-step plans (Search -> Filter by `Audierne` -> Check Date -> Download PDF).
+- **Code Repair:** Using the `Live` and `Annotate` features, developers can debug scraper errors in real-time. The model can identify logical breaks in the scraping code and suggest fixes while maintaining context.
+
+## 3. Multimodal Data Processing for Municipal Archives
+
+Processing the dataset of 4,000+ PDFs and various multimedia links requires a high-volume, low-cost solution.
+
+- **Gemini Flash Models (1.5 / 3):** We will standardize on `Flash` models for the majority of our RAG pipeline. These models offer high speed and vast token windows at a fraction of the cost, making them sustainable for our project budget.
+- **Video & Audio Analysis:** We can upload long-form video/audio recordings of Audierne municipal council meetings directly. Gemini can generate timestamps, summaries, and extract specific topic discussions (e.g., `Culture budget debates`) without requiring a separate, expensive Speech-to-Text pipeline.
+- **Gemma 3 (Local/Open):** For local testing and zero-cost prototyping of OCR pipelines, we can utilize the open Gemma 3 model before deploying to the cloud.
+
+## 4. Accuracy & Sandbox Code Execution
+
+To adhere to our goal of a `neutral, impartial RAG-based chatbot,` we must minimize hallucinations, especially regarding budget figures.
+
+- **Sandboxed Execution:** We will utilize Gemini's `Code Execution` tool. Instead of asking the LLM to _predict_ the sum of a budget list, we ask it to _write and run Python code_ to calculate it.
+- **Data Visualization:** This feature allows us to ask the model to plot data (e.g., `Create a graph comparing the budget allocation of the 4 lists`) which can be displayed on the frontend.
+- **Logic Verification:** This forces the model to use computational logic, ensuring that the comparisons provided to Audierne citizens are mathematically accurate.
+
+## 5. Frontend Acceleration & Multilingual Support
+
+- **The `Build` Feature:** For the upcoming Hackathon, we can use the `Build` feature to describe user interfaces (e.g., `Create a citizen contribution intake form with camera access`) and instantly generate deployed React/TypeScript code. This significantly reduces boilerplate work.
+- **Gemini Live (Bilingual):** To support our EN/FR requirement, we leverage the model's native multilingual capabilities. It can seamlessly switch between French and English, ensuring the chatbot interacts fluently with all demographics in Audierne.
+
+---
+
+**Project Coordinator Status Update**
+
+- **Overall Progress:** 🟡 Firecrawl (Optimization via DOM-aware logic needed) 🟢 Docs (Gemini Strategy Added) 🟡 RAG (Integration of Flash models pending)
+- **Open High-Priority Tasks:**
+  - **Task:** Prototype PDF extraction in AI Studio & export Python code.
+    - **Owner:** Victor / Meher
+    - **Description:** Use AI Studio to solve a specific Audierne PDF parsing challenge, use `Get Code,` and integrate the Python script into a custom N8N node.
+    - **Deadline:** Next call.
+  - **Task:** Secure API keys for Gemini Flash.
+    - **Owner:** jnxmas
+    - **Description:** Provision keys to test cost-effective OCR and massive token processing for the 4k PDF dataset.
+    - **Deadline:** ASAP.
+  - **Task:** Refine Firecrawl Agents with DOM Logic.
+    - **Owner:** Meher / jnxmas
+    - **Description:** Use `Anti-Gravity` style logic to handle complex municipal site navigation (cookies/popups) where standard scraping fails.
+    - **Deadline:** Hackathon Start.
+  - **Task:** Hackathon Frontend Prototype.
+    - **Owner:** Open (Frontend Contributor)
+    - **Description:** Use Gemini `Build` feature to generate the base React code for the citizen contribution portal.
+    - **Deadline:** Mid-February.
+
+- **Next Milestone:** Hackathon Prototype Delivery (~Mid-February)

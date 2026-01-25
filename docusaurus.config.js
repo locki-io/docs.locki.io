@@ -63,6 +63,7 @@ const config = {
         },
         blog: {
           showReadingTime: true,
+          blogSidebarCount: 'ALL', // Show all posts in sidebar (default is 5)
           feedOptions: {
             type: ["rss", "atom"],
             xslt: true,

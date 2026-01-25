@@ -1,5 +1,5 @@
 ---
-slug: help me write in the blog
+slug: welcome
 title: Locki blog introduction
 authors: [jnxmas]
 tags: [facebook, hello]

@@ -1,0 +1,75 @@
+---
+slug: meeting-ocapistaine-3
+title: "Catch-up Call: Deployment Strategy"
+authors: [jnxmas]
+tags: [meeting, civictech, ai-ml]
+---
+
+Here is the assessment of the catch-up call between @jnxmas and Victor regarding the **Ò Capistaine** project status and immediate priorities.
+
+## **Summary of the Call**
+
+@jnxmas and Victor discussed the immediate roadmap for the **Opik/Commit to Change Hackathon MVP submission** (deadline: ~1 day, 14 hours). Victor has successfully downloaded approximately 4,000 PDFs (including ~3,965 deliberation documents), though he noted some potential duplicates and that the download process was synchronous and could be optimized later. He has committed changes to a development branch but not yet merged them, preferring to use GitHub as a medium to exchange the code while keeping the large PDF dataset local (or shared via a specific sub-directory).
+The team agreed on a strategy for the **Hackathon demo deployment**. Instead of using Vercel, which complicates environment variable management for their specific security setup (ngrok, multiple API keys for Opik, Firecrawl, Gemini, etc.), @jnxmas will run the demo from his local machine using a secure, paid ngrok tunnel (`ocapistaine.ngrok.app`). This setup allows the jury to interact with the Streamlit UI (restricted to Ollama for the external demo) while the team can continue testing other models (Gemini) locally. The architecture involves **Locki.io -> Vaettir Orchestration -> Local Machine (Ocapistaine Agent)**.
+
+<!-- truncate -->
+
+**Key Technical Decisions & Next Steps:**
+
+- **OCR & Database:** Victor is moving immediately to OCR processing. While `pdf2ocr` was discussed, they agreed that since most files are text-based PDFs (not scanned images), full image-to-text conversion might be overkill. The priority is text extraction and categorization. @jnxmas plans to implement a NoSQL database (MongoDB) to store OCR content alongside metadata (source, date) to support the RAG system.
+- **Observability:** @jnxmas is finalizing the integration of Opik within **n8n workflows**. This ensures that if the Ocapistaine application triggers an n8n workflow involving an LLM, both systems report traces to the same Opik observability project, providing a unified view of checking the "Charter validity" and "Hallucination detection."
+- **Submission Prep:** @jnxmas will focus on writing the article/documentation to justify the technical choices and process for the submission, while Victor attempts to finish the OCR pipeline and potentially start the MongoDB implementation before he becomes unavailable for a few days.
+
+---
+
+## **Action Plan & Tasks**
+
+### **1. Data Engineering & Backend**
+
+- **Task:** Finalize PDF Text Extraction & OCR
+  - **Owner:** @zcbtvag (Victor)
+  - **Description:** Run the extraction on the downloaded ~4,000 PDFs. Focus on text-based extraction first, only using heavy OCR (image-to-text) if necessary. Commit the code logic (not the files themselves) to the dev branch.
+  - **Deadline:** **Tonight / ASAP** (Before Victor travels).
+  - **Success Criteria:** Text extracted from PDFs and ready for database ingestion.
+- **Task:** Push Dev Branch Changes
+  - **Owner:** @zcbtvag (Victor)
+  - **Description:** Push the latest scraper and extraction logic to GitHub so @jnxmas can pull the code.
+  - **Deadline:** **Tonight**.
+  - **Success Criteria:** PR raised/Code available on the remote repository.
+- **Task:** Implement MongoDB for Vector/Content Storage
+  - **Owner:** @jnxmas [Secondary: Victor if time permits]
+  - **Description:** Set up a NoSQL database (MongoDB) to store extracted PDF content + metadata (source URL, date, category). This is crucial for the RAG system to function efficiently.
+  - **Deadline:** **Next 24 Hours**.
+  - **Success Criteria:** DB instance running and successfully storing OCR output.
+
+### **2. Deployment & Hackathon Submission**
+
+- **Task:** Configure Local Demo Environment (ngrok)
+  - **Owner:** @jnxmas
+  - **Description:** Finalize the secure ngrok tunnel (`ocapistaine.ngrok.app`) pointing to the local Streamlit UI. Ensure the external facing demo is locked to Ollama, while internal dev builds can use Gemini.
+  - **Deadline:** **Tomorrow Morning**.
+  - **Success Criteria:** Live URL accessible to external users (jury) without exposing sensitive internal keys.
+- **Task:** Draft Hackathon Submission Article
+  - **Owner:** @jnxmas
+  - **Description:** Write the required project description, work process, and key achievements for the hackathon platform. Focus on the "Charter Check" agent and Opik integration.
+  - **Deadline:** **Tomorrow Mid-day**.
+  - **Success Criteria:** Text ready for copy-paste into the submission form.
+
+### **3. Observability (Opik)**
+
+- **Task:** Verify Double-Tracing (App + N8N)
+  - **Owner:** @jnxmas
+  - **Description:** Confirm that Opik receives traces from both the Python app (Ocapistaine) and the n8n docker container when an LLM is triggered.
+  - **Deadline:** **Tomorrow**.
+  - **Success Criteria:** Unified dashboard in Opik showing traces from both sources.
+
+---
+
+### **Status Dashboard**
+
+- **Overall Progress:** 🟡 **Mixed** (Scraping done, OCR/DB pending, Deployment strategy fixed).
+- **Open High-Priority Tasks:**
+  1.  Run/Finish OCR on 4k PDFs (@zcbtvag).
+  2.  Set up MongoDB for data ingestion (@jnschilling).
+  3.  Finalize "Charter Check" Agent + Opik Tracing for Demo (@jnschilling).
+- **Next Milestone:** **Hackathon MVP Submission** (Deadline: ~1 day 14 hours).

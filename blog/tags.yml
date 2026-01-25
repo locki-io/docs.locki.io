@@ -53,7 +53,7 @@ web3:
   permalink: /web3
   description: Discussions on Web3 technologies and trends
 
-valkyria:
+ai-ml:
   label: AI and Machine Learning
   permalink: /ai-ml
   description: Articles on AI, machine learning, and related technologies
@@ -72,3 +72,8 @@ sprints:
   label: Sprints
   permalink: /sprints
   description: Articles on sprints and current status updates
+
+observability:
+  label: Observability
+  permalink: /observability
+  description: Articles on observability practices and tools

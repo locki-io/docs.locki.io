@@ -1,0 +1,69 @@
+---
+slug: meeting-ocapistaine-2
+title: "Team Sync: Gemini Integration and Agent Workflows"
+authors: [jnxmas]
+tags: [meeting, civictech, ai-ml]
+---
+
+## Strategy Update: Leveraging Gemini & Agent Workflows
+
+This document summarizes key insights from the recent team sync following Jean-Noël's attendance at the Google Gemini workshop. The focus is on accelerating the **Locki / Ò Capistaine** project by transitioning from manual human analysis to automated agent workflows.
+
+<!-- truncate -->
+
+### The Gemini Opportunity
+
+jnxmas reported that despite initial skepticism, the Gemini workshop revealed significant opportunities for the project, particularly regarding scraping and rapid prototyping.
+
+- **Google AI Studio Capabilities:** The team discussed the power of Google AI Studio (specifically Gemini 1.5 Pro/Flash). It allows for multimodal input—users can upload images or video recordings of a screen process, and the AI can generate the corresponding code (Python) to replicate that workflow.
+- **Anti-Gravity & DOM Awareness:** The team is considering testing "Anti-Gravity" (potentially as a VS Code alternative or extension) to utilize Gemini's DOM-aware capabilities. This could allow for smarter scraping of the ~150 target links compared to the current "brute force" Firecrawl approach.
+
+### From Human Workflow to AI Agent
+
+A core strategic pivot discussed is the methodology for building the project's autonomous agents (specifically the **Ocapistaine** GitHub user/agent).
+**The Proposed Workflow:**
+
+1. **Human Prototype:** A team member manually processes a citizen contribution using Gemini Studio.
+   - _Example Action:_ Take a contribution about "rainwater taxes," validate it against the charter, search Google for similar implementations in France, and check the `audierne2026` docs for local context.
+2. **Code Generation:** Ask Gemini to "make a script of this search and interpretation process."
+3. **Agent Implementation:** This script is converted into a workflow stored in the repository.
+4. **Execution via N8N:** The "Ocapistaine" agent (which has specific GitHub credentials) triggers these workflows. It acts as the owner of the process, running searches, documenting findings in the repo, and replying to issues using the context generated.
+
+### Integration Architecture: GitHub & N8N
+
+The infrastructure is being updated to support this "Agent-driven" model:
+
+- **Cross-Repo Context:** Documentation from `docs.locki.io` is now set up as a submodule, allowing the AI to access context across different repositories (e.g., `vaettir` and `ocapistaine`) simultaneously.
+- **Workflow Orchestration:** Python workflows within the `ocapistaine` repository are designed to call N8N workflows.
+- **Automated Workflow Creation:** Experiments suggest that tools like Claude or Gemini can be used to write the JSON files required for N8N workflows, essentially allowing the AI to build its own integration pipelines using the project's existing API keys (Forseti/Ocapistaine).
+
+### Current Progress & Blockers
+
+- **Scraping (Firecrawl):** Victor has successfully scraped municipal considerations (PDFs/data), but there are file management issues. The files need to be renamed and committed to the `dev` branch properly to avoid needing complex cleanup later.
+- **Opik Integration:** The integration is live. Jean-Noël demonstrated a trace where the system successfully checked the "contribution charter" and returned a confidence score and category (e.g., "Youth") using local LLMs (Ollama/Mistral) to save costs during dev.
+- **Cost Management:** The team plans to use "Flash" models or free tiers (Gemini/Gemma) for the heavy lifting of RAG and video/audio analysis to keep the project sustainable.
+
+---
+
+### Project Coordinator Dashboard
+
+**Overall Progress:** 🟡 **Processing** (Scraping logic is working but needs cleanup; Agent workflow defined but not implemented).
+**Open High-Priority Tasks:**
+
+- **Task:** Clean and Commit Scraped Data
+  - **Owner:** @zcbtvag (Victor)
+  - **Description:** Rename scraped municipal files/folders and commit to the `dev` branch so the team can access the dataset.
+  - **Deadline:** ASAP
+  - **Success Criteria:** Files visible in `dev` branch without directory errors.
+- **Task:** Prototype "Human-to-Agent" Workflow
+  - **Owner:** @jnxmas / @GurmeherSingh
+  - **Description:** Record a manual analysis session in Gemini Studio, generate the Python script, and convert it into a GitHub Action/N8N trigger.
+  - **Deadline:** Next Sync
+  - **Success Criteria:** One functional automated workflow generated from a video/image input.
+- **Task:** Test Anti-Gravity / Gemini DOM Scanning
+  - **Owner:** @jnxmas
+  - **Description:** Evaluate if Gemini's DOM-aware browsing is more efficient than the current Firecrawl setup for the 150 links.
+  - **Deadline:** End of Week
+  - **Success Criteria:** Decision on whether to switch scraping tools.
+    **Next Milestone:**
+- **Mid-February:** Hackathon Prototype Delivery (Functional RAG chatbot with automated contribution processing).

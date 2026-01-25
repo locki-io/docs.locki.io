@@ -1,0 +1,546 @@
+---
+slug: opik-workshop-2
+title: "OPIK : Agent & Prompt Optimization for LLM Systems"
+authors: [jnxmas]
+tags: [ai-ml, rag, encode]
+---
+
+# Agent & Prompt Optimization for LLM Systems: Workshop Operations, Eval-Driven Loops, and Optimizer Tooling (OPIC/OPIK + Comet)
+
+This training consolidates the operational and technical foundations needed to run and execute **agent/prompt optimization** in team settings (e.g., hackathons and internal workshops).
+
+It includes :
+
+- **eval-driven optimization** of LLM agent prompts using measurable metrics and iterative loops,
+- including **meta-prompting**, **genetic/evolutionary methods**, **hierarchical/reflective optimizers (HRPO)**, **few-shot Bayesian selection**, and **parameter tuning**.
+
+<!-- truncate -->
+
+:::tip
+It is important because prompt iteration without datasets and metrics devolves into subjective “doom wordsmithing,” leading to unreliable, expensive, and non-reproducible agents.
+:::
+
+This material applies to **AI/ML engineers, LLM practitioners, platform and DevEx teams, facilitators/mentors**, and anyone responsible for building and improving **tool-using agents (RAG/MCP), multimodal agents, or production chatbots** under constraints of **speed, accuracy, and cost**.
+
+<iframe
+  width="100%"
+  style={{ "aspect-ratio": "16 / 9" }}
+  src="https://www.encodeclub.com/programmes/comet-resolution-v2-hackathon/events/agent-optimization-with-opik"
+  title="OPIK workshop 2"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen
+></iframe>
+
+## 1) Development of the Content (Chronological and Logical Sequence)
+
+### A. Concepts Fundamental
+
+#### A1) Workshop mechanics for “agent optimization” sessions (hackathon-ready)
+
+In interactive workshops, success depends on **facilitation + operational readiness** as much as technical depth.
+
+- **Live attendance** enables:
+  - Real-time **Q&A**
+  - Higher engagement in hands-on segments
+  - Faster alignment on team objectives and constraints
+- **Recording** is essential for:
+  - Participants across incompatible time zones
+  - Rewatching technical steps and setup instructions later
+- **Hands-on sessions** increase operational sensitivity:
+  - Frequent tool switching
+  - Screen sharing and multi-monitor complexity
+  - High cognitive load for participants following along
+    **Conceptual grounding before coding**
+- Start with a short theory block to align terminology, scope, and outcomes.
+- Prevents early derailment into deep technical detail without a shared baseline.
+  **Analogy**
+- Conceptual grounding is like agreeing on a **map legend** before navigating; without it, people interpret instructions differently even if they follow the same steps.
+
+---
+
+#### A2) The optimization target: prompts, context, demonstrations, and parameters
+
+“Prompt optimization” is broader than rewriting a single system message. In practice, teams optimize multiple levers:
+
+- **System prompt / developer prompt**: core behavior, constraints, safety, formatting.
+- **Context engineering**: retrieval and tools (RAG, MCP servers/clients), memory, long-context strategies.
+- **Intent engineering**: define “what good looks like” using examples of desired conversations/outputs, then optimize toward them.
+- **Few-shot demonstrations**: which examples to include, how many, and in what order.
+- **Sampling parameters**: temperature, top_p, top_k (reduce variance, tune style/creativity).
+  **Prompt optimization vs. fine-tuning**
+- **Prompt optimization** changes instructions/context/examples/parameters without changing model weights.
+  - Faster iteration, lower operational burden, often cheaper.
+- **Fine-tuning** changes model weights.
+  - Higher complexity and governance; sometimes necessary, but not the default path.
+
+---
+
+#### A3) Evals: the required feedback signal
+
+An **eval** is an automated test harness that:
+
+- Runs an agent/prompt on a **dataset**
+- Scores outputs via a **metric**
+- Produces repeatable feedback for iteration
+  Common metric dimensions:
+- **Accuracy / task success**
+- **Hallucination rate / factuality**
+- **Format compliance** (schemas, JSON, bullet structure)
+- **Latency** (end-to-end runtime)
+- **Cost** (tokens, tool calls, infra)
+
+---
+
+#### A4) The “Impossible Triangle”: Speed × Accuracy × Cost
+
+Agent design and optimization inevitably trade off:
+
+- **Speed**: latency, time-to-first-token, end-to-end runtime
+- **Accuracy**: correctness, task completion, policy compliance
+- **Cost**: token usage, model pricing, tool calls, infrastructure
+  Key implications:
+- You typically can’t maximize all three simultaneously.
+- Optimization must explicitly measure and constrain all three.
+  Common architecture pattern:
+- **Fast front agent** for interactive UX
+- **Slower or cheaper back agents** for verification, retrieval, or deeper reasoning
+
+---
+
+#### A5) Optimizer families (what they do and when to use)
+
+This training consolidates multiple optimizer approaches discussed across sessions:
+
+1. **Meta-prompting (Meta-reasoner)**
+   - An LLM rewrites your prompt to produce candidate variants.
+   - You evaluate candidates and keep the best.
+2. **Genetic / Evolutionary optimization**
+   - Maintains a population of prompts.
+   - Applies **mutations** (remove/reorder/rewrite sections) and **selection** (keep winners).
+   - Often includes “fresh gene injection” and a **Hall of Fame** of best prompts/components.
+3. **Hierarchical / Reflective optimization (HRPO)**
+   - Diagnoses failure clusters, forms hypotheses, proposes targeted prompt changes, re-evaluates.
+   - Requires a clear metric + explanation so it can reason about failures.
+4. **Few-shot Bayesian optimization**
+   - Selects:
+     - Which few-shot examples,
+     - How many,
+     - In which order,
+   - Then inserts them into the prompt for stronger in-context guidance.
+5. **Parameter optimization**
+   - Tunes generation parameters (temperature/top_p/top_k) after prompt structure is solid.
+   - Useful for controlling non-determinism and output variance.
+     **Chaining optimizers (recommended workflow)**
+
+- A practical pipeline:
+  1. Reflective/hierarchical (HRPO) or evolutionary to improve core instructions
+  2. Few-shot Bayesian to optimize demonstrations
+  3. Parameter tuning to stabilize style/variance and meet latency/cost constraints
+
+---
+
+#### A6) Multimodal prompt optimization (images + text)
+
+Multimodal agents take:
+
+- **Image inputs** (e.g., dashcam frames)
+- **Text inputs** (questions/instructions)
+- Produce **text outputs** (e.g., hazard descriptions)
+  Multimodality raises difficulty because correctness depends on accurately grounding outputs in visual evidence and describing it consistently.
+
+---
+
+### B. Principal Pains and Practical Problems Encountered
+
+#### B1) Workshop/session problems (operational + facilitation)
+
+- Time zone mismatch reduces live attendance quality.
+- Startup friction:
+  - Zoom connection issues
+  - Screen sharing failures (multi-monitor confusion)
+- Logistics questions interrupt technical flow.
+- Early “deep technical” derailments due to lack of conceptual alignment.
+- High cognitive load in hands-on segments (tools + steps + Q&A at once).
+
+#### B2) Optimization and engineering problems (technical)
+
+- **No dataset → no optimization**: teams want improvement without ground truth.
+- **No metric → no signal**: changes are judged by “vibes.”
+- Hidden tradeoffs: gains in accuracy may increase cost/latency.
+- Overfitting to small/clean datasets that don’t represent production.
+- Tooling complexity:
+  - Provider setup (API keys)
+  - Version/environment issues
+  - Multimodal data formatting and cost
+- Non-determinism: outputs vary across runs; naive evals are unstable.
+- Multilingual drift: improvements in one language/style can degrade perceived quality for non-native speakers.
+
+---
+
+### C. Causes of Common Errors and Deviations (Technical Diagnosis)
+
+#### C1) Process errors
+
+- Starting implementation before defining:
+  - “What does success look like?”
+  - “How will we measure it?”
+- Iterating prompts manually without repeatable evals (“doom wordsmithing”).
+- Changing too many variables at once (prompt + model + dataset + metric), breaking attribution.
+
+#### C2) Data and evaluation errors
+
+- Non-representative datasets (too small, too idealized, not production-like).
+- No holdout/validation: training improvements don’t generalize.
+- Overfitting to dataset phrasing rather than task intent.
+
+#### C3) Metric errors
+
+- Metric-task mismatch:
+  - Character-level similarity (e.g., Levenshtein) penalizes correct paraphrases.
+  - Fast metrics can reward superficial closeness rather than semantic correctness.
+- Missing metric explanations:
+  - Reflective optimizers need “why this score” to hypothesize and fix failure modes.
+
+#### C4) Operational and facilitation errors
+
+- No pre-flight checks for recording/screen share.
+- Letting logistics Q&A repeatedly interrupt technical depth.
+- Skipping conceptual grounding and jumping into highly technical steps.
+
+---
+
+### D. Solutions, Best Practices, and Strategies
+
+#### D1) Facilitation strategy for optimization workshops
+
+Use a structured agenda:
+
+1. **Buffer + housekeeping** (2–5 min)
+2. **Conceptual grounding** (5–10 min)
+3. **Hands-on optimization** (primary block)
+4. **Q&A checkpoints** (periodic)
+5. **Closeout**: follow-ups and resources channel (e.g., Discord)
+   Logistics handling:
+
+- Allow limited buffer for urgent logistics at the start.
+- Route ongoing logistics to a dedicated channel (Discord/moderators).
+  Operational readiness:
+- Test recording and screen share before the session begins.
+- Prepare backup plan (rejoin meeting, share window instead of full screen, alternate host).
+
+---
+
+#### D2) Build an eval-driven optimization loop (core technical workflow)
+
+A repeatable loop:
+
+1. Define a **dataset** (inputs + expected behavior)
+2. Define a **metric** (scoring rubric and constraints)
+3. Run a **baseline** prompt/agent and record results
+4. Generate candidate prompts (human + optimizer)
+5. Evaluate candidates on the same harness
+6. Select the best under constraints (accuracy + speed + cost)
+7. Iterate until target reached or budget exhausted
+8. Validate on **holdout/validation** to detect overfitting
+
+---
+
+#### D3) Optimizer selection guidance
+
+- **Meta-prompting**: fast setup, quick baseline improvements.
+- **Genetic/evolutionary**: broad exploration; good when small phrasing changes matter.
+- **Reflective/HRPO**: best for nuanced failure clusters and “last mile” improvements.
+- **Few-shot Bayesian**: when selection and ordering of examples is a major performance lever.
+- **Parameter tuning**: stabilize variance and style after instructions/examples are strong.
+  Budget warning:
+- More sophisticated optimizers typically increase API calls, tokens, and wall-clock time.
+
+---
+
+#### D4) Metric strategy (fast iteration vs semantic correctness)
+
+- Use **fast metrics** early:
+  - regression detection
+  - formatting/stability checks
+- Upgrade to **semantic evals** for correctness:
+  - **LLM-as-a-judge** with a strict rubric
+  - hybrid metrics (semantic + format + safety)
+- Consider **multi-metric objectives**:
+  - accuracy + cost + latency to prevent “accurate but too expensive” prompts
+
+---
+
+#### D5) Production readiness strategy (safety and reproducibility)
+
+Treat prompt optimization as controlled production change:
+
+- Use staging, monitoring, and rollback prompts.
+- Keep prompt versioning, changelogs, and eval results history.
+- Build datasets from **production traces**:
+  - convert traces into eval datasets or annotation queues
+- Add human-in-the-loop review for safety-critical workflows.
+  Model strategy:
+- Use a **larger model** to generate candidate prompts (“authoring model”).
+- Evaluate on the **target deployment model** (smaller/cheaper) for parity.
+  Multilingual concerns:
+- Ensure evals cover target languages.
+- Use judges that understand the language or add human evaluation.
+
+---
+
+### E. What Should Be Done (Do’s)
+
+- **Start every workshop** with conceptual grounding (terms, scope, intended outcome).
+- **Enable and test recording**; ensure rewatchability for time zones.
+- **Pre-flight check** (5–10 minutes before start):
+  - Zoom audio/video
+  - correct monitor/window sharing
+  - recording status
+- **Define success metrics upfront** (rubric, pass/fail rules, partial credit).
+- **Build/curate a representative dataset** (typical + edge + adversarial cases).
+- **Run and document a baseline** before optimization.
+- **Use train + validation (+ test)** splits; add a holdout set to detect overfitting.
+- **Select an optimizer** based on:
+  - budget, failure complexity, exploration vs targeted fixes
+- **Log and version everything**:
+  - prompt versions, scores, dataset versions, model/provider settings
+- **Constrain outputs** when consistency matters (schemas, bullet limits, citation rules).
+- **Use production traces** to keep evaluation realistic; build an annotation queue when needed.
+- **Apply multi-metric gates** (accuracy must improve without breaking cost/latency).
+
+---
+
+### F. What Should NOT Be Done (Don’ts)
+
+- **Don’t** jump into technical implementation without aligning key concepts and goals.
+- **Don’t** rely only on live attendance; always provide recordings.
+- **Don’t** allow logistics Q&A to repeatedly interrupt technical flow (route it elsewhere).
+- **Don’t** optimize without a dataset or without a metric.
+- **Don’t** rely only on “doom wordsmithing” (random manual edits) without evals.
+- **Don’t** ignore the **speed–accuracy–cost** triangle.
+- **Don’t** let optimizers run without guardrails:
+  - they may exploit metric loopholes or create brittle prompts
+- **Don’t** assume gains on tiny samples generalize to production.
+- **Don’t** use only character-level similarity for semantic tasks in production-critical scenarios.
+- **Don’t** change prompt + model + metric + dataset simultaneously without tracking; you lose causal understanding.
+- **Don’t** treat experiment tracking as optional; without it, improvements are not reproducible.
+
+---
+
+### G. Tools, Tasks, and Recommended Actions
+
+#### G1) Tools (explicitly referenced or strongly implied)
+
+- **Zoom**: live delivery, screen sharing, recording
+- **Discord**: async logistics, follow-ups, announcements
+- **Comet**: experiment tracking UI, dataset management, optimization studio
+- **OPIK SDK** (Python): optimization/evaluation loops (multimodal demo)
+- **OPIC SDK / OPIC GitHub monorepo**: optimizer suite and algorithms
+- **LLM providers**: OpenAI, Gemini, local models (e.g., Ollama)
+- **RAG + MCP servers/clients**: context/tool ecosystem patterns
+
+#### G2) Recommended team routines (practical)
+
+1. **Workshop runbook**
+   - setup checklist + agenda template + escalation channel for logistics
+2. **Minimal eval harness**
+   - dataset loader
+   - prompt runner
+   - metric function (with explanation)
+   - reporting dashboard
+3. **Optimization experiments**
+   - meta-prompting run (N candidates × M trials)
+   - genetic/evolutionary run (population, mutation operators, selection)
+   - reflective/HRPO run (failure clustering, hypothesis generation)
+4. **Budget controls**
+   - max trials, max tokens, max wall-clock time
+5. **Acceptance gates**
+   - “no merge if validation score drops”
+   - enforce latency/cost ceilings
+6. **Trace-to-dataset pipeline**
+   - export 100–500 production traces
+   - label via annotation queue
+   - iterate dataset quality before optimizing further
+7. **Release checklist**
+   - staging rollout, monitoring KPIs, rollback prompt
+
+#### G3) Multimodal data preparation (when applicable)
+
+- Images/audio/video may require **Base64 encoding** in datasets.
+- Video can be token-heavy; plan budget and limits accordingly.
+
+---
+
+## 2) Practical Examples (Reviewed and Rewritten)
+
+### Example 1 — Handling a delayed workshop start (screen sharing issue)
+
+- **Scenario:** Presenter cannot share the correct screen due to multi-monitor setup.
+- **Recommended response:**
+  - Announce a brief delay and the cause (“screen share setup”).
+  - Use the time for housekeeping:
+    - confirm recording is on,
+    - ask attendees to post time zones in chat,
+    - redirect logistics questions to Discord.
+  - Resume with **conceptual grounding** once stable.
+
+---
+
+### Example 2 — Preventing early technical derailment
+
+- **Scenario:** Participants immediately ask deep implementation questions (tool calling, optimizer internals) before definitions are aligned.
+- **Recommended response:**
+  - Pause and define:
+    - agent vs prompt vs context vs eval,
+    - the target metric and dataset,
+    - success criteria and constraints.
+  - Explicitly defer deep dives:
+    - “We’ll go deep in a moment—first we align on concepts and the evaluation loop.”
+
+---
+
+### Example 3 — Meta-prompting to fix inconsistent formatting
+
+- **Scenario:** A support chatbot fails JSON schema compliance ~30% of the time.
+- **Approach:**
+  - Create an eval set of real formatting cases.
+  - Use a meta-reasoner prompt to generate ~6 system-prompt variants:
+    - stricter schema instructions,
+    - explicit formatting steps,
+    - refusal conditions for missing fields.
+  - Evaluate all candidates; select the best and iterate until compliance stabilizes.
+
+---
+
+### Example 4 — Genetic optimization for a sensitive classification task
+
+- **Scenario:** Ticket triage accuracy varies heavily with small prompt phrasing differences.
+- **Approach:**
+  - Start from a parent prompt.
+  - Generate a population of children via mutations:
+    - reorder priorities (labels first, then rules),
+    - remove ambiguous wording,
+    - tighten label definitions.
+  - Evaluate all prompts; keep winners and discard losers.
+  - Inject fresh prompts periodically (including the original) to avoid premature convergence.
+  - Maintain a **Hall of Fame** of best prompts/components.
+
+---
+
+### Example 5 — Reflective/HRPO optimizer to reduce hallucinations in incomplete context
+
+- **Scenario:** An agent hallucinates when retrieval returns partial or irrelevant documents.
+- **Approach:**
+  - Define a metric that penalizes hallucination and rewards:
+    - uncertainty statements,
+    - citations/quotes from sources.
+  - Reflective optimizer clusters failures:
+    - missing citations,
+    - overconfident claims with no evidence.
+  - Prompt changes:
+    - “If the answer is not supported by context, say ‘I don’t know’ and ask for clarification.”
+    - require quoting or citing retrieved passages.
+  - Re-run eval until hallucination rate drops on validation.
+
+---
+
+### Example 6 — Multimodal hazard detection optimization (Comet + OPIK)
+
+- **Scenario:** Dashcam hazard detector gives generic driving advice instead of image-grounded hazards.
+- **Dataset pattern:**
+  - image + question → reference hazard annotation
+- **Metric approach (fast demo metric):**
+  - Levenshtein ratio vs reference text (fast but not semantic)
+- **Reflective prompt improvements:**
+  - “Only describe hazards visible or strongly implied by the image; do not provide general driving advice.”
+  - Output constraint: “Return 1–3 bullet points, each a hazard statement.”
+- **Validation caution:**
+  - Small subsets can cause high variance and overfitting; confirm improvements on validation/test and consider LLM-judge for semantic correctness.
+
+---
+
+### Example 7 — Intent engineering for a safety-sensitive conversational assistant
+
+- **Scenario:** Build an empathetic therapy-style assistant with safety protocols.
+- **Intent-first approach:**
+  - Create a dataset of ideal conversations:
+    - anxiety → validation + grounding exercise
+    - self-harm → safety protocol and resources
+    - diagnosis request → refuse diagnosis, provide guidance/resources
+  - Define eval rubric:
+    - empathy markers, safety compliance, refusal correctness
+  - Optimize prompts:
+    - meta-prompting for quick gains
+    - reflective optimizer for recurring failures (too clinical, insufficient validation)
+  - Add holdout eval set to avoid overfitting to scripted examples.
+
+---
+
+## 3) Conclusion and Practical Application
+
+Agent/prompt optimization becomes reliable only when treated as an engineering discipline: **dataset + metric + iterative eval loop + controlled changes**. Operationally, successful workshops require **conceptual grounding**, tested **recording/screen-sharing**, and clear boundaries between logistics and technical work. Technically, improvements should be driven by **evals** and chosen optimizers (meta-prompting, genetic/evolutionary, reflective/HRPO, few-shot Bayesian, parameter tuning), with explicit management of the **speed–accuracy–cost** tradeoff. In day-to-day practice, start with a minimal eval harness and baseline, run low-budget optimization, validate on holdout data, and ship through a controlled release process with monitoring and rollback.
+**Next steps**
+
+1. Build a reusable **workshop runbook** (checklist + agenda + support channels).
+2. Implement a minimal **eval harness** for one real agent flow and record baseline metrics.
+3. Run **meta-prompting** to capture quick wins, then escalate to **reflective/HRPO** or **genetic** as needed.
+4. Add **few-shot selection** and **parameter tuning** once prompt structure is stable.
+5. Upgrade metrics to **LLM-judge + rubric** (and human review where required), and enforce **multi-metric gates** (accuracy + cost + latency).
+
+---
+
+## Glossary (Key Terms)
+
+- **Agent**: An LLM-based system that may use tools (APIs, retrieval, MCP) to complete tasks.
+- **Agent optimization**: Improving an agent’s effectiveness through systematic iteration using datasets and metrics.
+- **Conceptual grounding**: A short theory-based alignment step to ensure shared definitions, goals, and assumptions.
+- **Context engineering**: Supplying relevant context via retrieval/tools/memory/long context windows (e.g., RAG, MCP).
+- **Intent engineering**: Defining desired outputs/behaviors first (examples), then optimizing backward toward them.
+- **Eval (evaluation)**: Automated testing of prompts/agents against a dataset using a metric/rubric.
+- **Metric / reward function**: A scoring function used to judge outputs (accuracy, hallucination, cost, latency, etc.).
+- **Meta-prompting (meta-reasoner)**: Using an LLM to generate improved prompts for another task.
+- **Genetic / evolutionary optimization**: Population-based search over prompts via mutation and selection.
+- **Mutation**: A change applied to a prompt to create variation (remove/reorder/replace text).
+- **Hall of Fame**: A retained set of top-performing prompts/components across generations.
+- **Reflective / hierarchical optimizer (HRPO)**: Optimizer that diagnoses failure patterns, forms hypotheses, and proposes targeted fixes.
+- **Few-shot Bayesian optimizer**: Method for selecting and ordering few-shot examples to include in prompts.
+- **Parameter optimization**: Tuning inference parameters like temperature/top_p/top_k to manage variability and style.
+- **LLM-as-a-judge**: Using an LLM to grade another model’s output against a rubric/reference.
+- **Levenshtein ratio**: Character-level similarity score based on edit distance (fast, but not semantic).
+- **Overfitting**: Improvements on training data that don’t generalize to validation/test.
+- **MCP (Model Context Protocol)**: Tool ecosystem pattern (servers/clients) enabling models to access external capabilities.
+- **RAG (Retrieval-Augmented Generation)**: Retrieval system that injects documents into context to ground responses.
+
+---
+
+## Review Questions (Knowledge Check)
+
+1. Why is **conceptual grounding** important before hands-on optimization in a workshop?
+2. What are the three constraints in the **speed–accuracy–cost** triangle, and why do they conflict?
+3. What are the minimum components of an **eval-driven optimization loop**?
+4. When would you choose **meta-prompting** vs **genetic optimization** vs **reflective/HRPO**?
+5. Why can **Levenshtein ratio** be misleading for semantic tasks, and what should you use instead?
+6. What does it mean to **chain optimizers**, and what reminder should guide the order (instructions → examples → parameters)?
+7. Why are **validation/holdout sets** necessary during prompt optimization?
+8. What operational checklist items should be validated before running a live interactive workshop?
+
+---
+
+## Suggested Further Reading / Resources
+
+- **Facilitation & workshop design**
+  - Atlassian Team Playbook (facilitation patterns and team rituals): https://www.atlassian.com/team-playbook
+- **Evals and LLM testing**
+  - OpenAI Evals (conceptual reference): https://github.com/openai/evals
+  - LangChain evaluation guides: https://python.langchain.com/docs/guides/evaluation/
+- **Agent systems and tool use**
+  - OpenAI documentation (agents/tooling concepts): https://platform.openai.com/docs/
+  - Anthropic documentation (tool use and agent patterns): https://docs.anthropic.com/
+  - LangChain agent patterns and evaluation tooling: https://python.langchain.com/docs/
+- **RAG learning resources**
+  - Pinecone RAG guides: https://www.pinecone.io/learn/
+  - Weaviate RAG resources: https://weaviate.io/developers/weaviate
+- **Experiment tracking**
+  - Comet platform: https://www.comet.com/

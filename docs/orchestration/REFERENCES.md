@@ -15,24 +15,28 @@ Comprehensive list of documentation, tools, and resources for Vaettir and relate
 ### n8n Specific Topics
 
 **Installation & Deployment**
+
 - Docker Installation: https://docs.n8n.io/hosting/installation/docker/
 - Docker Compose: https://docs.n8n.io/hosting/installation/server-setups/docker-compose/
 - Environment Variables: https://docs.n8n.io/hosting/configuration/environment-variables/
 - Configuration: https://docs.n8n.io/hosting/configuration/
 
 **Task Runners (Code Execution)**
+
 - Task Runners Overview: https://docs.n8n.io/hosting/configuration/task-runners/
 - Task Runner Environment Variables: https://docs.n8n.io/hosting/configuration/environment-variables/task-runners/
 - Code Node: https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.code/
 - Python in n8n: https://docs.n8n.io/code/python/
 
 **Architecture & Scaling**
+
 - Architecture Overview: https://docs.n8n.io/hosting/architecture/
 - Scaling: https://docs.n8n.io/hosting/scaling/
 - Queue Mode: https://docs.n8n.io/hosting/scaling/queue-mode/
 - Worker Processes: https://docs.n8n.io/hosting/scaling/queue-mode/#worker-processes
 
 **Security**
+
 - Security Guide: https://docs.n8n.io/hosting/security/
 - Credentials: https://docs.n8n.io/credentials/
 - Webhook Security: https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/#webhook-security
@@ -373,8 +377,7 @@ Comprehensive list of documentation, tools, and resources for Vaettir and relate
 
 ### Project Files
 
-- **Main README**: [../README.md](../README.md)
-- **Proxy Pattern Guide**: [../PROXY_PATTERN.md](../PROXY_PATTERN.md)
+- **Main README on vaettir**: [Private repo Vaettir](https://github.com/locki-io/vaettir/)
 - **Usage Guide**: [./USAGE.md](./USAGE.md)
 
 ---
@@ -457,6 +460,7 @@ lsof -i :5678
 ## Contributing
 
 To add resources to this list:
+
 1. Verify link is active
 2. Add to appropriate section
 3. Keep descriptions concise

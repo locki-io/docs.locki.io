@@ -15,7 +15,7 @@ All commands assume you're already on the correct branch (check with `git branch
 | **Temporarily save** changes (safest first step) | `git stash` or `git stash push -m "WIP before pull"`                       | No           | Yes (`git stash pop`) | Not sure yet – want changes back later                  |
 | **Uncommitted changes only** (unstaged + staged) | `git restore .` or `git checkout -- .` (older Git)                         | Yes          | No                    | Keep history, just wipe working dir                     |
 | **All local changes** (including staged)         | `git reset --hard`                                                         | Yes          | No                    | Discard modifications but keep branch at current commit |
-| **Exact remote match** (most wanted before pull) | `git fetch origin`<br>`git reset --hard origin/dev`                        | Yes          | No                    | Force local = remote (your original goal)               |
+| **Exact remote match** (most wanted before pull) | `git fetch origin` + `git reset --hard origin/dev`                         | Yes          | No                    | Force local = remote (your original goal)               |
 | **One-liner force overwrite**                    | `git fetch origin && git reset --hard origin/$(git branch --show-current)` | Yes          | No                    | Quick & safe on servers                                 |
 | **Untracked files too** (new files, .env, etc.)  | After reset: `git clean -fd` or `git clean -fdx` (also ignores)            | Yes          | No                    | Full clean slate (node_modules, logs, etc.)             |
 
