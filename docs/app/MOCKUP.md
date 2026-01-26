@@ -12,6 +12,7 @@ The mockup system generates controlled variations of citizen contributions to sy
 ## Why Mutation Testing?
 
 Charter validation is a nuanced task. A contribution might be:
+
 - Clearly valid (constructive, local, factual)
 - Clearly invalid (personal attack, spam, off-topic)
 - Borderline (subtle violations, mixed content)
@@ -42,13 +43,13 @@ All mockup contributions follow the Audierne2026 Framaforms submission format:
 }
 ```
 
-| Field | Description |
-|-------|-------------|
-| `category` | One of 7 categories: economie, logement, culture, ecologie, associations, jeunesse, alimentation-bien-etre-soins |
-| `constat_factuel` | Factual observation about the current situation |
-| `idees_ameliorations` | Proposed improvements or solutions |
-| `source` | Origin: `framaforms` (real), `mock` (synthetic), `derived` (mutated), `input` (manual) |
-| `expected_valid` | Ground truth for testing (null if unknown) |
+| Field                 | Description                                                                                                      |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `category`            | One of 7 categories: economie, logement, culture, ecologie, associations, jeunesse, alimentation-bien-etre-soins |
+| `constat_factuel`     | Factual observation about the current situation                                                                  |
+| `idees_ameliorations` | Proposed improvements or solutions                                                                               |
+| `source`              | Origin: `framaforms` (real), `mock` (synthetic), `derived` (mutated), `input` (manual)                           |
+| `expected_valid`      | Ground truth for testing (null if unknown)                                                                       |
 
 ## Levenshtein-Based Mutations
 
@@ -159,6 +160,7 @@ contribution_mockup:forseti461:charter:{date}:{id}
 ```
 
 Example:
+
 ```
 contribution_mockup:forseti461:charter:2026-01-26:framaforms-eco-001
 ```
@@ -292,13 +294,14 @@ manager.sync_to_opik()
 
 ### Accuracy Metrics
 
-| Metric | Formula | Target |
-|--------|---------|--------|
-| **Precision** | TP / (TP + FP) | > 95% |
-| **Recall** | TP / (TP + FN) | > 98% |
-| **F1 Score** | 2 * (P * R) / (P + R) | > 96% |
+| Metric        | Formula               | Target |
+| ------------- | --------------------- | ------ |
+| **Precision** | TP / (TP + FP)        | > 95%  |
+| **Recall**    | TP / (TP + FN)        | > 98%  |
+| **F1 Score**  | 2 _ (P _ R) / (P + R) | > 96%  |
 
 Where:
+
 - **TP** = Invalid contribution correctly rejected
 - **FP** = Valid contribution incorrectly rejected
 - **FN** = Invalid contribution incorrectly accepted (most dangerous)
@@ -329,8 +332,9 @@ app/mockup/
     └── contributions.json  # Base test contributions
 ```
 
+<!--
 ## Related Documentation
 
-- [Forseti 461 Agent](../agents/FORSETI.md) - Charter validation agent
+ - [Forseti 461 Agent](docs.locki.io/agents/FORSETI.md) - Charter validation agent
 - [Opik Tracing](../agents/TRACING.md) - LLM observability
-- [Contribution Charter](../../methods/contribution-charter.md) - Validation rules
+- [Contribution Charter](../../methods/contribution-charter.md) - Validation rules -->
