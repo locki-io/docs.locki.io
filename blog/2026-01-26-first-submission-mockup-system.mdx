@@ -1,0 +1,173 @@
+---
+slug: first-submission-mockup-system
+title: "First Submission: Building a Charter Validation Testing Framework"
+authors: [jnxmas]
+tags: [encode, ai-ml, civictech, observability]
+---
+
+# Submission 1: Mockup System for Forseti 461 Validation
+
+**Goal:** Create a systematic approach to test and improve our AI-powered charter validation system.
+
+For the Encode Hackathon first submission, we focused on building the infrastructure to ensure **Forseti 461** (our charter validation agent) catches all violations reliably. The key insight: _you can't improve what you can't measure_.
+
+<!-- truncate -->
+
+## The Challenge
+
+Audierne2026 receives citizen contributions through Framaforms. Each contribution must be validated against our **Contribution Charter** before reaching the platform. The charter prohibits:
+
+- Personal attacks or discriminatory remarks
+- Spam or advertising
+- Off-topic content (unrelated to Audierne-Esquibien)
+- False information
+
+**The problem**: How do we know if our LLM-based validation is catching subtle violations? A missed personal attack reaching the platform could poison civic discourse.
+
+## Our Solution: Mutation Testing
+
+We built a **mockup system** that generates controlled variations of contributions using [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance):
+
+```
+Valid Contribution ──┬── 95% similar → Should remain valid
+                     ├── 80% similar → Borderline case
+                     ├── 60% similar → Likely invalid
+                     └── + Violation injected → Must be rejected
+```
+
+This allows us to:
+
+1. Test edge cases systematically
+2. Identify where the prompt fails
+3. Build training datasets for optimization
+
+## Demo Video
+
+<iframe
+  width="100%"
+  style={{ aspectRatio: "16 / 9" }}
+  src="https://youtu.be/VBTXNru83Vg"
+  title="Mockup System Demo - First Submission"
+  frameBorder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerPolicy="strict-origin-when-cross-origin"
+  allowFullScreen
+></iframe>
+
+## Technical Implementation
+
+### 1. Framaforms-Compatible Format
+
+All mock contributions follow the actual submission format:
+
+```json
+{
+  "category": "economie",
+  "constat_factuel": "Le parking du port est souvent plein en été...",
+  "idees_ameliorations": "Créer un parking relais à l'entrée de la ville...",
+  "expected_valid": true
+}
+```
+
+### 2. Levenshtein Mutations
+
+We progressively mutate valid contributions and inject violations:
+
+```python
+from app.mockup import generate_variations
+
+variations = generate_variations(
+    constat_factuel="Le port est magnifique mais saturé",
+    idees_ameliorations="Proposer des navettes gratuites",
+    category="economie",
+    num_variations=5,
+    include_violations=True,  # Inject personal attacks, off-topic, etc.
+)
+```
+
+### 3. Redis Storage
+
+Results are stored with the key format:
+
+```
+contribution_mockup:forseti461:charter:{date}:{id}
+```
+
+This enables:
+
+- Historical tracking across prompt versions
+- Date-based analysis
+- Quick retrieval for dashboards
+
+### 4. Opik Dataset Export
+
+Validation results export directly to **Opik** format for prompt optimization:
+
+```json
+{
+  "input": {
+    "title": "...",
+    "body": "...",
+    "constat_factuel": "...",
+    "idees_ameliorations": "..."
+  },
+  "expected_output": {
+    "is_valid": true,
+    "violations": [],
+    "confidence": 0.92
+  }
+}
+```
+
+This feeds into Opik's optimization studio where we can:
+
+- Run **FewShotBayesianOptimizer** to select best examples
+- Use **MetaPromptOptimizer** to refine the system prompt
+- Create train/validation/test splits for proper evaluation
+
+## Key Metrics
+
+| Metric        | Target | Why                                                |
+| ------------- | ------ | -------------------------------------------------- |
+| **Recall**    | > 98%  | Missing a violation is worse than a false positive |
+| **Precision** | > 95%  | Avoid frustrating valid contributors               |
+| **F1 Score**  | > 96%  | Balanced performance                               |
+
+## What's Next
+
+With this testing infrastructure in place, we can now:
+
+1. **Generate diverse test sets** covering all 7 categories and violation types
+2. **Run optimization experiments** using Opik's optimizer
+3. **Track improvements** across prompt iterations
+4. **Achieve confidence** that Forseti catches what it should
+
+---
+
+## Try It Yourself
+
+Access the mockup system in the Streamlit app:
+
+```bash
+poetry run streamlit run app/main.py
+```
+
+Navigate to the **Mockup** tab (`?tab=mockup`) to:
+
+- Load existing test contributions
+- Generate Levenshtein variations
+- Run batch validation
+- Export to Opik datasets
+
+---
+
+**Branch:** `feature/logging_system`
+**Key files:**
+
+- `app/mockup/generator.py` - Contribution generation
+- `app/mockup/levenshtein.py` - Mutation algorithms
+- `app/mockup/storage.py` - Redis persistence
+- `app/mockup/dataset.py` - Opik integration
+- `app/mockup/batch_view.py` - Streamlit UI
+
+_Building trust in AI validation, one mutation at a time._

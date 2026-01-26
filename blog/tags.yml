@@ -77,3 +77,13 @@ observability:
   label: Observability
   permalink: /observability
   description: Articles on observability practices and tools
+
+opik:
+  label: Opik
+  permalink: /opik
+  description: Articles on Opik LLM observability and prompt optimization
+
+testing:
+  label: Testing
+  permalink: /testing
+  description: Articles on testing strategies and quality assurance
