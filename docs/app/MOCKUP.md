@@ -51,23 +51,83 @@ All mockup contributions follow the Audierne2026 Framaforms submission format:
 | `source`              | Origin: `framaforms` (real), `mock` (synthetic), `derived` (mutated), `input` (manual)                           |
 | `expected_valid`      | Ground truth for testing (null if unknown)                                                                       |
 
-## Levenshtein-Based Mutations
+## Mutation Strategies
 
-We use [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) to create controlled text variations:
+The mockup system supports two mutation strategies:
+
+### 1. Text-Based Mutations (Levenshtein)
+
+Uses [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) for controlled character-level variations:
 
 ```python
 from app.mockup import levenshtein_ratio, apply_distance
 
 original = "Le port d'Audierne est magnifique"
-mutated = apply_distance(original, target_ratio=0.8)  # 80% similarity
-# Result: "Le port d'Audierne est magifique" (typo introduced)
+mutated, distance = apply_distance(original, target_distance=5)
+# Result: "Le port d'Audirne est magnifque" (typos introduced)
 ```
 
-### Mutation Types
+**Best for:**
+- Simulating typing errors
+- Testing OCR-like corruption
+- Fast, deterministic mutations
 
-1. **Character-level mutations** - Typos, missing letters, swapped characters
-2. **Word-level mutations** - Synonym replacement, word removal
-3. **Violation injection** - Insert charter-violating content
+### 2. LLM-Based Mutations (Ollama/Mistral)
+
+Uses a local LLM to generate semantic variations:
+
+```python
+from app.mockup import generate_variations
+
+# Generate variations using Mistral
+variations = generate_variations(
+    constat_factuel="Le parking du port est souvent plein...",
+    idees_ameliorations="Créer un parking relais...",
+    num_variations=5,
+    include_violations=True,
+    use_llm=True,  # Use Ollama/Mistral
+    llm_model="mistral:latest",
+)
+```
+
+**Mutation Types (LLM):**
+
+| Type | Description | Expected Valid |
+|------|-------------|----------------|
+| `paraphrase` | Same meaning, different words | ✅ Yes |
+| `orthographic` | Realistic typos and errors | ✅ Yes |
+| `semantic_shift` | Slightly different meaning | ⚠️ Borderline |
+| `subtle_violation` | Hidden charter violation | ❌ No |
+| `aggressive` | Obvious violation (attacks, caps) | ❌ No |
+| `off_topic` | Drifts to unrelated subjects | ❌ No |
+
+**Requirements:**
+- Ollama running locally (`ollama serve`)
+- Mistral model pulled (`ollama pull mistral`)
+
+### Choosing a Strategy
+
+| Criterion | Text (Levenshtein) | LLM (Mistral) |
+|-----------|-------------------|---------------|
+| Speed | Fast | Slower |
+| Realism | Low | High |
+| Semantic understanding | None | Full |
+| Requires GPU/Ollama | No | Yes |
+| Deterministic | Yes | No |
+
+**Recommendation:** Use LLM mutations for realistic testing, text mutations for quick iteration.
+
+### Combined Approach
+
+For comprehensive testing, use both:
+
+```python
+# Quick text-based mutations for volume
+text_variations = generate_variations(text, num_variations=20, use_llm=False)
+
+# High-quality LLM mutations for edge cases
+llm_variations = generate_variations(text, num_variations=5, use_llm=True)
+```
 
 ### Violation Categories
 
