@@ -296,12 +296,55 @@ Validation records export to Opik-compatible format for prompt optimization:
         ↓
 5. Create train/val/test split
         ↓
-6. Run Opik optimizer
+6. Run daily Opik experiment (track metrics)
         ↓
-7. Update Forseti prompts
+7. Run Opik optimizer
         ↓
-8. Repeat with new test set
+8. Update Forseti prompts
+        ↓
+9. Repeat with new test set
 ```
+
+## Daily Experiments
+
+The mockup processor supports **Opik experiments** for tracking Forseti's performance over time:
+
+```python
+from app.processors import MockupProcessor
+
+processor = MockupProcessor()
+
+# Run daily experiment
+result = await processor.run_daily_experiment(
+    validate_func=forseti.validate,
+    source_filter=["framaforms", "mock"],
+)
+
+print(f"Accuracy: {result.charter_accuracy:.1%}")
+print(f"F1 Score: {result.f1_score:.2f}")
+print(f"False Negatives: {result.false_negatives}")  # Missed violations!
+```
+
+### Custom Metrics
+
+Three charter-specific metrics are tracked:
+
+| Metric | Description | Goal |
+|--------|-------------|------|
+| `charter_accuracy` | Match between Forseti result and expected | > 95% |
+| `violation_detection` | Detecting injected violations | > 98% |
+| `confidence_calibration` | High confidence = correct prediction | > 0.8 |
+
+### Confusion Matrix
+
+For charter validation, we track:
+
+- **True Positive (TP)**: Invalid contribution correctly rejected ✅
+- **True Negative (TN)**: Valid contribution correctly accepted ✅
+- **False Positive (FP)**: Valid contribution incorrectly rejected ⚠️
+- **False Negative (FN)**: Invalid contribution incorrectly accepted ❌ (worst!)
+
+**Key goal**: Minimize False Negatives - a missed charter violation reaching the platform is worse than incorrectly flagging a valid contribution.
 
 ### Supported Optimizers
 
@@ -319,7 +362,54 @@ Access via the **Mockup** tab (`?tab=mockup`):
 1. **Load Existing** - Load contributions from JSON file
 2. **Generate Variations** - Create Levenshtein mutations
 3. **Single Contribution** - Test one contribution manually
-4. **Storage & Opik** - View statistics, export datasets
+4. **Field Input** - Generate from reports/docs (NEW)
+5. **Storage & Opik** - View statistics, export datasets
+
+### Field Input Workflow
+
+Generate themed contributions from real municipal data:
+
+```
+📋 Field Input → 🔍 Theme Extraction → 🏷️ Category Assignment → 📝 Contribution Generation
+                       ↓                       ↓                        ↓
+              (public hearing)         (7 categories)          (valid + violations)
+              (mayor speech)                                          ↓
+              (municipal docs)                              Store in Redis/JSON
+                                                                      ↓
+                                                            Run Opik Experiment
+```
+
+**Available Input Sources:**
+- **Audierne2026 Docs** - Select from `docs/docs/audierne2026/` markdown files
+- **Paste Text** - Directly paste content from reports, speeches, etc.
+- **Upload File** - Upload markdown or text files
+
+**Example:**
+
+```python
+from app.mockup import process_field_input_sync
+
+# Process a public hearing report
+result = process_field_input_sync(
+    input_text=open("rapport_audience.md").read(),
+    source_title="Audience publique - Rénovation École",
+    contributions_per_theme=2,
+    include_violations=True,
+)
+
+print(f"Extracted {result.themes_extracted} themes")
+print(f"Generated {result.contributions_generated} contributions")
+print(f"Categories: {result.categories_covered}")
+```
+
+**Daily Experiment Workflow:**
+
+1. Inject field data through UI (report, speech, etc.)
+2. LLM extracts themes across 7 categories
+3. Generate contributions (valid + violations)
+4. Save to Redis
+5. Run Opik experiment with current Forseti prompt
+6. Track accuracy over time
 
 ### Programmatic API
 
@@ -384,12 +474,15 @@ Where:
 app/mockup/
 ├── __init__.py           # Module exports
 ├── generator.py          # MockContribution, ContributionGenerator
-├── levenshtein.py        # Distance calculations, mutations
+├── levenshtein.py        # Distance calculations, text mutations
+├── llm_mutations.py      # LLM-based semantic mutations (Ollama)
+├── field_input.py        # Field input processing (reports → contributions)
 ├── storage.py            # Redis storage, ValidationRecord
 ├── dataset.py            # Opik dataset management
-├── batch_view.py         # Streamlit UI
+├── batch_view.py         # Streamlit UI (5 modes)
 └── data/
-    └── contributions.json  # Base test contributions
+    ├── contributions.json    # Generated test contributions
+    └── category_themes.json  # Category themes for field input
 ```
 
 <!--
