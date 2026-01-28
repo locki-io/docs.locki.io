@@ -1,4 +1,6 @@
-# Firecrawl Quick Reference
+> **DEPRECATED**: This document has been consolidated. See [app/README.md](./app/README.md) for current documentation.
+
+# Firecrawl Quick Reference (DEPRECATED)
 
 ## 🚀 One-Time Setup
 

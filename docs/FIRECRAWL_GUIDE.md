@@ -1,4 +1,6 @@
-# Firecrawl Methodology Guide
+> **DEPRECATED**: This document has been consolidated. See [app/README.md](./app/README.md) for current documentation.
+
+# Firecrawl Methodology Guide (DEPRECATED)
 
 This guide explains how to use the Firecrawl infrastructure to collect and organize municipal documents from the Audierne website.
 

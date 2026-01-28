@@ -1,5 +1,9 @@
+> **DEPRECATED**: This document is outdated. See [app/README.md](./app/README.md) for current architecture.
+>
+> Opik uses **dual tracing**: both in this app (`app/agents/tracing/opik.py`) AND in **Vaettir** (N8N workflows).
+
 ````markdown
-# Ocapistaine Project
+# Ocapistaine Project (DEPRECATED)
 
 A Python-based crawling and AI agent system (built with FastAPI and related tools) for gathering, processing, and responding to civic contributions. This README focuses on integrating **Opik** (from Comet ML) for LLM tracing, evaluation, and observability.
 
