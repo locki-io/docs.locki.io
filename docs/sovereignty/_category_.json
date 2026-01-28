@@ -1,0 +1,8 @@
+{
+  "label": "Data Sovereignty",
+  "position": 7,
+  "link": {
+    "type": "generated-index",
+    "description": "Architecture decisions and guidelines for data sovereignty, RGPD compliance, and secure document storage for the OCapistaine RAG system."
+  }
+}
