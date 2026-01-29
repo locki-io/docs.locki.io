@@ -48,8 +48,19 @@ All mockup contributions follow the Audierne2026 Framaforms submission format:
 | `category`            | One of 7 categories: economie, logement, culture, ecologie, associations, jeunesse, alimentation-bien-etre-soins |
 | `constat_factuel`     | Factual observation about the current situation                                                                  |
 | `idees_ameliorations` | Proposed improvements or solutions                                                                               |
-| `source`              | Origin: `framaforms` (real), `mock` (synthetic), `derived` (mutated), `input` (manual)                           |
+| `source`              | Origin: `framaforms` (real), `mock` (synthetic), `derived` (mutated), `input` (Auto-Contribution tab)            |
 | `expected_valid`      | Ground truth for testing (null if unknown)                                                                       |
+
+### Source Types
+
+| Source | Origin | Forseti Validated | Use Case |
+|--------|--------|-------------------|----------|
+| `framaforms` | Real citizen submissions | On demand | Ground truth baseline |
+| `mock` | Manually created test data | On demand | Known violation patterns |
+| `derived` | LLM-mutated from base | On demand | Variation testing |
+| `input` | Questions tab (user-created) | **Pre-save** | Real user contributions |
+
+The `input` source is unique: contributions are **validated by Forseti 461 before saving**, ensuring all user-created contributions have validation metadata attached.
 
 ## Mutation Strategies
 
@@ -211,6 +222,21 @@ Format:
 
 ## Storage Architecture
 
+### Storage Priority
+
+The system uses a **Redis-first** approach with JSON fallback:
+
+```
+Load Order:
+1. Redis storage (get_latest_validations) ← Primary
+2. JSON file (contributions.json)         ← Fallback if Redis empty
+```
+
+This ensures:
+- User contributions from Questions tab are immediately visible
+- Field Input generated contributions are persisted
+- Local development works without Redis (JSON fallback)
+
 ### Redis Keys
 
 Validation results are stored in Redis for historical analysis:
@@ -223,6 +249,7 @@ Example:
 
 ```
 contribution_mockup:forseti461:charter:2026-01-26:framaforms-eco-001
+contribution_mockup:forseti461:charter:2026-01-29:input_abc123def456  ← From Questions tab
 ```
 
 ### Data Structure
@@ -359,11 +386,72 @@ For charter validation, we track:
 
 Access via the **Mockup** tab (`?tab=mockup`):
 
-1. **Load Existing** - Load contributions from JSON file
+1. **Load Existing** - Load contributions from Redis (fallback: JSON file)
 2. **Generate Variations** - Create Levenshtein mutations
 3. **Single Contribution** - Test one contribution manually
-4. **Field Input** - Generate from reports/docs (NEW)
+4. **Field Input** - Generate from reports/docs
 5. **Storage & Opik** - View statistics, export datasets
+
+### Auto-Contribution Tab - Contribution Assistant
+
+The **Auto-Contribution** tab (`?tab=autocontrib`) provides a user-friendly 5-step workflow for citizens to create charter-compliant contributions:
+
+```
+📚 Source Selection → 🏷️ Category → ✨ AI Draft → ✏️ Edit → 🔍 Validate & Save
+       ↓                   ↓             ↓           ↓              ↓
+  (Audierne docs     (7 categories)  (LLM generates  (User edits  (Forseti 461
+   or paste text)                     draft)          fields)      validates)
+                                                                       ↓
+                                                              Store in Redis
+                                                              with validation results
+```
+
+**5-Step Workflow:**
+
+| Step | Name | Description |
+|------|------|-------------|
+| 1 | **Source** | Select inspiration from Audierne2026 docs or paste custom text |
+| 2 | **Category** | Choose one of 7 categories (economie, logement, culture, etc.) |
+| 3 | **Inspiration** | AI generates draft `constat_factuel` + `idees_ameliorations` |
+| 4 | **Edit** | User modifies both fields in editable text areas |
+| 5 | **Save** | Forseti 461 validates, then saves to Redis with results |
+
+**Key Features:**
+
+- **Bilingual Support** - UI and AI drafts in French or English
+- **AI-Assisted Drafting** - LLM generates contextual draft based on source document
+- **Pre-Save Validation** - Forseti 461 validates before storing
+- **Full Traceability** - Validation results (is_valid, violations, confidence) stored with contribution
+
+**Storage Format:**
+
+Contributions from the Questions tab are stored with `source: "input"` to distinguish them from mockup-generated data:
+
+```json
+{
+  "id": "input_abc123def456",
+  "source": "input",
+  "category": "economie",
+  "constat_factuel": "Le parking du port est souvent saturé...",
+  "idees_ameliorations": "Créer un parking relais à l'entrée...",
+  "is_valid": true,
+  "violations": [],
+  "encouraged_aspects": ["Proposition concrète", "Ancrage local"],
+  "confidence": 0.92,
+  "reasoning": "Contribution constructive et locale...",
+  "provider": "gemini",
+  "model": "gemini-2.5-flash"
+}
+```
+
+**Integration with Mockup Tab:**
+
+Contributions created via the Auto-Contribution tab appear in the Mockup tab's "Load Existing" view:
+
+1. Mockup tab first loads from **Redis** storage
+2. Falls back to **JSON file** if Redis is empty
+3. Filter by `source: "input"` to see user-created contributions
+4. Run batch validation or export to Opik datasets
 
 ### Field Input Workflow
 
@@ -481,8 +569,20 @@ app/mockup/
 ├── dataset.py            # Opik dataset management
 ├── batch_view.py         # Streamlit UI (5 modes)
 └── data/
-    ├── contributions.json    # Generated test contributions
+    ├── contributions.json    # Generated test contributions (fallback)
     └── category_themes.json  # Category themes for field input
+
+app/auto_contribution/
+├── __init__.py               # Module exports
+└── views.py                  # 5-step Streamlit workflow UI
+
+app/processors/workflows/
+├── __init__.py                       # Workflow exports
+└── workflow_autocontribution.py      # Business logic (ContributionAssistant, 5 steps)
+
+app/translations/
+├── fr.json                   # French translations (autocontrib_* keys)
+└── en.json                   # English translations (autocontrib_* keys)
 ```
 
 <!--
