@@ -36,6 +36,7 @@ app/auto_contribution/__init__.py                      ← Module exports
 - **Forseti 461**: Pre-save validation with full result storage
 - **Redis Storage**: `source="input"` distinguishes from mockup data
 - **Bilingual**: FR/EN translations with `autocontrib_*` keys
+- **Prompt Registry**: Uses `app/prompts/` for centralized prompt management (see [PROMPT_MANAGEMENT.md](./PROMPT_MANAGEMENT.md))
 
 ## TODO: Complete Refactoring
 

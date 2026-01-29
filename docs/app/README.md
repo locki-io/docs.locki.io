@@ -476,6 +476,9 @@ See [COLLABORATION_ADDENDUM.md](../../../COLLABORATION_ADDENDUM.md) for hackatho
 
 | Document | Description |
 |----------|-------------|
+| [FORSETI_AGENT.md](./FORSETI_AGENT.md) | Forseti agent features and adding new features |
+| [PROMPT_MANAGEMENT.md](./PROMPT_MANAGEMENT.md) | Prompt registry and Opik integration |
+| [AUTO_CONTRIBUTIONS.md](./AUTO_CONTRIBUTIONS.md) | Auto-contribution workflow |
 | [MOCKUP.md](./MOCKUP.md) | Mockup testing system details |
 | [LOGGING.md](./LOGGING.md) | Logging system guide |
 | [I18N.md](./I18N.md) | Internationalization guide |
