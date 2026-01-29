@@ -40,7 +40,7 @@ Validates contributions against the charter rules.
 |----------|-------|
 | Class | `CharterValidationFeature` |
 | Prompt | `forseti.charter_validation` |
-| Opik Name | `forseti461-user-charter-28012026` |
+| Opik Name | `forseti461-user-charter-validation` |
 | Variables | `title`, `body` |
 | Output | `ValidationResult` |
 
@@ -64,7 +64,7 @@ Assigns contributions to one of 7 predefined categories.
 |----------|-------|
 | Class | `CategoryClassificationFeature` |
 | Prompt | `forseti.category_classification` |
-| Opik Name | `forseti461-user-category-29012026` |
+| Opik Name | `forseti461-user-category-classification` |
 | Variables | `title`, `body`, `current_category_line` |
 | Output | `ClassificationResult` |
 
@@ -85,7 +85,7 @@ Suggests improvements for clarity and constructiveness.
 |----------|-------|
 | Class | `WordingCorrectionFeature` |
 | Prompt | `forseti.wording_correction` |
-| Opik Name | `forseti461-user-wording-29012026` |
+| Opik Name | `forseti461-user-wording-correction` |
 | Variables | `title`, `body` |
 | Output | `WordingResult` |
 

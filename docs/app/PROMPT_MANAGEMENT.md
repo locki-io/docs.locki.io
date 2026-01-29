@@ -67,10 +67,10 @@ All Forseti feature prompts are now in JSON chat format for Opik compatibility:
 
 | Local Name | Opik Name | Commit | Type | Variables |
 |------------|-----------|--------|------|-----------|
-| `forseti.persona` | `forseti461-system-charter-28012026` | `a5195f45` | system | None |
-| `forseti.charter_validation` | `forseti461-user-charter-28012026` | `ae49fab0` | user | `{{input.title}}`, `{{input.body}}` |
-| `forseti.category_classification` | `forseti461-user-category-29012026` | `c985ae41` | user | `{{input.title}}`, `{{input.body}}`, `{{input.current_category}}` |
-| `forseti.wording_correction` | `forseti461-user-wording-29012026` | `79ae02f7` | user | `{{input.title}}`, `{{input.body}}` |
+| `forseti.persona` | `forseti461-system-persona` | `f73d1f4a` | system | None |
+| `forseti.charter_validation` | `forseti461-user-charter-validation` | `4b187053` | user | `{{input.title}}`, `{{input.body}}` |
+| `forseti.category_classification` | `forseti461-user-category-classification` | `efd48155` | user | `{{input.title}}`, `{{input.body}}`, `{{input.current_category}}` |
+| `forseti.wording_correction` | `forseti461-user-wording-correction` | `f2bbedd1` | user | `{{input.title}}`, `{{input.body}}` |
 
 ### Forseti Batch Validation (Experiments)
 
