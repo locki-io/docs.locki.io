@@ -5,7 +5,7 @@
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Forseti 461 Agent | Ò Capistaine Docs</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://docs.locki.io/img/ocapistaine-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://docs.locki.io/img/ocapistaine-social-card.jpg"><meta data-rh="true" property="og:url" content="https://docs.locki.io/docs/app/FORSETI_AGENT"><meta data-rh="true" property="og:locale" content="en_US"><meta data-rh="true" property="og:locale:alternate" content="fr_FR"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Forseti 461 Agent | Ò Capistaine Docs"><meta data-rh="true" name="description" content="Overview"><meta data-rh="true" property="og:description" content="Overview"><link data-rh="true" rel="icon" href="/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://docs.locki.io/docs/app/FORSETI_AGENT"><link data-rh="true" rel="alternate" href="https://docs.locki.io/docs/app/FORSETI_AGENT" hreflang="en-US"><link data-rh="true" rel="alternate" href="https://docs.locki.io/fr/docs/app/FORSETI_AGENT" hreflang="fr-FR"><link data-rh="true" rel="alternate" href="https://docs.locki.io/docs/app/FORSETI_AGENT" hreflang="x-default"><link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" title="Ò Capistaine Docs RSS Feed">
 <link rel="alternate" type="application/atom+xml" href="/blog/atom.xml" title="Ò Capistaine Docs Atom Feed"><link rel="stylesheet" href="/assets/css/styles.cc893cbc.css">
-<script src="/assets/js/runtime~main.b3063f44.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.0c3e566b.js" defer="defer"></script>
 <script src="/assets/js/main.696688d9.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -20,7 +20,7 @@
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="features">Features<a href="#features" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features" translate="no">​</a></h2>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="feature-1-charter-validation">Feature 1: Charter Validation<a href="#feature-1-charter-validation" class="hash-link" aria-label="Direct link to Feature 1: Charter Validation" title="Direct link to Feature 1: Charter Validation" translate="no">​</a></h3>
 <p>Validates contributions against the charter rules.</p>
-<table><thead><tr><th>Property</th><th>Value</th></tr></thead><tbody><tr><td>Class</td><td><code>CharterValidationFeature</code></td></tr><tr><td>Prompt</td><td><code>forseti.charter_validation</code></td></tr><tr><td>Opik Name</td><td><code>forseti461-user-charter-28012026</code></td></tr><tr><td>Variables</td><td><code>title</code>, <code>body</code></td></tr><tr><td>Output</td><td><code>ValidationResult</code></td></tr></tbody></table>
+<table><thead><tr><th>Property</th><th>Value</th></tr></thead><tbody><tr><td>Class</td><td><code>CharterValidationFeature</code></td></tr><tr><td>Prompt</td><td><code>forseti.charter_validation</code></td></tr><tr><td>Opik Name</td><td><code>forseti461-user-charter-validation</code></td></tr><tr><td>Variables</td><td><code>title</code>, <code>body</code></td></tr><tr><td>Output</td><td><code>ValidationResult</code></td></tr></tbody></table>
 <p><strong>Checks for violations:</strong></p>
 <ul>
 <li class="">Personal attacks or discrimination</li>
@@ -37,7 +37,7 @@
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="feature-2-category-classification">Feature 2: Category Classification<a href="#feature-2-category-classification" class="hash-link" aria-label="Direct link to Feature 2: Category Classification" title="Direct link to Feature 2: Category Classification" translate="no">​</a></h3>
 <p>Assigns contributions to one of 7 predefined categories.</p>
-<table><thead><tr><th>Property</th><th>Value</th></tr></thead><tbody><tr><td>Class</td><td><code>CategoryClassificationFeature</code></td></tr><tr><td>Prompt</td><td><code>forseti.category_classification</code></td></tr><tr><td>Opik Name</td><td><code>forseti461-user-category-29012026</code></td></tr><tr><td>Variables</td><td><code>title</code>, <code>body</code>, <code>current_category_line</code></td></tr><tr><td>Output</td><td><code>ClassificationResult</code></td></tr></tbody></table>
+<table><thead><tr><th>Property</th><th>Value</th></tr></thead><tbody><tr><td>Class</td><td><code>CategoryClassificationFeature</code></td></tr><tr><td>Prompt</td><td><code>forseti.category_classification</code></td></tr><tr><td>Opik Name</td><td><code>forseti461-user-category-classification</code></td></tr><tr><td>Variables</td><td><code>title</code>, <code>body</code>, <code>current_category_line</code></td></tr><tr><td>Output</td><td><code>ClassificationResult</code></td></tr></tbody></table>
 <p><strong>Categories:</strong></p>
 <ul>
 <li class=""><code>economie</code> - Commerce, tourism, port, fishing</li>
@@ -50,7 +50,7 @@
 </ul>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="feature-3-wording-correction">Feature 3: Wording Correction<a href="#feature-3-wording-correction" class="hash-link" aria-label="Direct link to Feature 3: Wording Correction" title="Direct link to Feature 3: Wording Correction" translate="no">​</a></h3>
 <p>Suggests improvements for clarity and constructiveness.</p>
-<table><thead><tr><th>Property</th><th>Value</th></tr></thead><tbody><tr><td>Class</td><td><code>WordingCorrectionFeature</code></td></tr><tr><td>Prompt</td><td><code>forseti.wording_correction</code></td></tr><tr><td>Opik Name</td><td><code>forseti461-user-wording-29012026</code></td></tr><tr><td>Variables</td><td><code>title</code>, <code>body</code></td></tr><tr><td>Output</td><td><code>WordingResult</code></td></tr></tbody></table>
+<table><thead><tr><th>Property</th><th>Value</th></tr></thead><tbody><tr><td>Class</td><td><code>WordingCorrectionFeature</code></td></tr><tr><td>Prompt</td><td><code>forseti.wording_correction</code></td></tr><tr><td>Opik Name</td><td><code>forseti461-user-wording-correction</code></td></tr><tr><td>Variables</td><td><code>title</code>, <code>body</code></td></tr><tr><td>Output</td><td><code>WordingResult</code></td></tr></tbody></table>
 <p><strong>Improvements include:</strong></p>
 <ul>
 <li class="">Clarity and readability</li>
