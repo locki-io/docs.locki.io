@@ -55,6 +55,25 @@ curl -X POST "https://vaettir.locki.io/webhook/participons/discussion" \
   -d '{"number": 5}'
 ```
 
+### 4. [Forseti Charter Validation](./Forseti-Charter-Validation.md)
+**Status:** ✅ Active
+**MCP Tool:** `participons_validate_issue`
+
+Validate a GitHub issue against the contribution charter using Forseti 461. Optionally adds the `conforme charte` label if the issue is valid.
+
+**Features:**
+- Charter compliance validation via OCapistaine
+- Automatic category extraction
+- Conditional label application
+- Confidence scoring
+
+**Quick Test:**
+```bash
+curl -X POST "https://vaettir.locki.io/webhook/forseti/charter-valid" \
+  -H "Content-Type: application/json" \
+  -d '{"number": 42}'
+```
+
 ## Using with Claude Code (MCP)
 
 Once the workflows are configured in N8N and exposed via MCP, you can use them directly from Claude Code:
