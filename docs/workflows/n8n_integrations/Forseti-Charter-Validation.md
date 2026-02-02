@@ -7,23 +7,41 @@
 
 ## Purpose
 
-Validate a GitHub issue from the `audierne2026/participons` repository against the contribution charter using Forseti 461. Optionally adds the `conforme charte` label if the issue is valid.
+Add the `conforme charte` label to a GitHub issue after the OCapistaine app has validated it against the contribution charter. This is a post-validation webhook - the LLM validation happens in the app, not in N8N.
 
-## Workflow Structure
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        OCapistaine App (front.py)                       │
+│                                                                         │
+│  User clicks "Validate" → ForsetiAgent validates → Result displayed    │
+│                                    │                                    │
+│                                    ▼                                    │
+│                          if is_valid: POST to N8N                       │
+└─────────────────────────────────────────────────────────────────────────┘
+                                     │
+                                     ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                          N8N Workflow (this doc)                        │
+│                                                                         │
+│  Webhook → Check existing labels → IF valid → Add Label → Respond      │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+## Workflow Structure (Simplified)
 
 ```
 ┌──────────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│ Webhook      │───►│ Get Issue    │───►│ Validate     │───►│ Python       │
-│ Trigger      │    │ GitHub API   │    │ OCapistaine  │    │ Transform    │
+│ Webhook      │───►│ Get Issue    │───►│ IF           │───►│ Add Label    │
+│ Trigger      │    │ (check labels)│   │ (should add) │    │ (conditional)│
 └──────────────┘    └──────────────┘    └──────────────┘    └──────────────┘
-                                                                    │
-                    ┌──────────────┐    ┌──────────────┐            │
-                    │ Respond to   │◄───│ Add Label    │◄───────────┤
-                    │ Webhook      │    │ (if valid)   │            │
-                    └──────────────┘    └──────────────┘            │
-                           ▲                                        │
-                           └────────────────────────────────────────┘
-                                    (if not adding label)
+                                               │                    │
+                                               │                    ▼
+                                               │            ┌──────────────┐
+                                               └───────────►│ Respond to   │
+                                                            │ Webhook      │
+                                                            └──────────────┘
 ```
 
 ## Nodes Configuration
@@ -34,11 +52,11 @@ Validate a GitHub issue from the `audierne2026/participons` repository against t
 - **Path:** `forseti/charter-valid`
 - **Response Mode:** Response Node
 
-### 2. HTTP Request - Get Issue from GitHub
+### 2. HTTP Request - Get Issue (Check Existing Labels)
 
 ```
 Method: GET
-URL: https://api.github.com/repos/audierne2026/participons/issues/{{ $json.body.number }}
+URL: https://api.github.com/repos/audierne2026/participons/issues/{{ $json.body.issueNumber }}
 
 Headers:
   Authorization: Bearer {{ $credentials.githubApi.accessToken }}
@@ -46,107 +64,25 @@ Headers:
   User-Agent: N8N-Forseti461
 ```
 
-### 3. HTTP Request - Validate with OCapistaine
+### 3. IF Node - Should Add Label
+
+Check if:
+- `is_valid` is true (from webhook body)
+- Issue doesn't already have `conforme charte` label
+
+**Condition (JavaScript):**
+```javascript
+const isValid = $('Webhook').item.json.body.is_valid === true;
+const labels = $input.item.json.labels || [];
+const hasLabel = labels.some(l => l.name?.toLowerCase() === 'conforme charte');
+return isValid && !hasLabel;
+```
+
+### 4. HTTP Request - Add Label (True Branch)
 
 ```
 Method: POST
-URL: http://localhost:8050/validate
-Timeout: 30000ms  # LLM calls are slow
-
-Headers:
-  Content-Type: application/json
-
-Body:
-{
-  "title": "{{ $node['Get Issue from GitHub'].json.title }}",
-  "body": "{{ $node['Get Issue from GitHub'].json.body }}",
-  "category": null
-}
-```
-
-**Note:** For Docker deployments, replace `localhost:8050` with the Docker service URL (e.g., `http://ocapistaine:8050`).
-
-### 4. Python Transform
-
-```python
-import re
-
-def extract_existing_category(issue):
-    """Extract category from issue title, body, or labels."""
-    title = issue.get('title', '')
-    body = issue.get('body', '') or ''
-    labels = issue.get('labels', [])
-
-    # Check title for [category]
-    title_match = re.search(r'\[([^\]]+)\]', title)
-    if title_match:
-        return title_match.group(1).lower()
-
-    # Check body for Category: xxx
-    body_match = re.search(r'Category:\s*(\w+)', body, re.IGNORECASE)
-    if body_match:
-        return body_match.group(1).lower()
-
-    # Check labels
-    category_labels = ['economie', 'logement', 'culture', 'ecologie',
-                       'associations', 'jeunesse', 'alimentation-bien-etre-soins']
-    for label in labels:
-        label_name = label.get('name', '') if isinstance(label, dict) else str(label)
-        if label_name.lower() in category_labels:
-            return label_name.lower()
-    return None
-
-# Main transform
-webhook_body = _input.first().json.get('body', {})
-github_issue = _node['Get Issue from GitHub'].first().json
-validation = _node['Validate with Forseti'].first().json
-
-issue_number = webhook_body.get('number') or github_issue.get('number')
-auto_label = webhook_body.get('auto_label', True)
-
-labels = github_issue.get('labels', [])
-label_names = [l.get('name', '') if isinstance(l, dict) else str(l) for l in labels]
-has_conforme_charte = 'conforme charte' in [l.lower() for l in label_names]
-
-is_valid = validation.get('is_valid', False)
-should_add_label = auto_label and is_valid and not has_conforme_charte
-
-return [{'json': {
-    'success': True,
-    'issue_number': issue_number,
-    'issue_url': github_issue.get('html_url'),
-    'issue_title': github_issue.get('title'),
-    'validation': {
-        'is_valid': is_valid,
-        'category': validation.get('category'),
-        'original_category': extract_existing_category(github_issue),
-        'violations': validation.get('violations', []),
-        'encouraged_aspects': validation.get('encouraged_aspects', []),
-        'reasoning': validation.get('reasoning', ''),
-        'confidence': validation.get('confidence', 0.5)
-    },
-    'actions': {
-        'auto_label': auto_label,
-        'should_add_label': should_add_label,
-        'had_conforme_charte': has_conforme_charte
-    },
-    'should_add_label': should_add_label
-}}]
-```
-
-### 5. IF Node - Check Label Condition
-
-**Condition:** `{{ $json.should_add_label }} === true`
-
-Routes to:
-- **True branch:** Add Label node
-- **False branch:** Respond to Webhook (skip labeling)
-
-### 6. HTTP Request - Add Label (Conditional)
-
-```
-Method: POST
-URL: https://api.github.com/repos/audierne2026/participons/issues/{{ $json.issue_number }}/labels
+URL: https://api.github.com/repos/audierne2026/participons/issues/{{ $('Webhook').item.json.body.issueNumber }}/labels
 
 Headers:
   Authorization: Bearer {{ $credentials.githubApi.accessToken }}
@@ -158,182 +94,150 @@ Body:
 ["conforme charte"]
 ```
 
-### 7. Respond to Webhook
+### 5. Respond to Webhook
 
-- **Respond With:** JSON
-- **Response Body:** `{{ $json }}`
-
-## Input Parameters
+Both branches (label added / not added) should respond with:
 
 ```json
 {
-  "number": 42,           // Required: GitHub issue number
-  "auto_label": true      // Optional: add "conforme charte" label if valid (default: true)
+  "success": true,
+  "issueNumber": "{{ $('Webhook').item.json.body.issueNumber }}",
+  "label_added": true/false,
+  "reason": "Label added" / "Already has label" / "Not valid"
+}
+```
+
+## Input Parameters (from App)
+
+The OCapistaine app sends this after ForsetiAgent validates:
+
+```json
+{
+  "issueNumber": 64,
+  "is_valid": true,
+  "category": "logement",
+  "confidence": 0.92
 }
 ```
 
 ## Output Format
 
-```json
-{
-  "success": true,
-  "issue_number": 42,
-  "issue_url": "https://github.com/audierne2026/participons/issues/42",
-  "issue_title": "[economie] Proposition pour le port",
-  "validation": {
-    "is_valid": true,
-    "category": "economie",
-    "original_category": "economie",
-    "violations": [],
-    "encouraged_aspects": ["Concrete proposal", "Budget consideration"],
-    "reasoning": "The contribution proposes specific improvements...",
-    "confidence": 0.92
-  },
-  "actions": {
-    "auto_label": true,
-    "should_add_label": true,
-    "had_conforme_charte": false
-  }
-}
-```
-
-### Validation Failure Example
+### Label Change Effective
 
 ```json
 {
   "success": true,
-  "issue_number": 43,
-  "issue_url": "https://github.com/audierne2026/participons/issues/43",
-  "issue_title": "Bad proposal",
-  "validation": {
-    "is_valid": false,
-    "category": null,
-    "original_category": null,
-    "violations": ["Personal attack detected", "No constructive proposal"],
-    "encouraged_aspects": [],
-    "reasoning": "The contribution contains personal criticism without...",
-    "confidence": 0.85
-  },
-  "actions": {
-    "auto_label": true,
-    "should_add_label": false,
-    "had_conforme_charte": false
-  }
+  "issueNumber": 64,
+  "isValid": true,
+  "new_category": "logement",
+  "category_labels": ["conforme charte"],
+  "new_title": "[logement] contribution...",
+  "should_replace_label": true,
+  "reason": "Label added"
 }
 ```
 
-## Webhook URLs
+### No Change (not assigned to Forseti)
 
-### Test Mode (workflow must be in test mode)
-
+```json
+{
+  "success": false,
+  "issueNumber": 64,
+  "isValid": true,
+  "new_category": "logement",
+  "category_labels": [],
+  "new_title": "",
+  "should_replace_label": false,
+  "reason": "task not assigned to forseti461"
+}
 ```
-POST https://vaettir.locki.io/webhook-test/forseti/charter-valid
-Content-Type: application/json
 
-{"number": 42}
+### No Change (already has label)
+
+```json
+{
+  "success": false,
+  "issueNumber": 64,
+  "isValid": true,
+  "new_category": "logement",
+  "category_labels": ["conforme charte"],
+  "new_title": "",
+  "should_replace_label": false,
+  "reason": "Already has conforme charte label"
+}
 ```
 
-### Production Mode (workflow must be active)
+**Note:** `success: true` means a change was made to the issue (label added/updated). `success: false` means no change was made (already compliant or not assigned).
 
-```
-POST https://vaettir.locki.io/webhook/forseti/charter-valid
-Content-Type: application/json
+## App Integration
 
-{"number": 42}
+The webhook is called from `app/front.py` in `_validate_with_forseti()`:
+
+```python
+# After ForsetiAgent validates successfully
+if result.is_valid and issue_id:
+    requests.post(
+        N8N_CHARTER_VALID_WEBHOOK,
+        json={
+            "issueNumber": issue_id,
+            "is_valid": result.is_valid,
+            "category": result.category,
+            "confidence": result.confidence,
+        },
+        timeout=10,
+    )
 ```
 
 ## Testing
 
-### Basic Validation
+### Test from curl (simulating app call)
 
 ```bash
-# Validate issue #1
-curl -X POST "https://vaettir.locki.io/webhook-test/forseti/charter-valid" \
+curl -X POST "https://vaettir.locki.io/webhook/forseti/charter-valid" \
   -H "Content-Type: application/json" \
-  -d '{"number": 1}'
+  -d '{"issueNumber": 64, "is_valid": true, "category": "logement", "confidence": 0.92}'
 ```
 
-### Validation Without Auto-Label
+### Test with invalid (should not add label)
 
 ```bash
-# Validate without adding label
-curl -X POST "https://vaettir.locki.io/webhook-test/forseti/charter-valid" \
+curl -X POST "https://vaettir.locki.io/webhook/forseti/charter-valid" \
   -H "Content-Type: application/json" \
-  -d '{"number": 1, "auto_label": false}'
-```
-
-### Test OCapistaine Directly
-
-```bash
-# Test the validation endpoint directly
-curl -X POST "http://localhost:8050/validate" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "[economie] Proposition pour le port",
-    "body": "Je propose d améliorer les infrastructures portuaires..."
-  }'
-```
-
-## MCP Usage
-
-Once configured with `availableInMCP: true`, use from Claude Code:
-
-```
-Use participons_validate_issue with number=42
-```
-
-Or:
-
-```
-Validate issue #42 against the charter
+  -d '{"issueNumber": 64, "is_valid": false}'
 ```
 
 ## Learnings & Issues
 
-### 1. Timeout Configuration
+### 1. Separation of Concerns
 
-**Issue:** OCapistaine validation calls involve LLM processing which can be slow.
+**Issue:** Originally tried to do LLM validation in N8N, but it duplicated work already done in the app.
 
-**Solution:** Set HTTP Request timeout to 30000ms (30 seconds) for the validation call.
+**Solution:** KISS - N8N only handles the GitHub label action. Validation stays in the app where ForsetiAgent runs with proper Opik tracing.
 
 ### 2. Label Idempotency
 
-**Issue:** Adding a label that already exists causes no error, but we should avoid unnecessary API calls.
+**Issue:** Adding a label that already exists causes no error, but we should track it.
 
-**Solution:** Check existing labels in the Python transform and set `should_add_label: false` if `conforme charte` already exists.
+**Solution:** Check existing labels before adding and report whether label was actually added.
 
 ### 3. Opik Tracing
 
-**Issue:** Violations should be logged for analysis but not necessarily stored on GitHub.
-
-**Solution:** OCapistaine logs all validations to Opik for tracing and evaluation. GitHub only receives the `conforme charte` label for valid issues.
-
-### 4. Category Preservation
-
-**Issue:** The original issue may already have a category that should be preserved.
-
-**Solution:** The transform extracts `original_category` from the issue and includes both original and validated categories in the response.
+All LLM validation traces stay in the app where Opik is configured. N8N only logs the label action.
 
 ## N8N Setup Checklist
 
-- [ ] Create workflow in N8N with nodes as documented
-- [ ] Configure GitHub credential (`audierne2026-github`) with scopes: `repo`, `issues:write`
-- [ ] Set OCapistaine URL (localhost:8050 or Docker service URL)
-- [ ] Set 30s timeout on validation HTTP request
-- [ ] Test with webhook-test endpoint
-- [ ] Enable MCP access: Settings > Workflow > `availableInMCP: true`
-- [ ] Set MCP tool name: `participons_validate_issue`
+- [x] Configure GitHub credential (`audierne2026-github`) with scopes: `repo`, `issues:write`
+- [x] Enable MCP access: Settings > Workflow > `availableInMCP: true`
 - [ ] Activate workflow for production
 
 ## Dependencies
 
-- **OCapistaine API** running at `localhost:8050` (or Docker URL)
+- **OCapistaine App** must be running and calling this webhook after validation
 - **GitHub credential** with `repo`, `issues:write` scopes
-- **Opik** configured for tracing (optional but recommended)
 
 ## Related
 
-- [N8N GitHub Integration Design](../n8n-github-integration.md) - MCP tool spec at lines 732-743
+- [N8N GitHub Integration Design](../n8n-github-integration.md)
 - [Forseti 461 Agent](../../agents/forseti/README.md) - Charter validation agent
 - [Contribution Charter](../contribution-charter.md) - Governance rules
 - [List Issues Workflow](./Participons-List-Issues.md) - Related workflow

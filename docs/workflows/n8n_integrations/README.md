@@ -59,19 +59,19 @@ curl -X POST "https://vaettir.locki.io/webhook/participons/discussion" \
 **Status:** ✅ Active
 **MCP Tool:** `participons_validate_issue`
 
-Validate a GitHub issue against the contribution charter using Forseti 461. Optionally adds the `conforme charte` label if the issue is valid.
+Add `conforme charte` label to a GitHub issue after validation by the OCapistaine app. This is a post-validation webhook - the LLM validation happens in the app, N8N only handles the label action.
 
 **Features:**
-- Charter compliance validation via OCapistaine
-- Automatic category extraction
-- Conditional label application
-- Confidence scoring
+- Receives validation result from app
+- Checks existing labels (idempotent)
+- Adds `conforme charte` label if valid
+- Reports label change status
 
 **Quick Test:**
 ```bash
 curl -X POST "https://vaettir.locki.io/webhook/forseti/charter-valid" \
   -H "Content-Type: application/json" \
-  -d '{"number": 42}'
+  -d '{"issueNumber": 64, "is_valid": true, "category": "logement", "confidence": 0.92}'
 ```
 
 ## Using with Claude Code (MCP)
