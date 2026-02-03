@@ -1,7 +1,7 @@
-# Scheduler Task Flow Diagram
+# OCapistaine Scheduler Task Flow Diagram
 
-**Last Updated**: October 23, 2025
-**Status**: ✅ All tasks active and using workflow patterns
+**Last Updated**: February 2026
+**Status**: Initial implementation - Core tasks active
 
 ---
 
@@ -10,287 +10,272 @@
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │ SCHEDULER ORCHESTRATION                                         │
-│ Runs every 7 minutes (5 AM - 9 PM)                              │
+│ Runs every 7 minutes (6 AM - 11 PM)                             │
 └─────────────────────────────────────────────────────────────────┘
                             │
                             ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│ 1. task_clear_log                                               │
-│    Clear logs and success keys                                  │
+│ 1. task_contributions_analysis                                  │
+│    Validate citizen contributions from GitHub/Vaettir           │
+│    - Fetch from audierne2026/participons                        │
+│    - Run Forseti validation                                     │
+│    - Log results to Opik                                        │
 │    Dependencies: None                                            │
 └─────────────────────────────────────────────────────────────────┘
                             │
-                            ▼
+              ┌─────────────┴─────────────┐
+              │                           │
+              ▼                           ▼
+┌──────────────────────────────┐  ┌──────────────────────────────┐
+│ (Future) task_rag_indexing   │  │ (Future) task_mockup_gen     │
+│ Index validated contributions│  │ Generate test scenarios      │
+│ into vector store            │  │ from validated contributions │
+│ Dependencies: [contributions]│  │ Dependencies: [contributions]│
+└──────────────────────────────┘  └──────────────────────────────┘
+```
+
+---
+
+## Standalone Scheduled Tasks
+
+```
 ┌─────────────────────────────────────────────────────────────────┐
-│ 2. task_today                                                   │
-│    Fetch today's meetings                                       │
-│    Dependencies: [task_clear_log]                               │
+│ task_firecrawl                                                  │
+│ Runs: Daily at 3 AM                                             │
+│ Crawl municipal documents from configured sources               │
+│ - mairie_arretes (~4010 documents)                              │
+│ - mairie_deliberations                                          │
+│ - commission_controle                                           │
+│ Dependencies: None (standalone cron job)                        │
 └─────────────────────────────────────────────────────────────────┘
-                            │
-                            ▼
+
 ┌─────────────────────────────────────────────────────────────────┐
-│ 3. task_pastraces                                               │
-│    Fetch historical race data                                   │
-│    Dependencies: [task_today]                                   │
-└─────────────────────────────────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│ 4. task_yesterday                                               │
-│    Update yesterday's results                                   │
-│    Dependencies: [task_pastraces]                               │
-└─────────────────────────────────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│ 5. task_predictions                                             │
-│    Store predictions from Redis to DB                           │
-│    Dependencies: [task_yesterday]                               │
-└─────────────────────────────────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│ 6. task_history                                                 │
-│    Save chat histories                                          │
-│    Dependencies: [task_predictions]                             │
-└─────────────────────────────────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│ 7. task_program ✅ USES WORKFLOWS                               │
-│    Fetch and process program/race contexts                      │
-│    - Equidia + Turfinfo fetchers                                │
-│    - CanonicalProgram merger                                    │
-│    - RaceContext creation                                       │
-│    Dependencies: [task_today, task_pastraces, task_predictions] │
-└─────────────────────────────────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│ 8. task_participants ✅ USES WORKFLOWS                          │
-│    Fetch and process participants                               │
-│    - Equidia + Turfinfo fetchers                                │
-│    - CanonicalParticipants merger                               │
-│    - HHI computation                                            │
-│    - Dominant horse detection                                   │
-│    Dependencies: [task_program]                                 │
-└─────────────────────────────────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│ 9. task_careers ✅ USES WORKFLOWS (Updated Oct 22, 2025)        │
-│    Process horse careers for all races                          │
-│    - CareerWorkflow.from_race_context()                         │
-│    - 5 analyzers: Race, Summary, Performance, Tracking, Catchy  │
-│    - Catchy performance detection (integrated)                  │
-│    - Cache to Redis: careers:{thread_id}                        │
-│    Dependencies: [task_participants]                            │
-└─────────────────────────────────────────────────────────────────┘
-                            │
-                            ├────────────────────────────────┐
-                            │                                │
-                            ▼                                ▼
-┌────────────────────────────────────────┐  ┌────────────────────────────────────────┐
-│ 10. plan_race_task_init                │  │ 11. task_favorability                  │
-│     ✅ USES WORKFLOWS (Oct 22, 2025)   │  │     ✅ USES WORKFLOWS (Oct 23, 2025)   │
-│                                        │  │                                        │
-│ Schedule race notifications            │  │ Process favorability data              │
-│ - all_races() workflow                 │  │ - all_races() workflow                 │
-│ - RaceContextWorkflow                  │  │ - RaceContextWorkflow                  │
-│ - Starters > 8 filtering               │  │ - Database favorability lookup         │
-│ - 15 min before race start             │  │ - Uses cached race contexts            │
-│ Dependencies: [task_careers]           │  │ Dependencies: [task_careers]           │
-└────────────────────────────────────────┘  └────────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│ 12. task_prepare_tomorrow ✅ NO CHANGES NEEDED                  │
-│     Fetch and store tomorrow's meeting data                     │
-│     - fetch_all_equidia_meetings()                              │
-│     - store_meeting_data()                                      │
-│     Dependencies: [plan_race_task_init]                         │
-└─────────────────────────────────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│ 13. task_tomorrow ✅ USES WORKFLOWS (Updated Oct 23, 2025)      │
-│     Process careers for tomorrow's races                        │
-│     - all_races() workflow                                      │
-│     - RaceContextWorkflow                                       │
-│     - CareerWorkflow.from_race_context()                        │
-│     - Catchy performance extraction                             │
-│     - Cache to Redis: careers:{thread_id}                       │
-│     Dependencies: [task_prepare_tomorrow]                       │
+│ task_opik_experiment                                            │
+│ Runs: Daily at 5 AM                                             │
+│ Run LLM evaluation experiments                                  │
+│ - Forseti validation accuracy                                   │
+│ - Category classification precision/recall                      │
+│ - Wording correction quality                                    │
+│ Dependencies: None (standalone cron job)                        │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Parallel Execution Branches
+## OCapistaine Workflow Decision Tree
 
-After **task_careers** completes, two tasks can run in parallel:
+The scheduler implements a priority-based workflow for continuous improvement:
 
 ```
-task_careers (completes)
-    │
-    ├─────────────────────────┐
-    │                         │
-    ▼                         ▼
-plan_race_task_init    task_favorability
-    │                         │
-    │                    (independent)
-    │
-    ▼
-task_prepare_tomorrow
-    │
-    ▼
-task_tomorrow
+                    ┌─────────────────────────┐
+                    │ Start Daily Workflow    │
+                    └───────────┬─────────────┘
+                                │
+                                ▼
+                    ┌─────────────────────────┐
+                    │ Check GitHub Issues     │
+                    │ (audierne2026/participons)
+                    └───────────┬─────────────┘
+                                │
+                    ┌───────────┴───────────┐
+                    │                       │
+            Has new issues?           No new issues
+                    │                       │
+                    ▼                       ▼
+        ┌───────────────────┐   ┌───────────────────┐
+        │ task_contributions │   │ Check Mockup Queue│
+        │ _analysis          │   │ (Redis)           │
+        │                    │   └─────────┬─────────┘
+        │ • Forseti validate │             │
+        │ • Categorize       │   ┌─────────┴─────────┐
+        │ • Log to Opik      │   │                   │
+        └────────┬───────────┘   Has mockups?   No mockups
+                 │                   │               │
+                 ▼                   ▼               ▼
+        ┌───────────────────┐ ┌───────────────┐ ┌───────────────┐
+        │ Update experiment │ │ task_mockup   │ │ task_firecrawl│
+        │ dataset           │ │ _experiment   │ │ (if scheduled)│
+        └───────────────────┘ │               │ └───────────────┘
+                              │ • Run Opik    │
+                              │   evaluation  │
+                              │ • Try new     │
+                              │   prompts     │
+                              └───────────────┘
 ```
 
 ---
 
-## Eliminated Tasks
+## Data Sources and Triggers
 
-### ❌ task_catchy (ELIMINATED Oct 23, 2025)
-
-**Previous Flow:**
+### Priority 1: Live Contributions (GitHub)
 
 ```
-task_careers
-    ↓
-task_catchy (fetch catchy performance separately)
-    ↓
-task_favorability
+audierne2026/participons repository
+        │
+        │ New issue created
+        ▼
+┌─────────────────────────────────────────────────────────────────┐
+│ N8N Webhook → Redis Queue → task_contributions_analysis         │
+│                                                                 │
+│ OR: Periodic polling via orchestrate_task_chain (every 7 min)   │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-**New Flow:**
+### Priority 2: Mockup Testing (Streamlit UI)
 
 ```
-task_careers (includes catchy in career_outputs)
-    ↓
-task_favorability (uses cached catchy from task_careers)
+app/front.py → Mockup Tab
+        │
+        │ User creates test contribution
+        ▼
+┌─────────────────────────────────────────────────────────────────┐
+│ Streamlit → ForsetiAgent.validate() → Log to Opik               │
+│                                                                 │
+│ If interesting case: Save to Redis → task_opik_experiment       │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-**Rationale:**
+### Priority 3: Document Crawling (Scheduled)
 
-- Catchy performance now integrated into `CareerWorkflow.process_to_outputs()`
-- Eliminates duplicate career fetching
-- Reduces task chain complexity
-- Single source of truth for career data
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ task_firecrawl (3 AM daily)                                     │
+│                                                                 │
+│ Sources:                                                        │
+│ ├── mairie_arretes (audierne.bzh/publications-arretes/)         │
+│ ├── mairie_deliberations (audierne.bzh/deliberations-...)       │
+│ └── commission_controle (audierne.bzh/documentheque/...)        │
+│                                                                 │
+│ Output: ext_data/{source}/*.md                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
-## Workflow Integration Summary
+## Task Implementation Status
 
-| Task                      | Uses Workflows? | Updated      | Status    |
-| ------------------------- | --------------- | ------------ | --------- |
-| task_clear_log            | ❌ No (utility) | N/A          | ✅ Active |
-| task_today                | ❌ No (fetcher) | N/A          | ✅ Active |
-| task_pastraces            | ❌ No (DB)      | N/A          | ✅ Active |
-| task_yesterday            | ❌ No (DB)      | N/A          | ✅ Active |
-| task_predictions          | ❌ No (DB)      | N/A          | ✅ Active |
-| task_history              | ❌ No (DB)      | N/A          | ✅ Active |
-| **task_program**          | ✅ Yes          | Phase 6A     | ✅ Active |
-| **task_participants**     | ✅ Yes          | Phase 7      | ✅ Active |
-| **task_careers**          | ✅ Yes          | Oct 22, 2025 | ✅ Active |
-| **plan_race_task_init**   | ✅ Yes          | Oct 22, 2025 | ✅ Active |
-| **task_favorability**     | ✅ Yes          | Oct 23, 2025 | ✅ Active |
-| **task_prepare_tomorrow** | ❌ No (fetcher) | N/A          | ✅ Active |
-| **task_tomorrow**         | ✅ Yes          | Oct 23, 2025 | ✅ Active |
-
----
-
-## Dependency Graph
-
-```
-                      task_clear_log
-                            │
-                       task_today ────┐
-                            │         │
-                     task_pastraces   │
-                            │         │
-                     task_yesterday   │
-                            │         │
-                    task_predictions ─┘
-                            │
-                      task_history
-                            │
-                      task_program ──────┐
-                            │            │
-                    task_participants ───┘
-                            │
-                      task_careers
-                            │
-                ┌───────────┴────────────┐
-                │                        │
-        plan_race_task_init    task_favorability
-                │
-        task_prepare_tomorrow
-                │
-           task_tomorrow
-```
+| Task                         | Uses Workflows? | Status       | Purpose                        |
+| ---------------------------- | --------------- | ------------ | ------------------------------ |
+| **task_contributions_analysis** | ✅ Yes       | ✅ Active    | Validate GitHub contributions  |
+| **task_opik_experiment**     | ✅ Yes          | ✅ Active    | Run LLM evaluations            |
+| **task_firecrawl**           | ❌ No (crawler) | ✅ Active    | Crawl municipal documents      |
+| task_rag_indexing            | ✅ Yes          | 🔴 Planned   | Index to vector store          |
+| task_mockup_experiment       | ✅ Yes          | 🔴 Planned   | Process mockup test cases      |
+| task_prompt_optimization     | ✅ Yes          | 🔴 Planned   | Run Opik optimization          |
 
 ---
 
 ## Cache Keys and Data Flow
 
-### Race Context Caching
+### Contribution Processing
 
 ```
-task_program → Creates: race_context:{date}:{reunion}{race}
-               ↓
-task_participants → Enriches: race_context (adds HHI, dominant_horses)
-                    ↓
-task_careers → Uses: race_context (RaceContextWorkflow)
-               ↓
-plan_race_task_init → Uses: race_context (RaceContextWorkflow)
-task_favorability → Uses: race_context (RaceContextWorkflow)
-task_tomorrow → Uses: race_context (RaceContextWorkflow)
+GitHub Issue
+    │
+    ▼
+task_contributions_analysis
+    │
+    ├── Redis: contribution:{issue_id}
+    │   └── { title, body, category, validation_result, timestamp }
+    │
+    ├── Redis: contributions:validated:{date}
+    │   └── List of validated issue IDs
+    │
+    └── Opik: forseti_validation trace
+        └── { input, output, latency, model, tokens }
 ```
 
-### Career Data Caching
+### Experiment Data
 
 ```
-task_careers → Creates: careers:{thread_id}
-               Contains: {
-                   "races_data": {...},
-                   "career_summaries": {...},
-                   "computed_perf": {...},
-                   "catchy_performance": [...]  ← Integrated here
-               }
-               ↓
-task_favorability → Uses: careers:{thread_id} (cached)
-                    ↓
-task_tomorrow → Creates: careers:{thread_id_tomorrow}
-                (for tomorrow's date)
+task_opik_experiment
+    │
+    ├── Redis: experiment:latest
+    │   └── { experiment_id, date, metrics, status }
+    │
+    └── Opik: experiment traces
+        └── { dataset, evaluations, scores }
+```
+
+### Crawl Status
+
+```
+task_firecrawl
+    │
+    ├── Redis: crawl:{source}
+    │   └── { last_crawl, documents, status }
+    │
+    └── Filesystem: ext_data/{source}/
+        └── *.md, *.html, *_metadata.json
 ```
 
 ---
 
 ## Execution Timeline Example
 
-**Typical Daily Run (e.g., 10:00 AM):**
+**Typical Daily Run:**
 
 ```
-10:00:00 - task_clear_log starts
-10:00:05 - task_today starts
-10:00:15 - task_pastraces starts
-10:00:30 - task_yesterday starts
-10:01:00 - task_predictions starts
-10:02:00 - task_history starts
-10:03:00 - task_program starts
-10:05:00 - task_participants starts
-10:08:00 - task_careers starts (longest task)
-10:18:00 - task_careers completes
-         ├─ plan_race_task_init starts (parallel)
-         └─ task_favorability starts (parallel)
-10:20:00 - plan_race_task_init completes
-         └─ task_prepare_tomorrow starts
-10:22:00 - task_prepare_tomorrow completes
-         └─ task_tomorrow starts
-10:35:00 - task_tomorrow completes
+03:00:00 - task_firecrawl starts (cron)
+           └── Crawl municipal documents
+03:30:00 - task_firecrawl completes (estimated)
 
-Total Duration: ~35 minutes
+05:00:00 - task_opik_experiment starts (cron)
+           └── Run daily LLM evaluations
+05:15:00 - task_opik_experiment completes (estimated)
+
+06:00:00 - orchestrate_task_chain starts (every 7 min)
+06:00:01 - task_contributions_analysis starts
+           └── Check GitHub for new issues
+           └── Validate with Forseti
+           └── Log to Opik
+06:02:00 - task_contributions_analysis completes
+06:07:00 - orchestrate_task_chain runs (skips - already completed)
+...
+23:00:00 - orchestrate_task_chain stops (outside active hours)
+```
+
+---
+
+## Continuous Improvement Loop
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    CONTINUOUS IMPROVEMENT                        │
+└─────────────────────────────────────────────────────────────────┘
+
+     ┌──────────────┐
+     │ 1. COLLECT   │ ← Live contributions from citizens
+     │    Data      │ ← Mockup tests from admin
+     └──────┬───────┘ ← Crawled documents
+            │
+            ▼
+     ┌──────────────┐
+     │ 2. VALIDATE  │ ← Forseti agent validation
+     │    & Log     │ ← Opik tracing
+     └──────┬───────┘
+            │
+            ▼
+     ┌──────────────┐
+     │ 3. ANALYZE   │ ← task_opik_experiment
+     │    Results   │ ← Accuracy metrics
+     └──────┬───────┘ ← Error patterns
+            │
+            ▼
+     ┌──────────────┐
+     │ 4. OPTIMIZE  │ ← (Future) Opik Optimizer
+     │    Prompts   │ ← A/B testing
+     └──────┬───────┘
+            │
+            ▼
+     ┌──────────────┐
+     │ 5. DEPLOY    │ ← Update prompt registry
+     │    & Monitor │ ← Monitor production
+     └──────┬───────┘
+            │
+            └────────────────────────────────────────┐
+                                                     │
+                                              (Loop back)
 ```
 
 ---
@@ -299,38 +284,39 @@ Total Duration: ~35 minutes
 
 ### Critical Success Indicators
 
-1. ✅ **task_careers** completes with >95% success rate
-2. ✅ **Catchy performance** detected in career_outputs
-3. ✅ **task_favorability** uses cached race contexts
-4. ✅ **task_tomorrow** processes all tomorrow's races
-5. ✅ **No task deadlocks** or circular dependencies
+1. ✅ **task_contributions_analysis** validates new contributions daily
+2. ✅ **task_opik_experiment** runs evaluations without errors
+3. ✅ **task_firecrawl** crawls documents as scheduled
+4. ✅ **No task deadlocks** or circular dependencies
 
 ### Key Redis Keys to Monitor
 
-```
-program:{date}                              # Program data
-race_context:{date}:{reunion}{race}         # Race contexts
-participants:{thread_id}                    # Participants data
-careers:{thread_id}                         # Career outputs (includes catchy)
-odds:{date}:{reunion}{race}:H{num}          # Time-bucketed odds
+```bash
+# Scheduler locks (db=6)
+redis-cli -n 6 KEYS "lock:*"
+redis-cli -n 6 KEYS "success:*"
+
+# Application data (db=5)
+redis-cli -n 5 KEYS "contribution:*"
+redis-cli -n 5 KEYS "crawl:*"
 ```
 
 ### Performance Metrics
 
 - **Task execution times** (each task should complete within expected time)
-- **Redis memory usage** (should remain stable, not grow unbounded)
+- **Redis memory usage** (should remain stable)
 - **Error rates** (should be <5% per task)
-- **Cache hit rates** (should be >80% for repeated data)
+- **Validation accuracy** (tracked in Opik)
 
 ---
 
 ## Related Documentation
 
-- [SCHEDULER_WORKFLOW_REFACTORING.md](../achievements/SCHEDULER_WORKFLOW_REFACTORING.md) - Complete refactoring plan
-- [PHASE_2_3_COMPLETE_SUMMARY.md](./PHASE_2_3_COMPLETE_SUMMARY.md) - Today's completion summary
-- [ARCHITECTURE.md](../ARCHITECTURE.md) - Overall system architecture
+- [README.md](./README.md) - Scheduler architecture overview
+- [USAGE_EXAMPLES.md](./USAGE_EXAMPLES.md) - How-to guide
+- [TASK_BOILERPLATE.md](./TASK_BOILERPLATE.md) - Task implementation guide
 
 ---
 
-**Last Updated**: October 23, 2025
-**Status**: ✅ All tasks active and using workflow patterns
+**Last Updated**: February 2026
+**Status**: Initial implementation - Core tasks active
