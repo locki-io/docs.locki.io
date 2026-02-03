@@ -1,0 +1,179 @@
+---
+slug: sprint-planning-mistral-rag
+title: "Sprint Planning: Mistral Document AI RAG Prototype"
+authors: [jnxmas]
+tags: [meeting, rag, ai-ml, opik]
+---
+
+Sprint planning call between Johnny (@jnxmas) and Victor (@zcbtvag) to align on the Sunday midnight deadline. Key decision: **pivot to Mistral Document AI + Batch + Agent** for a rapid RAG prototype.
+
+## Call Goals
+
+- Align on immediate priorities before Sunday midnight
+- Decide RAG approach and OCR path
+- Clarify repo/branch workflow and submodule handling
+- Assign ownership for Mistral Document AI setup
+- Coordinate API keys and cost management
+
+<!-- truncate -->
+
+## Summary
+
+### Timeline & Data Status
+
+- **Deadline:** Sunday at midnight
+- **Scraping:** Completed ~1.5-2 weeks ago; ~4,000 PDFs downloaded
+- **Text extraction:** ~1,800 text-based PDFs processed
+- **OCR needed:** ~3,000 image-based PDFs still pending
+
+### Strategic Pivot: Mistral Document AI
+
+Instead of building custom in-app RAG (deferring Nomic), we'll leverage **Mistral Document AI + Batch + Agent** to ship faster:
+
+| Feature            | Capability                                  |
+| ------------------ | ------------------------------------------- |
+| **Document AI**    | Handles PDFs and images (OCR), accepts URLs |
+| **Batch endpoint** | 50% discount, high capacity                 |
+| **Pricing**        | ~$2 per 1,000 pages                         |
+| **Limits**         | 50 MB per doc, up to 1,000 pages per doc    |
+
+**Plan:**
+
+1. Upload existing municipal documents (text + image PDFs) to Mistral Document AI
+2. Run batch processing
+3. Train 1-2 times before deadline
+4. Create Agent with API key for search queries from app
+
+### Contributions & Forseti
+
+- Forseti agent validates charter compliance
+- Performance improved from ~20% to ~90%+ via manual optimization
+- Desire to instrument with Opik for continuous improvement and traceability
+
+### Git Submodule Issues
+
+The docs submodule caused merge friction - commit pointer in main repo can lag behind when merging older branches. Solution: take 5 minutes at merge time to realign submodule pointers.
+
+---
+
+## Alignment Check
+
+| Area              | Status        | Notes                                                        |
+| ----------------- | ------------- | ------------------------------------------------------------ |
+| **Project goals** | Aligned       | Accelerates citizen Q&A chatbot via managed RAG              |
+| **Neutrality**    | Requires work | Third-party RAG demands strict guardrails + source citations |
+| **Scope fit**     | Acceptable    | Defers custom RAG infra for hackathon prototype              |
+
+### Risks
+
+| Risk                             | Mitigation                  |
+| -------------------------------- | --------------------------- |
+| Upload/process time for ~4k PDFs | Start batch ASAP            |
+| Mistral limits/costs unknown     | Verify before large uploads |
+| Submodule merge errors           | Plan explicit merge steps   |
+| Hallucination without evaluation | Add Opik tracing now        |
+| OCR quality for scans            | Test subset first           |
+
+---
+
+## Decisions
+
+1. **Use Mistral Document AI + Batch + Agent** for RAG prototype
+2. **Victor** focuses on documents and Mistral API integration
+3. **Johnny** sets up Mistral workspace, coordinates batch runs and context links
+4. Continue feature-branch workflow; handle docs submodule at merge time
+
+---
+
+## Action Plan & Tasks
+
+### 1. Mistral Setup (Priority: Critical)
+
+- **Task:** Create Mistral workspace and share API keys
+  - **Owner:** @jnxmas
+  - **Description:** Set up Mistral workspace using jnlockey3d.com, invite victoragrest@gmail.com, generate API key for batch/agent operations. Confirm billing setup and budget cap.
+  - **Deadline:** Tomorrow morning
+  - **Success Criteria:** Victor receives invite and API key; billing confirmed.
+
+- **Task:** Verify Mistral Document AI limits and pricing
+  - **Owner:** @zcbtvag
+  - **Description:** Confirm batch limits (documents per job, max requests, file size/page limits), OCR capabilities, and expected cost for ~4,000 PDFs. Document findings in repo docs.
+  - **Deadline:** ASAP (before starting large uploads)
+  - **Success Criteria:** Clear documented constraints and cost estimate.
+
+### 2. Document Processing (Priority: Critical)
+
+- **Task:** Prepare document list and upload script
+  - **Owner:** @zcbtvag
+  - **Description:** Create Python script to iterate over 4,000 PDFs, sending to Mistral Document AI batch endpoint. Start with 50-100 file pilot to validate throughput and OCR quality.
+  - **Deadline:** Pilot today; full batch tomorrow
+  - **Success Criteria:** Pilot completes with &gt;95% success; script ready for full batch.
+
+- **Task:** Batch training and Agent creation
+  - **Owner:** @jnxmas
+  - **Description:** Once documents processed, run 1-2 trainings to create Mistral Agent. Generate scoped API key. Document how to query Agent for RAG search.
+  - **Deadline:** Before Sunday midnight
+  - **Success Criteria:** Agent returns accurate results with citations; API key available to app.
+
+### 3. Observability (Priority: High)
+
+- **Task:** Integrate Opik tracing for RAG queries
+  - **Owner:** @jnxmas
+  - **Description:** Add Opik instrumentation for all RAG queries (request/response logging, sources, latency, hallucination flags). Set up evaluation dashboard.
+  - **Deadline:** Before Sunday midnight
+  - **Success Criteria:** Opik dashboard shows traces; evaluation runs without errors.
+
+### 4. Context & Workflow (Priority: Medium)
+
+- **Task:** Context links workflow
+  - **Owner:** @jnxmas
+  - **Description:** Prepare N8N micro-workflow to pull contribution-related context links (HTML/URLs) and queue for Mistral ingestion.
+  - **Deadline:** Draft by Saturday
+  - **Success Criteria:** At least 20 context links processed and added to corpus.
+
+### 5. Repo Hygiene (Priority: Medium)
+
+- **Task:** Repo merge hygiene (docs submodule)
+  - **Owner:** @zcbtvag + @jnxmas
+  - **Description:** Coordinate at merge time to realign docs submodule commit pointer to latest before merging into dev.
+  - **Deadline:** Next merge event
+  - **Success Criteria:** Clean merge with correct submodule pointer; CI passes.
+
+---
+
+## Open Questions
+
+1. Should we prioritize a minimal Q&A demo by Sunday using Mistral Agent + Opik, even with partial corpus?
+2. Do we need a separate categorization microservice this week, or rely on Agent + prompt tooling?
+3. Which topics from the 4 municipal lists must be in the first demo corpus?
+
+---
+
+## Suggestions & Risk Mitigations
+
+- **Pilot first:** Start with 200 PDFs across key categories (housing, culture, budget) to validate OCR and retrieval
+- **Strict prompting:** Require source citations; "no answer without source" policy; log refusals in Opik
+- **Budget guardrail:** Set spending cap; monitor pages processed; batch by priority
+- **Breton names:** Maintain custom glossary file in corpus; instruct Agent to prefer glossary matches
+- **Repo docs:** Create "submodule merge checklist" to avoid repeated confusion
+
+---
+
+## Status Dashboard
+
+| Component                | Status      | Notes                                  |
+| ------------------------ | ----------- | -------------------------------------- |
+| Firecrawl/Docs ingestion | In Progress | ~1,800 text PDFs done, ~3,000 need OCR |
+| Mistral setup            | Starting    | Workspace creation pending             |
+| RAG Agent integration    | Not Started | Blocked on batch completion            |
+| Opik tracing             | In Progress | Ready to add once Agent exists         |
+
+**Open High-Priority Tasks:**
+
+1. Verify Mistral limits/pricing (@zcbtvag)
+2. Create Mistral workspace and share API key (@jnxmas)
+3. Pilot upload script + batch start (@zcbtvag)
+4. Agent creation + Opik integration (@jnxmas)
+5. Submodule merge alignment (@zcbtvag + @jnxmas)
+
+**Next Milestone:** Sunday midnight - deliver working RAG Q&A demo using Mistral Agent with Opik tracing and citations.

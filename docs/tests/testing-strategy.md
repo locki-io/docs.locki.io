@@ -385,11 +385,30 @@ Key dashboards:
 - **Model Comparison** - Provider/model performance
 - **Prompt Versions** - A/B testing results
 
+## Current Coverage
+
+See [Coverage Report](./coverage-report.md) for detailed analysis.
+
+**Summary:** 21% overall coverage
+- Forseti core features: 96-100% (well tested)
+- Scheduler/Tasks: 0% (needs tests)
+- UI/Streamlit: 0% (expected - requires E2E)
+
 ## Next Steps
 
-1. [ ] Create `conftest.py` with shared fixtures
-2. [ ] Split existing tests into `unit/` and `integration/`
-3. [ ] Add `test_forseti_agent.py` unit tests
-4. [ ] Add `test_n8n_integration.py`
-5. [ ] Set up daily Opik experiment automation
-6. [ ] Add GitHub Actions workflow for CI
+### Completed
+- [x] Create `conftest.py` with shared fixtures
+- [x] Split existing tests into `unit/` and `integration/`
+- [x] Add `test_n8n_integration.py`
+- [x] Add Forseti feature tests (charter, category, batch)
+
+### In Progress
+- [ ] Add scheduler/task unit tests (Priority 1)
+- [ ] Add provider error handling tests (Priority 2)
+- [ ] Add API route tests (Priority 2)
+
+### Future
+- [ ] Set up daily Opik experiment automation
+- [ ] Add GitHub Actions workflow for CI
+- [ ] Add Playwright E2E tests for critical UI flows
+- [ ] Integrate Codecov for coverage tracking

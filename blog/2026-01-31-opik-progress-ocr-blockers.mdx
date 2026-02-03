@@ -1,0 +1,92 @@
+---
+slug: project-sync-opik-ocr
+title: "Project Sync: Opik Progress & OCR Blockers"
+authors: [jnxmas]
+tags: [meeting, opik, ai-ml, rag]
+---
+
+Quick catch-up between Johnny (@jnxmas) and Victor (@zcbtvag) covering Opik integration progress and OCR pipeline challenges.
+
+## Summary
+
+Johnny showcased recent progress on **Opik prompt optimization**. A new architecture is in place where prompts are no longer hardcoded but managed via an **Opik Prompt Library**. The "Charter Validation" prompt has already been optimized using this system.
+
+A new **mock-up feature** can automatically generate contributions (even with violations) from existing meeting reports. The goal is to create a robust dataset to test and improve the validation agent. However, this auto-generation currently produces repetitive content - a challenge that will need addressing by identifying and aggregating duplicate contributions.
+
+<!-- truncate -->
+
+Victor reported working on the **PDF processing pipeline**, specifically tackling PDFs that are images and require OCR. This has been a blocker, as several libraries have proven difficult to install. Text-based PDF extraction is working fine.
+
+Johnny clarified that the highest priority documents for OCR are the **"Gwaien" municipal magazines** - they contain rich, precise historical data on the municipality's actions over the past six years, and their OCR should be relatively straightforward compared to other documents.
+
+## Alignment & Risk Assessment
+
+| Area                      | Status      | Notes                                                                            |
+| ------------------------- | ----------- | -------------------------------------------------------------------------------- |
+| **Alignment**             | Good        | Team aligned on priorities: contribution processing + data pipeline for RAG      |
+| **Risk: OCR Blocker**     | High        | Installation/implementation issues slowing data ingestion                        |
+| **Risk: Repetitive Data** | Medium      | Auto-generated contributions could create biased dataset                         |
+| **Mitigation**            | In Progress | Focus OCR on high-value "Gwaien" docs first; explore antigravity with Gemini Pro |
+
+## Branch Status
+
+- **Victor:** `feature/contribution-refinement`
+- **Johnny:** `feature/crawling-migration`
+- **Action:** Coordinate merge before next call
+
+---
+
+## Action Plan & Tasks
+
+### 1. OCR Pipeline (Priority: High)
+
+- **Task:** Implement OCR for "Gwaien" PDF documents
+  - **Owner:** @zcbtvag (Victor)
+  - **Description:** Prioritize implementing a working OCR solution for the "Gwaien" magazine PDFs in the `ext_data/` directory. Explore different libraries or the antigravity agent.
+  - **Deadline:** Next call
+  - **Success Criteria:** Text successfully extracted from image-based "Gwaien" PDFs.
+
+### 2. Code Sharing & Tooling
+
+- **Task:** Push antigravity agent code
+  - **Owner:** @jnxmas (Johnny)
+  - **Description:** Push changes containing antigravity agent experiments so Victor can explore it as a potential tool for OCR implementation.
+  - **Deadline:** ASAP
+  - **Success Criteria:** Victor can access and run the new agent code locally.
+
+### 3. Branch Integration
+
+- **Task:** Merge feature branches
+  - **Owner:** @zcbtvag & @jnxmas
+  - **Description:** Coordinate to merge `feature/contribution-refinement` and `feature/crawling-migration` branches.
+  - **Deadline:** Next call
+  - **Success Criteria:** Single unified branch without conflicts.
+
+### 4. Data Quality
+
+- **Task:** Develop duplicate detection strategy
+  - **Owner:** @jnxmas (Johnny)
+  - **Description:** Design a method to identify when a new contribution is a duplicate or highly similar to an existing one. Critical for managing auto-generation output and real citizen contributions.
+  - **Deadline:** Next call
+  - **Success Criteria:** Clear plan or PoC documented for identifying duplicate contributions.
+
+---
+
+## Open Tasks from Previous Sessions
+
+- [ ] Finalize Firecrawl pipeline implementation
+- [x] Secure Firecrawl API keys
+- [x] Deploy initial Opik tracing for all major workflows
+
+---
+
+## Status Dashboard
+
+| Component                              | Status  | Notes                                         |
+| -------------------------------------- | ------- | --------------------------------------------- |
+| Data Ingestion (Firecrawl/OCR)         | Blocked | OCR implementation issues                     |
+| Contribution Automation (Email-GitHub) | Done    | Core workflow established                     |
+| Opik Integration & Prompt Tuning       | Done    | New prompt library + optimization experiments |
+| RAG Chatbot                            | Blocked | Waiting on data ingestion                     |
+
+**Next Milestone:** Unblock OCR pipeline to begin ingesting all PDF data for the RAG system.

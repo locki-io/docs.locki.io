@@ -107,3 +107,13 @@ architecture:
   label: Architecture
   permalink: /architecture
   description: System architecture, design patterns, and technical structure
+
+ia-ml:
+  label: IA et Machine Learning
+  permalink: /ia-ml
+  description: Articles sur l'IA, le machine learning et les technologies associées
+
+confiance:
+  label: Confiance
+  permalink: /confiance
+  description: Articles sur la confiance et la sécurité dans les systèmes IA

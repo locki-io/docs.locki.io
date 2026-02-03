@@ -161,7 +161,7 @@ const sidebars = {
       type: "category",
       label: "Testing",
       link: { type: "doc", id: "tests/testing-strategy" },
-      items: ["tests/testing-strategy"],
+      items: ["tests/testing-strategy", "tests/coverage-report"],
     },
   ],
 };

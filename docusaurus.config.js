@@ -184,11 +184,11 @@ const config = {
               },
               {
                 label: "Application",
-                to: "/docs/app/README",
+                to: "/docs/app/",
               },
               {
                 label: "AI Agents",
-                to: "/docs/agents/README",
+                to: "/docs/agents/",
               },
               {
                 label: "Hackathon",
