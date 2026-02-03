@@ -117,3 +117,8 @@ confiance:
   label: Confiance
   permalink: /confiance
   description: Articles sur la confiance et la sécurité dans les systèmes IA
+
+mistral:
+  label: Mistral AI
+  permalink: /mistral
+  description: Articles on Mistral AI integration and Document AI
