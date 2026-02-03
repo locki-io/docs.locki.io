@@ -9,6 +9,159 @@
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
         <item>
+            <title><![CDATA[The Impossible Sprint: Building Civic AI in 4 Weeks]]></title>
+            <link>https://docs.locki.io/blog/hackathon-final-sprint</link>
+            <guid>https://docs.locki.io/blog/hackathon-final-sprint</guid>
+            <pubDate>Tue, 03 Feb 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[How we pivoted from OCR blockers to Mistral Document AI in the final hours of the Encode Hackathon - and why civic transparency is worth the chaos.]]></description>
+            <content:encoded><![CDATA[<blockquote>
+<p>"It looks impossible - but it's a hackathon. Cheers!"</p>
+</blockquote>
+<p>This is the story of <strong>OCapistaine</strong>, a civic transparency AI built during the Encode "Commit to Change" Hackathon. It's a story of blocked pipelines, strategic pivots, 4,000 municipal PDFs, and the belief that AI can help citizens understand their local democracy.</p>
+<p><strong>Spoiler</strong>: We shipped it. Barely.
+<img decoding="async" loading="lazy" alt="impossible is not ocapistaine" src="https://docs.locki.io/assets/images/the_impossible_sprint-43b186b00ff31418158ad67bffaf9d35.jpg" width="784" height="1168" class="img_ev3q"></p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-mission">The Mission<a href="https://docs.locki.io/blog/hackathon-final-sprint#the-mission" class="hash-link" aria-label="Direct link to The Mission" title="Direct link to The Mission" translate="no">​</a></h2>
+<p>Audierne is a small coastal town in Brittany, France. Like many municipalities, it has years of public documents - council deliberations, municipal decrees, budget reports - scattered across websites and PDFs. Citizens <em>technically</em> have access, but practically? Good luck finding what you need.</p>
+<p><strong>OCapistaine</strong> aims to change that: a RAG-powered Q&amp;A system where citizens can ask questions in plain French and get answers with source citations. No hallucinations. Full transparency. Trust through traceability.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-journey-a-timeline-of-chaos">The Journey (A Timeline of Chaos)<a href="https://docs.locki.io/blog/hackathon-final-sprint#the-journey-a-timeline-of-chaos" class="hash-link" aria-label="Direct link to The Journey (A Timeline of Chaos)" title="Direct link to The Journey (A Timeline of Chaos)" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="week-1-foundation">Week 1: Foundation<a href="https://docs.locki.io/blog/hackathon-final-sprint#week-1-foundation" class="hash-link" aria-label="Direct link to Week 1: Foundation" title="Direct link to Week 1: Foundation" translate="no">​</a></h3>
+<ul>
+<li class="">Built the <strong>Forseti agent</strong> for charter validation (contribution moderation)</li>
+<li class="">Deployed <strong>N8N orchestration</strong> on our Vaettir server</li>
+<li class="">Set up <strong>Opik</strong> for LLM observability</li>
+<li class="">Scraped ~4,000 municipal PDFs via Firecrawl</li>
+</ul>
+<p><strong>Feeling</strong>: Optimistic. We got this.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="week-2-the-ocr-wall">Week 2: The OCR Wall<a href="https://docs.locki.io/blog/hackathon-final-sprint#week-2-the-ocr-wall" class="hash-link" aria-label="Direct link to Week 2: The OCR Wall" title="Direct link to Week 2: The OCR Wall" translate="no">​</a></h3>
+<ul>
+<li class="">Text extraction worked for ~1,800 PDFs</li>
+<li class="">But ~3,000 were <strong>image-based scans</strong> requiring OCR</li>
+<li class="">Tested pdf2ocr, Tabula, pypdf... all blocked by installation issues</li>
+<li class="">Victor spent days fighting library dependencies</li>
+</ul>
+<p><strong>Feeling</strong>: Concerned. The RAG needs documents.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="week-3-the-opik-pivot">Week 3: The Opik Pivot<a href="https://docs.locki.io/blog/hackathon-final-sprint#week-3-the-opik-pivot" class="hash-link" aria-label="Direct link to Week 3: The Opik Pivot" title="Direct link to Week 3: The Opik Pivot" translate="no">​</a></h3>
+<ul>
+<li class="">Shifted focus to what <em>was</em> working: <strong>prompt optimization</strong></li>
+<li class="">Built an <strong>Opik Prompt Library</strong> - no more hardcoded prompts</li>
+<li class="">Created <strong>mockup generation</strong> for testing Forseti with synthetic contributions</li>
+<li class="">Forseti accuracy jumped from ~20% to <strong>90%+</strong></li>
+</ul>
+<p><strong>Feeling</strong>: Progress, but RAG still blocked.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="week-4-today-the-mistral-gambit">Week 4 (Today): The Mistral Gambit<a href="https://docs.locki.io/blog/hackathon-final-sprint#week-4-today-the-mistral-gambit" class="hash-link" aria-label="Direct link to Week 4 (Today): The Mistral Gambit" title="Direct link to Week 4 (Today): The Mistral Gambit" translate="no">​</a></h3>
+<p><strong>Sunday, February 3rd, 2026 - 48 hours to deadline</strong></p>
+<p>The team sync call started with bad news: OCR was still blocked. Then someone asked:</p>
+<blockquote>
+<p>"What if we don't build OCR? What if someone else already did?"</p>
+</blockquote>
+<p>Enter <strong>Mistral Document AI</strong>.</p>
+<ul>
+<li class="">Native PDF processing with <strong>built-in OCR</strong></li>
+<li class="">Batch endpoint with <strong>50% discount</strong></li>
+<li class="">Agent API for RAG queries</li>
+<li class="">~$2 per 1,000 pages</li>
+</ul>
+<p><strong>The pivot</strong>: Instead of custom RAG infrastructure, use Mistral's managed solution. Upload documents, train an agent, integrate Opik tracing, ship.</p>
+<p><strong>Feeling</strong>: Terrified excitement. Classic hackathon energy.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-architecture-post-pivot">The Architecture (Post-Pivot)<a href="https://docs.locki.io/blog/hackathon-final-sprint#the-architecture-post-pivot" class="hash-link" aria-label="Direct link to The Architecture (Post-Pivot)" title="Direct link to The Architecture (Post-Pivot)" translate="no">​</a></h2>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">┌─────────────────────────────────────────────────────────────────┐</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│                     OCapistaine Architecture                     │</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">├─────────────────────────────────────────────────────────────────┤</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│                                                                 │</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│  Municipal PDFs ──► Mistral Document AI ──► Trained Agent       │</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│  (~4,000 docs)        (OCR + indexing)       (RAG queries)      │</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│                                                    │            │</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│                                                    ▼            │</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│  Streamlit UI ◄──────────────────────────── Agent API          │</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│       │                                           │            │</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│       └──────────► Opik Tracing ◄─────────────────┘            │</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│                    (observability)                              │</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│                                                                 │</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">├─────────────────────────────────────────────────────────────────┤</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│  Forseti Agent: Charter validation for citizen contributions    │</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│  N8N Workflows: Email/Facebook → GitHub issue automation        │</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">│  Vaettir Server: Orchestration and webhook handling             │</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">└─────────────────────────────────────────────────────────────────┘</span><br></span></code></pre></div></div>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-we-built">What We Built<a href="https://docs.locki.io/blog/hackathon-final-sprint#what-we-built" class="hash-link" aria-label="Direct link to What We Built" title="Direct link to What We Built" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-forseti-461---the-charter-guardian">1. Forseti 461 - The Charter Guardian<a href="https://docs.locki.io/blog/hackathon-final-sprint#1-forseti-461---the-charter-guardian" class="hash-link" aria-label="Direct link to 1. Forseti 461 - The Charter Guardian" title="Direct link to 1. Forseti 461 - The Charter Guardian" translate="no">​</a></h3>
+<p>An LLM agent that validates citizen contributions against the participation charter:</p>
+<ul>
+<li class="">No personal attacks or naming individuals</li>
+<li class="">Constructive and factual content</li>
+<li class="">Relevant to local issues</li>
+<li class="">Proper category classification (7 categories)</li>
+</ul>
+<p><strong>Results</strong>: 90%+ accuracy after Opik-guided prompt optimization.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-auto-contribution-workflow">2. Auto-Contribution Workflow<a href="https://docs.locki.io/blog/hackathon-final-sprint#2-auto-contribution-workflow" class="hash-link" aria-label="Direct link to 2. Auto-Contribution Workflow" title="Direct link to 2. Auto-Contribution Workflow" translate="no">​</a></h3>
+<p>Citizens can submit ideas via email or Facebook. The system:</p>
+<ol>
+<li class="">Receives submission via N8N webhook</li>
+<li class="">Validates against charter (Forseti)</li>
+<li class="">Creates GitHub issue if compliant</li>
+<li class="">Tracks everything in Opik</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-rag-qa-the-final-sprint">3. RAG Q&amp;A (The Final Sprint)<a href="https://docs.locki.io/blog/hackathon-final-sprint#3-rag-qa-the-final-sprint" class="hash-link" aria-label="Direct link to 3. RAG Q&amp;A (The Final Sprint)" title="Direct link to 3. RAG Q&amp;A (The Final Sprint)" translate="no">​</a></h3>
+<p>Upload 4,000+ municipal documents to Mistral, train an agent, let citizens ask:</p>
+<ul>
+<li class="">"What was the 2024 budget for road maintenance?"</li>
+<li class="">"When was the last deliberation about the port?"</li>
+<li class="">"What environmental measures has the council discussed?"</li>
+</ul>
+<p>Every answer comes with <strong>source citations</strong>. No trust without transparency.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-opik-observability">4. Opik Observability<a href="https://docs.locki.io/blog/hackathon-final-sprint#4-opik-observability" class="hash-link" aria-label="Direct link to 4. Opik Observability" title="Direct link to 4. Opik Observability" translate="no">​</a></h3>
+<p>Every LLM call is traced:</p>
+<ul>
+<li class="">Prompt versions tracked in Opik Prompt Library</li>
+<li class="">Latency, tokens, and costs monitored</li>
+<li class="">Hallucination detection via evaluation pipelines</li>
+<li class="">A/B testing for prompt improvements</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-trust-architecture">The Trust Architecture<a href="https://docs.locki.io/blog/hackathon-final-sprint#the-trust-architecture" class="hash-link" aria-label="Direct link to The Trust Architecture" title="Direct link to The Trust Architecture" translate="no">​</a></h2>
+<p>This isn't just about answering questions. It's about <strong>building trust</strong> between citizens and AI systems.</p>
+<p>Our approach:</p>
+<table><thead><tr><th>Layer</th><th>Mechanism</th><th>Transparency</th></tr></thead><tbody><tr><td><strong>Input</strong></td><td>Charter validation</td><td>Citizens know the rules</td></tr><tr><td><strong>Processing</strong></td><td>Opik tracing</td><td>Every decision is logged</td></tr><tr><td><strong>Output</strong></td><td>Source citations</td><td>Answers are verifiable</td></tr><tr><td><strong>Feedback</strong></td><td>Accuracy metrics</td><td>Performance is measurable</td></tr></tbody></table>
+<p>The goal: Civil servants and citizens can <strong>audit</strong> the AI's reasoning. If it's wrong, we know. If it improves, we can prove it.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="lessons-learned">Lessons Learned<a href="https://docs.locki.io/blog/hackathon-final-sprint#lessons-learned" class="hash-link" aria-label="Direct link to Lessons Learned" title="Direct link to Lessons Learned" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-pivots-are-not-failures">1. Pivots Are Not Failures<a href="https://docs.locki.io/blog/hackathon-final-sprint#1-pivots-are-not-failures" class="hash-link" aria-label="Direct link to 1. Pivots Are Not Failures" title="Direct link to 1. Pivots Are Not Failures" translate="no">​</a></h3>
+<p>The OCR blocker felt like a disaster. The Mistral pivot turned it into an advantage - better OCR, managed infrastructure, faster shipping.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-observability-is-non-negotiable">2. Observability Is Non-Negotiable<a href="https://docs.locki.io/blog/hackathon-final-sprint#2-observability-is-non-negotiable" class="hash-link" aria-label="Direct link to 2. Observability Is Non-Negotiable" title="Direct link to 2. Observability Is Non-Negotiable" translate="no">​</a></h3>
+<p>Without Opik, we'd have no idea if Forseti was improving. The prompt library and tracing made optimization possible in days, not weeks.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-hackathons-require-scope-ruthlessness">3. Hackathons Require Scope Ruthlessness<a href="https://docs.locki.io/blog/hackathon-final-sprint#3-hackathons-require-scope-ruthlessness" class="hash-link" aria-label="Direct link to 3. Hackathons Require Scope Ruthlessness" title="Direct link to 3. Hackathons Require Scope Ruthlessness" translate="no">​</a></h3>
+<p>We wanted custom embeddings, MongoDB, a full document service. We shipped a working demo by choosing "good enough now" over "perfect later."</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-civic-tech-needs-humans">4. Civic Tech Needs Humans<a href="https://docs.locki.io/blog/hackathon-final-sprint#4-civic-tech-needs-humans" class="hash-link" aria-label="Direct link to 4. Civic Tech Needs Humans" title="Direct link to 4. Civic Tech Needs Humans" translate="no">​</a></h3>
+<p>The best AI can't replace citizen participation. It can only make it <strong>easier</strong> to participate and <strong>harder</strong> for information to be hidden.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="whats-next">What's Next<a href="https://docs.locki.io/blog/hackathon-final-sprint#whats-next" class="hash-link" aria-label="Direct link to What's Next" title="Direct link to What's Next" translate="no">​</a></h2>
+<p>Post-hackathon roadmap:</p>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Custom vector embeddings for better retrieval</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->MongoDB for document tracking and change detection</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Multi-channel deployment (dedicated chatbot, Facebook integration)</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Breton language support (yes, really)</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Self-improving feedback loops via Opik experiments</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-team">The Team<a href="https://docs.locki.io/blog/hackathon-final-sprint#the-team" class="hash-link" aria-label="Direct link to The Team" title="Direct link to The Team" translate="no">​</a></h2>
+<ul>
+<li class=""><strong>@jnxmas</strong> - Lead, infrastructure, Opik integration, sleep deprivation</li>
+<li class=""><strong>@zcbtvag</strong> - Backend, Firecrawl scraping, OCR battles, Mistral uploads</li>
+<li class=""><strong>@GurmeherSingh</strong> - ML engineering, Forseti agent, charter validation</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="try-it">Try It<a href="https://docs.locki.io/blog/hackathon-final-sprint#try-it" class="hash-link" aria-label="Direct link to Try It" title="Direct link to Try It" translate="no">​</a></h2>
+<ul>
+<li class=""><strong>Live Demo</strong>: <a href="https://ocapistaine.ngrok.app/" target="_blank" rel="noopener noreferrer" class="">ocapistaine.ngrok.app</a></li>
+<li class=""><strong>GitHub</strong>: <a href="https://github.com/locki-io/ocapistaine" target="_blank" rel="noopener noreferrer" class="">locki-io/ocapistaine</a></li>
+<li class=""><strong>Docs</strong>: <a href="https://docs.locki.io/" target="_blank" rel="noopener noreferrer" class="">docs.locki.io</a></li>
+<li class=""><strong>Opik Dashboard</strong>: <a href="https://www.comet.com/opik" target="_blank" rel="noopener noreferrer" class="">comet.com/opik</a></li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="to-the-jury">To the Jury<a href="https://docs.locki.io/blog/hackathon-final-sprint#to-the-jury" class="hash-link" aria-label="Direct link to To the Jury" title="Direct link to To the Jury" translate="no">​</a></h2>
+<p>This project exists because we believe:</p>
+<ol>
+<li class=""><strong>Local democracy matters</strong> - and it's broken by information asymmetry</li>
+<li class=""><strong>AI can help</strong> - but only if it's transparent and auditable</li>
+<li class=""><strong>Civic tech should be open</strong> - our code, our process, our mistakes are all public</li>
+</ol>
+<p>We didn't build a perfect system. We built a <strong>working</strong> system in 4 weeks, with:</p>
+<ul>
+<li class="">Real municipal documents (not synthetic data)</li>
+<li class="">Real observability (not just logs)</li>
+<li class="">Real transparency (source citations, not "trust me")</li>
+</ul>
+<p>The impossible sprint taught us that the hardest part of civic AI isn't the technology. It's earning the trust of the people it's supposed to serve.</p>
+<p>We're just getting started.</p>
+<hr>
+<p><em>Built with caffeine, Opik traces, and the stubborn belief that citizens deserve better tools.</em></p>
+<p><strong>#EncodeHackathon #CommitToChange #CivicTech #OCapistaine</strong></p>]]></content:encoded>
+            <category>Encode hackathon</category>
+            <category>civitech</category>
+            <category>AI and Machine Learning</category>
+            <category>Opik</category>
+            <category>RAG</category>
+            <category>Mistral AI</category>
+        </item>
+        <item>
             <title><![CDATA[Sprint Planning: Mistral Document AI RAG Prototype]]></title>
             <link>https://docs.locki.io/blog/sprint-planning-mistral-rag</link>
             <guid>https://docs.locki.io/blog/sprint-planning-mistral-rag</guid>
