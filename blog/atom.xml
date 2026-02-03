@@ -8,6 +8,174 @@
     <subtitle>Ò Capistaine Docs Blog</subtitle>
     <icon>https://docs.locki.io/img/favicon.ico</icon>
     <entry>
+        <title type="html"><![CDATA[Sprint Planning: Mistral Document AI RAG Prototype]]></title>
+        <id>https://docs.locki.io/blog/sprint-planning-mistral-rag</id>
+        <link href="https://docs.locki.io/blog/sprint-planning-mistral-rag"/>
+        <updated>2026-02-03T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Sprint planning call between Johnny (@jnxmas) and Victor (@zcbtvag) to align on the Sunday midnight deadline. Key decision: pivot to Mistral Document AI + Batch + Agent for a rapid RAG prototype.]]></summary>
+        <content type="html"><![CDATA[<p>Sprint planning call between Johnny (@jnxmas) and Victor (@zcbtvag) to align on the Sunday midnight deadline. Key decision: <strong>pivot to Mistral Document AI + Batch + Agent</strong> for a rapid RAG prototype.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="call-goals">Call Goals<a href="https://docs.locki.io/blog/sprint-planning-mistral-rag#call-goals" class="hash-link" aria-label="Direct link to Call Goals" title="Direct link to Call Goals" translate="no">​</a></h2>
+<ul>
+<li class="">Align on immediate priorities before Sunday midnight</li>
+<li class="">Decide RAG approach and OCR path</li>
+<li class="">Clarify repo/branch workflow and submodule handling</li>
+<li class="">Assign ownership for Mistral Document AI setup</li>
+<li class="">Coordinate API keys and cost management</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="summary">Summary<a href="https://docs.locki.io/blog/sprint-planning-mistral-rag#summary" class="hash-link" aria-label="Direct link to Summary" title="Direct link to Summary" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="timeline--data-status">Timeline &amp; Data Status<a href="https://docs.locki.io/blog/sprint-planning-mistral-rag#timeline--data-status" class="hash-link" aria-label="Direct link to Timeline &amp; Data Status" title="Direct link to Timeline &amp; Data Status" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Deadline:</strong> Sunday at midnight</li>
+<li class=""><strong>Scraping:</strong> Completed ~1.5-2 weeks ago; ~4,000 PDFs downloaded</li>
+<li class=""><strong>Text extraction:</strong> ~1,800 text-based PDFs processed</li>
+<li class=""><strong>OCR needed:</strong> ~3,000 image-based PDFs still pending</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="strategic-pivot-mistral-document-ai">Strategic Pivot: Mistral Document AI<a href="https://docs.locki.io/blog/sprint-planning-mistral-rag#strategic-pivot-mistral-document-ai" class="hash-link" aria-label="Direct link to Strategic Pivot: Mistral Document AI" title="Direct link to Strategic Pivot: Mistral Document AI" translate="no">​</a></h3>
+<p>Instead of building custom in-app RAG (deferring Nomic), we'll leverage <strong>Mistral Document AI + Batch + Agent</strong> to ship faster:</p>
+<table><thead><tr><th>Feature</th><th>Capability</th></tr></thead><tbody><tr><td><strong>Document AI</strong></td><td>Handles PDFs and images (OCR), accepts URLs</td></tr><tr><td><strong>Batch endpoint</strong></td><td>50% discount, high capacity</td></tr><tr><td><strong>Pricing</strong></td><td>~$2 per 1,000 pages</td></tr><tr><td><strong>Limits</strong></td><td>50 MB per doc, up to 1,000 pages per doc</td></tr></tbody></table>
+<p><strong>Plan:</strong></p>
+<ol>
+<li class="">Upload existing municipal documents (text + image PDFs) to Mistral Document AI</li>
+<li class="">Run batch processing</li>
+<li class="">Train 1-2 times before deadline</li>
+<li class="">Create Agent with API key for search queries from app</li>
+</ol>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="contributions--forseti">Contributions &amp; Forseti<a href="https://docs.locki.io/blog/sprint-planning-mistral-rag#contributions--forseti" class="hash-link" aria-label="Direct link to Contributions &amp; Forseti" title="Direct link to Contributions &amp; Forseti" translate="no">​</a></h3>
+<ul>
+<li class="">Forseti agent validates charter compliance</li>
+<li class="">Performance improved from ~20% to ~90%+ via manual optimization</li>
+<li class="">Desire to instrument with Opik for continuous improvement and traceability</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="git-submodule-issues">Git Submodule Issues<a href="https://docs.locki.io/blog/sprint-planning-mistral-rag#git-submodule-issues" class="hash-link" aria-label="Direct link to Git Submodule Issues" title="Direct link to Git Submodule Issues" translate="no">​</a></h3>
+<p>The docs submodule caused merge friction - commit pointer in main repo can lag behind when merging older branches. Solution: take 5 minutes at merge time to realign submodule pointers.</p>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="alignment-check">Alignment Check<a href="https://docs.locki.io/blog/sprint-planning-mistral-rag#alignment-check" class="hash-link" aria-label="Direct link to Alignment Check" title="Direct link to Alignment Check" translate="no">​</a></h2>
+<table><thead><tr><th>Area</th><th>Status</th><th>Notes</th></tr></thead><tbody><tr><td><strong>Project goals</strong></td><td>Aligned</td><td>Accelerates citizen Q&amp;A chatbot via managed RAG</td></tr><tr><td><strong>Neutrality</strong></td><td>Requires work</td><td>Third-party RAG demands strict guardrails + source citations</td></tr><tr><td><strong>Scope fit</strong></td><td>Acceptable</td><td>Defers custom RAG infra for hackathon prototype</td></tr></tbody></table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="risks">Risks<a href="https://docs.locki.io/blog/sprint-planning-mistral-rag#risks" class="hash-link" aria-label="Direct link to Risks" title="Direct link to Risks" translate="no">​</a></h3>
+<table><thead><tr><th>Risk</th><th>Mitigation</th></tr></thead><tbody><tr><td>Upload/process time for ~4k PDFs</td><td>Start batch ASAP</td></tr><tr><td>Mistral limits/costs unknown</td><td>Verify before large uploads</td></tr><tr><td>Submodule merge errors</td><td>Plan explicit merge steps</td></tr><tr><td>Hallucination without evaluation</td><td>Add Opik tracing now</td></tr><tr><td>OCR quality for scans</td><td>Test subset first</td></tr></tbody></table>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="decisions">Decisions<a href="https://docs.locki.io/blog/sprint-planning-mistral-rag#decisions" class="hash-link" aria-label="Direct link to Decisions" title="Direct link to Decisions" translate="no">​</a></h2>
+<ol>
+<li class=""><strong>Use Mistral Document AI + Batch + Agent</strong> for RAG prototype</li>
+<li class=""><strong>Victor</strong> focuses on documents and Mistral API integration</li>
+<li class=""><strong>Johnny</strong> sets up Mistral workspace, coordinates batch runs and context links</li>
+<li class="">Continue feature-branch workflow; handle docs submodule at merge time</li>
+</ol>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="action-plan--tasks">Action Plan &amp; Tasks<a href="https://docs.locki.io/blog/sprint-planning-mistral-rag#action-plan--tasks" class="hash-link" aria-label="Direct link to Action Plan &amp; Tasks" title="Direct link to Action Plan &amp; Tasks" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-mistral-setup-priority-critical">1. Mistral Setup (Priority: Critical)<a href="https://docs.locki.io/blog/sprint-planning-mistral-rag#1-mistral-setup-priority-critical" class="hash-link" aria-label="Direct link to 1. Mistral Setup (Priority: Critical)" title="Direct link to 1. Mistral Setup (Priority: Critical)" translate="no">​</a></h3>
+<ul>
+<li class="">
+<p><strong>Task:</strong> Create Mistral workspace and share API keys</p>
+<ul>
+<li class=""><strong>Owner:</strong> @jnxmas</li>
+<li class=""><strong>Description:</strong> Set up Mistral workspace using jnlockey3d.com, invite <a href="mailto:victoragrest@gmail.com" target="_blank" rel="noopener noreferrer" class="">victoragrest@gmail.com</a>, generate API key for batch/agent operations. Confirm billing setup and budget cap.</li>
+<li class=""><strong>Deadline:</strong> Tomorrow morning</li>
+<li class=""><strong>Success Criteria:</strong> Victor receives invite and API key; billing confirmed.</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Task:</strong> Verify Mistral Document AI limits and pricing</p>
+<ul>
+<li class=""><strong>Owner:</strong> @zcbtvag</li>
+<li class=""><strong>Description:</strong> Confirm batch limits (documents per job, max requests, file size/page limits), OCR capabilities, and expected cost for ~4,000 PDFs. Document findings in repo docs.</li>
+<li class=""><strong>Deadline:</strong> ASAP (before starting large uploads)</li>
+<li class=""><strong>Success Criteria:</strong> Clear documented constraints and cost estimate.</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-document-processing-priority-critical">2. Document Processing (Priority: Critical)<a href="https://docs.locki.io/blog/sprint-planning-mistral-rag#2-document-processing-priority-critical" class="hash-link" aria-label="Direct link to 2. Document Processing (Priority: Critical)" title="Direct link to 2. Document Processing (Priority: Critical)" translate="no">​</a></h3>
+<ul>
+<li class="">
+<p><strong>Task:</strong> Prepare document list and upload script</p>
+<ul>
+<li class=""><strong>Owner:</strong> @zcbtvag</li>
+<li class=""><strong>Description:</strong> Create Python script to iterate over 4,000 PDFs, sending to Mistral Document AI batch endpoint. Start with 50-100 file pilot to validate throughput and OCR quality.</li>
+<li class=""><strong>Deadline:</strong> Pilot today; full batch tomorrow</li>
+<li class=""><strong>Success Criteria:</strong> Pilot completes with &gt;95% success; script ready for full batch.</li>
+</ul>
+</li>
+<li class="">
+<p><strong>Task:</strong> Batch training and Agent creation</p>
+<ul>
+<li class=""><strong>Owner:</strong> @jnxmas</li>
+<li class=""><strong>Description:</strong> Once documents processed, run 1-2 trainings to create Mistral Agent. Generate scoped API key. Document how to query Agent for RAG search.</li>
+<li class=""><strong>Deadline:</strong> Before Sunday midnight</li>
+<li class=""><strong>Success Criteria:</strong> Agent returns accurate results with citations; API key available to app.</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-observability-priority-high">3. Observability (Priority: High)<a href="https://docs.locki.io/blog/sprint-planning-mistral-rag#3-observability-priority-high" class="hash-link" aria-label="Direct link to 3. Observability (Priority: High)" title="Direct link to 3. Observability (Priority: High)" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Task:</strong> Integrate Opik tracing for RAG queries<!-- -->
+<ul>
+<li class=""><strong>Owner:</strong> @jnxmas</li>
+<li class=""><strong>Description:</strong> Add Opik instrumentation for all RAG queries (request/response logging, sources, latency, hallucination flags). Set up evaluation dashboard.</li>
+<li class=""><strong>Deadline:</strong> Before Sunday midnight</li>
+<li class=""><strong>Success Criteria:</strong> Opik dashboard shows traces; evaluation runs without errors.</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-context--workflow-priority-medium">4. Context &amp; Workflow (Priority: Medium)<a href="https://docs.locki.io/blog/sprint-planning-mistral-rag#4-context--workflow-priority-medium" class="hash-link" aria-label="Direct link to 4. Context &amp; Workflow (Priority: Medium)" title="Direct link to 4. Context &amp; Workflow (Priority: Medium)" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Task:</strong> Context links workflow<!-- -->
+<ul>
+<li class=""><strong>Owner:</strong> @jnxmas</li>
+<li class=""><strong>Description:</strong> Prepare N8N micro-workflow to pull contribution-related context links (HTML/URLs) and queue for Mistral ingestion.</li>
+<li class=""><strong>Deadline:</strong> Draft by Saturday</li>
+<li class=""><strong>Success Criteria:</strong> At least 20 context links processed and added to corpus.</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="5-repo-hygiene-priority-medium">5. Repo Hygiene (Priority: Medium)<a href="https://docs.locki.io/blog/sprint-planning-mistral-rag#5-repo-hygiene-priority-medium" class="hash-link" aria-label="Direct link to 5. Repo Hygiene (Priority: Medium)" title="Direct link to 5. Repo Hygiene (Priority: Medium)" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Task:</strong> Repo merge hygiene (docs submodule)<!-- -->
+<ul>
+<li class=""><strong>Owner:</strong> @zcbtvag + @jnxmas</li>
+<li class=""><strong>Description:</strong> Coordinate at merge time to realign docs submodule commit pointer to latest before merging into dev.</li>
+<li class=""><strong>Deadline:</strong> Next merge event</li>
+<li class=""><strong>Success Criteria:</strong> Clean merge with correct submodule pointer; CI passes.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="open-questions">Open Questions<a href="https://docs.locki.io/blog/sprint-planning-mistral-rag#open-questions" class="hash-link" aria-label="Direct link to Open Questions" title="Direct link to Open Questions" translate="no">​</a></h2>
+<ol>
+<li class="">Should we prioritize a minimal Q&amp;A demo by Sunday using Mistral Agent + Opik, even with partial corpus?</li>
+<li class="">Do we need a separate categorization microservice this week, or rely on Agent + prompt tooling?</li>
+<li class="">Which topics from the 4 municipal lists must be in the first demo corpus?</li>
+</ol>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="suggestions--risk-mitigations">Suggestions &amp; Risk Mitigations<a href="https://docs.locki.io/blog/sprint-planning-mistral-rag#suggestions--risk-mitigations" class="hash-link" aria-label="Direct link to Suggestions &amp; Risk Mitigations" title="Direct link to Suggestions &amp; Risk Mitigations" translate="no">​</a></h2>
+<ul>
+<li class=""><strong>Pilot first:</strong> Start with 200 PDFs across key categories (housing, culture, budget) to validate OCR and retrieval</li>
+<li class=""><strong>Strict prompting:</strong> Require source citations; "no answer without source" policy; log refusals in Opik</li>
+<li class=""><strong>Budget guardrail:</strong> Set spending cap; monitor pages processed; batch by priority</li>
+<li class=""><strong>Breton names:</strong> Maintain custom glossary file in corpus; instruct Agent to prefer glossary matches</li>
+<li class=""><strong>Repo docs:</strong> Create "submodule merge checklist" to avoid repeated confusion</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="status-dashboard">Status Dashboard<a href="https://docs.locki.io/blog/sprint-planning-mistral-rag#status-dashboard" class="hash-link" aria-label="Direct link to Status Dashboard" title="Direct link to Status Dashboard" translate="no">​</a></h2>
+<table><thead><tr><th>Component</th><th>Status</th><th>Notes</th></tr></thead><tbody><tr><td>Firecrawl/Docs ingestion</td><td>In Progress</td><td>~1,800 text PDFs done, ~3,000 need OCR</td></tr><tr><td>Mistral setup</td><td>Starting</td><td>Workspace creation pending</td></tr><tr><td>RAG Agent integration</td><td>Not Started</td><td>Blocked on batch completion</td></tr><tr><td>Opik tracing</td><td>In Progress</td><td>Ready to add once Agent exists</td></tr></tbody></table>
+<p><strong>Open High-Priority Tasks:</strong></p>
+<ol>
+<li class="">Verify Mistral limits/pricing (@zcbtvag)</li>
+<li class="">Create Mistral workspace and share API key (@jnxmas)</li>
+<li class="">Pilot upload script + batch start (@zcbtvag)</li>
+<li class="">Agent creation + Opik integration (@jnxmas)</li>
+<li class="">Submodule merge alignment (@zcbtvag + @jnxmas)</li>
+</ol>
+<p><strong>Next Milestone:</strong> Sunday midnight - deliver working RAG Q&amp;A demo using Mistral Agent with Opik tracing and citations.</p>]]></content>
+        <author>
+            <name>Jean-Noël Schilling</name>
+            <uri>https://github.com/jnschilling</uri>
+        </author>
+        <category label="Meeting" term="Meeting"/>
+        <category label="RAG" term="RAG"/>
+        <category label="AI and Machine Learning" term="AI and Machine Learning"/>
+        <category label="Opik" term="Opik"/>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Building Trust Through Transparent AI: A Human-Machine Partnership for Civic Participation]]></title>
         <id>https://docs.locki.io/blog/self-improving-civic-ai</id>
         <link href="https://docs.locki.io/blog/self-improving-civic-ai"/>
@@ -165,6 +333,92 @@
         <category label="Trust" term="Trust"/>
         <category label="Collaboration" term="Collaboration"/>
         <category label="Forseti" term="Forseti"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Project Sync: Opik Progress & OCR Blockers]]></title>
+        <id>https://docs.locki.io/blog/project-sync-opik-ocr</id>
+        <link href="https://docs.locki.io/blog/project-sync-opik-ocr"/>
+        <updated>2026-01-31T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Quick catch-up between Johnny (@jnxmas) and Victor (@zcbtvag) covering Opik integration progress and OCR pipeline challenges.]]></summary>
+        <content type="html"><![CDATA[<p>Quick catch-up between Johnny (@jnxmas) and Victor (@zcbtvag) covering Opik integration progress and OCR pipeline challenges.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="summary">Summary<a href="https://docs.locki.io/blog/project-sync-opik-ocr#summary" class="hash-link" aria-label="Direct link to Summary" title="Direct link to Summary" translate="no">​</a></h2>
+<p>Johnny showcased recent progress on <strong>Opik prompt optimization</strong>. A new architecture is in place where prompts are no longer hardcoded but managed via an <strong>Opik Prompt Library</strong>. The "Charter Validation" prompt has already been optimized using this system.</p>
+<p>A new <strong>mock-up feature</strong> can automatically generate contributions (even with violations) from existing meeting reports. The goal is to create a robust dataset to test and improve the validation agent. However, this auto-generation currently produces repetitive content - a challenge that will need addressing by identifying and aggregating duplicate contributions.</p>
+<p>Victor reported working on the <strong>PDF processing pipeline</strong>, specifically tackling PDFs that are images and require OCR. This has been a blocker, as several libraries have proven difficult to install. Text-based PDF extraction is working fine.</p>
+<p>Johnny clarified that the highest priority documents for OCR are the <strong>"Gwaien" municipal magazines</strong> - they contain rich, precise historical data on the municipality's actions over the past six years, and their OCR should be relatively straightforward compared to other documents.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="alignment--risk-assessment">Alignment &amp; Risk Assessment<a href="https://docs.locki.io/blog/project-sync-opik-ocr#alignment--risk-assessment" class="hash-link" aria-label="Direct link to Alignment &amp; Risk Assessment" title="Direct link to Alignment &amp; Risk Assessment" translate="no">​</a></h2>
+<table><thead><tr><th>Area</th><th>Status</th><th>Notes</th></tr></thead><tbody><tr><td><strong>Alignment</strong></td><td>Good</td><td>Team aligned on priorities: contribution processing + data pipeline for RAG</td></tr><tr><td><strong>Risk: OCR Blocker</strong></td><td>High</td><td>Installation/implementation issues slowing data ingestion</td></tr><tr><td><strong>Risk: Repetitive Data</strong></td><td>Medium</td><td>Auto-generated contributions could create biased dataset</td></tr><tr><td><strong>Mitigation</strong></td><td>In Progress</td><td>Focus OCR on high-value "Gwaien" docs first; explore antigravity with Gemini Pro</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="branch-status">Branch Status<a href="https://docs.locki.io/blog/project-sync-opik-ocr#branch-status" class="hash-link" aria-label="Direct link to Branch Status" title="Direct link to Branch Status" translate="no">​</a></h2>
+<ul>
+<li class=""><strong>Victor:</strong> <code>feature/contribution-refinement</code></li>
+<li class=""><strong>Johnny:</strong> <code>feature/crawling-migration</code></li>
+<li class=""><strong>Action:</strong> Coordinate merge before next call</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="action-plan--tasks">Action Plan &amp; Tasks<a href="https://docs.locki.io/blog/project-sync-opik-ocr#action-plan--tasks" class="hash-link" aria-label="Direct link to Action Plan &amp; Tasks" title="Direct link to Action Plan &amp; Tasks" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-ocr-pipeline-priority-high">1. OCR Pipeline (Priority: High)<a href="https://docs.locki.io/blog/project-sync-opik-ocr#1-ocr-pipeline-priority-high" class="hash-link" aria-label="Direct link to 1. OCR Pipeline (Priority: High)" title="Direct link to 1. OCR Pipeline (Priority: High)" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Task:</strong> Implement OCR for "Gwaien" PDF documents<!-- -->
+<ul>
+<li class=""><strong>Owner:</strong> @zcbtvag (Victor)</li>
+<li class=""><strong>Description:</strong> Prioritize implementing a working OCR solution for the "Gwaien" magazine PDFs in the <code>ext_data/</code> directory. Explore different libraries or the antigravity agent.</li>
+<li class=""><strong>Deadline:</strong> Next call</li>
+<li class=""><strong>Success Criteria:</strong> Text successfully extracted from image-based "Gwaien" PDFs.</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-code-sharing--tooling">2. Code Sharing &amp; Tooling<a href="https://docs.locki.io/blog/project-sync-opik-ocr#2-code-sharing--tooling" class="hash-link" aria-label="Direct link to 2. Code Sharing &amp; Tooling" title="Direct link to 2. Code Sharing &amp; Tooling" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Task:</strong> Push antigravity agent code<!-- -->
+<ul>
+<li class=""><strong>Owner:</strong> @jnxmas (Johnny)</li>
+<li class=""><strong>Description:</strong> Push changes containing antigravity agent experiments so Victor can explore it as a potential tool for OCR implementation.</li>
+<li class=""><strong>Deadline:</strong> ASAP</li>
+<li class=""><strong>Success Criteria:</strong> Victor can access and run the new agent code locally.</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-branch-integration">3. Branch Integration<a href="https://docs.locki.io/blog/project-sync-opik-ocr#3-branch-integration" class="hash-link" aria-label="Direct link to 3. Branch Integration" title="Direct link to 3. Branch Integration" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Task:</strong> Merge feature branches<!-- -->
+<ul>
+<li class=""><strong>Owner:</strong> @zcbtvag &amp; @jnxmas</li>
+<li class=""><strong>Description:</strong> Coordinate to merge <code>feature/contribution-refinement</code> and <code>feature/crawling-migration</code> branches.</li>
+<li class=""><strong>Deadline:</strong> Next call</li>
+<li class=""><strong>Success Criteria:</strong> Single unified branch without conflicts.</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-data-quality">4. Data Quality<a href="https://docs.locki.io/blog/project-sync-opik-ocr#4-data-quality" class="hash-link" aria-label="Direct link to 4. Data Quality" title="Direct link to 4. Data Quality" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>Task:</strong> Develop duplicate detection strategy<!-- -->
+<ul>
+<li class=""><strong>Owner:</strong> @jnxmas (Johnny)</li>
+<li class=""><strong>Description:</strong> Design a method to identify when a new contribution is a duplicate or highly similar to an existing one. Critical for managing auto-generation output and real citizen contributions.</li>
+<li class=""><strong>Deadline:</strong> Next call</li>
+<li class=""><strong>Success Criteria:</strong> Clear plan or PoC documented for identifying duplicate contributions.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="open-tasks-from-previous-sessions">Open Tasks from Previous Sessions<a href="https://docs.locki.io/blog/project-sync-opik-ocr#open-tasks-from-previous-sessions" class="hash-link" aria-label="Direct link to Open Tasks from Previous Sessions" title="Direct link to Open Tasks from Previous Sessions" translate="no">​</a></h2>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->Finalize Firecrawl pipeline implementation</li>
+<li class="task-list-item"><input type="checkbox" disabled="" checked=""> <!-- -->Secure Firecrawl API keys</li>
+<li class="task-list-item"><input type="checkbox" disabled="" checked=""> <!-- -->Deploy initial Opik tracing for all major workflows</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="status-dashboard">Status Dashboard<a href="https://docs.locki.io/blog/project-sync-opik-ocr#status-dashboard" class="hash-link" aria-label="Direct link to Status Dashboard" title="Direct link to Status Dashboard" translate="no">​</a></h2>
+<table><thead><tr><th>Component</th><th>Status</th><th>Notes</th></tr></thead><tbody><tr><td>Data Ingestion (Firecrawl/OCR)</td><td>Blocked</td><td>OCR implementation issues</td></tr><tr><td>Contribution Automation (Email-GitHub)</td><td>Done</td><td>Core workflow established</td></tr><tr><td>Opik Integration &amp; Prompt Tuning</td><td>Done</td><td>New prompt library + optimization experiments</td></tr><tr><td>RAG Chatbot</td><td>Blocked</td><td>Waiting on data ingestion</td></tr></tbody></table>
+<p><strong>Next Milestone:</strong> Unblock OCR pipeline to begin ingesting all PDF data for the RAG system.</p>]]></content>
+        <author>
+            <name>Jean-Noël Schilling</name>
+            <uri>https://github.com/jnschilling</uri>
+        </author>
+        <category label="Meeting" term="Meeting"/>
+        <category label="Opik" term="Opik"/>
+        <category label="AI and Machine Learning" term="AI and Machine Learning"/>
+        <category label="RAG" term="RAG"/>
     </entry>
     <entry>
         <title type="html"><![CDATA[Forseti461 Feature Architecture: Modular Prompts with Opik Versioning]]></title>

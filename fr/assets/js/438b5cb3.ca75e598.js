@@ -1,1 +1,0 @@
-"use strict";(globalThis.webpackChunkdocs_locki_io=globalThis.webpackChunkdocs_locki_io||[]).push([[5575],{7041(o){o.exports=JSON.parse('{"metadata":{"permalink":"/fr/blog","page":1,"postsPerPage":10,"totalPages":2,"totalCount":17,"nextPage":"/fr/blog/page/2","blogDescription":"Blog","blogTitle":"Blog"}}')}}]);
