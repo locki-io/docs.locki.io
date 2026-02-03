@@ -107,16 +107,58 @@ const config = {
             label: "Usage",
           },
           {
-            type: "docSidebar",
-            sidebarId: "methodsSidebar",
+            type: "dropdown",
+            label: "Technical",
             position: "left",
-            label: "Methods",
+            items: [
+              {
+                type: "docSidebar",
+                sidebarId: "appSidebar",
+                label: "Application",
+              },
+              {
+                type: "docSidebar",
+                sidebarId: "agentsSidebar",
+                label: "AI Agents",
+              },
+              {
+                type: "docSidebar",
+                sidebarId: "orchestrationSidebar",
+                label: "Orchestration",
+              },
+              {
+                type: "docSidebar",
+                sidebarId: "sovereigntySidebar",
+                label: "Data Sovereignty",
+              },
+              {
+                type: "docSidebar",
+                sidebarId: "testsSidebar",
+                label: "Testing",
+              },
+            ],
           },
           {
-            type: "docSidebar",
-            sidebarId: "workflowsSidebar",
+            type: "dropdown",
+            label: "Reference",
             position: "left",
-            label: "Workflows",
+            items: [
+              {
+                type: "docSidebar",
+                sidebarId: "methodsSidebar",
+                label: "Methods",
+              },
+              {
+                type: "docSidebar",
+                sidebarId: "workflowsSidebar",
+                label: "Workflows",
+              },
+              {
+                type: "docSidebar",
+                sidebarId: "hackathonSidebar",
+                label: "Hackathon",
+              },
+            ],
           },
           { to: "/blog", label: "Blog", position: "left" },
           {
@@ -139,6 +181,18 @@ const config = {
               {
                 label: "Audierne2026",
                 to: "/docs/audierne2026/overview",
+              },
+              {
+                label: "Application",
+                to: "/docs/app/README",
+              },
+              {
+                label: "AI Agents",
+                to: "/docs/agents/README",
+              },
+              {
+                label: "Hackathon",
+                to: "/docs/hackathon/encode-hackathon",
               },
             ],
           },
