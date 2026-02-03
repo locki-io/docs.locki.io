@@ -183,7 +183,6 @@ Post-hackathon roadmap:
 
 - **@jnxmas** - Lead, infrastructure, Opik integration, sleep deprivation
 - **@zcbtvag** - Backend, Firecrawl scraping, OCR battles, Mistral uploads
-- **@GurmeherSingh** - ML engineering, Forseti agent, charter validation
 
 ## Try It
 
