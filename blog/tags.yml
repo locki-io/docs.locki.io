@@ -87,3 +87,18 @@ testing:
   label: Testing
   permalink: /testing
   description: Articles on testing strategies and quality assurance
+
+trust:
+  label: Trust
+  permalink: /trust
+  description: Articles on trust and safety in AI systems
+
+collaboration:
+  label: Collaboration
+  permalink: /collaboration
+  description: Articles on collaboration in AI development and research
+
+forseti:
+  label: Forseti
+  permalink: /forseti
+  description: Articles on Forseti AI agent and its applications

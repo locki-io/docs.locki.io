@@ -1,35 +1,34 @@
 ---
 slug: self-improving-civic-ai
 title: "Construire la Confiance par une IA Transparente : Un Partenariat Humain-Machine pour la Participation Citoyenne"
-authors: [ocapistaine]
-tags: [ia, civic-tech, confiance, collaboration, forseti]
-date: 2026-02-03
+authors: [jnxmas]
+tags: [ia-ml, civictech, confiance, collaboration, forseti]
 ---
 
 # Construire la Confiance par une IA Transparente : Un Partenariat Humain-Machine pour la Participation Citoyenne
 
-**Comment OCapistaine construit la confiance avec les citoyens et les agents publics grâce à une fiabilité mesurable de l'IA**
+**Comment Ò Capistaine construit la confiance avec les citoyens et les agents publics grâce à une fiabilité mesurable de l'IA**
 
 <!-- truncate -->
 
-## La Confiance Est le Produit
+## La confiance est le produit
 
 Quand nous déployons l'IA dans des applications civiques, nous ne vendons pas un logiciel — nous demandons la confiance. La confiance de deux groupes aux préoccupations très différentes :
 
 - **Les citoyens** ont besoin de croire que leur voix compte, qu'un algorithme ne rejettera pas silencieusement leur contribution
 - **Les agents publics** ont besoin de croire que l'IA est un collègue, pas une menace pour leur expertise et leur emploi
 
-Ces deux formes de confiance partagent un fondement commun : **une fiabilité démontrée dans le temps**. Pas des promesses. Pas du marketing. Des preuves mesurées, visibles, continues que le système fonctionne *avec* les humains, pas à leur place.
+Ces deux formes de confiance partagent un fondement commun : **une fiabilité démontrée dans le temps**. Pas des promesses. Pas du marketing. Des preuves mesurées, visibles, continues que le système fonctionne _avec_ les humains, pas à leur place.
 
-## La Peur Que Nous Devons Affronter
+## La peur que nous devons affronter
 
 Soyons directs sur l'éléphant dans la pièce : les agents publics s'inquiètent que l'IA prenne leur emploi. Cette peur est légitime et nous refusons de la balayer.
 
-Notre réponse n'est pas « l'IA ne vous remplacera pas » — c'est une promesse que nous ne pouvons pas faire dans tous les contextes. Notre réponse est plus honnête :
+Notre réponse n’est pas « l’IA ne vous remplacera pas » (promesse que nous ne pouvons pas tenir). Nous préférons être honnêtes :
 
 > **Dans la participation citoyenne, l'IA ne peut pas et ne devrait pas remplacer le jugement humain. Elle peut seulement gagner le droit de gérer les tâches routinières en faisant ses preuves, libérant les humains pour le travail qui nécessite véritablement la sagesse humaine.**
 
-L'objectif n'est pas l'automatisation. L'objectif est **l'augmentation** — une équipe où chaque membre apporte ses forces.
+L'objectif n'est pas l'automatisation, mais **l'augmentation** — créer une équipe où chacun apporte ses forces.
 
 ## Le Modèle d'Équipe Humain-IA
 
@@ -59,9 +58,9 @@ Nous n'implémentons pas « l'automatisation par IA ». Nous construisons une **
 
 Ce n'est pas une échelle où l'IA grimpe vers le remplacement des humains. C'est un **partenariat stable** où les responsabilités sont divisées par compétence, pas par commodité.
 
-## Comment la Confiance Se Construit : Transparence à Chaque Étape
+## Comment la confiance se construit : Transparence à chaque étape
 
-La confiance ne se décrète pas — elle se gagne par la transparence. Chaque décision de l'IA dans OCapistaine vient avec une divulgation complète :
+La confiance ne se décrète pas — elle se gagne par la transparence. Chaque décision de l'IA dans Ò Capistaine vient avec une divulgation complète :
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -74,17 +73,17 @@ La confiance ne se décrète pas — elle se gagne par la transparence. Chaque d
 │  ✓ Catégorie : économie                                         │
 │  ✓ Confiance : 92%                                              │
 │                                                                 │
-│  Raisonnement : "Proposition concrète concernant les            │
+│  Raisonnement : "*Proposition concrète concernant les           │
 │  infrastructures portuaires, sans attaque personnelle,          │
-│  en rapport direct avec Audierne."                              │
+│  en rapport direct avec Audierne.*"                             │
 │                                                                 │
 │  Aspects positifs détectés :                                    │
 │  • Proposition concrète                                         │
 │  • Pertinence locale                                            │
 │                                                                 │
-│  ┌─────────────────────────────────────────────────────────┐   │
-│  │  [✓ Approuver]  [✗ Corriger]  [? Demander révision]     │   │
-│  └─────────────────────────────────────────────────────────┘   │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │  [✓ Approuver]  [✗ Corriger]  [? Demander révision]     │    │
+│  └─────────────────────────────────────────────────────────┘    │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -92,6 +91,7 @@ La confiance ne se décrète pas — elle se gagne par la transparence. Chaque d
 L'agent public voit **tout** : la décision, le niveau de confiance, le raisonnement et les aspects spécifiques qui ont influencé l'IA. Il peut approuver en un clic, corriger avec une explication, ou escalader vers un collègue.
 
 **L'IA ne cache jamais son travail.** Cette transparence sert deux objectifs :
+
 1. Les agents publics peuvent vérifier le jugement de l'IA par rapport à leur propre expertise
 2. Avec le temps, des patterns émergent — les humains apprennent quand faire confiance à l'IA, et quand vérifier
 
@@ -131,11 +131,11 @@ C'est ici que le modèle d'équipe devient puissant : **chaque correction humain
 │                         └──────┬───────┘                        │
 │                                │                                │
 │                                ▼                                │
-│                         ┌──────────────┐                        │
-│                         │ L'IA s'amé-  │                        │
-│                         │ liore au     │                        │
-│                         │ cycle suivant│                        │
-│                         └──────────────┘                        │
+│                         ┌────────────────┐                      │
+│                         │ L'IA s'améliore│                      │
+│                         │       au       │                      │
+│                         │ cycle suivant  │                      │
+│                         └────────────────┘                      │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -153,21 +153,21 @@ Quand un agent public corrige une décision de l'IA, cette correction devient un
 
 Nous suivons tout, et les métriques sont visibles par tous les membres de l'équipe :
 
-| Métrique | Ce Qu'elle Mesure | Signal de Confiance |
-|----------|-------------------|---------------------|
-| Taux d'approbation | % des décisions IA acceptées par les humains | Fiabilité de l'IA |
-| Taux de correction | % des décisions IA corrigées par les humains | Opportunités d'apprentissage |
-| Calibration de confiance | Quand l'IA dit "90% sûre", a-t-elle raison 90% du temps ? | Auto-conscience de l'IA |
-| Temps économisé | Heures de travail routinier gérées par l'IA | Efficacité de l'équipe |
-| Cas limites | Cas complexes nécessitant un jugement humain | Valeur de l'expertise humaine |
+| Métrique                 | Ce Qu'elle Mesure                                         | Signal de Confiance           |
+| ------------------------ | --------------------------------------------------------- | ----------------------------- |
+| Taux d'approbation       | % des décisions IA acceptées par les humains              | Fiabilité de l'IA             |
+| Taux de correction       | % des décisions IA corrigées par les humains              | Opportunités d'apprentissage  |
+| Calibration de confiance | Quand l'IA dit "90% sûre", a-t-elle raison 90% du temps ? | Auto-conscience de l'IA       |
+| Temps économisé          | Heures de travail routinier gérées par l'IA               | Efficacité de l'équipe        |
+| Cas limites              | Cas complexes nécessitant un jugement humain              | Valeur de l'expertise humaine |
 
-## Dans le Doute, Respecter le Citoyen
+## En cas de doute, respecter le citoyen
 
 Un principe fondamental qui construit la confiance citoyenne : **quand l'IA est incertaine, elle s'en remet aux humains — jamais de rejet silencieux**.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│              LE PRINCIPE "FAIL OPEN" (ÉCHOUER OUVERT)           │
+│              LE PRINCIPE "FAIL OPEN" (ÉCHOUER OUVERTEMENT)      │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  Scénario : L'IA n'est pas sûre d'une contribution              │
@@ -190,9 +190,9 @@ Un principe fondamental qui construit la confiance citoyenne : **quand l'IA est 
 
 Ce principe a une implémentation technique :
 
-- **Haute confiance (>85%)** : Recommandation IA affichée en évidence, approbation en un clic
+- **Haute confiance (`\>85%`)** : Recommandation IA affichée en évidence, approbation en un clic
 - **Confiance moyenne (60-85%)** : L'IA montre son raisonnement, décision humaine requise
-- **Basse confiance (<60%)** : Signalé comme "nécessite révision", pas de recommandation IA affichée
+- **Basse confiance (`\<60%`)** : Signalé comme "nécessite révision", pas de recommandation IA affichée
 - **État d'erreur** : Traité comme basse confiance, jamais comme rejet
 
 **Pourquoi c'est important pour les citoyens** : Aucun algorithme ne rejette silencieusement leur voix. Si l'IA ne peut pas évaluer une contribution avec confiance, un humain la révisera. La démocratie exige cette garantie.
@@ -209,10 +209,10 @@ Chaque action automatisée est visible et traçable. Quand l'IA marque une contr
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  Labels :                                                       │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
-│  │  économie    │  │conforme      │  │ validé par   │          │
-│  │              │  │charte        │  │ Forseti 92%  │          │
-│  └──────────────┘  └──────────────┘  └──────────────┘          │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐           │
+│  │  économie    │  │conforme      │  │ validé par   │           │
+│  │              │  │charte        │  │ Forseti 92%  │           │
+│  └──────────────┘  └──────────────┘  └──────────────┘           │
 │                                                                 │
 │  Journal d'activité :                                           │
 │  • 14:32 - Contribution soumise par le citoyen                  │
@@ -231,34 +231,35 @@ Nous ne demandons à personne de nous faire confiance sur parole. Nous publions 
 
 ### Pour les Citoyens : "Ma voix est-elle entendue équitablement ?"
 
-| Question | Métrique | Statut Actuel |
-|----------|----------|---------------|
-| Les contributions valides sont-elles acceptées ? | Taux d'approbation pour les posts conformes | Cible : >98% |
-| Les rejets sont-ils expliqués ? | % des rejets avec raisonnement | 100% (par conception) |
-| Puis-je faire appel ? | Révision humaine disponible ? | Toujours |
+| Question                                         | Métrique                                    | Statut Actuel         |
+| ------------------------------------------------ | ------------------------------------------- | --------------------- |
+| Les contributions valides sont-elles acceptées ? | Taux d'approbation pour les posts conformes | Cible : `\>98%`       |
+| Les rejets sont-ils expliqués ?                  | % des rejets avec raisonnement              | 100% (par conception) |
+| Puis-je faire appel ?                            | Révision humaine disponible ?               | Toujours              |
 
 ### Pour les Agents Publics : "Cet outil m'aide-t-il vraiment ?"
 
-| Question | Métrique | Statut Actuel |
-|----------|----------|---------------|
-| L'IA est-elle précise ? | Taux d'accord avec les décisions humaines | En suivi |
-| Est-ce que je gagne du temps ? | Heures économisées par semaine | En suivi |
-| Suis-je encore nécessaire ? | Cas limites nécessitant un jugement humain | Toujours présents |
-| L'IA s'améliore-t-elle ? | Tendance du taux de correction | Devrait diminuer |
+| Question                       | Métrique                                   | Statut Actuel     |
+| ------------------------------ | ------------------------------------------ | ----------------- |
+| L'IA est-elle précise ?        | Taux d'accord avec les décisions humaines  | En suivi          |
+| Est-ce que je gagne du temps ? | Heures économisées par semaine             | En suivi          |
+| Suis-je encore nécessaire ?    | Cas limites nécessitant un jugement humain | Toujours présents |
+| L'IA s'améliore-t-elle ?       | Tendance du taux de correction             | Devrait diminuer  |
 
 ### Pour les Administrateurs : "Est-ce un déploiement IA responsable ?"
 
-| Question | Métrique | Statut Actuel |
-|----------|----------|---------------|
-| L'IA est-elle consciente de son incertitude ? | Courbe de calibration de confiance | Surveillé via Opik |
-| Détectons-nous les problèmes ? | Rappel de détection des violations | Cible >90% |
-| Le système est-il auditable ? | Trace complète des décisions disponible | 100% (par conception) |
+| Question                                      | Métrique                                | Statut Actuel         |
+| --------------------------------------------- | --------------------------------------- | --------------------- |
+| L'IA est-elle consciente de son incertitude ? | Courbe de calibration de confiance      | Surveillé via Opik    |
+| Détectons-nous les problèmes ?                | Rappel de détection des violations      | Cible `\>90%`         |
+| Le système est-il auditable ?                 | Trace complète des décisions disponible | 100% (par conception) |
 
 ## Le Parcours de la Confiance : Gagner des Responsabilités au Fil du Temps
 
 La confiance ne s'accorde pas — elle se gagne. Voici comment l'IA gagne plus de responsabilités au fil du temps :
 
 ### Étape 1 : Observateur (Actuel)
+
 **Rôle de l'IA** : Observer et apprendre
 **Rôle de l'humain** : Tout faire, l'IA prend des notes
 
@@ -267,9 +268,10 @@ La confiance ne s'accorde pas — elle se gagne. Voici comment l'IA gagne plus d
 - Les prédictions de l'IA sont enregistrées pour suivre la précision
 - Aucune action IA visible par les citoyens
 
-*Niveau de confiance* : Zéro. Nous prouvons que l'IA peut même comprendre la tâche.
+_Niveau de confiance_ : Zéro. Nous prouvons que l'IA peut même comprendre la tâche.
 
-### Étape 2 : Assistant (Quand : Précision > 85%)
+### Étape 2 : Assistant (Quand : Précision `\>85%`)
+
 **Rôle de l'IA** : Préparer le travail
 **Rôle de l'humain** : Réviser et décider
 
@@ -278,9 +280,10 @@ La confiance ne s'accorde pas — elle se gagne. Voici comment l'IA gagne plus d
 - Approbation ou correction en un clic
 - Chaque correction améliore l'IA
 
-*Niveau de confiance* : Limité. L'IA fait gagner du temps mais les humains restent maîtres.
+_Niveau de confiance_ : Limité. L'IA fait gagner du temps mais les humains restent maîtres.
 
-### Étape 3 : Collègue (Quand : Précision > 95% pendant 3 mois)
+### Étape 3 : Collègue (Quand : Précision `\>95%` pendant 3 mois)
+
 **Rôle de l'IA** : Gérer les cas routiniers
 **Rôle de l'humain** : Se concentrer sur les cas complexes
 
@@ -289,9 +292,10 @@ La confiance ne s'accorde pas — elle se gagne. Voici comment l'IA gagne plus d
 - Basse confiance escaladée au personnel senior
 - Tableaux de bord de précision quotidiens
 
-*Niveau de confiance* : Substantiel. L'IA a prouvé sa fiabilité sur le travail routinier.
+_Niveau de confiance_ : Substantiel. L'IA a prouvé sa fiabilité sur le travail routinier.
 
-### Étape 4 : Partenaire de Confiance (Quand : 6 mois stable à >95%)
+### Étape 4 : Partenaire de Confiance (Quand : 6 mois stable à `\>95%`)
+
 **Rôle de l'IA** : Évaluation de première ligne
 **Rôle de l'humain** : Assurance qualité et appels
 
@@ -300,7 +304,7 @@ La confiance ne s'accorde pas — elle se gagne. Voici comment l'IA gagne plus d
 - Les humains gèrent tous les appels et cas limites
 - Disjoncteurs si la précision chute
 
-*Niveau de confiance* : Élevé, mais jamais complet. Les humains ont toujours autorité pour corriger.
+_Niveau de confiance_ : Élevé, mais jamais complet. Les humains ont toujours autorité pour corriger.
 
 **Note** : Nous n'atteindrons peut-être jamais l'Étape 4, et c'est très bien. L'objectif n'est pas l'automatisation maximale — c'est la collaboration optimale.
 
@@ -316,7 +320,7 @@ L'IA dans les applications civiques ne consiste pas à remplacer le contact huma
 
 ## Ce Que Nous Construisons Vraiment
 
-OCapistaine n'est pas un produit IA. C'est un **système de construction de confiance** qui utilise l'IA.
+Ò Capistaine n'est pas un produit IA. C'est un **système de construction de confiance** qui utilise l'IA.
 
 Les vrais livrables sont :
 
@@ -340,6 +344,6 @@ Si vous êtes un technologue intéressé par l'IA responsable : rejoignez-nous. 
 
 ---
 
-*Le chemin vers une IA de confiance dans les applications civiques commence par de petits pas, mesurés avec soin, avec les humains toujours dans la boucle.*
+_Le chemin vers une IA de confiance dans les applications civiques commence par de petits pas, mesurés avec soin, avec les humains toujours dans la boucle._
 
-*Suivez notre progression : [audierne2026/participons](https://github.com/audierne2026/participons)*
+_Suivez notre progression : [audierne2026/participons](https://github.com/audierne2026/participons)_

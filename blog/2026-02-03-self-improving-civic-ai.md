@@ -1,14 +1,13 @@
 ---
 slug: self-improving-civic-ai
 title: "Building Trust Through Transparent AI: A Human-Machine Partnership for Civic Participation"
-authors: [ocapistaine]
-tags: [ai, civic-tech, trust, collaboration, forseti]
-date: 2026-02-03
+authors: [jnxmas]
+tags: [ai-ml, civictech, trust, collaboration, forseti]
 ---
 
 # Building Trust Through Transparent AI: A Human-Machine Partnership for Civic Participation
 
-**How OCapistaine builds trust with citizens and civil servants through measurable AI reliability**
+**How Ò Capistaine builds trust with citizens and civil servants through measurable AI reliability**
 
 <!-- truncate -->
 
@@ -19,7 +18,7 @@ When we deploy AI in civic applications, we're not selling software—we're aski
 - **Citizens** need to trust that their voice matters, that an algorithm won't silently dismiss their contribution
 - **Civil servants** need to trust that AI is a colleague, not a threat to their expertise and employment
 
-Both forms of trust share a common foundation: **demonstrated reliability over time**. Not promises. Not marketing. Measured, visible, continuous proof that the system works *with* humans, not instead of them.
+Both forms of trust share a common foundation: **demonstrated reliability over time**. Not promises. Not marketing. Measured, visible, continuous proof that the system works _with_ humans, not instead of them.
 
 ## The Fear We Must Address
 
@@ -61,7 +60,7 @@ This isn't a ladder where AI climbs toward replacing humans. It's a **stable par
 
 ## How Trust Is Built: Transparency at Every Step
 
-Trust isn't declared—it's earned through transparency. Every AI decision in OCapistaine comes with full disclosure:
+Trust isn't declared—it's earned through transparency. Every AI decision in Ò Capistaine comes with full disclosure:
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -92,6 +91,7 @@ Trust isn't declared—it's earned through transparency. Every AI decision in OC
 The civil servant sees **everything**: the decision, the confidence, the reasoning, and the specific aspects that influenced the AI. They can approve with one click, override with an explanation, or escalate to a colleague.
 
 **The AI never hides its work.** This transparency serves two purposes:
+
 1. Civil servants can verify AI judgment against their own expertise
 2. Over time, patterns emerge—humans learn when to trust the AI, and when to double-check
 
@@ -151,13 +151,13 @@ When a civil servant overrides an AI decision, that correction becomes training 
 
 We track everything, and the metrics are visible to all team members:
 
-| Metric | What It Measures | Trust Signal |
-|--------|------------------|--------------|
-| Approval Rate | % of AI decisions humans accept | AI reliability |
-| Override Rate | % of AI decisions humans correct | Learning opportunities |
-| Confidence Calibration | When AI says "90% sure," is it right 90% of the time? | AI self-awareness |
-| Time Saved | Hours of routine work handled by AI | Team efficiency |
-| Edge Cases | Complex cases requiring human judgment | Human expertise value |
+| Metric                 | What It Measures                                      | Trust Signal           |
+| ---------------------- | ----------------------------------------------------- | ---------------------- |
+| Approval Rate          | % of AI decisions humans accept                       | AI reliability         |
+| Override Rate          | % of AI decisions humans correct                      | Learning opportunities |
+| Confidence Calibration | When AI says "90% sure," is it right 90% of the time? | AI self-awareness      |
+| Time Saved             | Hours of routine work handled by AI                   | Team efficiency        |
+| Edge Cases             | Complex cases requiring human judgment                | Human expertise value  |
 
 ## When In Doubt, Respect the Citizen
 
@@ -188,9 +188,9 @@ A fundamental principle that builds citizen trust: **when the AI is uncertain, i
 
 This principle has a technical implementation:
 
-- **High confidence (>85%)**: AI recommendation shown prominently, one-click approval
+- **High confidence (`\>85%`)**: AI recommendation shown prominently, one-click approval
 - **Medium confidence (60-85%)**: AI shows reasoning, human decision required
-- **Low confidence (<60%)**: Flagged as "needs review," no AI recommendation shown
+- **Low confidence (`\<60%`)**: Flagged as "needs review," no AI recommendation shown
 - **Error state**: Treated as low confidence, never as rejection
 
 **Why this matters for citizens**: No algorithm silently dismisses their voice. If the AI can't confidently assess a contribution, a human will review it. Democracy requires this guarantee.
@@ -229,34 +229,35 @@ We don't ask anyone to trust us on faith. We publish metrics that prove the syst
 
 ### For Citizens: "Is my voice being heard fairly?"
 
-| Question | Metric | Current Status |
-|----------|--------|----------------|
-| Are valid contributions being accepted? | Approval rate for compliant posts | Target: >98% |
-| Are rejections explained? | % of rejections with reasoning | 100% (by design) |
-| Can I appeal? | Human review available? | Always |
+| Question                                | Metric                            | Current Status   |
+| --------------------------------------- | --------------------------------- | ---------------- |
+| Are valid contributions being accepted? | Approval rate for compliant posts | Target: `\>98%`  |
+| Are rejections explained?               | % of rejections with reasoning    | 100% (by design) |
+| Can I appeal?                           | Human review available?           | Always           |
 
 ### For Civil Servants: "Is this tool actually helping?"
 
-| Question | Metric | Current Status |
-|----------|--------|----------------|
-| Is the AI accurate? | Agreement rate with human decisions | Tracking |
-| Am I saving time? | Hours saved per week | Tracking |
-| Am I still needed? | Edge cases requiring human judgment | Always present |
-| Is AI getting better? | Trend of override rate | Should decrease |
+| Question              | Metric                              | Current Status  |
+| --------------------- | ----------------------------------- | --------------- |
+| Is the AI accurate?   | Agreement rate with human decisions | Tracking        |
+| Am I saving time?     | Hours saved per week                | Tracking        |
+| Am I still needed?    | Edge cases requiring human judgment | Always present  |
+| Is AI getting better? | Trend of override rate              | Should decrease |
 
 ### For Administrators: "Is this responsible AI deployment?"
 
-| Question | Metric | Current Status |
-|----------|--------|----------------|
-| Is AI self-aware of uncertainty? | Confidence calibration curve | Monitored via Opik |
-| Are we catching problems? | Violation detection recall | >90% target |
-| Is the system auditable? | Full decision trace available | 100% (by design) |
+| Question                         | Metric                        | Current Status     |
+| -------------------------------- | ----------------------------- | ------------------ |
+| Is AI self-aware of uncertainty? | Confidence calibration curve  | Monitored via Opik |
+| Are we catching problems?        | Violation detection recall    | >90% target        |
+| Is the system auditable?         | Full decision trace available | 100% (by design)   |
 
 ## The Trust Journey: Earning Responsibility Over Time
 
 Trust isn't granted—it's earned. Here's how the AI earns more responsibility over time:
 
 ### Stage 1: Observer (Current)
+
 **AI role**: Watch and learn
 **Human role**: Do everything, AI takes notes
 
@@ -265,9 +266,10 @@ Trust isn't granted—it's earned. Here's how the AI earns more responsibility o
 - AI predictions logged for accuracy tracking
 - No citizen-facing AI actions
 
-*Trust level*: Zero. We're proving the AI can even understand the task.
+_Trust level_: Zero. We're proving the AI can even understand the task.
 
-### Stage 2: Assistant (When: Accuracy > 85%)
+### Stage 2: Assistant (When: Accuracy `\>85%`)
+
 **AI role**: Prepare the work
 **Human role**: Review and decide
 
@@ -276,9 +278,10 @@ Trust isn't granted—it's earned. Here's how the AI earns more responsibility o
 - One-click approve or override
 - Every override improves the AI
 
-*Trust level*: Limited. AI saves time but humans remain in control.
+_Trust level_: Limited. AI saves time but humans remain in control.
 
-### Stage 3: Colleague (When: Accuracy > 95% for 3 months)
+### Stage 3: Colleague (When: Accuracy `\>95%` for 3 months)
+
 **AI role**: Handle routine cases
 **Human role**: Focus on complex cases
 
@@ -287,9 +290,10 @@ Trust isn't granted—it's earned. Here's how the AI earns more responsibility o
 - Low-confidence escalated to senior staff
 - Daily accuracy dashboards
 
-*Trust level*: Substantial. AI has proven reliable on routine work.
+_Trust level_: Substantial. AI has proven reliable on routine work.
 
-### Stage 4: Trusted Partner (When: 6 months stable at >95%)
+### Stage 4: Trusted Partner (When: 6 months stable at `\>95%`)
+
 **AI role**: First-line assessment
 **Human role**: Quality assurance and appeals
 
@@ -298,7 +302,7 @@ Trust isn't granted—it's earned. Here's how the AI earns more responsibility o
 - Humans handle all appeals and edge cases
 - Circuit breakers if accuracy drops
 
-*Trust level*: High, but never complete. Humans always have override authority.
+_Trust level_: High, but never complete. Humans always have override authority.
 
 **Note**: We may never reach Stage 4, and that's fine. The goal isn't maximum automation—it's optimal collaboration.
 
@@ -314,7 +318,7 @@ AI in civic applications isn't about replacing the human touch that makes local 
 
 ## What We're Really Building
 
-OCapistaine isn't an AI product. It's a **trust-building system** that happens to use AI.
+Ò Capistaine isn't an AI product. It's a **trust-building system** that happens to use AI.
 
 The real deliverables are:
 
@@ -338,6 +342,6 @@ If you're a technologist interested in responsible AI: join us. This is harder t
 
 ---
 
-*The journey toward trusted AI in civic applications starts with small steps, measured carefully, with humans always in the loop.*
+_The journey toward trusted AI in civic applications starts with small steps, measured carefully, with humans always in the loop._
 
-*Follow our progress: [audierne2026/participons](https://github.com/audierne2026/participons)*
+_Follow our progress: [audierne2026/participons](https://github.com/audierne2026/participons)_
