@@ -3,11 +3,14 @@ slug: self-improving-civic-ai
 title: "Building Trust Through Transparent AI: A Human-Machine Partnership for Civic Participation"
 authors: [jnxmas]
 tags: [ai-ml, civictech, trust, collaboration, forseti]
+image: /img/article_audierne2026_en.png
+description: "How OCapistaine builds trust with citizens and civil servants through measurable AI reliability in participatory democracy"
 ---
 
 # Building Trust Through Transparent AI: A Human-Machine Partnership for Civic Participation
 
 **How Ò Capistaine builds trust with citizens and civil servants through measurable AI reliability**
+![building trust](/img/article_audierne2026_en.png)
 
 <!-- truncate -->
 

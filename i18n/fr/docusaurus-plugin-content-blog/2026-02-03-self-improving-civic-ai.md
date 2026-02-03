@@ -3,11 +3,14 @@ slug: self-improving-civic-ai
 title: "Construire la Confiance par une IA Transparente : Un Partenariat Humain-Machine pour la Participation Citoyenne"
 authors: [jnxmas]
 tags: [ia-ml, civictech, confiance, collaboration, forseti]
+image: /img/article_audierne2026_fr.png
+description: "Comment OCapistaine construit la confiance avec les citoyens et les agents publics grâce à une IA fiable et mesurable pour la démocratie participative"
 ---
 
-# Construire la Confiance par une IA Transparente : Un Partenariat Humain-Machine pour la Participation Citoyenne
+# Construire la Confiance avec un applicatif IA transparent : Un Partenariat Humain-Machine pour la Participation Citoyenne
 
 **Comment Ò Capistaine construit la confiance avec les citoyens et les agents publics grâce à une fiabilité mesurable de l'IA**
+![building trust](/img/article_audierne2026_fr.png)
 
 <!-- truncate -->
 
