@@ -468,7 +468,7 @@ services:
 | `app/agents/` | **ELv2** | No |
 | `app/agents/forseti/` | **ELv2** | No |
 
-See [COLLABORATION_ADDENDUM.md](../../../COLLABORATION_ADDENDUM.md) for hackathon prize distribution rules.
+See the COLLABORATION_ADDENDUM.md file in the repository root for hackathon prize distribution rules.
 
 ---
 

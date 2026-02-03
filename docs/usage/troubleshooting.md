@@ -92,8 +92,27 @@ For development/testing, use local Ollama to avoid rate limits entirely:
 ```bash
 # .env
 DEFAULT_PROVIDER=ollama
-OLLAMA_MODEL=mistral:latest
+OLLAMA_MODEL=deepseek-r1:7b  # Default, good balance
 ```
+
+**Available Ollama models** (sorted by resource usage):
+
+| Model | RAM | Use Case |
+|-------|-----|----------|
+| `qwen3:4b` | ~3GB | Ultra-light, simple classification |
+| `qwen3-vl:4b` | ~3GB | Multimodal, document analysis |
+| `deepseek-r1:7b` | ~5GB | **Default** - Efficient reasoning, low CPU |
+| `mistral:7b` | ~6GB | Balanced quality/speed |
+| `llama3:8b` | ~8GB | Higher quality, more resources |
+| `deepseek-r1:14b` | ~10GB | Best reasoning, high resources |
+
+**Pull models before use**:
+```bash
+ollama pull deepseek-r1:7b
+ollama pull qwen3:4b
+```
+
+**Via Dashboard**: When selecting "ollama" as provider, a model dropdown appears with all available options.
 
 **How to identify affected traces in Opik**:
 

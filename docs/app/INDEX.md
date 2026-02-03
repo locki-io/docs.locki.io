@@ -1,3 +1,9 @@
+---
+slug: /app/streamlit-overview
+title: Streamlit Application Documentation
+sidebar_label: Streamlit Overview
+---
+
 # Streamlit Application Documentation
 
 Documentation for Streamlit applications integrated with Vaettir n8n orchestration.

@@ -305,7 +305,7 @@ redis-cli -n 5 KEYS "crawl:*"
 
 - **Task execution times** (each task should complete within expected time)
 - **Redis memory usage** (should remain stable)
-- **Error rates** (should be <5% per task)
+- **Error rates** (should be &lt;5% per task)
 - **Validation accuracy** (tracked in Opik)
 
 ---

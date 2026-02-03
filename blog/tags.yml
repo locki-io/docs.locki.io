@@ -102,3 +102,8 @@ forseti:
   label: Forseti
   permalink: /forseti
   description: Articles on Forseti AI agent and its applications
+
+architecture:
+  label: Architecture
+  permalink: /architecture
+  description: System architecture, design patterns, and technical structure
