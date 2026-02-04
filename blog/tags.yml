@@ -122,3 +122,13 @@ mistral:
   label: Mistral AI
   permalink: /mistral
   description: Articles on Mistral AI integration and Document AI
+
+methodology:
+  label: Methodology
+  permalink: /methodology
+  description: Development methodologies, practices, and processes
+
+continuous-improvement:
+  label: Continuous Improvement
+  permalink: /continuous-improvement
+  description: Articles on continuous improvement of AI systems and prompts

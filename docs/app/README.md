@@ -485,6 +485,21 @@ See the COLLABORATION_ADDENDUM.md file in the repository root for hackathon priz
 | [STREAMLIT_SETUP.md](./STREAMLIT_SETUP.md) | Streamlit configuration |
 | [sovereignty/rag-document-storage.md](../sovereignty/rag-document-storage.md) | Data sovereignty & storage architecture |
 
+### Opik & Optimization
+
+| Document | Description |
+|----------|-------------|
+| [opik/EXPERIMENT_WORKFLOW.md](./opik/EXPERIMENT_WORKFLOW.md) | Prompt optimization experiments |
+| [opik/CONTINUOUS_IMPROVEMENT.md](./opik/CONTINUOUS_IMPROVEMENT.md) | Methodology for AI feature improvement |
+
+### Scheduler & Tasks
+
+| Document | Description |
+|----------|-------------|
+| [scheduler/README.md](./scheduler/README.md) | APScheduler integration |
+| [scheduler/TASK_BOILERPLATE.md](./scheduler/TASK_BOILERPLATE.md) | Task implementation guide |
+| [scheduler/tasks/TASK_OPIK_EVALUATE.md](./scheduler/tasks/TASK_OPIK_EVALUATE.md) | Scheduled Opik evaluation task |
+
 ---
 
 ## Troubleshooting
