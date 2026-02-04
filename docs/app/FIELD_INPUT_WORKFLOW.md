@@ -32,12 +32,12 @@ The **Field Input** feature transforms real field data (Plaud recordings, press 
 
 AI agents can drift into "bubble" behavior - optimizing for patterns in training data rather than real-world discourse. Field Input solves this by:
 
-| Problem | Field Input Solution |
-|---------|---------------------|
-| **Synthetic bias** | Uses real citizen language and concerns |
-| **Topic drift** | Grounds in current local issues |
-| **Outdated context** | Updates with latest municipal developments |
-| **Overfitting** | Introduces authentic variation and edge cases |
+| Problem              | Field Input Solution                          |
+| -------------------- | --------------------------------------------- |
+| **Synthetic bias**   | Uses real citizen language and concerns       |
+| **Topic drift**      | Grounds in current local issues               |
+| **Outdated context** | Updates with latest municipal developments    |
+| **Overfitting**      | Introduces authentic variation and edge cases |
 
 ## Using the Feature
 
@@ -92,10 +92,12 @@ Transcribed meeting recordings provide authentic citizen voices:
 # Reunion Conseil Municipal - 03/02/2026
 
 ## Intervention Mme Dupont
+
 "Le budget pour les écoles est insuffisant. On voit bien que
 les travaux de la cantine traînent depuis deux ans..."
 
 ## Intervention M. Martin
+
 "Pourquoi on investit dans le port alors que les trottoirs
 du centre-ville sont dans un état lamentable ?"
 ```
@@ -120,11 +122,13 @@ Structured summaries from public hearings:
 # Audience Publique - PLU 2026
 
 ## Thèmes abordés:
+
 - Densification du centre-ville
 - Protection du littoral
 - Stationnement
 
 ## Points de friction:
+
 - Hauteur des constructions nouvelles
 - Accès à la plage...
 ```
@@ -134,6 +138,7 @@ Structured summaries from public hearings:
 ### Generated Contributions
 
 Each theme generates:
+
 - **2+ valid contributions** - Constructive, charter-compliant
 - **1 subtle violation** - Appears valid but contains issues
 - **1 aggressive violation** - Clear charter violation
@@ -221,11 +226,11 @@ OPIK_EVALUATE_CRON = "*/30 7-22 * * *"
 
 ### LLM Providers
 
-| Provider | Model | Best For |
-|----------|-------|----------|
-| `gemini` | gemini-2.5-flash | **Recommended** - Fast, grounded, good reasoning |
-| `claude` | claude-3-5-sonnet | Strong reasoning, nuanced violations |
-| `ollama` | mistral:latest | Local development, privacy-sensitive data |
+| Provider | Model             | Best For                                         |
+| -------- | ----------------- | ------------------------------------------------ |
+| `gemini` | gemini-2.5-flash  | **Recommended** - Fast, grounded, good reasoning |
+| `claude` | claude-3-5-sonnet | Strong reasoning, nuanced violations             |
+| `ollama` | mistral:latest    | Local development, privacy-sensitive data        |
 
 ### Category Themes
 
@@ -253,6 +258,7 @@ Customize theme extraction in `app/mockup/data/category_themes.json`:
 ### 1. Source Variety
 
 Mix different input types to ensure breadth:
+
 - 40% meeting transcripts
 - 30% press articles
 - 20% citizen feedback
@@ -261,6 +267,7 @@ Mix different input types to ensure breadth:
 ### 2. Regular Updates
 
 Process field data daily to stay current:
+
 ```bash
 # Example: Process today's Plaud recording
 python -c "
@@ -277,6 +284,7 @@ print(result.to_dict())
 ### 3. Balance Valid/Invalid
 
 Maintain a healthy ratio:
+
 - **70%** valid contributions (expected_valid=True)
 - **30%** violations (expected_valid=False)
 
@@ -285,6 +293,7 @@ This tests both acceptance AND rejection capabilities.
 ### 4. Track Provenance
 
 Always set `source_title` for traceability:
+
 ```python
 result = process_field_input_sync(
     input_text=data,
@@ -294,20 +303,20 @@ result = process_field_input_sync(
 
 ## Files Reference
 
-| File | Purpose |
-|------|---------|
-| `app/mockup/field_input.py` | Core generator implementation |
-| `app/mockup/data/category_themes.json` | Theme configuration |
-| `docs/docs/audierne2026/` | Sample input documents |
-| `app/front.py` | Streamlit UI (Mockup tab) |
+| File                                   | Purpose                       |
+| -------------------------------------- | ----------------------------- |
+| `app/mockup/field_input.py`            | Core generator implementation |
+| `app/mockup/data/category_themes.json` | Theme configuration           |
+| `docs/docs/audierne2026/`              | Sample input documents        |
+| `app/front.py`                         | Streamlit UI (Mockup tab)     |
 
 ## See Also
 
 - [Continuous Improvement](./opik/CONTINUOUS_IMPROVEMENT.md) - Full methodology
 - [Experiment Workflow](./opik/EXPERIMENT_WORKFLOW.md) - Opik evaluation details
-- [Mockup Generator](./mockup/GENERATOR.md) - Synthetic contribution generation
+- [Mockup Generator](./MOCKUP.md) - Synthetic contribution generation
 - [Forseti Agent](./FORSETI_AGENT.md) - Charter validation agent
 
 ---
 
-*Field Input transforms reality into training signal, keeping AI agents honest and grounded in actual civic discourse.*
+_Field Input transforms reality into training signal, keeping AI agents honest and grounded in actual civic discourse._
