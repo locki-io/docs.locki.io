@@ -116,7 +116,7 @@ Run on fixed schedules:
 
 | Task                     | Schedule           | Purpose                     |
 | ------------------------ | ------------------ | --------------------------- |
-| `orchestrate_task_chain` | `*/30 6-23 * * *`  | Check/schedule daily tasks  |
+| `orchestrate_task_chain` | `0 6-23 * * *`     | Check/schedule daily tasks (hourly at :00) |
 | `task_firecrawl`         | `0 3 * * *`        | Nightly document crawling   |
 | `task_opik_experiment`   | `0 5 * * *`        | Daily dataset creation      |
 | `task_opik_evaluate`     | `*/30 7-22 * * *`  | Periodic LLM evaluation     |
@@ -156,9 +156,11 @@ This prevents Ollama from being overwhelmed by concurrent requests.
 00:00  task_prompt_sync        [No LLM] Sync prompts to Opik
 03:00  task_firecrawl          [No LLM] Crawl municipal documents
 05:00  task_opik_experiment    [Ollama/Gemini] Create evaluation datasets
-06:00+ task_chain              [Various] Daily contribution analysis
-07:00+ task_opik_evaluate      [Gemini] Run evaluations (every 30min)
-*:00   task_audierne_docs      [Ollama/Gemini] Process docs (every 2h)
+
+# Staggered schedule (20+ min apart to avoid Ollama conflicts)
+*:00   task_chain              [Various] Daily contribution analysis (hourly)
+*:20   task_audierne_docs      [Ollama/Gemini] Process docs (every 2h at :20)
+*:40   task_opik_evaluate      [Gemini] Run evaluations (hourly at :40)
 ```
 
 ### Failover Chain
@@ -185,7 +187,7 @@ result = task_audierne_docs(
 
 **Scenario:** `task_audierne_docs` is processing a large document with Ollama (holds lock for 10 min)
 
-**Meanwhile:** `task_opik_evaluate` triggers at :30
+**Meanwhile:** `task_opik_evaluate` triggers at :40 (20 min after audierne docs started at :20)
 
 **Resolution:**
 1. `task_opik_evaluate` checks `lock:ollama:global`
@@ -508,10 +510,10 @@ redis-cli -n 6 DEL "lock:ollama:global"
 | `task_prompt_sync` | `0 0 * * *` | None | Task | Daily prompt sync to Opik |
 | `task_firecrawl` | `0 3 * * *` | None | Task | Nightly document crawling |
 | `task_opik_experiment` | `0 5 * * *` | Ollama/Gemini | Check | Daily Opik dataset creation |
-| `orchestrate_task_chain` | `*/30 6-23 * * *` | Various | Task | Dependency-driven task orchestration |
+| `orchestrate_task_chain` | `0 6-23 * * *` | Various | Task | Hourly at :00 (contribution analysis) |
 | `task_contributions_analysis` | Via chain | Configurable | Task | Daily contribution validation |
-| `task_opik_evaluate` | `*/30 7-22 * * *` | Gemini | Check | Periodic LLM evaluation |
-| `task_audierne_docs` | `0 */2 * * *` | Ollama/Gemini | **Acquire** | Process audierne docs (dev) |
+| `task_audierne_docs` | `20 */2 * * *` | Ollama/Gemini | **Acquire** | Every 2h at :20 (staggered) |
+| `task_opik_evaluate` | `40 7-22 * * *` | Gemini | Check | Hourly at :40 (staggered) |
 
 **Lock column:**
 - **Task**: Standard task lock only
@@ -539,7 +541,7 @@ See: [TASK_PROMPT_SYNC.md](./tasks/TASK_PROMPT_SYNC.md)
 
 ### 2. Audierne Docs Processing (`task_audierne_docs`)
 
-**Schedule:** Every 2 hours (`0 */2 * * *`) - Development mode
+**Schedule:** Every 2 hours at :20 (`20 */2 * * *`) - Staggered to avoid conflicts
 **LLM:** Ollama (default) with gemini failover
 **Lock:** Acquires `lock:ollama:global` (TTL: 600s)
 
@@ -564,7 +566,7 @@ See: [TASK_AUDIERNE_DOCS.md](./tasks/TASK_AUDIERNE_DOCS.md)
 
 ### 3. Opik Evaluate (`task_opik_evaluate`)
 
-**Schedule:** Every 30 minutes (`*/30 7-22 * * *`)
+**Schedule:** Hourly at :40 (`40 7-22 * * *`) - Staggered to avoid conflicts
 **LLM:** Gemini (default)
 **Lock:** Checks `lock:ollama:global` if using ollama
 
