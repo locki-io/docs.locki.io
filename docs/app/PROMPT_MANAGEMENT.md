@@ -69,8 +69,48 @@ All Forseti feature prompts are now in JSON chat format for Opik compatibility:
 |------------|-----------|--------|------|-----------|
 | `forseti.persona` | `forseti461-system-persona` | `f73d1f4a` | system | None |
 | `forseti.charter_validation` | `forseti461-user-charter-validation` | `4b187053` | user | `{{input.title}}`, `{{input.body}}` |
-| `forseti.category_classification` | `forseti461-user-category-classification` | `efd48155` | user | `{{input.title}}`, `{{input.body}}`, `{{input.current_category}}` |
+| `forseti.category_classification` | `forseti461-user-category-classification` | `50f4b1af` | user | `{{input.title}}`, `{{input.body}}`, `{{input.category}}` |
 | `forseti.wording_correction` | `forseti461-user-wording-correction` | `f2bbedd1` | user | `{{input.title}}`, `{{input.body}}` |
+
+### Composite Prompts (Chat Type - For Playground)
+
+Composite prompts combine **persona (system)** + **task (user)** into a single chat-format prompt for use in the Opik Playground. These are auto-generated from individual prompts and synced using `create_chat_prompt()`.
+
+| Composite Name | Components | Commit | Description |
+|----------------|------------|--------|-------------|
+| `forseti-persona-charter` | `forseti.persona` + `forseti.charter_validation` | `a5da4eaf` | Charter validation with full persona |
+| `forseti-persona-category` | `forseti.persona` + `forseti.category_classification` | `c4c6352a` | Category classification with full persona |
+| `forseti-persona-wording` | `forseti.persona` + `forseti.wording_correction` | `b1c013b5` | Wording correction with full persona |
+
+**Why Composite Prompts?**
+
+- **Opik Playground** requires complete conversations (system + user) to test prompts interactively
+- **Individual prompts** are maintained separately for modularity and reuse
+- **Composites are auto-generated** - when you update `forseti.persona` or a task prompt, re-sync composites to propagate changes
+
+**Composite Structure (OpenAI Chat Format):**
+
+```json
+[
+  {"role": "system", "content": "## Your Identity\nYou are Forseti..."},
+  {"role": "user", "content": "Validate a citizen contribution...\n\nTITLE: {{input.title}}\nBODY: {{input.body}}"}
+]
+```
+
+**Adding New Composites:**
+
+Edit `COMPOSITE_PROMPTS` in `app/prompts/opik_sync.py`:
+
+```python
+COMPOSITE_PROMPTS = {
+    "forseti-persona-charter": {
+        "system_prompt": "forseti.persona",
+        "user_prompt": "forseti.charter_validation",
+        "description": "Forseti persona + charter validation (for playground)",
+    },
+    # Add new composites here
+}
+```
 
 ### Forseti Batch Validation (Experiments)
 
@@ -106,11 +146,12 @@ app/prompts/
 ├── registry.py              # PromptRegistry class with chat format support
 ├── constants.py             # CATEGORIES, CATEGORY_DESCRIPTIONS (single source)
 ├── opik_sync.py             # Sync prompts to Opik library (CLI + API)
+│                            # Contains COMPOSITE_PROMPTS config for auto-generation
 ├── optimizer.py             # Prompt optimization with opik-optimizer
 └── local/
     ├── __init__.py          # Aggregates JSON + Python prompts
     ├── json_loader.py       # JSON prompt loader with Mustache support
-    ├── forseti_charter.json # Synced from Opik (chat format)
+    ├── forseti_charter.json # Synced from Opik (chat format, individual prompts)
     ├── forseti.py           # Legacy Python prompts (text format)
     └── autocontrib.py       # AutoContrib prompts (FR/EN)
 ```
@@ -174,16 +215,35 @@ print(f"Variables: {info.variables}")  # ["input.title", "input.body"]
 
 ### List Local Prompts
 ```bash
+# List individual and composite prompts
 python -m app.prompts.opik_sync --list
 ```
 
-### Sync to Opik
+### Sync Individual Prompts to Opik
 ```bash
-# Sync all prompts
+# Sync all individual prompts
 python -m app.prompts.opik_sync
 
 # Sync only Forseti prompts
 python -m app.prompts.opik_sync --prefix forseti.
+```
+
+### Sync Composite Prompts (Chat Type)
+```bash
+# Sync composite prompts only (persona + task combinations)
+python -m app.prompts.opik_sync --composites
+
+# Sync both individual AND composite prompts
+python -m app.prompts.opik_sync --all
+```
+
+**Recommended workflow after editing prompts:**
+```bash
+# 1. Update individual prompts
+python -m app.prompts.opik_sync --prefix forseti.
+
+# 2. Rebuild composites from updated individuals
+python -m app.prompts.opik_sync --composites
 ```
 
 ### Compare Local vs Opik
@@ -234,6 +294,9 @@ print(f"Optimized prompt saved to Opik")
 - [x] Sync Opik prompts to local JSON format
 - [x] Support chat format with Mustache variables
 - [x] Add `get_messages()` method for chat API
+- [x] Composite prompts (persona + task) for playground
+- [x] Auto-sync composites via `--composites` CLI flag
+- [x] Use `create_chat_prompt()` for chat-type prompts
 
 ### Phase 3: Vaettir MCP (Future)
 - [ ] Define MCP tools in Vaettir
@@ -246,7 +309,20 @@ print(f"Optimized prompt saved to Opik")
 - [ ] Use chat format for validation calls
 - [ ] Add system prompt from `forseti.persona`
 
-## Variable Formats
+## Prompt Types and Formats
+
+### Opik Prompt Types
+
+Opik distinguishes between two prompt structures that **cannot be changed once created**:
+
+| Type | API Method | Structure | Use Case |
+|------|------------|-----------|----------|
+| **text** | `create_prompt()` | Single string template | Individual prompts (system or user) |
+| **chat** | `create_chat_prompt()` | Messages array `[{role, content}]` | Composite prompts for playground |
+
+> **Important:** If you need to change a prompt's type (text → chat or vice versa), you must delete it in Opik first, then re-sync.
+
+### Variable Formats
 
 The registry supports two variable formats:
 
@@ -256,6 +332,16 @@ The registry supports two variable formats:
 | Python | `{title}`, `{var}` | Python prompts (legacy) |
 
 Both formats are handled transparently by `format_prompt()` and `get_messages()`.
+
+### Field Naming Convention
+
+For consistency across spans, datasets, and prompts, use these field names:
+
+| Field | Correct | Deprecated |
+|-------|---------|------------|
+| Category input | `input.category` | ~~`input.current_category`~~ |
+
+See [Troubleshooting: Dataset and Prompt Field Mismatches](../usage/troubleshooting.md#dataset-and-prompt-field-mismatches) for migration details.
 
 ## Related Documentation
 

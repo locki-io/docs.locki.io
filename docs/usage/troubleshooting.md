@@ -269,6 +269,80 @@ OPIK_PROJECT_NAME=ocapistaine-test
 
 ---
 
+## Dataset and Prompt Field Mismatches
+
+### Category Field Naming: `input.category` vs `input.current_category`
+
+**Symptom**: Category classification experiments fail or return unexpected results because the dataset items use a different field name than the prompt expects.
+
+**Background**:
+The category classification feature was updated to use consistent field naming:
+- **Old**: `input.current_category` (in spans and datasets)
+- **New**: `input.category` (standardized across all inputs)
+
+**Components affected**:
+| Component | Old Field | New Field |
+|-----------|-----------|-----------|
+| Span input | `current_category` | `category` |
+| Dataset item input | `input.current_category` | `input.category` |
+| Prompt variable | `{current_category_line}` | `{category_line}` |
+| Feature parameter | `current_category` | `category` |
+
+**How to check if you're affected**:
+
+```python
+from app.processors.workflows import list_datasets
+from app.agents.tracing import get_tracer
+
+# List datasets and check their items
+tracer = get_tracer()
+client = tracer.get_client()
+
+dataset = client.get_dataset(name="your-dataset-name")
+items = list(dataset.get_items())
+
+for item in items[:3]:
+    input_data = item.get("input", {})
+    print(f"Has current_category: {'current_category' in input_data}")
+    print(f"Has category: {'category' in input_data}")
+```
+
+**Solution: Migrate existing datasets**
+
+```python
+# Migrate a single dataset
+from app.processors.workflows import migrate_dataset_category_field
+
+result = migrate_dataset_category_field("your-dataset-name")
+print(f"Migrated: {result['items_migrated']}, Skipped: {result['items_skipped']}")
+
+# Or migrate all datasets at once
+from app.processors.workflows import migrate_all_datasets_category_field
+
+result = migrate_all_datasets_category_field()
+print(f"Datasets migrated: {len(result['datasets_migrated'])}")
+```
+
+**Solution: Sync updated prompts to Opik**
+
+```python
+from app.prompts.opik_sync import sync_all_prompts
+
+# Sync forseti prompts (including updated category_classification)
+result = sync_all_prompts(filter_prefix="forseti.")
+print(f"Synced: {len(result['synced'])} prompts")
+```
+
+Or via CLI:
+```bash
+python -m app.prompts.opik_sync --prefix forseti.
+```
+
+**Prevention**:
+New datasets created after this update will automatically use `input.category`. Only datasets created before the update need migration.
+
+---
+
 ## Getting Help
 
 1. Check this guide first
