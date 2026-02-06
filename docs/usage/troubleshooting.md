@@ -176,6 +176,114 @@ ollama pull mistral:latest
 
 ---
 
+### Ollama 404 Errors During Validation
+
+**Symptom**: Validation fails with "404 Not Found" or model errors when using Ollama.
+
+**Common Causes**:
+1. Model not pulled locally
+2. Another task holding the global Ollama lock
+3. Ollama service crashed mid-request
+
+**Check the global lock**:
+```bash
+# Check if lock exists
+redis-cli -n 6 GET "lock:ollama:global"
+
+# If stuck, check TTL
+redis-cli -n 6 TTL "lock:ollama:global"
+```
+
+**Solution**:
+```bash
+# 1. Clear stale lock
+redis-cli -n 6 DEL "lock:ollama:global"
+
+# 2. Verify Ollama is running
+curl http://localhost:11434/api/tags
+
+# 3. Pull the model if missing
+ollama pull deepseek-r1:7b
+```
+
+**Note**: The global lock (`lock:ollama:global`) prevents concurrent Ollama usage. Tasks acquire this lock before using Ollama and release it after. If a task crashes, the lock may remain (TTL: 600s).
+
+---
+
+### Re-validating Records with Errors
+
+**Symptom**: Multiple contributions in Redis have validation errors (404s, rate limits, timeouts) stored in their `reasoning` field.
+
+**How to identify**:
+```bash
+# Check for error patterns in recent validations
+redis-cli -n 5 HGETALL "contribution_mockup:forseti461:charter:latest" | grep -i error
+```
+
+**Solution - Re-validate with OpenAI**:
+```bash
+# Run the revalidation script (uses OpenAI by default)
+poetry run python scripts/revalidate_errors.py
+```
+
+This script:
+1. Finds all records with error patterns in reasoning
+2. Re-validates using OpenAI (gpt-4o-mini) - most reliable for batch operations
+3. Updates Redis with correct validation results
+
+**Failover Chain**: The revalidation uses `ollama → openai → claude → mistral → gemini` ordering. Gemini is last due to aggressive rate limits.
+
+---
+
+### Ollama Concurrent Request Failures
+
+**Symptom**: When multiple scheduler tasks run simultaneously or when manual runs overlap with scheduled tasks, Ollama returns 404 errors or timeouts.
+
+**Root Cause**: Ollama handles **concurrent** requests from different processes poorly. However, **sequential** requests within the same process work fine (tested with 0.1s delays between calls).
+
+**Key Insight** (tested 2026-02-06):
+- ✅ Sequential validations in same process: Work reliably
+- ❌ Concurrent requests from different processes: May fail
+
+**The Global Lock Solution**:
+
+The `lock:ollama:global` mechanism prevents concurrent Ollama usage across processes:
+
+```python
+# In scheduler tasks (task_audierne_docs.py)
+def _acquire_ollama_lock(task_id: str) -> bool:
+    redis = get_scheduler_redis()
+    return bool(redis.set("lock:ollama:global", task_id, ex=600, nx=True))
+
+# Check before starting task
+if not _acquire_ollama_lock(task_id):
+    # Another task is using Ollama - failover to cloud provider
+    provider = get_provider("openai")
+```
+
+**When to Use Failover**:
+
+1. **Scheduled tasks**: Always acquire lock, failover if locked
+2. **Manual runs**: Check lock first, use cloud provider if locked
+3. **Batch operations**: Use OpenAI/Claude (faster, no concurrency issues)
+
+**Check if Ollama is safe to use**:
+```bash
+# If this returns empty, Ollama is available
+redis-cli -n 6 GET "lock:ollama:global"
+
+# If locked, see which task holds it
+redis-cli -n 6 GET "lock:ollama:global"
+# Returns: "task_audierne_docs:20260206" or similar
+```
+
+**Recommendation**:
+- For batch operations: Use OpenAI as primary (reliable, ~1s per request vs 15-20s for Ollama)
+- For single requests: Ollama is fine if no lock held
+- For scheduler tasks: Use `ProviderWithFailover` with lock checking
+
+---
+
 ## Scheduler Issues
 
 ### Task Shows "already_completed" After Clearing Key

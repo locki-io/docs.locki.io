@@ -5,24 +5,26 @@ OCapistaine uses a domain-based logging system following Separation of Concerns 
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        DOMAINS                                   │
-├─────────────────────────────────────────────────────────────────┤
-│  presentation  │  services  │  agents  │  processors  │  data   │
-│  (UI, API)     │  (app svc) │  (logic) │  (transform) │ (store) │
-└────────┬───────┴─────┬──────┴────┬─────┴──────┬───────┴────┬────┘
-         │             │           │            │            │
-         ▼             ▼           ▼            ▼            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                        LOG FILES                                 │
-│  logs/                                                           │
-│  ├── presentation.log       ├── presentation_errors.log         │
-│  ├── services.log           ├── services_errors.log             │
-│  ├── agents.log             ├── agents_errors.log               │
-│  ├── processors.log         ├── processors_errors.log           │
-│  ├── data.log               ├── data_errors.log                 │
-│  └── providers.log          └── providers_errors.log            │
-└─────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                               DOMAINS                                        │
+├─────────────────────────────────────────────────────────────────────────────┤
+│  presentation │ services │ agents │ processors │ data │ tasks │ mockup     │
+│  (UI, API)    │ (app)    │ (logic)│ (transform)│(store)│(sched)│ (testing)  │
+└───────┬───────┴────┬─────┴───┬────┴─────┬──────┴───┬───┴───┬───┴─────┬─────┘
+        │            │         │          │          │       │         │
+        ▼            ▼         ▼          ▼          ▼       ▼         ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              LOG FILES                                       │
+│  logs/                                                                       │
+│  ├── presentation.log       ├── presentation_errors.log                     │
+│  ├── services.log           ├── services_errors.log                         │
+│  ├── agents.log             ├── agents_errors.log                           │
+│  ├── processors.log         ├── processors_errors.log                       │
+│  ├── data.log               ├── data_errors.log                             │
+│  ├── providers.log          ├── providers_errors.log                        │
+│  ├── tasks.log              ├── tasks_errors.log                            │
+│  └── mockup.log             └── mockup_errors.log                           │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ## Quick Start
@@ -200,16 +202,58 @@ logger.log_response(model="gemini-2.0-flash", output_tokens=200, latency_ms=1200
 logger.log_error("RATE_LIMIT", "Quota exceeded", model="gemini-2.0-flash", retry_after=30)
 ```
 
+### TaskLogger
+
+For scheduled tasks and background jobs (APScheduler).
+
+```python
+from app.services.logging import TaskLogger
+
+logger = TaskLogger("task_contributions_analysis")
+
+# Task lifecycle
+logger.log_start(task_id="abc123", date_string="20260203")
+logger.log_completed(status="success", validated=10, approved=8)
+logger.log_skipped(reason="already_completed", date_string="20260203")
+
+# Progress tracking
+logger.info("PROGRESS", step="validation", count=5, total=10)
+```
+
+### MockupLogger
+
+For mockup generation, field input processing, and batch validation (DEBUG level by default).
+
+```python
+from app.services.logging import MockupLogger
+
+logger = MockupLogger("field_input_generator")
+
+# Process lifecycle
+logger.info("PROCESS_START", source="direct_input", length=90034)
+logger.info("CHUNKING", total_length=90034, chunks=7)
+logger.debug("LLM_RESPONSE", chunk=0, length=424)
+logger.info("THEMES_EXTRACTED", total=15, unique=12)
+logger.info("PROCESS_COMPLETE", themes=12, contributions=12, categories=["economie", "social"])
+
+# Batch validation
+batch_logger = MockupLogger("batch_validator")
+batch_logger.info("BATCH_START", batch_size=50)
+batch_logger.info("VALIDATION_RESULT", valid=45, invalid=5)
+```
+
 ## Log File Configuration
 
-| Domain | Main Log | Error Log | Rotation |
-|--------|----------|-----------|----------|
-| presentation | presentation.log | presentation_errors.log | 10MB / 5 backups |
-| services | services.log | services_errors.log | 10MB / 5 backups |
-| agents | agents.log | agents_errors.log | 10MB / 5 backups |
-| processors | processors.log | processors_errors.log | 10MB / 5 backups |
-| data | data.log | data_errors.log | 10MB / 5 backups |
-| providers | providers.log | providers_errors.log | 10MB / 5 backups |
+| Domain | Main Log | Error Log | Level | Rotation |
+|--------|----------|-----------|-------|----------|
+| presentation | presentation.log | presentation_errors.log | INFO | 10MB / 5 backups |
+| services | services.log | services_errors.log | INFO | 10MB / 5 backups |
+| agents | agents.log | agents_errors.log | INFO | 10MB / 5 backups |
+| processors | processors.log | processors_errors.log | INFO | 10MB / 5 backups |
+| data | data.log | data_errors.log | INFO | 10MB / 5 backups |
+| providers | providers.log | providers_errors.log | INFO | 10MB / 5 backups |
+| tasks | tasks.log | tasks_errors.log | INFO | 10MB / 5 backups |
+| mockup | mockup.log | mockup_errors.log | DEBUG | 10MB / 5 backups |
 
 Error logs are rotated daily and kept for 30 days.
 
@@ -232,6 +276,8 @@ Format: `timestamp | level | logger_name | message | key=value | key=value ...`
 | `PROCESSORS_LOG_CONSOLE` | Console output for processors | `false` |
 | `DATA_LOG_CONSOLE` | Console output for data | `false` |
 | `PROVIDER_LOG_CONSOLE` | Console output for providers | `false` |
+| `TASKS_LOG_CONSOLE` | Console output for tasks | `false` |
+| `MOCKUP_LOG_CONSOLE` | Console output for mockup | `false` |
 
 ## Adding a New Logger
 
@@ -276,3 +322,23 @@ logger.log_my_event("created", {"id": 123, "name": "test"})
    - `INFO`: Normal operations (requests, responses, agent tasks)
    - `WARNING`: Recoverable issues (validation failures, retries)
    - `ERROR`: Failures requiring attention (API errors, data corruption)
+
+## Important: Logger Class vs get_child_logger
+
+**Always use domain-specific logger classes**, not raw `get_child_logger()`.
+
+```python
+# CORRECT - Use logger classes
+from app.services.logging import MockupLogger, TaskLogger
+
+logger = MockupLogger("my_component")
+logger.info("EVENT", key1="value1", key2="value2")  # kwargs work!
+
+# WRONG - Don't use get_child_logger directly
+from app.services.logging import get_child_logger
+
+logger = get_child_logger("mockup", "my_component")
+logger.info("EVENT", key1="value1")  # kwargs NOT supported!
+```
+
+**Why?** The domain logger classes (`MockupLogger`, `TaskLogger`, etc.) extend `BaseLogger` which has a `_format_parts(**kwargs)` method for structured logging. Raw `get_child_logger()` returns a standard Python logger that doesn't support kwargs in log methods.

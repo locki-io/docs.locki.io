@@ -458,14 +458,31 @@ Contributions created via the Auto-Contribution tab appear in the Mockup tab's "
 Generate themed contributions from real municipal data:
 
 ```
-📋 Field Input → 🔍 Theme Extraction → 🏷️ Category Assignment → 📝 Contribution Generation
-                       ↓                       ↓                        ↓
-              (public hearing)         (7 categories)          (valid + violations)
-              (mayor speech)                                          ↓
-              (municipal docs)                              Store in Redis/JSON
-                                                                      ↓
-                                                            Run Opik Experiment
+📋 Field Input → 📦 Chunking → 🔍 Theme Extraction → 🏷️ Category → 📝 Contribution Generation
+      ↓              ↓               ↓                   ↓                  ↓
+ (90k+ chars)  (15k chunks)   (per chunk)        (7 categories)   (valid + violations)
+                     ↓               ↓                                     ↓
+               (500 overlap)   (deduplicate)                    Store in Redis/JSON
+                                                                           ↓
+                                                                  Run Opik Experiment
 ```
+
+#### Document Chunking
+
+Large documents (like public hearing transcripts, council minutes, etc.) are automatically chunked for LLM processing:
+
+| Parameter | Value | Purpose |
+|-----------|-------|---------|
+| `CHUNK_SIZE` | 15,000 chars | Max text per LLM call |
+| `CHUNK_OVERLAP` | 500 chars | Context continuity between chunks |
+| Max input | ~100k+ chars | Handles full council minutes |
+
+**Processing Flow:**
+
+1. Input text split into ~15k character chunks (preserving word boundaries)
+2. Each chunk sent to LLM for theme extraction
+3. Themes deduplicated across all chunks (same theme from different chunks merged)
+4. Contributions generated from unique themes
 
 **Available Input Sources:**
 - **Audierne2026 Docs** - Select from `docs/docs/audierne2026/` markdown files
@@ -547,6 +564,42 @@ Where:
 ### Key Goal
 
 **Minimize False Negatives**: A missed charter violation reaching the platform is worse than incorrectly flagging a valid contribution (which can be manually reviewed).
+
+## Logging & Debugging
+
+The mockup system uses dedicated logging for debugging and monitoring:
+
+**Log Files:**
+- `logs/mockup.log` - All mockup operations (DEBUG level)
+- `logs/mockup_errors.log` - Error-only log
+
+**Using MockupLogger:**
+
+```python
+from app.services.logging import MockupLogger
+
+logger = MockupLogger("field_input_generator")
+
+# Structured logging with kwargs
+logger.info("PROCESS_START", source="direct_input", length=90034)
+logger.info("CHUNKING", total_length=90034, chunks=7)
+logger.debug("LLM_RESPONSE", chunk=0, length=424)
+logger.info("THEMES_EXTRACTED", total=15, unique=12)
+```
+
+**Common Log Events:**
+
+| Event | Level | Description |
+|-------|-------|-------------|
+| `PROCESS_START` | INFO | Field input processing started |
+| `CHUNKING` | INFO | Document split into chunks |
+| `LLM_RESPONSE` | DEBUG | Raw LLM response per chunk |
+| `CHUNK_THEMES` | INFO | Themes found in each chunk |
+| `THEMES_EXTRACTED` | INFO | Final unique themes after dedup |
+| `CONTRIBUTIONS_SAVED` | INFO | Contributions stored to Redis/JSON |
+| `PROCESS_COMPLETE` | INFO | Full processing summary |
+
+See [Logging System](./LOGGING.md) for full documentation.
 
 ## Best Practices
 

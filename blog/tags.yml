@@ -132,3 +132,18 @@ continuous-improvement:
   label: Continuous Improvement
   permalink: /continuous-improvement
   description: Articles on continuous improvement of AI systems and prompts
+
+sovereignty:
+  label: Data Sovereignty
+  permalink: /sovereignty
+  description: Articles on data sovereignty, local-first AI, and self-hosted solutions
+
+infrastructure:
+  label: Infrastructure
+  permalink: /infrastructure
+  description: Articles on AI infrastructure, deployment, and operational patterns
+
+ollama:
+  label: Ollama
+  permalink: /ollama
+  description: Articles on Ollama local LLM deployment and integration

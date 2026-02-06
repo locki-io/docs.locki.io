@@ -53,8 +53,11 @@ app/services/
 └── tasks/                  # Individual task modules
     ├── __init__.py         # Task registry, _task_boilerplate
     ├── task_contributions_analysis.py   # Daily contribution validation
-    ├── task_opik_experiment.py          # Opik evaluation runner
-    └── task_firecrawl.py                # Document crawling
+    ├── task_opik_experiment.py          # Opik dataset creation
+    ├── task_opik_evaluate.py            # Opik evaluation runner
+    ├── task_firecrawl.py                # Document crawling
+    ├── task_prompt_sync.py              # Prompt sync to Opik (midnight)
+    └── task_audierne_docs.py            # Audierne docs processing (every 2h)
 ```
 
 ### Import Hierarchy (No Circular Dependencies)
@@ -113,9 +116,94 @@ Run on fixed schedules:
 
 | Task                     | Schedule           | Purpose                     |
 | ------------------------ | ------------------ | --------------------------- |
-| `orchestrate_task_chain` | `*/7 6-23 * * *`   | Check/schedule daily tasks  |
+| `orchestrate_task_chain` | `*/30 6-23 * * *`  | Check/schedule daily tasks  |
 | `task_firecrawl`         | `0 3 * * *`        | Nightly document crawling   |
-| `task_opik_experiment`   | `0 5 * * *`        | Daily LLM evaluation        |
+| `task_opik_experiment`   | `0 5 * * *`        | Daily dataset creation      |
+| `task_opik_evaluate`     | `*/30 7-22 * * *`  | Periodic LLM evaluation     |
+| `task_prompt_sync`       | `0 0 * * *`        | Daily prompt sync to Opik   |
+| `task_audierne_docs`     | `0 */2 * * *`      | Process audierne docs (dev) |
+
+---
+
+## Task Execution Conditions
+
+Each task has specific execution conditions and LLM requirements. Understanding these is critical for avoiding conflicts.
+
+### Ollama Global Lock
+
+Tasks that use local Ollama coordinate via a global Redis lock:
+
+```
+lock:ollama:global  (TTL: 600s for audierne_docs)
+```
+
+This prevents Ollama from being overwhelmed by concurrent requests.
+
+### Task Execution Matrix
+
+| Task | LLM Provider | Ollama Lock | Failover | Notes |
+|------|--------------|-------------|----------|-------|
+| `task_prompt_sync` | None | No | N/A | Syncs prompts to Opik, no LLM calls |
+| `task_audierne_docs` | Ollama (default) | **Acquires** | gemini | Acquires lock for 10min, falls back to gemini if locked |
+| `task_opik_evaluate` | Gemini (default) | **Checks** | gemini | Checks lock if using ollama, auto-failover |
+| `task_opik_experiment` | Ollama (default) | **Checks** | gemini | Checks lock if using ollama |
+| `task_contributions_analysis` | Configurable | Optional | Yes | Supports full failover chain |
+| `task_firecrawl` | None | No | N/A | Web crawling only, no LLM |
+
+### Execution Order (Recommended Daily Timeline)
+
+```
+00:00  task_prompt_sync        [No LLM] Sync prompts to Opik
+03:00  task_firecrawl          [No LLM] Crawl municipal documents
+05:00  task_opik_experiment    [Ollama/Gemini] Create evaluation datasets
+06:00+ task_chain              [Various] Daily contribution analysis
+07:00+ task_opik_evaluate      [Gemini] Run evaluations (every 30min)
+*:00   task_audierne_docs      [Ollama/Gemini] Process docs (every 2h)
+```
+
+### Failover Chain
+
+When Ollama is unavailable or locked, tasks automatically fail over:
+
+```
+ollama → openai → claude → mistral → gemini
+```
+
+**Note:** Gemini is last due to aggressive rate limits (20 req/day on free tier).
+
+Failover is enabled by default for most tasks. Configuration:
+
+```python
+# In task call
+result = task_audierne_docs(
+    enable_failover=True,   # Use gemini if ollama locked
+    provider="ollama",      # Primary provider
+)
+```
+
+### Conflict Resolution
+
+**Scenario:** `task_audierne_docs` is processing a large document with Ollama (holds lock for 10 min)
+
+**Meanwhile:** `task_opik_evaluate` triggers at :30
+
+**Resolution:**
+1. `task_opik_evaluate` checks `lock:ollama:global`
+2. Lock exists → task uses gemini instead
+3. Both tasks complete successfully without conflicts
+
+**Manual Override:**
+
+```bash
+# Clear Ollama lock if stuck
+redis-cli -n 6 DEL "lock:ollama:global"
+
+# Force task to skip failover
+python -c "
+from app.services.scheduler import run_task_now
+result = run_task_now('task_audierne_docs', provider='ollama', enable_failover=False)
+"
+```
 
 ---
 
@@ -174,26 +262,39 @@ def clear_old_jobs(scheduler, prefix: str = "task_") -> int:
 
 ### 3. Redis Keys
 
-**Lock Keys** (TTL: 300 seconds):
+**Task Lock Keys** (TTL: 300 seconds):
 
 ```
-lock:task_contributions_analysis:20260203
-lock:task_firecrawl:20260203
-lock:task_opik_experiment:20260203
+lock:task_contributions_analysis:20260206
+lock:task_firecrawl:20260206
+lock:task_opik_experiment:20260206
+lock:task_opik_evaluate:20260206
+lock:task_prompt_sync:20260206
+lock:task_audierne_docs:20260206
 ```
 
 **Success Keys** (TTL: 86400 seconds):
 
 ```
-success:task_contributions_analysis:20260203
-success:task_firecrawl:20260203
-success:task_opik_experiment:20260203
+success:task_contributions_analysis:20260206
+success:task_firecrawl:20260206
+success:task_opik_experiment:20260206
+success:task_opik_evaluate:20260206
+success:task_prompt_sync:20260206
+success:task_audierne_docs:20260206
+```
+
+**Resource Lock Keys** (global, not date-based):
+
+```
+lock:ollama:global   (TTL: 600s) - Prevents concurrent Ollama usage
 ```
 
 **Purpose:**
 
-- Lock keys: Prevent concurrent execution (distributed locking)
-- Success keys: Enable idempotency (skip if already completed)
+- **Task locks**: Prevent concurrent execution of the same task (distributed locking)
+- **Success keys**: Enable idempotency (skip if already completed)
+- **Resource locks**: Prevent concurrent usage of shared resources (Ollama)
 
 ### 4. TaskError Exception
 
@@ -335,6 +436,55 @@ finally:
     l.delete(lock_key)  # CRITICAL: Always release
 ```
 
+### Ollama 404 Errors
+
+**Symptom:** Tasks fail with `Client error '404 Not Found' for url 'http://localhost:11434/api/chat'`
+
+**Cause:** Ollama is not running or is busy with another request.
+
+**Fix:**
+
+```bash
+# 1. Check if Ollama is running
+curl http://localhost:11434/api/tags
+
+# 2. Start Ollama if not running
+ollama serve
+
+# 3. Check if Ollama lock is held
+redis-cli -n 6 GET "lock:ollama:global"
+
+# 4. Clear stuck lock if needed
+redis-cli -n 6 DEL "lock:ollama:global"
+```
+
+**Prevention:**
+- Tasks now use automatic failover to gemini when Ollama is unavailable
+- The `lock:ollama:global` key prevents concurrent Ollama usage
+- Check `result["provider_used"]` to see which provider was actually used
+
+### Tasks Skipping Due to Ollama Lock
+
+**Symptom:** Task returns `status=skipped, reason=ollama_locked`
+
+**Cause:** Another task holds the Ollama lock.
+
+**Normal behavior:** Tasks fail over to gemini automatically.
+
+**If not using failover:**
+
+```bash
+# Check what's holding the lock
+redis-cli -n 6 GET "lock:ollama:global"
+
+# Check TTL remaining
+redis-cli -n 6 TTL "lock:ollama:global"
+
+# Wait for lock to expire (max 10 min for audierne_docs)
+# Or clear manually if stuck:
+redis-cli -n 6 DEL "lock:ollama:global"
+```
+
 ---
 
 ## References
@@ -353,15 +503,112 @@ finally:
 
 ## Task Schedule Summary
 
-| Task | Schedule | Purpose |
-|------|----------|---------|
-| `orchestrate_task_chain` | `*/7 6-23 * * *` | Dependency-driven task orchestration |
-| `task_contributions_analysis` | Via chain | Daily contribution validation |
-| `task_opik_experiment` | `0 5 * * *` | Daily Opik experiments |
-| `task_firecrawl` | `0 3 * * *` | Nightly document crawling |
+| Task | Schedule | LLM | Lock | Purpose |
+|------|----------|-----|------|---------|
+| `task_prompt_sync` | `0 0 * * *` | None | Task | Daily prompt sync to Opik |
+| `task_firecrawl` | `0 3 * * *` | None | Task | Nightly document crawling |
+| `task_opik_experiment` | `0 5 * * *` | Ollama/Gemini | Check | Daily Opik dataset creation |
+| `orchestrate_task_chain` | `*/30 6-23 * * *` | Various | Task | Dependency-driven task orchestration |
+| `task_contributions_analysis` | Via chain | Configurable | Task | Daily contribution validation |
+| `task_opik_evaluate` | `*/30 7-22 * * *` | Gemini | Check | Periodic LLM evaluation |
+| `task_audierne_docs` | `0 */2 * * *` | Ollama/Gemini | **Acquire** | Process audierne docs (dev) |
+
+**Lock column:**
+- **Task**: Standard task lock only
+- **Check**: Checks `lock:ollama:global` before using Ollama
+- **Acquire**: Acquires `lock:ollama:global` for duration
+
+---
+
+## Continuous Improvement Tasks
+
+Three key tasks support the continuous improvement workflow:
+
+### 1. Prompt Sync (`task_prompt_sync`)
+
+**Schedule:** Daily at midnight (`0 0 * * *`)
+**LLM:** None (metadata sync only)
+**Lock:** Task lock only
+
+Synchronizes local prompts to Opik platform for version tracking and A/B testing:
+- Individual prompts (`forseti.*`) synced as `text` type
+- Composite prompts (`forseti-persona-*`) synced as `chat` type
+- Enables prompt optimization via Opik studio
+
+See: [TASK_PROMPT_SYNC.md](./tasks/TASK_PROMPT_SYNC.md)
+
+### 2. Audierne Docs Processing (`task_audierne_docs`)
+
+**Schedule:** Every 2 hours (`0 */2 * * *`) - Development mode
+**LLM:** Ollama (default) with gemini failover
+**Lock:** Acquires `lock:ollama:global` (TTL: 600s)
+
+Processes audierne2026 markdown documents to build training datasets:
+- One document per run (prevents overload)
+- **Acquires Ollama lock** before processing (10 min TTL)
+- **Fails over to gemini** if Ollama is locked/unavailable
+- Extracts themes using LLM chunking (15k chars, 500 overlap)
+- Generates contributions with violations
+- Creates Opik dataset per document
+- Progress tracked in `docs/docs/audierne2026/PROCESSING_PROGRESS.md`
+
+**Progress File Example:**
+```markdown
+| File | Status | Themes | Contributions | Dataset |
+|------|--------|--------|---------------|---------|
+| MVP-meeting-satellite.md | ✅ Done | 3 | 12 | audierne-MVP-meeting-satellite-20260206 |
+| MVP_meeting.md | ⏳ Pending | - | - | - |
+```
+
+See: [TASK_AUDIERNE_DOCS.md](./tasks/TASK_AUDIERNE_DOCS.md)
+
+### 3. Opik Evaluate (`task_opik_evaluate`)
+
+**Schedule:** Every 30 minutes (`*/30 7-22 * * *`)
+**LLM:** Gemini (default)
+**Lock:** Checks `lock:ollama:global` if using ollama
+
+Evaluates LLM outputs using Opik metrics:
+- **Checks Ollama lock** before using (if configured for ollama)
+- **Auto-failover to gemini** if Ollama is locked
+- Runs hallucination and output_format metrics
+- Creates evaluation datasets from recent spans
+- Reports results to Opik dashboard
+
+**Important:** This task defaults to `gemini` to avoid conflicts with `task_audierne_docs`.
+
+---
+
+## Continuous Improvement Workflow
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                  Continuous Improvement Loop                     │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  task_prompt_sync (midnight) [No LLM]                           │
+│        ↓                                                        │
+│  Prompts synced to Opik                                         │
+│        ↓                                                        │
+│  task_audierne_docs (every 2h) [Ollama → Gemini failover]       │
+│        ↓                                                        │
+│  Generate contributions from real docs (acquires Ollama lock)   │
+│        ↓                                                        │
+│  Create Opik dataset per document                               │
+│        ↓                                                        │
+│  task_opik_evaluate (every 30min) [Gemini - avoids conflict]    │
+│        ↓                                                        │
+│  Evaluate Forseti accuracy                                      │
+│        ↓                                                        │
+│  Opik Optimizer                                                 │
+│        ↓                                                        │
+│  Improved prompts → task_prompt_sync (next midnight)            │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
 **Last Updated:** February 2026
 **Maintained by:** OCapistaine Team
-**Architecture Version:** 1.0.0
+**Architecture Version:** 1.2.0
