@@ -18,7 +18,7 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/methods/triz">
+            to="/docs/usage/getting-started">
             Get Started
           </Link>
         </div>
@@ -50,14 +50,14 @@ export default function Home() {
           <div className="container">
             <div className="row">
               <Feature
-                title="Methodologies"
-                description="TRIZ, Separation of Concerns, and Theory of Constraints applied to civic tech."
-                link="/docs/methods/triz"
+                title="For Judges"
+                description="Test and evaluate Forseti AI validation. Help improve civic participation quality."
+                link="/docs/usage/judge-trial-guide"
               />
               <Feature
-                title="Workflows"
-                description="Consolidation, contribution charter, and Firecrawl document acquisition."
-                link="/docs/workflows/consolidation"
+                title="For Developers"
+                description="Application architecture, AI agents, and integration guides."
+                link="/docs/app"
               />
               <Feature
                 title="Project Board"

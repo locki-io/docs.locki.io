@@ -19,7 +19,12 @@ const sidebars = {
       type: "category",
       label: "Usage Guides",
       link: { type: "doc", id: "usage/getting-started" },
-      items: ["usage/getting-started", "usage/faq", "usage/troubleshooting"],
+      items: [
+        "usage/getting-started",
+        "usage/judge-trial-guide",
+        "usage/faq",
+        "usage/troubleshooting",
+      ],
     },
   ],
   methodsSidebar: [
