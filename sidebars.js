@@ -89,6 +89,7 @@ const sidebars = {
         "app/FORSETI_AGENT",
         "app/AUTO_CONTRIBUTIONS",
         "app/MOCKUP",
+        "app/ANONYMIZATION",
         "app/PROMPT_MANAGEMENT",
         "app/I18N",
         "app/LOGGING",
