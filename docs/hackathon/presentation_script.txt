@@ -1,0 +1,52 @@
+This is Ò Capistaine — the first school for civic AI.  
+In December we opened a citizen contribution repo for town in Brittany.
+It needed student agents to handle moderation — so we started teaching them how to behave.
+Imagine Dead Poets Society… but in 2026 The students are AI agents.
+
+Audierne is at a crossroads.  
+Polarized meetings. Tense debates.  
+Millions needed for the school — subsidies disappearing.  
+Almost no births, many second homes… fear of becoming a museum town.  
+Democracy is stuck.  
+People want facts, respect, and clear answers — not more noise.
+
+So we asked a question:  
+Can we give AI agents the spirit of Dead Poets Society?  
+We treat them like students in Keating’s class.  
+We teach them grounding, humility, respect… and independence.  
+Not fast answers — real civic skills that calm instead of inflame.
+
+We built a continuous improvement loop.  
+Observe real content.  
+Test the agents.  
+Analyse every trace with Opik.  
+Fix the prompts.  
+Optimize — every day.  
+This is how agents learn to improve, fast and cheaply.
+
+Daily work with Opik gave us strong results.  
+Charter conformity: from 20% to 95%.  
+Classification into 7 categories: from 12% to 90%.  
+Anonymization protects privacy.  
+Hallucinations blocked — everything grounded.  
+Agents now learn truth… politeness… nuance."
+
+Let’s watch Forseti461 in action.  
+A citizen submits an idea.  
+Forseti checks the charter.  
+One click — it adds the 'charter conform' label and updates our GitHub repo.  
+Grounded. Traceable. Respectful.  
+The first real brick for civic automation.
+
+This is more than a prototype.  
+It reduces polarization in small towns.  
+It builds trust through transparency.  
+And it scales — future agents will surface the best ideas while respecting budgets and rules.
+
+What did we learn?  
+Observability is essential.  
+Ship good enough now — not perfect later.  
+Civic tech needs humans — agents only amplify participation.  
+Thank you.  
+Let’s raise civic AI agents that help Audierne seize the day.  
+Carpe diem.

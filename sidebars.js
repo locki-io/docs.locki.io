@@ -11,8 +11,6 @@ const sidebars = {
       link: { type: "doc", id: "audierne2026/overview" },
       items: [
         "audierne2026/overview",
-        "audierne2026/transparency-reports",
-        "audierne2026/data-privacy",
       ],
     },
   ],

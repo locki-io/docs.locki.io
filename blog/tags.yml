@@ -147,3 +147,18 @@ ollama:
   label: Ollama
   permalink: /ollama
   description: Articles on Ollama local LLM deployment and integration
+
+privacy:
+  label: Privacy
+  permalink: /privacy
+  description: Articles on data privacy, PII protection, and anonymization
+
+pii:
+  label: PII Protection
+  permalink: /pii
+  description: Articles on Personally Identifiable Information detection and handling
+
+anonymization:
+  label: Anonymization
+  permalink: /anonymization
+  description: Articles on document anonymization techniques and patterns
