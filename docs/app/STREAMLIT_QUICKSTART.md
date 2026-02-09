@@ -6,85 +6,70 @@ Quick fix for "You need to enable JavaScript" and 403 WebSocket errors.
 
 Your Streamlit app loads but doesn't work because:
 - WebSocket connections (`/_stcore/stream`) return 403 Forbidden
-- Streamlit is blocking connections from `ocapistaine.vaettir.locki.io`
+- Streamlit is blocking connections from the proxy domain
 
-## Quick Fix (5 minutes)
+## Quick Fix
 
-### 1. Create Streamlit Config
+### Production (Render)
 
-In your ocapistaine directory:
+Check that `render.yaml` includes the proxy domain in `STREAMLIT_SERVER_ALLOWED_ORIGINS`:
 
-```bash
-cd ~/dev/ocapistaine
-mkdir -p .streamlit
-cat > .streamlit/config.toml << 'EOF'
-[server]
-enableCORS = true
-enableXsrfProtection = false
-port = 8050
-address = "0.0.0.0"
-headless = true
-allowedOrigins = [
-    "https://ocapistaine.vaettir.locki.io",
-    "https://ocapistaine.ngrok-free.app",
-    "http://localhost:8050"
-]
-
-[browser]
-gatherUsageStats = false
-serverAddress = "ocapistaine.vaettir.locki.io"
-serverPort = 443
-EOF
+```yaml
+- key: STREAMLIT_SERVER_ALLOWED_ORIGINS
+  value: "https://ocapistaine.onrender.com,https://ocapistaine.vaettir.locki.io,https://vaettir.locki.io"
 ```
 
-### 2. Restart Your App
+Redeploy after changes.
+
+### Development (ngrok)
 
 ```bash
-# If running in Docker
-docker compose restart
+# 1. Set up CORS
+eval $(python scripts/set_streamlit_env.py)
 
-# If running directly
-# Press Ctrl+C and restart:
-streamlit run app.py
+# 2. Start Streamlit
+streamlit run app/front.py
+
+# 3. In another terminal, start ngrok
+ngrok http 8502 --domain=$NGROK_DOMAIN
 ```
 
-### 3. Reload Browser
-
-Visit https://ocapistaine.vaettir.locki.io and it should now work!
+Access via `https://ocapistaine-dev.vaettir.locki.io`
 
 ## Verify It Works
 
-Open browser DevTools (F12) → Network tab:
+Open browser DevTools (F12) &rarr; Network tab:
 - Look for `/_stcore/stream` WebSocket
-- Should show status `101 Switching Protocols` ✅
-- NOT `403 Forbidden` ❌
+- Should show status `101 Switching Protocols`
+- NOT `403 Forbidden`
 
 ## If Still Not Working
 
 See full troubleshooting guide: [STREAMLIT_SETUP.md](./STREAMLIT_SETUP.md)
 
-### Common Issues:
+### Common Issues
 
 **Still 403?**
-```bash
-# Check config is loaded
-cat .streamlit/config.toml
 
-# Try wildcard (testing only)
-echo "allowedOrigins = [\"*\"]" >> .streamlit/config.toml
+```bash
+# Check what origins are configured
+echo $STREAMLIT_SERVER_ALLOWED_ORIGINS
+
+# Try wildcard (dev only)
+export STREAMLIT_SERVER_ALLOWED_ORIGINS="*"
+streamlit run app/front.py
 ```
 
-**App crashed?**
-```bash
-# Check if running
-curl http://localhost:8050/_stcore/health
+**App not responding?**
 
-# Restart
-docker compose restart
+```bash
+# Check health
+curl http://localhost:8502/_stcore/health
+
+# Production
+curl https://ocapistaine.vaettir.locki.io/_stcore/health
 ```
 
-**ngrok stopped?**
-```bash
-# Restart ngrok
-ngrok http 8050 --domain=ocapistaine.ngrok-free.app
-```
+**Render cold start?**
+
+Standard plan instances may take 30-60s to wake up. Wait and retry.

@@ -2,8 +2,8 @@
 
 **Status**: RFC (Request for Comments)
 **Author**: @jnxmas
-**Date**: 2026-01-28
-**Related**: [ARCHITECTURE.md](../ARCHITECTURE.md), [MongoDB Integration](#phase-2-mongodb-integration)
+**Date**: 2026-02-09
+**Related**: [ARCHITECTURE.md](../app/README.md#architecture)
 
 ---
 
@@ -35,13 +35,13 @@ sources/                    # ~16MB now, could grow to GB+
 
 ### Issues
 
-| Problem | Impact |
-|---------|--------|
-| Git not designed for large binaries | Slow clone, bloated history |
-| Hard to scale to multiple municipalities | No namespace/partition strategy |
-| No versioning for document updates | Can't track deliberation amendments |
-| Mixed concerns: code + data | Deployment complexity |
-| No sovereignty controls | Data location unknown |
+| Problem                                  | Impact                              |
+| ---------------------------------------- | ----------------------------------- |
+| Git not designed for large binaries      | Slow clone, bloated history         |
+| Hard to scale to multiple municipalities | No namespace/partition strategy     |
+| No versioning for document updates       | Can't track deliberation amendments |
+| Mixed concerns: code + data              | Deployment complexity               |
+| No sovereignty controls                  | Data location unknown               |
 
 ---
 
@@ -60,6 +60,7 @@ For civic data (municipal PDFs, citizen contributions):
 ### RAG Integration
 
 Documents need to be:
+
 1. **Chunked**: Split into semantic segments
 2. **Embedded**: Vector representations (Mistral embeddings recommended - French company, EU-aligned)
 3. **Indexed**: In a vector store for similarity search
@@ -85,12 +86,12 @@ sources/
 └── [files fetched on demand via LFS]
 ```
 
-| Aspect | Assessment |
-|--------|------------|
-| Sovereignty | Low (GitHub US-based, LFS storage limits) |
-| RAG Fit | Poor (binary tracking bloats clones, no native querying) |
-| Scalability | Limited by LFS quotas |
-| Verdict | **Not recommended** |
+| Aspect      | Assessment                                               |
+| ----------- | -------------------------------------------------------- |
+| Sovereignty | Low (GitHub US-based, LFS storage limits)                |
+| RAG Fit     | Poor (binary tracking bloats clones, no native querying) |
+| Scalability | Limited by LFS quotas                                    |
+| Verdict     | **Not recommended**                                      |
 
 ### Scenario 2: External Object Storage + Sync
 
@@ -103,19 +104,19 @@ sources/
 
 **Storage Options:**
 
-| Provider | Cost | Self-hosted | EU Residency | Notes |
-|----------|------|-------------|--------------|-------|
-| AWS S3 | ~$0.02/GB | No | EU regions | Standard, requires IAM |
-| MinIO | Free | Yes | Full control | S3-compatible, recommended |
-| Cloudflare R2 | Free egress | No | EU possible | Good for serving |
-| Scaleway Object | ~$0.01/GB | No | France | Native EU |
+| Provider        | Cost        | Self-hosted | EU Residency | Notes                      |
+| --------------- | ----------- | ----------- | ------------ | -------------------------- |
+| AWS S3          | ~$0.02/GB   | No          | EU regions   | Standard, requires IAM     |
+| MinIO           | Free        | Yes         | Full control | S3-compatible, recommended |
+| Cloudflare R2   | Free egress | No          | EU possible  | Good for serving           |
+| Scaleway Object | ~$0.01/GB   | No          | France       | Native EU                  |
 
-| Aspect | Assessment |
-|--------|------------|
-| Sovereignty | Strong with MinIO/Scaleway |
-| RAG Fit | Good (store blobs, metadata in separate DB) |
-| Scalability | Excellent |
-| Verdict | **Good option for pure file storage** |
+| Aspect      | Assessment                                  |
+| ----------- | ------------------------------------------- |
+| Sovereignty | Strong with MinIO/Scaleway                  |
+| RAG Fit     | Good (store blobs, metadata in separate DB) |
+| Scalability | Excellent                                   |
+| Verdict     | **Good option for pure file storage**       |
 
 ### Scenario 3: Multi-Repo with Submodules
 
@@ -129,12 +130,12 @@ locki-io/ocapistaine-sources/     # Separate data repo
 └── manifest.yaml
 ```
 
-| Aspect | Assessment |
-|--------|------------|
-| Sovereignty | Tied to GitHub |
-| RAG Fit | Clunky (frequent pulls for updates) |
-| Scalability | Limited by git |
-| Verdict | **Avoid for large-scale** |
+| Aspect      | Assessment                          |
+| ----------- | ----------------------------------- |
+| Sovereignty | Tied to GitHub                      |
+| RAG Fit     | Clunky (frequent pulls for updates) |
+| Scalability | Limited by git                      |
+| Verdict     | **Avoid for large-scale**           |
 
 ### Scenario 4: MongoDB GridFS (Recommended)
 
@@ -144,12 +145,12 @@ sources/                    # Local working directory (gitignored)
 └── download.py             # Fetches from MongoDB GridFS
 ```
 
-| Aspect | Assessment |
-|--------|------------|
-| Sovereignty | Excellent (self-host or EU Atlas) |
-| RAG Fit | Native vector search, unified storage |
-| Scalability | Sharding, municipality partitioning |
-| Verdict | **Recommended** |
+| Aspect      | Assessment                            |
+| ----------- | ------------------------------------- |
+| Sovereignty | Excellent (self-host or EU Atlas)     |
+| RAG Fit     | Native vector search, unified storage |
+| Scalability | Sharding, municipality partitioning   |
+| Verdict     | **Recommended**                       |
 
 ### Scenario 5: DVC (Data Version Control)
 
@@ -160,12 +161,12 @@ sources/
 └── audierne/               # Actual files (gitignored)
 ```
 
-| Aspect | Assessment |
-|--------|------------|
-| Sovereignty | Depends on backend |
-| RAG Fit | Sync to local, then process |
-| Scalability | Good with S3/MinIO backend |
-| Verdict | **Solid alternative for git-style data ops** |
+| Aspect      | Assessment                                   |
+| ----------- | -------------------------------------------- |
+| Sovereignty | Depends on backend                           |
+| RAG Fit     | Sync to local, then process                  |
+| Scalability | Good with S3/MinIO backend                   |
+| Verdict     | **Solid alternative for git-style data ops** |
 
 ---
 
@@ -343,6 +344,7 @@ python sources/download.py --municipality audierne
 #### 2.1 Infrastructure Setup
 
 **Option A: Self-hosted (Recommended for sovereignty)**
+
 ```bash
 # On OVH/Scaleway VPS (France)
 docker run -d --name mongodb \
@@ -354,6 +356,7 @@ docker run -d --name mongodb \
 ```
 
 **Option B: MongoDB Atlas (EU Region)**
+
 - Create cluster in `EU_WEST_1` (Ireland) or `EU_WEST_3` (Paris)
 - Enable encryption at rest
 - Configure IP allowlist
@@ -633,8 +636,8 @@ municipalities:
 
 ```javascript
 // MongoDB sharding by municipality
-sh.enableSharding("ocapistaine_sources")
-sh.shardCollection("ocapistaine_sources.documents", { "municipality": 1 })
+sh.enableSharding("ocapistaine_sources");
+sh.shardCollection("ocapistaine_sources.documents", { municipality: 1 });
 ```
 
 #### 3.3 RGPD Compliance Checklist
@@ -653,20 +656,20 @@ sh.shardCollection("ocapistaine_sources.documents", { "municipality": 1 })
 
 ### Self-Hosted (Recommended)
 
-| Component | Provider | Monthly Cost |
-|-----------|----------|--------------|
-| VPS (4GB RAM) | OVH/Scaleway | ~10 EUR |
-| Storage (100GB) | Included | - |
-| Backup | S3-compatible | ~2 EUR |
-| **Total** | | **~12 EUR/month** |
+| Component       | Provider      | Monthly Cost      |
+| --------------- | ------------- | ----------------- |
+| VPS (4GB RAM)   | OVH/Scaleway  | ~10 EUR           |
+| Storage (100GB) | Included      | -                 |
+| Backup          | S3-compatible | ~2 EUR            |
+| **Total**       |               | **~12 EUR/month** |
 
 ### MongoDB Atlas (Managed)
 
-| Tier | Storage | Monthly Cost |
-|------|---------|--------------|
-| M10 (Shared) | 10GB | ~50 EUR |
-| M20 (Dedicated) | 40GB | ~120 EUR |
-| M30 (Production) | 100GB | ~300 EUR |
+| Tier             | Storage | Monthly Cost |
+| ---------------- | ------- | ------------ |
+| M10 (Shared)     | 10GB    | ~50 EUR      |
+| M20 (Dedicated)  | 40GB    | ~120 EUR     |
+| M30 (Production) | 100GB   | ~300 EUR     |
 
 **Recommendation**: Start self-hosted for hackathon/MVP, consider Atlas for production if ops overhead becomes a concern.
 
@@ -674,13 +677,13 @@ sh.shardCollection("ocapistaine_sources.documents", { "municipality": 1 })
 
 ## Trade-offs Summary
 
-| Approach | Sovereignty | RAG Fit | Ops Effort | Cost |
-|----------|-------------|---------|------------|------|
-| Git LFS | Low | Poor | Low | Free |
-| MinIO + DB | High | Good | Medium | Low |
-| MongoDB GridFS | High | Excellent | Medium | Low-Medium |
-| DVC | Medium | Good | Medium | Low |
-| Atlas Managed | Medium | Excellent | Low | High |
+| Approach       | Sovereignty | RAG Fit   | Ops Effort | Cost       |
+| -------------- | ----------- | --------- | ---------- | ---------- |
+| Git LFS        | Low         | Poor      | Low        | Free       |
+| MinIO + DB     | High        | Good      | Medium     | Low        |
+| MongoDB GridFS | High        | Excellent | Medium     | Low-Medium |
+| DVC            | Medium      | Good      | Medium     | Low        |
+| Atlas Managed  | Medium      | Excellent | Low        | High       |
 
 **Winner**: Self-hosted MongoDB GridFS balances sovereignty, RAG integration, and cost.
 
@@ -699,6 +702,6 @@ sh.shardCollection("ocapistaine_sources.documents", { "municipality": 1 })
 
 ## Changelog
 
-| Date | Change | Author |
-|------|--------|--------|
+| Date       | Change      | Author  |
+| ---------- | ----------- | ------- |
 | 2026-01-28 | Initial RFC | @jnxmas |

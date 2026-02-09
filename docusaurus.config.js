@@ -63,7 +63,7 @@ const config = {
         },
         blog: {
           showReadingTime: true,
-          blogSidebarCount: 'ALL', // Show all posts in sidebar (default is 5)
+          blogSidebarCount: "ALL", // Show all posts in sidebar (default is 5)
           feedOptions: {
             type: ["rss", "atom"],
             xslt: true,
@@ -180,7 +180,7 @@ const config = {
             items: [
               {
                 label: "Audierne2026",
-                to: "/docs/audierne2026/overview",
+                to: "/docs/audierne2026/AI_Project_todefuseconflict",
               },
               {
                 label: "Application",

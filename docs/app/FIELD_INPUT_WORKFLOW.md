@@ -315,7 +315,7 @@ result = process_field_input_sync(
 - [Continuous Improvement](./opik/CONTINUOUS_IMPROVEMENT.md) - Full methodology
 - [Experiment Workflow](./opik/EXPERIMENT_WORKFLOW.md) - Opik evaluation details
 - [Mockup Generator](./MOCKUP.md) - Synthetic contribution generation
-- [Forseti Agent](./FORSETI_AGENT.md) - Charter validation agent
+- [Forseti Agent](../agents/forseti/ARCHITECTURE.md) - Charter validation agent
 
 ---
 

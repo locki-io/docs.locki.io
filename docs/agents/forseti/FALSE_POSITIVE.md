@@ -1,6 +1,21 @@
-In order to check false positive for the agent forseti461, I need the citizen  
- and us to be able to test his ability to make the charter respect. Creating  
- false positive is needed for us this is why I would like to install a N8N  
- connection to our discord server with a dedicated channel to check the  
- interactions. This will be the most direct way to check if forseti461 is  
- efficient in his tasks can we make a plan for this ?
+# False Positive Testing Strategy
+
+## Objective
+
+Validate Forseti 461's charter enforcement accuracy by testing with deliberately crafted false positive scenarios via a Discord integration.
+
+## Planned Approach
+
+1. **N8N Discord Integration** - Connect a dedicated Discord channel to N8N workflows
+2. **Test Channel** - Citizens and team members submit test contributions through Discord
+3. **Forseti Evaluation** - Each message is processed by Forseti for charter validation
+4. **Feedback Loop** - Results are posted back to Discord for immediate review
+
+## Status
+
+This feature is planned but not yet implemented. See the [N8N workflows documentation](../../workflows/n8n-github-integration.md) for current integration capabilities.
+
+## Related
+
+- [Forseti Features](./features_details.md) - Charter validation details
+- [Opik Continuous Improvement](../../app/opik/CONTINUOUS_IMPROVEMENT.md) - Experiment-based evaluation

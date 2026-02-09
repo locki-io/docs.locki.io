@@ -2,148 +2,45 @@
 
 Technical documentation for the Forseti 461 agent implementation.
 
-## Directory Structure
+## Agents Directory Structure
+
+## Architecture
 
 ```
-app/
-├── providers/                 # LLM Provider Abstraction
-│   ├── __init__.py           # Factory: get_provider()
-│   ├── base.py               # LLMProvider ABC, Message, CompletionResponse
-│   ├── config.py             # ProviderConfig (pydantic-settings)
-│   ├── gemini.py             # Google Gemini
-│   ├── claude.py             # Anthropic Claude
-│   ├── mistral.py            # Mistral AI
-│   └── ollama.py             # Local Ollama
-│
-├── agents/
-│   ├── __init__.py           # Exports BaseAgent, AgentFeature
-│   ├── base.py               # BaseAgent with feature composition
-│   ├── tracing/
-│   │   ├── __init__.py
-│   │   └── opik.py           # AgentTracer, trace_feature decorator
-│   └── forseti/
-│       ├── __init__.py
-│       ├── agent.py          # ForsetiAgent class
-│       ├── prompts.py        # PERSONA_PROMPT, feature prompts
-│       ├── models.py         # Pydantic models
-│       └── features/
-│           ├── __init__.py
-│           ├── base.py       # FeatureBase ABC
-│           ├── charter_validation.py
-│           ├── category_classification.py
-│           └── wording_correction.py
-│
-└── api/routes/
-    └── validate.py           # REST API endpoints
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         FORSETI 461 AGENT                                   │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  app/agents/forseti/                                                        │
+│  ├── __init__.py              Module exports                                │
+│  ├── agent.py                 ForsetiAgent class                            │
+│  ├── models.py                Pydantic models (ValidationResult, etc.)      │
+│  ├── prompts.py               Re-exports from app/prompts/                  │
+│  └── features/                                                              │
+│      ├── __init__.py          Feature exports                               │
+│      ├── base.py              FeatureBase abstract class                    │
+│      ├── charter_validation.py                                              │
+│      ├── category_classification.py                                         │
+│      ├── wording_correction.py                                              │
+│      ├── anonymization.py     LLM-based PII anonymization                  │
+│      └── translation.py       FR→EN translation (available, not integrated) │
+│                                                                             │
+│  app/prompts/                                                               │
+│  ├── local/forseti.py         Python prompts (fallback)                     │
+│  └── local/forseti_charter.json   Opik-synced prompts (chat format)         │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ## Core Concepts
 
-### Provider Abstraction
+Prompts (System+User) matching concept
+[prompts](../../app/core/prompts.md)
 
-All LLM providers implement the `LLMProvider` abstract base class:
-
-```python
-class LLMProvider(ABC):
-    @property
-    def name(self) -> str: ...
-    @property
-    def model(self) -> str: ...
-
-    async def complete(
-        self,
-        messages: list[Message],
-        temperature: float = 0.7,
-        max_tokens: int | None = None,
-        json_mode: bool = False,
-    ) -> CompletionResponse: ...
-
-    async def stream(
-        self,
-        messages: list[Message],
-        temperature: float = 0.7,
-        max_tokens: int | None = None,
-    ) -> AsyncIterator[str]: ...
-```
-
-Use the factory to get providers:
-
-```python
-from app.providers import get_provider
-
-# Default provider (from DEFAULT_PROVIDER env var)
-provider = get_provider()
-
-# Specific provider
-provider = get_provider("claude")
-
-# With custom settings
-provider = get_provider("gemini", api_key="...", model="gemini-1.5-pro")
-```
-
-### Feature Composition
-
-Agents are composed of features that implement the `AgentFeature` protocol:
-
-```python
-@runtime_checkable
-class AgentFeature(Protocol):
-    @property
-    def name(self) -> str: ...
-
-    @property
-    def prompt(self) -> str: ...
-
-    async def execute(
-        self,
-        provider: LLMProvider,
-        system_prompt: str,
-        **kwargs,
-    ) -> Any: ...
-```
+## Feature executions
 
 Features are registered with agents and executed independently:
-
-```python
-class ForsetiAgent(BaseAgent):
-    def __init__(self):
-        super().__init__()
-        self.register_feature(CharterValidationFeature())
-        self.register_feature(CategoryClassificationFeature())
-
-        if enable_wording:
-            self.register_feature(WordingCorrectionFeature())
-
-    # Execute specific feature
-    result = await agent.execute_feature("charter_validation", title="...", body="...")
-
-    # Execute all features
-    results = await agent.execute_all(title="...", body="...")
-```
-
-### Prompt Separation
-
-Prompts are separated into:
-
-1. **Persona Prompt** (system message): Defines WHO the agent is
-   - Identity, values, response style
-   - Shared across all features
-
-2. **Feature Prompts** (user message): Defines WHAT to do
-   - Specific task instructions
-   - Expected output format
-   - Feature-specific context
-
-```python
-# Persona (system prompt)
-PERSONA_PROMPT = """You are Forseti 461, the impartial guardian..."""
-
-# Feature prompt (user prompt)
-CHARTER_VALIDATION_PROMPT = """Validate this contribution...
-TITLE: {title}
-BODY: {body}
-Return JSON: {"is_valid": ..., "violations": [...]}"""
-```
+[features details](features_details.md)
 
 ## Data Flow
 
@@ -154,25 +51,29 @@ Return JSON: {"is_valid": ..., "violations": [...]}"""
                                   └────────┬────────┘
                                            │
                                            ▼
-┌──────────────────────────────────────────────────────────────┐
-│                      ForsetiAgent                             │
+┌─────────────────────────────────────────────────────────────┐
+│                      ForsetiAgent                           │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
 │  │  Persona    │  │  Features   │  │      Provider       │  │
 │  │  Prompt     │  │             │  │  (Gemini/Claude/...)│  │
 │  └─────────────┘  │ ┌─────────┐ │  └─────────────────────┘  │
-│                   │ │Charter  │ │                            │
-│                   │ │Validation│──────────┐                  │
-│                   │ └─────────┘ │          │                 │
-│                   │ ┌─────────┐ │          ▼                 │
-│                   │ │Category │ │    ┌──────────┐            │
-│                   │ │Classify │─────▶│  LLM     │            │
-│                   │ └─────────┘ │    │ Provider │            │
-│                   │ ┌─────────┐ │    └──────────┘            │
-│                   │ │Wording  │ │          │                 │
-│                   │ │Correct  │──────────┘                  │
-│                   │ └─────────┘ │                            │
-│                   └─────────────┘                            │
-└──────────────────────────────────────────────────────────────┘
+│                   │ │Charter  │ │                           │
+│                   │ │Validation│───────────┐                │
+│                   │ └─────────┘ │          │                │
+│                   │ ┌─────────┐ │          ▼                │
+│                   │ │Category │ │    ┌──────────┐           │
+│                   │ │Classify │─────▶│  LLM     │           │
+│                   │ └─────────┘ │    │ Provider │           │
+│                   │ ┌─────────┐ │    └──────────┘           │
+│                   │ │Wording  │ │          │                │
+│                   │ │Correct  │────────────┘                │
+│                   │ └─────────┘ │                           │
+│                   │ ┌─────────┐ │                           │
+│                   │ │Anonymize│ │  (standalone, not auto-   │
+│                   │ │  (PII)  │ │   registered)             │
+│                   │ └─────────┘ │                           │
+│                   └─────────────┘                           │
+└─────────────────────────────────────────────────────────────┘
                                            │
                                            ▼
                                   ┌─────────────────┐
@@ -206,6 +107,28 @@ class FullValidationResult(BaseModel):
     encouraged_aspects: list[str]
     reasoning: str
     confidence: float
+```
+
+### Anonymization Models
+
+```python
+class EntityType(str, Enum):
+    PERSON = "PERSONNE"
+    EMAIL = "EMAIL"
+    PHONE = "TELEPHONE"
+    ADDRESS = "ADRESSE"
+
+class DetectedEntity(BaseModel):
+    original: str
+    placeholder: str
+    entity_type: EntityType
+
+class AnonymizationResult(BaseModel):
+    anonymized_text: str
+    entities: list[DetectedEntity]
+    entity_mapping: dict[str, str]
+    keywords_extracted: list[str]
+    reasoning: str
 ```
 
 ### Batch Models
@@ -336,20 +259,3 @@ poetry run pytest tests/test_providers/test_gemini.py
 # Test Forseti agent
 poetry run pytest tests/test_agents/test_forseti.py
 ```
-
-## Migration from Legacy
-
-The new implementation maintains backward compatibility:
-
-```python
-# Old way (still works via charterAgent/)
-from charterAgent.charter_agent import validate_issue
-result = validate_issue(title="...", body="...")
-
-# New way (preferred)
-from app.agents.forseti import ForsetiAgent
-agent = ForsetiAgent()
-result = await agent.validate(title="...", body="...")
-```
-
-The `charterAgent/validate_repo.py` script automatically uses the new agent when available.

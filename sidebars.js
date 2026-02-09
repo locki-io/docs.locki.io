@@ -8,9 +8,18 @@ const sidebars = {
     {
       type: "category",
       label: "Audierne2026",
-      link: { type: "doc", id: "audierne2026/overview" },
+      link: {
+        type: "doc",
+        id: "audierne2026/AI_Project_todefuseconflict",
+      },
       items: [
-        "audierne2026/overview",
+        "audierne2026/AI_Project_todefuseconflict",
+        "audierne2026/Mayor-2026-wishes",
+        "audierne2026/municipal_meeting_transcript_lardic",
+        "audierne2026/municipal-council-january2026",
+        "audierne2026/municpal-council-january2026-transcript",
+        "audierne2026/MVP_meeting",
+        "audierne2026/MVP-meeting-satellite",
       ],
     },
   ],
@@ -31,7 +40,7 @@ const sidebars = {
     {
       type: "category",
       label: "Methodologies",
-      link: { type: "doc", id: "methods/triz" },
+      link: { type: "doc", id: "methods/separation-of-concerns" },
       items: [
         "methods/triz",
         "methods/separation-of-concerns",
@@ -56,9 +65,9 @@ const sidebars = {
     {
       type: "category",
       label: "AI Agents",
-      link: { type: "doc", id: "agents/README" },
+      link: { type: "doc", id: "agents/index" },
       items: [
-        "agents/README",
+        "agents/index",
         {
           type: "category",
           label: "Forseti",
@@ -66,7 +75,7 @@ const sidebars = {
           items: [
             "agents/forseti/README",
             "agents/forseti/ARCHITECTURE",
-            "agents/forseti/FALSE_POSITIVE",
+            "agents/forseti/features_details",
           ],
         },
         {
@@ -91,11 +100,10 @@ const sidebars = {
       link: { type: "doc", id: "app/README" },
       items: [
         "app/README",
-        "app/FORSETI_AGENT",
         "app/AUTO_CONTRIBUTIONS",
         "app/MOCKUP",
         "app/ANONYMIZATION",
-        "app/PROMPT_MANAGEMENT",
+        "app/core/prompts",
         "app/I18N",
         "app/LOGGING",
         {

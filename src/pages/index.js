@@ -1,15 +1,15 @@
-import clsx from 'clsx';
-import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import Layout from '@theme/Layout';
+import clsx from "clsx";
+import Link from "@docusaurus/Link";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import Layout from "@theme/Layout";
 
-import Heading from '@theme/Heading';
-import styles from './index.module.css';
+import Heading from "@theme/Heading";
+import styles from "./index.module.css";
 
 function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext();
   return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
+    <header className={clsx("hero hero--primary", styles.heroBanner)}>
       <div className="container">
         <Heading as="h1" className="hero__title">
           {siteConfig.title}
@@ -18,7 +18,8 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/usage/getting-started">
+            to="/docs/usage/getting-started"
+          >
             Get Started
           </Link>
         </div>
@@ -27,9 +28,9 @@ function HomepageHeader() {
   );
 }
 
-function Feature({title, description, link}) {
+function Feature({ title, description, link }) {
   return (
-    <div className={clsx('col col--4')}>
+    <div className={clsx("col col--4")}>
       <div className="text--center padding-horiz--md">
         <Heading as="h3">{title}</Heading>
         <p>{description}</p>
@@ -43,7 +44,8 @@ export default function Home() {
   return (
     <Layout
       title="Documentation"
-      description="AI-powered civic transparency documentation">
+      description="AI-powered civic transparency documentation"
+    >
       <HomepageHeader />
       <main>
         <section className={styles.features}>
@@ -94,7 +96,7 @@ export default function Home() {
               <Feature
                 title="🌍 Audierne2026"
                 description="The real participatory democracy initiative we support."
-                link="/docs/audierne2026/overview"
+                link="htts://audierne2026.fr"
               />
               <Feature
                 title="📊 Project Board"

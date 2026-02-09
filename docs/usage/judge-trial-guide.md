@@ -31,6 +31,10 @@ The interface supports English translations for non-French speakers. Select **En
 
 ## Testing Modes
 
+### Mode 1: citizen 📝 Contributions interactions
+
+![contribution_btn](../../static/img/_user_trails/contribution_button.png)
+
 ### Mode 1: Single Contribution Test
 
 Best for: **Testing individual contributions with variations**

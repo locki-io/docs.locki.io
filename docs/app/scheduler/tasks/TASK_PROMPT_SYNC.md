@@ -59,5 +59,5 @@ success:task_prompt_sync:YYYYMMDD
 
 ## Related
 
-- [Prompt Management](../../PROMPT_MANAGEMENT.md)
+- [Prompt Management](../../core/prompts.md)
 - [Opik Integration](../../opik/)

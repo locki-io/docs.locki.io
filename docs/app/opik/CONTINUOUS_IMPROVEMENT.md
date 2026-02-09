@@ -323,8 +323,8 @@ Make one change at a time:
 
 - [Experiment Workflow](./EXPERIMENT_WORKFLOW.md) - Technical details
 - [Task: Opik Evaluate](../scheduler/tasks/TASK_OPIK_EVALUATE.md) - Scheduled task
-- [Forseti Agent](../FORSETI_AGENT.md) - Agent implementation
-- [Prompt Management](../PROMPT_MANAGEMENT.md) - Prompt optimization
+- [Forseti Agent](../../agents/forseti/ARCHITECTURE.md) - Agent implementation
+- [Prompt Management](../core/prompts.md) - Prompt optimization
 
 ---
 

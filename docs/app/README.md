@@ -11,6 +11,7 @@
 OCapistaine is an AI-powered civic transparency system for local democracy in Audierne, France. It processes municipal documents and citizen contributions through a layered architecture.
 
 **Key Components:**
+
 - **Streamlit UI** - Citizen-facing interface (`app/front.py`)
 - **FastAPI** - REST API for integrations (`app/main.py`)
 - **Forseti Agent** - Charter validation (`app/agents/forseti/`)
@@ -170,11 +171,11 @@ poetry run python src/crawl_municipal_docs.py --source mairie_arretes --mode cra
 
 ### Data Sources
 
-| Source | URL | Documents |
-|--------|-----|-----------|
-| `mairie_arretes` | audierne.bzh/publications-arretes/ | ~4010 |
-| `mairie_deliberations` | audierne.bzh/deliberations-conseil-municipal/ | ~3965 |
-| `commission_controle` | audierne.bzh/systeme/documentheque/?documents_category=49 | Variable |
+| Source                 | URL                                                       | Documents |
+| ---------------------- | --------------------------------------------------------- | --------- |
+| `mairie_arretes`       | audierne.bzh/publications-arretes/                        | ~4010     |
+| `mairie_deliberations` | audierne.bzh/deliberations-conseil-municipal/             | ~3965     |
+| `commission_controle`  | audierne.bzh/systeme/documentheque/?documents_category=49 | Variable  |
 
 ### Commands
 
@@ -247,10 +248,10 @@ OCapistaine uses **dual Opik tracing** for complete observability:
 
 ### Why Dual Tracing?
 
-| Source | What It Traces | Use Case |
-|--------|----------------|----------|
-| **App (Python)** | Agent logic, LLM calls, validation | Debug prompt performance, measure accuracy |
-| **Vaettir (N8N)** | Multi-channel workflows, integrations | Track citizen journey, FB→Agent→Response |
+| Source            | What It Traces                        | Use Case                                   |
+| ----------------- | ------------------------------------- | ------------------------------------------ |
+| **App (Python)**  | Agent logic, LLM calls, validation    | Debug prompt performance, measure accuracy |
+| **Vaettir (N8N)** | Multi-channel workflows, integrations | Track citizen journey, FB→Agent→Response   |
 
 Both feed into the **same Opik workspace** (`ocapistaine-dev`) for unified observability.
 
@@ -284,6 +285,7 @@ with OpikTracer.span("charter_validation") as span:
 ### Vaettir-Side Integration
 
 Vaettir (N8N) has its own Opik integration for workflow tracing:
+
 - **Repo:** github.com/locki-io/vaettir
 - **Traces:** FB messages, email, chatbot interactions
 - **Correlation:** Workflow ID links to app traces
@@ -292,12 +294,12 @@ Vaettir (N8N) has its own Opik integration for workflow tracing:
 
 Access all traces at: **comet.com → ocapistaine-dev workspace**
 
-| View | Shows |
-|------|-------|
-| Traces | All LLM calls from both sources |
-| Datasets | Exported mockup contributions |
-| Experiments | Prompt optimization results |
-| Metrics | Latency, accuracy, cost |
+| View        | Shows                           |
+| ----------- | ------------------------------- |
+| Traces      | All LLM calls from both sources |
+| Datasets    | Exported mockup contributions   |
+| Experiments | Prompt optimization results     |
+| Metrics     | Latency, accuracy, cost         |
 
 ---
 
@@ -378,15 +380,15 @@ Domain-based logging with rotation.
 
 ### Domains
 
-| Domain | Purpose |
-|--------|---------|
-| `presentation` | UI events |
-| `services` | Business logic |
-| `agents` | AI agent activity |
-| `processors` | Data processing |
-| `providers` | LLM API calls |
-| `adapters` | External integrations |
-| `data` | Data access |
+| Domain         | Purpose               |
+| -------------- | --------------------- |
+| `presentation` | UI events             |
+| `services`     | Business logic        |
+| `agents`       | AI agent activity     |
+| `processors`   | Data processing       |
+| `providers`    | LLM API calls         |
+| `adapters`     | External integrations |
+| `data`         | Data access           |
 
 ### Usage
 
@@ -457,16 +459,16 @@ services:
 
 ## License Split
 
-| Component | License | Prize Eligible |
-|-----------|---------|----------------|
-| `app/providers/` | Apache 2.0 | Yes |
-| `app/logging/` | Apache 2.0 | Yes |
-| `app/mockup/` | Apache 2.0 | Yes |
-| `app/processors/` | Apache 2.0 | Yes |
-| `app/i18n.py` | Apache 2.0 | Yes |
-| `src/` (crawlers) | Apache 2.0 | Yes |
-| `app/agents/` | **ELv2** | No |
-| `app/agents/forseti/` | **ELv2** | No |
+| Component             | License    | Prize Eligible |
+| --------------------- | ---------- | -------------- |
+| `app/providers/`      | Apache 2.0 | Yes            |
+| `app/logging/`        | Apache 2.0 | Yes            |
+| `app/mockup/`         | Apache 2.0 | Yes            |
+| `app/processors/`     | Apache 2.0 | Yes            |
+| `app/i18n.py`         | Apache 2.0 | Yes            |
+| `src/` (crawlers)     | Apache 2.0 | Yes            |
+| `app/agents/`         | **ELv2**   | No             |
+| `app/agents/forseti/` | **ELv2**   | No             |
 
 See the COLLABORATION_ADDENDUM.md file in the repository root for hackathon prize distribution rules.
 
@@ -474,30 +476,30 @@ See the COLLABORATION_ADDENDUM.md file in the repository root for hackathon priz
 
 ## Related Documentation
 
-| Document | Description |
-|----------|-------------|
-| [FORSETI_AGENT.md](./FORSETI_AGENT.md) | Forseti agent features and adding new features |
-| [PROMPT_MANAGEMENT.md](./PROMPT_MANAGEMENT.md) | Prompt registry and Opik integration |
-| [AUTO_CONTRIBUTIONS.md](./AUTO_CONTRIBUTIONS.md) | Auto-contribution workflow |
-| [MOCKUP.md](./MOCKUP.md) | Mockup testing system details |
-| [LOGGING.md](./LOGGING.md) | Logging system guide |
-| [I18N.md](./I18N.md) | Internationalization guide |
-| [STREAMLIT_SETUP.md](./STREAMLIT_SETUP.md) | Streamlit configuration |
-| [sovereignty/rag-document-storage.md](../sovereignty/rag-document-storage.md) | Data sovereignty & storage architecture |
+| Document                                                                      | Description                                    |
+| ----------------------------------------------------------------------------- | ---------------------------------------------- |
+| Forseti Agent](../agents/forseti/ARCHITECTURE.md) - Charter validation agent  | Forseti agent features and adding new features |
+| [Prompt Management](./core/prompts.md)                                        | Prompt registry and Opik integration           |
+| [AUTO_CONTRIBUTIONS.md](./AUTO_CONTRIBUTIONS.md)                              | Auto-contribution workflow                     |
+| [MOCKUP.md](./MOCKUP.md)                                                      | Mockup testing system details                  |
+| [LOGGING.md](./LOGGING.md)                                                    | Logging system guide                           |
+| [I18N.md](./I18N.md)                                                          | Internationalization guide                     |
+| [STREAMLIT_SETUP.md](./STREAMLIT_SETUP.md)                                    | Streamlit configuration                        |
+| [sovereignty/rag-document-storage.md](../sovereignty/rag-document-storage.md) | Data sovereignty & storage architecture        |
 
 ### Opik & Optimization
 
-| Document | Description |
-|----------|-------------|
-| [opik/EXPERIMENT_WORKFLOW.md](./opik/EXPERIMENT_WORKFLOW.md) | Prompt optimization experiments |
+| Document                                                           | Description                            |
+| ------------------------------------------------------------------ | -------------------------------------- |
+| [opik/EXPERIMENT_WORKFLOW.md](./opik/EXPERIMENT_WORKFLOW.md)       | Prompt optimization experiments        |
 | [opik/CONTINUOUS_IMPROVEMENT.md](./opik/CONTINUOUS_IMPROVEMENT.md) | Methodology for AI feature improvement |
 
 ### Scheduler & Tasks
 
-| Document | Description |
-|----------|-------------|
-| [scheduler/README.md](./scheduler/README.md) | APScheduler integration |
-| [scheduler/TASK_BOILERPLATE.md](./scheduler/TASK_BOILERPLATE.md) | Task implementation guide |
+| Document                                                                         | Description                    |
+| -------------------------------------------------------------------------------- | ------------------------------ |
+| [scheduler/README.md](./scheduler/README.md)                                     | APScheduler integration        |
+| [scheduler/TASK_BOILERPLATE.md](./scheduler/TASK_BOILERPLATE.md)                 | Task implementation guide      |
 | [scheduler/tasks/TASK_OPIK_EVALUATE.md](./scheduler/tasks/TASK_OPIK_EVALUATE.md) | Scheduled Opik evaluation task |
 
 ---
@@ -542,12 +544,12 @@ poetry run python -c "from app.data.redis_client import get_redis; print(get_red
 
 The `src/` directory now contains only **crawling utilities**. Application code has moved to `app/`:
 
-| Old Location | New Location |
-|--------------|--------------|
-| `src/agents/` | `app/agents/` |
-| `src/services/` | `app/services/` |
-| `src/processors/` | `app/processors/` |
-| `src/config.py` | `app/providers/config.py` (for app), `src/config.py` (for crawlers) |
+| Old Location      | New Location                                                        |
+| ----------------- | ------------------------------------------------------------------- |
+| `src/agents/`     | `app/agents/`                                                       |
+| `src/services/`   | `app/services/`                                                     |
+| `src/processors/` | `app/processors/`                                                   |
+| `src/config.py`   | `app/providers/config.py` (for app), `src/config.py` (for crawlers) |
 
 ### Opik Changes
 
@@ -555,4 +557,4 @@ Opik is now primarily used via **Vaettir** (N8N workflows). Local tracing remain
 
 ---
 
-*Last updated: 2026-01-28*
+_Last updated: 2026-01-28_

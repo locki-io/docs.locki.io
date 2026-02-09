@@ -196,7 +196,7 @@ With prompts centralized, we're ready for Phase 3:
 - `app/prompts/local/forseti_charter.json` — Chat format prompts
 - `app/prompts/registry.py` — Unified prompt access
 - `docs/docs/app/FORSETI_AGENT.md` — Feature documentation
-- `docs/docs/app/PROMPT_MANAGEMENT.md` — Architecture overview
+- `docs/docs/app/core/prompts.md` — Architecture overview
 
 ---
 
