@@ -993,7 +993,7 @@
 <li class=""><code>app/prompts/local/forseti_charter.json</code> — Chat format prompts</li>
 <li class=""><code>app/prompts/registry.py</code> — Unified prompt access</li>
 <li class=""><code>docs/docs/app/FORSETI_AGENT.md</code> — Feature documentation</li>
-<li class=""><code>docs/docs/app/PROMPT_MANAGEMENT.md</code> — Architecture overview</li>
+<li class=""><code>docs/docs/app/core/prompts.md</code> — Architecture overview</li>
 </ul>
 <hr>
 <p><em>Modular prompts, independent optimization, clean architecture.</em></p>]]></content:encoded>
