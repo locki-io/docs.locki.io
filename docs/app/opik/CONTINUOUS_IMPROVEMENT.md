@@ -183,8 +183,8 @@ AGENT_FEATURE_REGISTRY = {
 from app.processors.workflows import OpikExperimentConfig, run_opik_experiment
 
 config = OpikExperimentConfig(
-    experiment_name="charter-improvement-20260204",
-    dataset_name="charter-optimization-20260204",
+    experiment_name="charter_validation-eval-20260204-143022",
+    dataset_name="charter-optimization-20260204-143022",
     experiment_type="charter_optimization",
     metrics=["hallucination", "output_format", "confidence"],
     task_provider="gemini",

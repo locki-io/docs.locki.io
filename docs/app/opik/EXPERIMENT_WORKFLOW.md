@@ -142,8 +142,8 @@ Runs experiments using Opik's native `evaluate()` API:
 from app.processors.workflows import OpikExperimentConfig, run_opik_experiment
 
 config = OpikExperimentConfig(
-    experiment_name="charter-eval-20260204",
-    dataset_name="charter-opt-20260204",
+    experiment_name="charter_validation-eval-20260204-143022",
+    dataset_name="charter-optimization-20260204-143022",
     experiment_type="charter_optimization",
     task_provider="gemini",  # Sidebar LLM for Forseti
     metrics=["hallucination", "moderation"],
@@ -194,6 +194,15 @@ AGENT_FEATURE_REGISTRY = {
     },
 }
 ```
+
+**Naming conventions:**
+
+| Entity | Pattern | Example |
+|--------|---------|---------|
+| Dataset | `{dataset_prefix}-{YYYYMMDD}-{HHMMSS}` | `charter-optimization-20260209-154003` |
+| Experiment | `{feature}-eval-{YYYYMMDD}-{HHMMSS}` | `charter_validation-eval-20260209-154003` |
+
+The experiment name uses the **feature name** (span name) so experiments are directly identifiable by what they evaluate.
 
 To add a new optimizable feature:
 1. Ensure the feature logs `Correctness` feedback via `tracer.log_span_feedback()`

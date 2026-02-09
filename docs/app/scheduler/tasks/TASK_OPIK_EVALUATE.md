@@ -52,7 +52,7 @@ OPIK_EVALUATE_CRON = "*/30 7-22 * * *"
 │          dataset: {prefix}-{date}-{time}                    │
 │                         ↓                                   │
 │  Step 4: Run Opik Evaluate                                  │
-│          experiment: {type}-eval-{date}-{time}              │
+│          experiment: {feature}-eval-{date}-{time}           │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -117,7 +117,7 @@ result = task_opik_evaluate(
     "dataset_name": "charter-optimization-20260204-143052",
     "experiment_result": {
         "status": "success",
-        "experiment_name": "charter_optimization-eval-20260204-143052",
+        "experiment_name": "charter_validation-eval-20260204-143052",
         "eval_results": {...}
     },
     "errors": [],

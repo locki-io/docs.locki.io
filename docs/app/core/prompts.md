@@ -85,6 +85,114 @@ Return JSON: {"is_valid": ..., "violations": [...]}"""
 └─────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+## Bidirectional Sync (Pull from Opik)
+
+Composite prompts optimized in the Opik Playground can be pulled back to update the local JSON source of truth. This closes the optimization loop:
+
+```
+Opik Playground (optimize composite)
+  │
+  ▼ pull_composite_from_opik()
+  ├── extract system message → update forseti.persona locally
+  └── extract user message → update forseti.category_classification locally
+  │
+  ▼ sync_all_prompts() + sync_all_composites()
+  ├── push updated individuals (text type)
+  └── recompose ALL composites with new individuals (chat type)
+```
+
+**Key constraint:** Individual prompts are shared across composites. Updating `forseti.persona` from one composite affects all others. The pull function warns when a shared prompt changes.
+
+### Pull CLI Commands
+
+```bash
+# Pull a single optimized composite
+python -m app.prompts.opik_sync --pull forseti-persona-category
+
+# Pull all composites (dry run — show what would change)
+python -m app.prompts.opik_sync --pull-all --dry-run
+
+# Pull + show experiment performance data
+python -m app.prompts.opik_sync --pull forseti-persona-category --performance
+
+# Full round-trip: pull optimized → update locals → push all
+python -m app.prompts.opik_sync --pull-all && python -m app.prompts.opik_sync --all
+```
+
+### What Pull Does
+
+1. Fetches the composite prompt from Opik via `get_chat_prompt(name)`
+2. Looks up component names from `COMPOSITE_PROMPTS` (system + user)
+3. Extracts `messages[0].content` (system) and `messages[1].content` (user)
+4. Compares with current local content in `forseti_charter.json`
+5. If changed: updates JSON content + `opik_commit` field
+6. If system prompt changed: logs a warning listing all affected composites
+
+### Automated Bidirectional Sync
+
+The daily `task_prompt_sync` scheduler task now runs **pull before push** (Step 0):
+
+1. Pull optimized composites from Opik (update local JSON)
+2. Push individual prompts (text type)
+3. Push composite prompts (chat type)
+
+This ensures that optimizations made in Opik Playground are automatically propagated.
+
+## Experiment Performance Tracking
+
+Performance data from Opik experiments can be fetched per composite prompt:
+
+```bash
+# Show performance for all composites
+python -m app.prompts.opik_sync --performance
+
+# Show performance for a specific composite
+python -m app.prompts.opik_sync --pull forseti-persona-charter --performance
+```
+
+**Example output:**
+
+```
+Performance Data:
+--------------------------------------------------
+  forseti-persona-charter:
+    Experiment: charter_validation-eval-20260209-154003
+    Provider: gemini
+    Model: gemini-2.5-flash
+    Evaluated: 2026-02-09 14:40:04
+    Traces: 50
+    Scores:
+      output_format: 0.994
+      hallucination_metric: 0.436
+```
+
+### How It Works
+
+The `get_composite_performance()` function uses two strategies to find experiments:
+
+1. **Prompt ID lookup**: Fetches the prompt from Opik, uses its internal ID to query `find_experiments(prompt_id=...)` for experiments directly linked to that prompt
+2. **Registry fallback**: Maps the composite's user prompt to `AGENT_FEATURE_REGISTRY` to find the `experiment_type`, then searches experiments by that name pattern (e.g., `charter_optimization`)
+
+Experiments are named `{feature}-eval-{YYYYMMDD}-{HHMMSS}` (e.g., `charter_validation-eval-20260209-154003`) and created by the `task_opik_evaluate` scheduler task every 30 minutes.
+
+### Performance Metadata in JSON
+
+When pulling with performance data, the JSON file can store a `performance` field:
+
+```json
+{
+  "forseti.category_classification": {
+    "opik_commit": "71eedbe0",
+    "performance": {
+      "last_evaluated": "2026-02-09T14:30:00",
+      "scores": {"hallucination": 0.92, "output_format": 0.88},
+      "provider": "gemini",
+      "experiment": "charter-eval-20260209"
+    }
+  }
+}
+```
+
 ## How to Add a New Prompt
 
 ### Step 1: Define the Prompt
@@ -322,7 +430,7 @@ python -m app.prompts.opik_sync --composites
 python -m app.prompts.opik_sync --all
 ```
 
-**Recommended workflow after editing prompts:**
+**Recommended workflow after editing prompts locally:**
 
 ```bash
 # 1. Update individual prompts
@@ -330,6 +438,39 @@ python -m app.prompts.opik_sync --prefix forseti.
 
 # 2. Rebuild composites from updated individuals
 python -m app.prompts.opik_sync --composites
+```
+
+**Recommended workflow after optimizing in Opik Playground:**
+
+```bash
+# 1. Pull optimized composites back to local JSON
+python -m app.prompts.opik_sync --pull-all
+
+# 2. Push updated individuals + rebuild all composites
+python -m app.prompts.opik_sync --all
+```
+
+### Pull Optimized Composites from Opik
+
+```bash
+# Pull a specific composite (updates local JSON)
+python -m app.prompts.opik_sync --pull forseti-persona-category
+
+# Pull all composites
+python -m app.prompts.opik_sync --pull-all
+
+# Dry run (show changes without writing)
+python -m app.prompts.opik_sync --pull-all --dry-run
+
+# Pull + show experiment performance scores
+python -m app.prompts.opik_sync --pull forseti-persona-category --performance
+```
+
+### View Experiment Performance
+
+```bash
+# Show performance data for all composites
+python -m app.prompts.opik_sync --performance
 ```
 
 ### Compare Local vs Opik
@@ -387,6 +528,11 @@ print(f"Optimized prompt saved to Opik")
 - [x] Composite prompts (persona + task) for playground
 - [x] Auto-sync composites via `--composites` CLI flag
 - [x] Use `create_chat_prompt()` for chat-type prompts
+- [x] Bidirectional sync: pull optimized composites from Opik (`--pull`)
+- [x] Decompose composites into individual prompts on pull
+- [x] Shared prompt change warnings (persona affects all composites)
+- [x] Experiment performance tracking (`--performance`)
+- [x] Automated pull-before-push in daily `task_prompt_sync`
 
 ### Phase 3: Update Forseti Agent (Next)
 

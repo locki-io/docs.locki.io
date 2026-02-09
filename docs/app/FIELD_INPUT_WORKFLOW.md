@@ -228,9 +228,9 @@ OPIK_EVALUATE_CRON = "*/30 7-22 * * *"
 
 | Provider | Model             | Best For                                         |
 | -------- | ----------------- | ------------------------------------------------ |
+| `ollama` | mistral:latest    | Local development, privacy-sensitive data        |
 | `gemini` | gemini-2.5-flash  | **Recommended** - Fast, grounded, good reasoning |
 | `claude` | claude-3-5-sonnet | Strong reasoning, nuanced violations             |
-| `ollama` | mistral:latest    | Local development, privacy-sensitive data        |
 
 ### Category Themes
 
