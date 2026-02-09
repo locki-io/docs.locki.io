@@ -1,31 +1,5 @@
 Agents are composed of features and prompts (system + user)
 
-## prompts
-
-## Features:
-
-````
-### Feature Composition
-
-Agents are composed of features that implement the `AgentFeature` protocol:
-
-```python
-@runtime_checkable
-class AgentFeature(Protocol):
-    @property
-    def name(self) -> str: ...
-
-    @property
-    def prompt(self) -> str: ...
-
-    async def execute(
-        self,
-        provider: LLMProvider,
-        system_prompt: str,
-        **kwargs,
-    ) -> Any: ...
-````
-
 ### [Forseti 461](../agents/forseti/):
 
 1. Charter Compliance
@@ -37,7 +11,7 @@ class AgentFeature(Protocol):
 4. Contribution Mutations
    To build up edge case scenarios for agents to practive
 
-### [Ocapistaine](../agents/ocapistaine/):
+### [Ò capistaine](../agents/ocapistaine/):
 
 1. Classification (with RAG)
    Classification with RAG should improve performance at low cost over 95%
@@ -45,6 +19,9 @@ class AgentFeature(Protocol):
 
 ### [Niove](../agents/niove/):
 
-### Project-management:
+1. MCP gemini for frontend
+2. MCP for n8n workflow
 
-Help with the hackathon organisation of tasks
+### [archi](../agents/archi/) for Project management and audits:
+
+1. Helped a lot with the hackathon organisation of tasks

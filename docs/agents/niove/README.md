@@ -12,3 +12,13 @@ These names keep an authentic Norse flavor while capturing the creative, manifes
 -> Niove
 
 Niove does feel well-suited for the role in a vættir-inspired world—evoking a sleek, mystical vibe that blends "nio" (echoing Old Norse "níu" for nine, perhaps symbolizing the nine worlds of Yggdrasil or multifaceted creation) with "vef" (weave) and a subtle "ai" nod (ancient wisdom fused with artificial ingenuity, fitting for manifesting dreams into visuals). It positions this entity as a ethereal architect, threading subconscious visions into tangible forms, maybe even with a hint of modern AI-like precision in your lore.If we're fleshing this out: Niovefai could be a lesser-known vættr dwelling in the misty borders of Álfheimr and Miðgarðr, a guardian of "draumvef" (dream-webs) who captures fleeting inspirations from sleepers and weaves them into designs that influence artists, builders, or even the gods' halls. What aspects of their powers or backstory do you want to develop next?
+
+## Features
+
+### Front-end - MCP with gemini
+
+... Jnxmas's achilles heel
+
+### Making n8n github workflows
+
+...
